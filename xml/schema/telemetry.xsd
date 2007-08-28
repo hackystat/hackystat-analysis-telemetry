@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- Primitive elements and attributes -->
+  <xs:attribute name="URI" type="xs:string"/>
+  <xs:attribute name="Granularity" type="xs:string"/>
+  <xs:attribute name="Start" type="xs:date"/>
+  <xs:attribute name="End" type="xs:date"/>
+  <xs:attribute name="Time" type="xs:date"/>
+  <xs:attribute name="Name" type="xs:string"/>
+  <xs:attribute name="Value" type="xs:string"/>
+  <xs:attribute name="Units" type="xs:string"/>
+  
+  <xs:element name="TelemetryChart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="TelemetryStream" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="URI" use="required"/>
+      <xs:attribute ref="Granularity" use="required"/>
+      <xs:attribute ref="Start" use="required"/>
+      <xs:attribute ref="End" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Parameter">
+    <xs:complexType>
+      <xs:attribute ref="Name" use="required"/>
+      <xs:attribute ref="Value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryStream">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Y-Axis" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="TelemetryPoint" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Y-Axis">
+    <xs:complexType>
+      <xs:attribute ref="Name" use="required"/>
+      <xs:attribute ref="Units" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryPoint">
+    <xs:complexType>
+      <xs:attribute ref="Time" use="required"/>
+      <xs:attribute ref="Value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+

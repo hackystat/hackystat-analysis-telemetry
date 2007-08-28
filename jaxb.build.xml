@@ -13,6 +13,6 @@
   </taskdef>   
 
   <target name="jaxb" description="Runs the XJC compiler.">
-    <xjc schema="${basedir}/xml/schema/DevTimeDailyProjectData.xsd" destdir="src" package="org.hackystat.dailyprojectdata.resource.devtime.jaxb"/>
+    <xjc schema="${basedir}/xml/schema/telemetry.xsd" destdir="src" package="org.hackystat.telemetry.resource.chart.jaxb"/>
   </target>
 </project>

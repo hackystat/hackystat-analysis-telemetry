@@ -1,6 +1,5 @@
 package org.hackystat.telemetry.resource.chart;
 
-import static org.junit.Assert.assertEquals;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -10,7 +9,7 @@ import org.hackystat.sensorbase.resource.sensordata.jaxb.Property;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorData;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorDatas;
 import org.hackystat.telemetry.client.TelemetryClient;
-import org.hackystat.telemetry.resource.chart.jaxb.DevTimeDailyProjectData;
+import org.hackystat.telemetry.resource.chart.jaxb.TelemetryChart;
 import org.hackystat.telemetry.test.TelemetryTestHelper;
 import org.hackystat.utilities.tstamp.Tstamp;
 import org.junit.Test;
@@ -22,10 +21,10 @@ import org.junit.Test;
 public class TestChartRestApi extends TelemetryTestHelper {
   
   /** The user for this test case. */
-  private String user = "TestDevTime@hackystat.org";
+  private String user = "TestChart@hackystat.org";
   
   /**
-   * Test that GET {host}/devtime/{user}/default/{starttime} works properly.
+   * Test GET {host}/chart/DevTime/{user}/{project}/{granularity}/{start}/{end} works properly.
    * First, it creates a test user and sends some sample DevEvent data to the SensorBase. 
    * Then, it invokes the GET request and checks to see that it obtains the right answer. 
    * Finally, it deletes the data and the user. 
@@ -39,21 +38,18 @@ public class TestChartRestApi extends TelemetryTestHelper {
     batchData.getSensorData().add(makeDevEvent("2007-04-29T23:55:00", user));
     batchData.getSensorData().add(makeDevEvent("2007-05-01T00:01:00", user));
     
-    // Connect to the sensorbase and register the DailyProjectDataDevEvent user. 
+    // Connect to the sensorbase and register the user. 
     SensorBaseClient.registerUser(getSensorBaseHostName(), user);
     SensorBaseClient client = new SensorBaseClient(getSensorBaseHostName(), user, user);
     client.authenticate();
     // Send the sensor data to the SensorBase. 
     client.putSensorDataBatch(batchData);
     
-    // Now connect to the DPD server. 
-    TelemetryClient dpdClient = new TelemetryClient(getTelemetryHostName(), 
-        user, user);
-    dpdClient.authenticate(); 
-    DevTimeDailyProjectData devTime = dpdClient.getDevTime(user, "Default", 
+    // Now connect to the Telemetry server. 
+    TelemetryClient telemetryClient = new TelemetryClient(getTelemetryHostName(), user, user);
+    telemetryClient.authenticate(); 
+    TelemetryChart chart = telemetryClient.getChart(user, "Default", 
         Tstamp.makeTimestamp("2007-04-30"));
-    assertEquals("Checking default devTime", 10, devTime.getTotalDevTime().intValue());
-    assertEquals("Checking MemberData size", 1, devTime.getMemberData().size());
   }
   
   /**

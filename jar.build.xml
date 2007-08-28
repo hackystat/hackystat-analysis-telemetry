@@ -22,16 +22,17 @@
     <unjar src="${env.HACKYSTAT_UTILITIES_HOME}/stacktrace.lib.jar" dest="${tmp.dir}"/>
     <unjar src="${env.HACKYSTAT_UTILITIES_HOME}/tstamp.lib.jar" dest="${tmp.dir}"/>
     <unjar src="${env.HACKYSTAT_SENSORBASE_HOME}/sensorbase.lib.jar" dest="${tmp.dir}"/>
+    <unjar src="${env.HACKYSTAT_DAILYPROJECTDATA_HOME}/dailyprojectdata.lib.jar" dest="${tmp.dir}"/>
     <unjar src="${env.RESTLET_HOME}/lib/org.simpleframework_3.1/org.simpleframework.jar" dest="${tmp.dir}"/>
     <unjar src="${env.RESTLET_HOME}/lib/org.restlet.jar" dest="${tmp.dir}"/>
     <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.jar" dest="${tmp.dir}"/>
     <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.ext.net.jar" dest="${tmp.dir}"/>
     <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.ext.simple_3.1.jar" dest="${tmp.dir}"/>
  
-    <jar destfile="${basedir}/dailyprojectdata.jar" basedir="${tmp.dir}">
+    <jar destfile="${basedir}/telemetry.jar" basedir="${tmp.dir}">
       <manifest>
-        <attribute name="Main-Class" value="org.hackystat.dailyprojectdata.server.Server"/>
-        <attribute name="Implementation-Title" value="Hackystat DailyProjectData"/>
+        <attribute name="Main-Class" value="org.hackystat.telemetry.server.Server"/>
+        <attribute name="Implementation-Title" value="Hackystat Telemetry"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
       </manifest>
@@ -40,16 +41,16 @@
   </target> 
   
   <target name="jar-lib" depends="compile" 
-     description="Create dailyprojectdata.lib.jar, containing just org.hackystat.dailyprojectdata code.">
+     description="Create telemetry.lib.jar, containing just org.hackystat.telemetry code.">
      <!-- Define the directories and distribution name -->
      <mkdir dir="${tmp.lib.dir}" />
      <copy todir="${tmp.lib.dir}">
        <fileset dir="${basedir}/build/classes"/>
      </copy>
    
-     <jar destfile="${basedir}/dailyprojectdata.lib.jar" basedir="${tmp.lib.dir}">
+     <jar destfile="${basedir}/telemetry.lib.jar" basedir="${tmp.lib.dir}">
        <manifest>
-         <attribute name="Implementation-Title" value="Hackystat DailyProjectData"/>
+         <attribute name="Implementation-Title" value="Hackystat Telemetry"/>
          <attribute name="Implementation-Version" value="${version}"/>
          <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
        </manifest>

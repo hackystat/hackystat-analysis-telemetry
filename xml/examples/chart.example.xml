@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<TelemetryChart URI="http://hackystat.ics.hawaii.edu/telemetry/chart/DevTime-Chart" 
+                   Granularity="Day" 
+                   Start="2007-07-01" 
+                   End="2007-07-02">
+  <Parameter Name="filePattern" Value="**"/>
+  <Parameter Name="cumulative" Value="false"/>
+  <TelemetryStream Name="DevTime">
+    <Y-Axis Name="DevTime" Units="Hours"/>
+    <TelemetryPoint Time="2007-07-01" Value="4.3"/>
+    <TelemetryPoint Time="2007-07-02" Value="7.5"/>
+  </TelemetryStream>
+</TelemetryChart>

@@ -34,6 +34,7 @@
       Restlet Home:    ${env.RESTLET_HOME}
       Utilities Home:  ${env.HACKYSTAT_UTILITIES_HOME}
       SensorBase Home: ${env.HACKYSTAT_SENSORBASE_HOME}
+      DailyProjectData Home: ${env.HACKYSTAT_DAILYPROJECTDATA_HOME}
     
     This task fails the build unless all of the following are true:
       * System compiles without warnings or errors.

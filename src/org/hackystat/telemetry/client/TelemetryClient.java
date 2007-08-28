@@ -6,7 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.hackystat.telemetry.resource.chart.jaxb.DevTimeDailyProjectData;
+import org.hackystat.telemetry.resource.chart.jaxb.TelemetryChart;
 import org.hackystat.utilities.tstamp.Tstamp;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
@@ -35,8 +35,8 @@ public class TelemetryClient {
   private String telemetryHost;
   /** The Restlet Client instance used to communicate with the server. */
   private Client client;
-  /** DevTime JAXBContext */
-  private JAXBContext devTimeJAXB;
+  /** Chart JAXBContext */
+  private JAXBContext chartJAXB;
   /** The http authentication approach. */
   private ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
   /** The preferred representation type. */
@@ -71,7 +71,7 @@ public class TelemetryClient {
     }
     this.client = new Client(Protocol.HTTP);
     try {
-      this.devTimeJAXB = 
+      this.chartJAXB = 
         JAXBContext.newInstance(
             org.hackystat.telemetry.resource.chart.jaxb.ObjectFactory.class);
     }
@@ -130,9 +130,9 @@ public class TelemetryClient {
    * @return The corresponding DevTimeDailyProjectData instance. 
    * @throws Exception If problems occur during unmarshalling.
    */
-  private DevTimeDailyProjectData makeDevTimeDailyProjectData(String xmlString) throws Exception {
-    Unmarshaller unmarshaller = this.devTimeJAXB.createUnmarshaller();
-    return (DevTimeDailyProjectData)unmarshaller.unmarshal(new StringReader(xmlString));
+  private TelemetryChart makeChart(String xmlString) throws Exception {
+    Unmarshaller unmarshaller = this.chartJAXB.createUnmarshaller();
+    return (TelemetryChart)unmarshaller.unmarshal(new StringReader(xmlString));
   }
   
   /**
@@ -167,17 +167,17 @@ public class TelemetryClient {
    * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
    * of the supplied user, password, or timestamp is not valid.
    */
-  public synchronized DevTimeDailyProjectData getDevTime(String user, String project, 
+  public synchronized TelemetryChart getChart(String user, String project, 
       XMLGregorianCalendar timestamp) throws TelemetryClientException {
     Response response = makeRequest(Method.GET, "devtime/" + user + "/" + project + "/" + timestamp,
         null);
-    DevTimeDailyProjectData devTime;
+    TelemetryChart devTime;
     if (!response.getStatus().isSuccess()) {
       throw new TelemetryClientException(response.getStatus());
     }
     try {
       String xmlData = response.getEntity().getText();
-      devTime = makeDevTimeDailyProjectData(xmlData);
+      devTime = makeChart(xmlData);
     }
     catch (Exception e) {
       throw new TelemetryClientException(response.getStatus(), e);

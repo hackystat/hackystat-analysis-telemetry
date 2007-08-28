@@ -14,9 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorDataIndex;
-import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorDataRef;
-import org.hackystat.telemetry.resource.chart.jaxb.DevTimeDailyProjectData;
-import org.hackystat.telemetry.resource.chart.jaxb.MemberData;
+import org.hackystat.telemetry.resource.chart.jaxb.TelemetryChart;
 import org.hackystat.telemetry.resource.telemetry.TelemetryResource;
 import org.hackystat.utilities.stacktrace.StackTrace;
 import org.hackystat.utilities.tstamp.Tstamp;
@@ -28,7 +26,7 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 
-import static org.hackystat.telemetry.server.ServerProperties.SENSORBASE_HOST_KEY;
+//import static org.hackystat.telemetry.server.ServerProperties.SENSORBASE_HOST_KEY;
 
 /**
  * Implements the Resource for processing GET {host}/devtime/{user}/{project}/{starttime} requests.
@@ -64,30 +62,7 @@ public class ChartResource extends TelemetryResource {
         XMLGregorianCalendar startTime = Tstamp.makeTimestamp(this.timestamp);
         XMLGregorianCalendar endTime = Tstamp.incrementDays(startTime, 1);
         SensorDataIndex index = client.getProjectSensorData(authUser, project, startTime, endTime);
-        // [3] look through this index for DevEvent sensor data, and update the DevTime counter. 
-        MemberDevTimeCounter counter = new MemberDevTimeCounter();
-        for (SensorDataRef ref : index.getSensorDataRef()) {
-          if (ref.getSensorDataType().equals("DevEvent")) {
-            // If it's a devEvent, get the member and timestamp and update the MemberDevTimeCounter.
-            counter.addMemberDevEvent(ref.getOwner(), ref.getTimestamp());
-          }
-        }
-        // [4] create and return the DevTimeDailyProjectData
-        DevTimeDailyProjectData devTime = new DevTimeDailyProjectData();
-        //     create the individual MemberData elements.
-        String sensorBaseHost = this.server.getServerProperties().get(SENSORBASE_HOST_KEY);
-        for (String member : counter.getMembers()) {
-          MemberData memberData = new MemberData();
-          memberData.setMemberUri(sensorBaseHost + "users/" + member);
-          memberData.setDevTime(counter.getMemberDevTime(member));
-          devTime.getMemberData().add(memberData);
-        }
-        devTime.setOwner(uriUser);
-        devTime.setProject(project);
-        devTime.setUriPattern("**"); // we don't support UriPatterns yet. 
-        devTime.setTotalDevTime(counter.getTotalDevTime());
-        String xmlData = makeDevTime(devTime);
-        return super.getStringRepresentation(xmlData);
+ 
       }
       catch (Exception e) {
         server.getLogger().warning("Error processing devTime: " + StackTrace.toString(e));
@@ -103,10 +78,10 @@ public class ChartResource extends TelemetryResource {
    * @return The XML String representation.
    * @throws Exception If problems occur during translation. 
    */
-  private String makeDevTime (DevTimeDailyProjectData data) throws Exception {
-    JAXBContext devTimeJAXB = 
-      (JAXBContext)this.server.getContext().getAttributes().get("DevTimeJAXB");
-    Marshaller marshaller = devTimeJAXB.createMarshaller(); 
+  private String makeChart (TelemetryChart data) throws Exception {
+    JAXBContext chartJAXB = 
+      (JAXBContext)this.server.getContext().getAttributes().get("ChartJAXB");
+    Marshaller marshaller = chartJAXB.createMarshaller(); 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     dbf.setNamespaceAware(true);
     DocumentBuilder documentBuilder = dbf.newDocumentBuilder();

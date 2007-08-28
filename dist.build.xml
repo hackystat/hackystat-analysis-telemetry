@@ -10,7 +10,7 @@
     <!-- Define the directories and distribution name -->
     <property name="dist.dir" location="${build.dir}/dist" />
     <property name="dist.tmp.dir" location="${basedir}/dist-tmp" />
-    <property name="dist.name" value="hackystat-analysis-dailyprojectdata-${version}" />
+    <property name="dist.name" value="hackystat-analysis-telemetry-${version}" />
 
     <!-- Copy distribution files to the tmp dir. -->
  

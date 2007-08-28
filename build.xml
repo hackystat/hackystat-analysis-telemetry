@@ -40,12 +40,16 @@
   <available file="${env.HACKYSTAT_UTILITIES_HOME}/stacktrace.lib.jar" type="file" property="hackystat.utilities.available"/>
   <fail message="This package requires the Hackystat Utilities to be installed and HACKYSTAT_UTILITIES_HOME defined" unless="hackystat.utilities.available"/>   
  
+  <!-- Make sure that Hackystat DailyProjectData library is available . --> 
+  <available file="${env.HACKYSTAT_DAILYPROJECTDATA_HOME}/dailyprojectdata.lib.jar" type="file" property="hackystat.dailyprojectdata.available"/>
+  <fail message="This package requires the DailyProjectData service to be installed and HACKYSTAT_DAILYPROJECTDATA_HOME defined" unless="hackystat.dailyprojectdata.available"/>   
+
   <!-- Make sure that Hackystat SensorBase library is available . --> 
   <available file="${env.HACKYSTAT_SENSORBASE_HOME}/sensorbase.lib.jar" type="file" property="hackystat.sensorbase.available"/>
   <fail message="This package requires the Hackystat SensorBase to be installed and HACKYSTAT_SENSORBASE_HOME defined" unless="hackystat.sensorbase.available"/>   
-
+  
   <!-- Basic properties for this system. --> 
-  <property name="system.name" value="hackystat-dailyprojectdata" />
+  <property name="system.name" value="hackystat-telemetry" />
   <property name="majorVersionNumber" value="8" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
@@ -66,6 +70,7 @@
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/hackystatlogger.lib.jar"/>
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/stacktrace.lib.jar"/>
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/tstamp.lib.jar"/>
+    <fileset file="${env.HACKYSTAT_DAILYPROJECTDATA_HOME}/dailyprojectdata.lib.jar"/>
     <fileset file="${env.HACKYSTAT_SENSORBASE_HOME}/sensorbase.lib.jar"/>
     <fileset file="${env.JUNIT_HOME}/junit-${junit.version}.jar"/>
     <fileset file="${env.RESTLET_HOME}/lib/org.restlet.jar"/> 
@@ -86,9 +91,9 @@
     </javac>
   </target>
 
-  <target name="clean" description="Delete build/ directory and top-level sensorbase jar files.">
+  <target name="clean" description="Delete build/ directory and top-level jar files.">
     <delete>
-      <fileset dir="${basedir}" includes="sensorbase*.jar"/> 
+      <fileset dir="${basedir}" includes="telemetry.jar"/> 
     </delete>
     <delete dir="${build.dir}"/> 
   </target>
@@ -98,7 +103,7 @@
   </target>
  
  <target name="run" depends="compile" description="Compiles the sensorbase and starts it up.">
-  <java classname="org.hackystat.dailyprojectdata.server.Server" fork="yes">
+  <java classname="org.hackystat.telemetry.server.Server" fork="yes">
     <classpath>
       <pathelement location="${build.dir}/classes" />
       <path refid="compile.classpath"/>
