@@ -2,8 +2,9 @@ package org.hackystat.telemetry.resource.telemetry;
 
 import java.util.Map;
 
-import org.hackystat.sensorbase.client.SensorBaseClient;
+import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.telemetry.server.Server;
+import org.hackystat.telemetry.server.ServerProperties;
 import org.restlet.Context;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Language;
@@ -16,14 +17,16 @@ import org.restlet.resource.StringRepresentation;
 import org.restlet.resource.Variant;
 
 import static org.hackystat.telemetry.server.Authenticator.AUTHENTICATOR_DPD_CLIENTS_KEY;
+import static org.hackystat.telemetry.server.ServerProperties.DAILYPROJECTDATA_HOST_KEY;
+import static org.hackystat.telemetry.server.ServerProperties.SENSORBASE_HOST_KEY;
 
 /**
- * An abstract superclass for all DailyProjectData resources that supplies common 
+ * An abstract superclass for all Telemetry resources that supplies common 
  * initialization processing. 
  * This includes:
  * <ul>
  * <li> Extracting the authenticated user identifier (when authentication available)
- * <li> Extracting the user email from the URI (when available)
+ * <li> Extracting the URI elements and parameters. 
  * <li> Declares that the TEXT/XML representational variant is supported.
  * </ul>
  * 
@@ -38,14 +41,29 @@ public abstract class TelemetryResource extends Resource {
   /** To be retrieved from the URL as the 'project' template parameter, or null. */
   protected String project = null; 
 
-  /** To be retrieved from the URL as the 'timestamp' template parameter, or null. */
-  protected String timestamp = null; 
+  /** To be retrieved from the URL as the 'chart' template parameter, or null. */
+  protected String chart = null; 
+
+  /** To be retrieved from the URL as the 'granularity' template parameter, or null. */
+  protected String granularity = null; 
+
+  /** To be retrieved from the URL as the 'start' template parameter, or null. */
+  protected String start = null; 
+
+  /** To be retrieved from the URL as the 'end' template parameter, or null. */
+  protected String end = null; 
 
   /** The authenticated user, retrieved from the ChallengeResponse, or null */
   protected String authUser = null;
   
-  /** The server. */
-  protected Server server;
+  /** This server (telemetry). */
+  protected Server telemetryServer;
+  
+  /** The sensorbase host (for authentication). */
+  protected String sensorBaseHost;
+  
+  /** The dailyprojectdata host (for analysis). */
+  protected String dpdHost;
   
   /** The standard error message returned from invalid authentication. */
   protected String badAuth = "User is not admin and authenticated user does not not match URI user";
@@ -61,10 +79,16 @@ public abstract class TelemetryResource extends Resource {
     if (request.getChallengeResponse() != null) {
       this.authUser = request.getChallengeResponse().getIdentifier();
     }
-    this.server = (Server)getContext().getAttributes().get("DailyProjectDataServer");
-    this.uriUser = (String) request.getAttributes().get("user");
+    this.telemetryServer = (Server)getContext().getAttributes().get("TelemetryServer");
+    ServerProperties properties = this.telemetryServer.getServerProperties();
+    this.dpdHost = properties.get(DAILYPROJECTDATA_HOST_KEY);
+    this.sensorBaseHost = properties.get(SENSORBASE_HOST_KEY);
+    this.chart = (String) request.getAttributes().get("chart");
+    this.uriUser = (String) request.getAttributes().get("email");
     this.project = (String) request.getAttributes().get("project");
-    this.timestamp = (String) request.getAttributes().get("timestamp");
+    this.granularity = (String) request.getAttributes().get("granularity");
+    this.start = (String) request.getAttributes().get("start");
+    this.end = (String) request.getAttributes().get("end");
     getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
     getVariants().add(new Variant(MediaType.TEXT_XML));
   }
@@ -91,10 +115,10 @@ public abstract class TelemetryResource extends Resource {
    * Returns a SensorBaseClient instance associated with the User in this request. 
    * @return The SensorBaseClient instance. 
    */
-  public SensorBaseClient getSensorBaseClient() {
+  public DailyProjectDataClient getDailyProjectDataClient() {
     Map userClientMap = 
-      (Map)this.server.getContext().getAttributes().get(AUTHENTICATOR_DPD_CLIENTS_KEY);
-    return (SensorBaseClient)userClientMap.get(this.authUser);
+      (Map)this.telemetryServer.getContext().getAttributes().get(AUTHENTICATOR_DPD_CLIENTS_KEY);
+    return (DailyProjectDataClient)userClientMap.get(this.authUser);
   }
 
 }

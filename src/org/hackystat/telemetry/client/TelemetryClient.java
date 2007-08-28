@@ -31,7 +31,7 @@ public class TelemetryClient {
   private String userEmail;
   /** Holds the password to be associated with this client. */
   private String password;
-  /** The DailyProjectData host, such as "http://localhost:9877/dailyprojectdata". */
+  /** The Telemetry host, such as "http://localhost:9878/telemetry". */
   private String telemetryHost;
   /** The Restlet Client instance used to communicate with the server. */
   private Client client;
@@ -125,9 +125,9 @@ public class TelemetryClient {
   }
   
   /**
-   * Takes a String encoding of a DevTimeDailyProjectData in XML format and converts it. 
-   * @param xmlString The XML string representing a DevTimeDailyProjectData.
-   * @return The corresponding DevTimeDailyProjectData instance. 
+   * Takes a String encoding of a TelemetryChart in XML format and converts it. 
+   * @param xmlString The XML string representing a TelemetryChart.
+   * @return The corresponding TelemetryChart instance. 
    * @throws Exception If problems occur during unmarshalling.
    */
   private TelemetryChart makeChart(String xmlString) throws Exception {
@@ -157,32 +157,37 @@ public class TelemetryClient {
   }
   
   /**
-   * Returns a DevTimeDailyProjectData instance from this server, or throws a
-   * DailyProjectData exception if problems occurred.  
-   * @param user The user. 
+   * Returns a TelemetryChart instance from this server, or throws a
+   * TelemetryClientException if problems occur.  
+   * @param chartName The chart name.
+   * @param user The user email.
    * @param project The project.
-   * @param timestamp The Timestamp indicating the start of the 24 hour period of DevTime.
-   * @return The DevTimeDailyProjectData instance. 
+   * @param granularity Either Day, Week, or Month.
+   * @param start The start day.
+   * @param end The end day.
+   * @return The TelemetryChart instance. 
    * @throws TelemetryClientException If the credentials associated with this instance
    * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
    * of the supplied user, password, or timestamp is not valid.
    */
-  public synchronized TelemetryChart getChart(String user, String project, 
-      XMLGregorianCalendar timestamp) throws TelemetryClientException {
-    Response response = makeRequest(Method.GET, "devtime/" + user + "/" + project + "/" + timestamp,
+  public synchronized TelemetryChart getChart(String chartName, String user, String project, 
+      String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end) 
+  throws TelemetryClientException {
+    Response response = makeRequest(Method.GET,  "chart/" + 
+        chartName + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end,
         null);
-    TelemetryChart devTime;
+    TelemetryChart chart;
     if (!response.getStatus().isSuccess()) {
       throw new TelemetryClientException(response.getStatus());
     }
     try {
       String xmlData = response.getEntity().getText();
-      devTime = makeChart(xmlData);
+      chart = makeChart(xmlData);
     }
     catch (Exception e) {
       throw new TelemetryClientException(response.getStatus(), e);
     }
-    return devTime;
+    return chart;
   } 
   
   /**

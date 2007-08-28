@@ -29,7 +29,8 @@ public class Authenticator extends Guard {
   private Map<String, String> credentials = new HashMap<String, String>();
   
   /** A map containing SensorBaseClient instances, one per credentialed user. */
-  private Map<String, DailyProjectDataClient> userClientMap = new HashMap<String, DailyProjectDataClient>();
+  private Map<String, DailyProjectDataClient> userClientMap = 
+    new HashMap<String, DailyProjectDataClient>();
    
   /** The sensorbase host, such as "http://localhost:9876/sensorbase/" */
   private String sensorBaseHost;

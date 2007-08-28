@@ -1,6 +1,7 @@
 package org.hackystat.telemetry.resource.chart;
 
 
+import static org.junit.Assert.assertEquals;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.hackystat.sensorbase.client.SensorBaseClient;
@@ -24,19 +25,19 @@ public class TestChartRestApi extends TelemetryTestHelper {
   private String user = "TestChart@hackystat.org";
   
   /**
-   * Test GET {host}/chart/DevTime/{user}/{project}/{granularity}/{start}/{end} works properly.
+   * Test that GET {host}/chart/DevTime/{user}/Default/Day/2007-08-01/2007-08-03 works properly.
    * First, it creates a test user and sends some sample DevEvent data to the SensorBase. 
    * Then, it invokes the GET request and checks to see that it obtains the right answer. 
    * Finally, it deletes the data and the user. 
    * @throws Exception If problems occur.
    */
-  @Test public void getDefaultDevTime() throws Exception {
-    // First, create a batch of DevEvent sensor data.
+  @Test public void getSampleChart() throws Exception {
+    // [1] First, create a batch of DevEvent sensor data.
     SensorDatas batchData = new SensorDatas();
-    batchData.getSensorData().add(makeDevEvent("2007-04-30T02:00:00", user));
-    batchData.getSensorData().add(makeDevEvent("2007-04-30T02:10:00", user));
-    batchData.getSensorData().add(makeDevEvent("2007-04-29T23:55:00", user));
-    batchData.getSensorData().add(makeDevEvent("2007-05-01T00:01:00", user));
+    batchData.getSensorData().add(makeDevEvent("2007-08-01T02:00:00", user));
+    batchData.getSensorData().add(makeDevEvent("2007-08-01T02:10:00", user));
+    batchData.getSensorData().add(makeDevEvent("2007-08-02T23:55:00", user));
+    batchData.getSensorData().add(makeDevEvent("2007-08-03T00:01:00", user));
     
     // Connect to the sensorbase and register the user. 
     SensorBaseClient.registerUser(getSensorBaseHostName(), user);
@@ -48,8 +49,9 @@ public class TestChartRestApi extends TelemetryTestHelper {
     // Now connect to the Telemetry server. 
     TelemetryClient telemetryClient = new TelemetryClient(getTelemetryHostName(), user, user);
     telemetryClient.authenticate(); 
-    TelemetryChart chart = telemetryClient.getChart(user, "Default", 
-        Tstamp.makeTimestamp("2007-04-30"));
+    TelemetryChart chart =  telemetryClient.getChart("DevTime", user, "Default", "Day", 
+        Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
+    assertEquals("Checking chart", chart.getGranularity(), "Day");
   }
   
   /**
