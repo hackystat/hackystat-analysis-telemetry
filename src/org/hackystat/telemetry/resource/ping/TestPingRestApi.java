@@ -2,6 +2,7 @@ package org.hackystat.telemetry.resource.ping;
 
 import static org.junit.Assert.assertTrue;
 
+import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.client.TelemetryClient;
 import org.hackystat.telemetry.test.TelemetryTestHelper;
 import org.junit.Test;
@@ -20,6 +21,13 @@ public class TestPingRestApi extends TelemetryTestHelper {
    */
   @Test
   public void testPing() throws Exception {
-    assertTrue("Checking ping", TelemetryClient.isHost(getTelemetryHostName()));
+    //First, just call isHost, which uses the standard ping. 
+    String telemetryHost = getTelemetryHostName();
+    assertTrue("Checking ping", TelemetryClient.isHost(telemetryHost));
+    //Next, check authenticated ping. 
+    String user = "TestTelPing@hackystat.org";
+    SensorBaseClient.registerUser(getSensorBaseHostName(), user);
+    TelemetryClient client = new TelemetryClient(telemetryHost, user, user);
+    client.authenticate();        
   }
 }

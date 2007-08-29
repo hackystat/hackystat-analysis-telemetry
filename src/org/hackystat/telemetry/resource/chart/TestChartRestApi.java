@@ -51,7 +51,7 @@ public class TestChartRestApi extends TelemetryTestHelper {
     telemetryClient.authenticate(); 
     TelemetryChart chart =  telemetryClient.getChart("DevTime", user, "Default", "Day", 
         Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
-    assertEquals("Checking chart", chart.getGranularity(), "Day");
+    assertEquals("Checking chart", "Day", chart.getGranularity());
   }
   
   /**

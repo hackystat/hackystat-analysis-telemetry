@@ -7,7 +7,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.hackystat.telemetry.resource.chart.jaxb.TelemetryChart;
-import org.hackystat.utilities.tstamp.Tstamp;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
@@ -47,11 +46,11 @@ public class TelemetryClient {
   /**
    * Initializes a new TelemetryClient, given the host, userEmail, and password. 
    * Note that the userEmail and password refer to the underlying SensorBase client
-   * associated with this DailyProjectData service.  This service does not keep its own
+   * associated with this Telemetry service.  This service does not keep its own
    * independent set of userEmails and passwords.  Authentication is not actually performed
    * in this constructor. Use the authenticate() method to explicitly check the authentication
    * credentials. 
-   * @param host The host, such as 'http://localhost:9877/dailyprojectdata'.
+   * @param host The host, such as 'http://localhost:9878/telemetry'.
    * @param email The user's email used for authentication. 
    * @param password The password used for authentication.
    */
@@ -106,7 +105,7 @@ public class TelemetryClient {
     ChallengeResponse authentication = new ChallengeResponse(scheme, this.userEmail, this.password);
     request.setChallengeResponse(authentication);
     if (this.isTraceEnabled) {
-      System.out.println("SensorBaseClient Tracing: " + method + " " + reference);
+      System.out.println("TelemetryClient Tracing: " + method + " " + reference);
       if (entity != null) {
         try {
           System.out.println(entity.getText());
@@ -136,22 +135,30 @@ public class TelemetryClient {
   }
   
   /**
-   * Authenticates this user and password with this DailyProjectData service, throwing a
-   * DailyProjectDataException if the user and password associated with this instance
+   * Authenticates this user and password with this Telemetry service, throwing a
+   * TelemetryClientException if the user and password associated with this instance
    * are not valid credentials. 
-   * Note that authentication is performed by checking these credentials with the 
+   * Note that authentication is performed by checking these credentials with the underlying
    * SensorBase; this service does not keep its own independent set of usernames and passwords.
    * @return This TelemetryClient instance. 
    * @throws TelemetryClientException If authentication is not successful. 
    */
   public synchronized TelemetryClient authenticate() throws TelemetryClientException {
-    // Performs authentication by running the DevTime analysis for the next 24 hours, which is 
-    // likely to involve little to no data and thus be quite cheap. We could convert to a 'ping'
-    // style interface in future if we need to. 
-    String uri = "devtime/" + this.userEmail + "/" + "Default/" + Tstamp.makeTimestamp(); 
+    // Performs authentication by invoking ping with user and password as form params.
+    String uri = "ping?user=" + this.userEmail + "&password=" + this.password;
     Response response = makeRequest(Method.GET, uri, null); 
     if (!response.getStatus().isSuccess()) {
       throw new TelemetryClientException(response.getStatus());
+    }
+    String responseString;
+    try {
+      responseString = response.getEntity().getText();
+    }
+    catch (Exception e) {
+      throw new TelemetryClientException("Bad response", e);
+    }
+    if (!"Telemetry authenticated".equals(responseString)) {
+      throw new TelemetryClientException("Authentication failed");
     }
     return this;
   }
@@ -159,7 +166,7 @@ public class TelemetryClient {
   /**
    * Returns a TelemetryChart instance from this server, or throws a
    * TelemetryClientException if problems occur.  
-   * @param chartName The chart name.
+   * @param name The chart name.
    * @param user The user email.
    * @param project The project.
    * @param granularity Either Day, Week, or Month.
@@ -170,12 +177,12 @@ public class TelemetryClient {
    * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
    * of the supplied user, password, or timestamp is not valid.
    */
-  public synchronized TelemetryChart getChart(String chartName, String user, String project, 
+  public synchronized TelemetryChart getChart(String name, String user, String project, 
       String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end) 
   throws TelemetryClientException {
-    Response response = makeRequest(Method.GET,  "chart/" + 
-        chartName + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end,
-        null);
+    String uri = 
+      "chart/" + name + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end;
+    Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChart chart;
     if (!response.getStatus().isSuccess()) {
       throw new TelemetryClientException(response.getStatus());

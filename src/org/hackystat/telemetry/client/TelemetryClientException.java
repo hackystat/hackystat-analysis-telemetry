@@ -36,5 +36,13 @@ public class TelemetryClientException extends Exception {
   public TelemetryClientException(String description, Throwable error) {
     super(description, error);
   }
+  
+  /**
+   * Thrown when some problem occurs with Client not involving the server. 
+   * @param description The problem description.
+   */
+  public TelemetryClientException(String description) {
+    super(description);
+  }  
 
 }

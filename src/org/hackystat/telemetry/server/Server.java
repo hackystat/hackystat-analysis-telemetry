@@ -89,10 +89,10 @@ public class Server extends Application {
     boolean dailyProjectDataOK = DailyProjectDataClient.isHost(dailyProjectDataHost);
     server.logger.warning("Service SensorBase " + sensorBaseHost + 
         ((sensorBaseOK) ? " was contacted successfully." : 
-          " NOT AVAILABLE. This service will not run correctly."));
-    server.logger.warning("Service DailyProjectData " + sensorBaseHost + 
+          " NOT AVAILABLE. Therefore, the Telemetry service will not run correctly."));
+    server.logger.warning("Service DailyProjectData " + dailyProjectDataHost + 
         ((dailyProjectDataOK) ? " was contacted successfully." : 
-          " NOT AVAILABLE. This service will not run correctly."));
+          " NOT AVAILABLE. Therefore, the Telemetry service will not run correctly."));
     server.logger.warning("Telemetry (Version " + getVersion() + ") now running.");
     server.component.start();
     disableRestletLogging();
@@ -132,7 +132,8 @@ public class Server extends Application {
     // First, create a Router that will have a Guard placed in front of it so that this Router's
     // requests will require authentication.
     Router authRouter = new Router(getContext());
-    authRouter.attach("/chart/{email}/{project}/{granularity}/{start}/{end}", ChartResource.class);
+    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}", 
+        ChartResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
         this.getServerProperties().get(SENSORBASE_HOST_KEY));
@@ -143,6 +144,7 @@ public class Server extends Application {
     // authentication, but all other URI patterns will go to the guarded Router. 
     Router router = new Router(getContext());
     router.attach("/ping", PingResource.class);
+    router.attach("/ping?user={user}&password={password}", PingResource.class);    
     router.attachDefault(guard);
     return router;
   }
