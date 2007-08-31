@@ -56,7 +56,4 @@ public class PingResource extends TelemetryResource {
     boolean OK = SensorBaseClient.isRegistered(sensorBaseHost, user, password);
     return new StringRepresentation((OK ? authenticated : unauthenticated));
   }
-  
-  
-
 }
