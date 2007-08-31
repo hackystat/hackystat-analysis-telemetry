@@ -1,0 +1,584 @@
+options {
+  STATIC = false;
+  DEBUG_PARSER = false;
+  DEBUG_TOKEN_MANAGER = false;
+}
+
+
+PARSER_BEGIN(TelemetryLanguageParserImpl)
+  package org.hackystat.core.telemetry.language.parser.impl;
+
+  import java.util.*;
+	import org.hackystat.core.telemetry.language.ast.*;
+	  
+  public class TelemetryLanguageParserImpl {
+  }
+PARSER_END(TelemetryLanguageParserImpl)
+
+//==========================================================================
+//
+//       Tokens
+//
+//==========================================================================
+
+SPECIAL_TOKEN: { " " | "\t" | "\n" | "\r" }
+
+TOKEN: /* Reservered Words */
+{
+    < STREAMS:  "streams"  >
+  | < CHART:    "chart"   >
+  | < REPORT:   "report"     >
+  | < DRAW:     "draw"     >
+  | < YAXIS:    "y-axis"  >
+  
+  | <ADD:      "+">
+  | <SUB:      "-">
+  | <MUL:      "*">
+  | <DIV:      "/">
+
+  | < LPARA: "(" >
+  | < RPARA: ")" >  
+    
+  | < DOUBLEQUOTE: "\"" >
+  | < COMMA: "," >
+  | < SEMICOLON: ";" >
+}
+
+TOKEN:
+{
+    <NON_NEG_INTEGER: (<DIGIT>)+ >
+  | <NON_NEG_DOUBLE:  (<DIGIT>)+("."(<DIGIT>)+)? >
+  | <IDENTIFIER: <LETTER>(<LETTER>|<DIGIT>|"-"|"_")* >
+  | <#LETTER: ["a"-"z", "A"-"Z"] >
+  | <#DIGIT:  ["0"-"9"] >
+
+}
+
+<COMMENT> TOKEN:
+{
+  <STRING_INTERNAL: (~["\""])* >
+}
+
+String identifier() : {Token t;}
+{
+  t = <IDENTIFIER>
+  { return t.image; }
+}
+
+String string_constant() : {String str; Token t;}
+{
+    <DOUBLEQUOTE> 
+    { token_source.SwitchTo(COMMENT); } 
+    t = <STRING_INTERNAL> 
+    { token_source.SwitchTo(DEFAULT); } 
+    <DOUBLEQUOTE>
+    { return t.image; }
+}
+
+Number number_constant() : {Token t; boolean negative = false; Number number; }
+{
+   ( 
+       <ADD>
+     | <SUB>  { negative = true; }
+   )? 
+   number = non_negative_number_constant()
+   
+   { 
+     if (negative) {
+       if (number instanceof Integer) {
+         return new Integer(0 - number.intValue());
+       }
+       else {
+         return new Double(0.0 - number.doubleValue());
+       }
+     }
+     else {
+       return number;
+     }
+   }
+}
+
+Number non_negative_number_constant() : {Token t; }
+{
+   t = <NON_NEG_INTEGER>   { return new Integer(t.image); }
+   | t = <NON_NEG_DOUBLE>  { return new Double(t.image); }
+}
+
+
+
+
+//==========================================================================
+//
+//                           Main Grammar
+//
+//==========================================================================
+
+List all_input() : { List list; }
+{
+  list = statements() <EOF>
+  { return list; }
+}
+
+List statements() : 
+{ 
+  List list = new ArrayList(2); 
+  TelemetryStreamsDefinition streamsDef; 
+  TelemetryChartDefinition chartDef; 
+  TelemetryReportDefinition reportDef;
+  TelemetryChartYAxisDefinition chartYAxisDef;
+  DrawCommand drawCommand;   
+}
+{
+  ( 
+      streamsDef  = streams_statement()          { list.add(streamsDef);  }
+    | chartDef    = chart_statement()            { list.add(chartDef);    }
+    | reportDef   = report_statement()           { list.add(reportDef);   }
+    | chartYAxisDef  = chart_y_axis_statement()  { list.add(chartYAxisDef);  }
+    | drawCommand = draw_command()               { list.add(drawCommand); }
+  )+
+  { return list; }
+}
+
+TelemetryStreamsDefinition streams_statement_input() : {TelemetryStreamsDefinition def;}
+{
+  def = streams_statement() <EOF>
+  { return def; }
+}
+
+TelemetryChartDefinition chart_statement_input() : {TelemetryChartDefinition def;}
+{
+  def = chart_statement() <EOF>
+  { return def; }
+}
+
+TelemetryChartYAxisDefinition chart_y_axis_statement_input() : {TelemetryChartYAxisDefinition def;}
+{
+  def = chart_y_axis_statement() <EOF>
+  { return def; }
+}
+
+TelemetryReportDefinition report_statement_input() : {TelemetryReportDefinition def;}
+{
+  def = report_statement() <EOF>
+  { return def; }
+}
+//==========================================================================
+//
+//                       TelemetryStreamsDefinition
+//
+//==========================================================================
+
+
+TelemetryStreamsDefinition streams_statement() : 
+{
+  String id; 
+  String description;
+  Expression expression; 
+  Variable[] vars; 
+  Token startToken, endToken;
+}
+{
+  startToken = <STREAMS> id = identifier() <LPARA> vars = variables() <RPARA>
+  "=" "{" 
+  description = streams_description() <COMMA>
+  expression = streams_definition() 
+  "}" 
+  endToken = <SEMICOLON>
+  {
+    try {
+      TextPosition position = new TextPosition(startToken.beginLine, startToken.beginColumn, endToken.endLine, endToken.endColumn);
+      TelemetryStreamsDefinition streamsDef = new TelemetryStreamsDefinition(id, expression, vars, position);
+      streamsDef.setDescription(description);
+      return streamsDef;
+    }
+    catch (Exception ex) {
+      throw new ParseException(ex.getMessage());
+    }
+  }
+}
+
+String streams_description() : { String description; }
+{
+  description = string_constant()
+  { return description; }
+}
+
+Expression streams_definition() : {Expression exp; }
+{
+  exp = expression()
+  { return exp; }
+}
+
+
+
+//==========================================================================
+//
+//                        TelemetryChartYAxis
+//
+//==========================================================================
+//y-axis fileAxis() = {"Size (LOC)", "integer|double", 0, 1000} 
+
+TelemetryChartYAxisDefinition chart_y_axis_statement() : 
+{ String id; Variable[] vars; Expression labelParameter; String strLabel;
+  String numberType = TelemetryChartYAxisDefinition.NUMBER_TYPE_AUTO;
+  Number lowerBound = null; Number upperBound = null;  
+  Token startToken, endToken;
+}
+{
+  startToken = <YAXIS> id = identifier() <LPARA> vars = variables() <RPARA> "=" 
+  "{"
+      (
+        strLabel = string_constant()   { labelParameter = new StringConstant(strLabel); }
+        | strLabel = identifier()      { labelParameter = new Variable(strLabel); }
+      )
+      (
+        <COMMA> numberType = string_constant()
+        (<COMMA> lowerBound = number_constant() <COMMA> upperBound = number_constant())?
+      )?
+  "}" 
+  endToken = <SEMICOLON>
+  
+  {
+    try {
+      TextPosition position = new TextPosition(startToken.beginLine, startToken.beginColumn, endToken.endLine, endToken.endColumn);
+      return new TelemetryChartYAxisDefinition(id, vars, labelParameter, numberType, lowerBound, upperBound, position);
+    }
+    catch (Exception ex) {
+      throw new ParseException(ex.getMessage());
+    }
+  }
+}
+
+
+
+
+//==========================================================================
+//
+//                        TelemetryChartDefinition
+//
+//==========================================================================
+
+TelemetryChartDefinition chart_statement() : 
+{ 
+  String id;
+  String title;
+  Variable[] vars;
+  List subCharts; 
+  Token startToken, endToken;
+}
+{
+  startToken = <CHART> id = identifier() <LPARA> vars = variables() <RPARA>
+  "=" 
+  "{" 
+      title = chart_title() <COMMA>
+      subCharts = sub_charts() 
+  "}" 
+  endToken = <SEMICOLON>
+  { 
+    try {
+      TextPosition position = new TextPosition(startToken.beginLine, startToken.beginColumn, endToken.endLine, endToken.endColumn);
+      return new TelemetryChartDefinition(id, title, vars, subCharts, position); 
+    }
+    catch(Exception ex) {
+      throw new ParseException(ex.getMessage());    
+    }
+  }
+}
+
+String chart_title() : { String title; }
+{
+  title = string_constant()
+  { return title; }
+}
+
+
+//List<TelemetryChartDefinition.SubChartDefinition>
+List sub_charts() : {List list = new ArrayList(); TelemetryChartDefinition.SubChartDefinition subChartDef;}
+{
+  subChartDef = sub_chart_definition()             { list.add(subChartDef); }
+  ( 
+    <COMMA> subChartDef = sub_chart_definition()   { list.add(subChartDef); } 
+  )*
+  { return list; }
+}
+
+
+TelemetryChartDefinition.SubChartDefinition sub_chart_definition() : {StreamsReference streamsRef; YAxisReference yAxisRef; }
+{
+  <LPARA> streamsRef = streams_reference() <COMMA> yAxisRef = y_axis_reference() <RPARA> 
+  { return new TelemetryChartDefinition.SubChartDefinition(streamsRef, yAxisRef); }
+}
+
+StreamsReference streams_reference() : {String id; Expression[] params; }
+{
+  id = identifier() <LPARA> params = variables_and_constants() <RPARA>
+  { return new StreamsReference(id, params); }
+}
+
+YAxisReference y_axis_reference() : {String id; Expression[] params; }
+{
+  id = identifier() <LPARA> params = variables_and_constants() <RPARA>
+  { return new YAxisReference(id, params); }
+}
+
+
+
+//==========================================================================
+//
+//                        TelemetryReportDefinition
+//
+//==========================================================================
+
+TelemetryReportDefinition report_statement() : 
+{ 
+  String id;
+  String title;
+  Variable[] vars;
+  List reportDefinition; 
+  Token startToken, endToken;
+}
+{
+  startToken = <REPORT> id = identifier() <LPARA> vars = variables() <RPARA>
+  "=" 
+  "{" 
+      title = report_title() <COMMA> 
+      reportDefinition = report_definition() 
+  "}" 
+  endToken = <SEMICOLON>
+  { 
+    try {
+      TextPosition position = new TextPosition(startToken.beginLine, startToken.beginColumn, endToken.endLine, endToken.endColumn);
+      return new TelemetryReportDefinition(id, title, vars, reportDefinition, position); 
+    }
+    catch(Exception ex) {
+      throw new ParseException(ex.getMessage());    
+    }
+  }
+}
+
+String report_title() : {String title;}
+{
+  title = string_constant()
+  { return title; }
+}
+
+List report_definition() : {List list = new ArrayList(); ChartReference ref;}
+{
+  ref = chart_reference() { list.add(ref); }
+  ( 
+    <COMMA> ref = chart_reference() 
+    { list.add(ref); } 
+  )*
+  { return list; }
+}
+
+ChartReference chart_reference() : {ChartReference ref; String id; Expression[] params;}
+{
+  id = identifier() <LPARA> params = variables_and_constants() <RPARA>
+  { return new ChartReference(id, params); }
+}
+
+//==============================================================================
+//
+//                            DrawCommand
+//
+//==============================================================================
+
+DrawCommand draw_command() : 
+{ String id; Constant[] params; Token startToken, endToken;}
+{
+  startToken = <DRAW> id = identifier() <LPARA> params = constants() <RPARA> 
+  endToken = <SEMICOLON>
+  { 
+    TextPosition position = new TextPosition(startToken.beginLine, startToken.beginColumn, endToken.endLine, endToken.endColumn);
+    return new DrawCommand(id, params, position); 
+  }
+}
+
+
+
+
+
+//==========================================================================
+//
+//           Expression
+//
+//==========================================================================
+
+
+Expression expression() : { Expression exp; }
+{
+  exp = additive_expression()
+  { return exp; }
+}
+
+Expression additive_expression() : { Expression exp1, exp2;}
+{  
+  exp1 = multiplicative_expression() 
+  ( 
+    <ADD> exp2 = multiplicative_expression()
+    { exp1 = new FunctionCall("Add", new Expression[]{exp1, exp2}); }
+     
+    |
+  
+    <SUB> exp2 = multiplicative_expression()
+    { exp1 = new FunctionCall("Sub", new Expression[]{exp1, exp2}); }
+  )*
+  
+  { return exp1; }
+}
+
+Expression multiplicative_expression() : { Expression exp1, exp2;}
+{
+  exp1 = unary_expression() 
+  ( 
+    <MUL> exp2 = unary_expression()
+    { exp1 = new FunctionCall("Mul", new Expression[]{exp1, exp2}); }
+     
+    |
+  
+    <DIV> exp2 = unary_expression()
+    { exp1 = new FunctionCall("Div", new Expression[]{exp1, exp2}); }
+  )*
+  
+  { return exp1; }
+}
+
+Expression unary_expression() : {Number number; Expression exp; }
+{
+    number = non_negative_number_constant()     { return new NumberConstant(number); }
+  | <LPARA> exp = expression() <RPARA>          { return exp; } 
+  | exp = call()                                { return exp; }
+}
+
+Expression call() : {String name; Expression[] params; }
+{
+  name = identifier() <LPARA> params = parameters() <RPARA>
+  { 
+    //Requirement: ReducerCall cannot have FunctionCall as its parameter
+    //             FunctionCall must have at least one parameter of type ReducerCall or FunctionCall  
+    //We return either ReducerCall or FunctionCall object here.
+    
+    boolean isReducerCall = true;
+    for (int i = 0; i < params.length; i++) {
+      Expression param = params[i];
+      if (param instanceof ReducerCall || param instanceof FunctionCall) {
+        isReducerCall = false;
+        break;
+      }
+    }
+    
+    if (isReducerCall) {
+      return new ReducerCall(name, params);
+    }
+    else {
+      return new FunctionCall(name, params);
+    }
+  }
+}
+
+Expression[] parameters() : { ArrayList list = new ArrayList(); Expression exp; }
+{
+  (
+    exp = parameter()             { list.add(exp); } 
+    (  
+      <COMMA> exp = parameter()   { list.add(exp); }
+    )*
+  )?
+  { 
+    int size = list.size();
+    Expression[] exps = new Expression[size];
+    for (int i = 0; i < size; i++) {
+      exps[i] = (Expression) list.get(i);
+    }
+    return exps; 
+  }
+}
+
+Expression parameter() : {String str; Number num; Expression exp; }
+{
+    LOOKAHEAD(2) exp = expression()  { return exp; }
+  | str = identifier()         { return new Variable(str); }
+  | num = number_constant()      { return new NumberConstant(num); }
+  | str = string_constant()    { return new StringConstant(str); }
+}
+
+
+
+
+//==========================================================================
+//
+//                       Common Support
+//
+//==========================================================================
+
+
+Variable[] variables() : {ArrayList list = new ArrayList(); String id;}
+{
+  (
+    id = identifier()   { list.add(new Variable(id)); } 
+    (
+      <COMMA> id = identifier()  { list.add(new Variable(id)); }
+    )*
+  )? 
+  { 
+    int size = list.size();
+    Variable[] exps = new Variable[size];
+    for (int i = 0; i < size; i++) {
+      exps[i] = (Variable) list.get(i);
+    }
+    return exps; 
+  }  
+}
+
+Constant[] constants() : {ArrayList list = new ArrayList(); String str; Number num;}
+{
+  (
+    ( 
+      num = number_constant()        { list.add(new NumberConstant(num)); }
+      | str = string_constant()      { list.add(new StringConstant(str)); }
+    )
+    (
+      <COMMA> 
+      ( 
+        num = number_constant()        { list.add(new NumberConstant(num)); }
+        | str = string_constant()      { list.add(new StringConstant(str)); }
+      ) 
+    )*
+  )? 
+  { 
+    int size = list.size();
+    Constant[] exps = new Constant[size];
+    for (int i = 0; i < size; i++) {
+      exps[i] = (Constant) list.get(i);
+    }
+    return exps; 
+  }  
+}
+
+Expression[] variables_and_constants() : {ArrayList list = new ArrayList(); String str; Number num; }
+{
+  (
+    ( 
+      num = number_constant()        { list.add(new NumberConstant(num)); }
+      | str = string_constant()      { list.add(new StringConstant(str)); }
+      | str = identifier()           { list.add(new Variable(str)); } 
+    )
+    (
+      <COMMA> 
+      ( 
+        num = number_constant()        { list.add(new NumberConstant(num)); }
+        | str = string_constant()      { list.add(new StringConstant(str)); }
+        | str = identifier()           { list.add(new Variable(str)); } 
+      ) 
+    )*
+  )? 
+  { 
+    int size = list.size();
+    Expression[] exps = new Expression[size];
+    for (int i = 0; i < size; i++) {
+      exps[i] = (Expression) list.get(i);
+    }
+    return exps;
+  } 
+}

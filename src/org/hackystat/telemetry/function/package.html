@@ -1,0 +1,11 @@
+<body>
+Implements telemetry function extension point. A telemetry function operates on an array of
+<code>Number</code>, <code>String</code>, and/or <code>TelemetryStreamCollection</code> objects, 
+and returns either a <code>Number</code> or <code>TelemetryStreamCollection</code> object.
+<p/>
+This package is part of telemetry infrastructure. An external client normally should
+not use any classes in this package except supplying implementation of additional
+funtions. Otherwise, the intended client of this package is 
+<code>TelemetryEvaluator</code>. All function invocation are done through 
+<code>TelemetryFunctionManager</code> proxy.
+</body>

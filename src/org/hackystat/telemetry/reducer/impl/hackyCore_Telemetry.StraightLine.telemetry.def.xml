@@ -1,0 +1,10 @@
+<TelemetryReducers>
+
+  <!-- Single-Stream Reducer -->
+  <Reducer name="StraightLine"
+    class="org.hackystat.core.telemetry.reducer.impl.StraightLine"
+    reducerDescription="Draws a straight line on the plot. The line can have a slope that can be adjusted by using the delta parameter."
+    optionDescription="(1) initialValue: the initial Y value for the line.
+                              (2) deltaValue: the delta for each next interval." />
+
+</TelemetryReducers>

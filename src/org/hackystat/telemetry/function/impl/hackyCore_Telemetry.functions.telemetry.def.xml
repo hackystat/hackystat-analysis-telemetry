@@ -1,0 +1,16 @@
+<telemetry>
+
+  <function name="FilterZero"
+            class="org.hackystat.core.telemetry.function.impl.FilterZeroFunction"
+            description="Filters out telemetry streams with zero values or no value in a 
+                         telemetry stream collection."
+            parameters="(1) The telemetry stream collection to be filtered." />
+  
+  <function name="Filter"
+            class="org.hackystat.core.telemetry.function.impl.FilterFunction"
+            description="Filters telemetry streams in a telemetry stream collection."
+            parameters="(1) The telemetry stream collection to be filtered.
+                        (2) One of 'Avg|Max|Min|Last|Delta|SimpleDelta'.
+                        (3) One of 'Above|Below|Top|Bottom|TopPercent|BottomPercent'.
+                        (4) A cutoff or threshold value." />
+</telemetry>

@@ -1,0 +1,19 @@
+Note: Simplified version of telemetry lanaguage grammar for human reference only.
+
+expression ==> additive_expression
+
+additive_expression ==> multiplicative_expression (+|- multiplicative_expression)*
+  
+multiplicative_expression ==> unary_expression (+|- unary_expression)*
+ 
+unary_expression ==> number_constant()
+                     <LPARA> expression <RPARA>
+                     call
+
+call ==> identifier() <LPARA> (parameter)* <RPARA>
+
+parameter ==> expression
+              identifier          //Variable
+              number_constant
+              string_constant
+

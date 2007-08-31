@@ -1,0 +1,11 @@
+<body>
+Implements telemetry reducer extension point. A telemetry reducer is reponsible for processing raw software
+metrics to generate an instance of <code>TelemetryStreamCollection</code>. The input to a
+reducer is an array of <code>String</code> objects containing instructions fine tuning reducer
+behaviors.
+<p/>
+This package is part of telemetry infrastructure. It provides a plug-in mechanism whereby new
+implementation of reducers can be dynamically added to the system. Within the telemetry 
+infrastructure, <code>TelemetryEvaluator</code> uses <code>TelemetryReducerManager</code> 
+as a proxy to resolve reducer call.
+</body>
