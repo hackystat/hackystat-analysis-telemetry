@@ -1,10 +1,9 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import junit.framework.TestCase;
 
 import org.hackystat.telemetry.util.user.User;
 import org.hackystat.telemetry.util.user.UserManager;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 
 /**
  * Test suite for <code>PersistentTelemetryDefinitionManager</code>.

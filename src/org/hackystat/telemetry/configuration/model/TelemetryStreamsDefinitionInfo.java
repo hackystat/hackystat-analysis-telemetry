@@ -1,7 +1,6 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import org.hackystat.telemetry.util.user.User;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 import org.hackystat.telemetry.language.TelemetryLanguageException;
 import org.hackystat.telemetry.language.ast.TelemetryStreamsDefinition;
 import org.hackystat.telemetry.language.parser.TelemetryLanguageParser;

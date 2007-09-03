@@ -1,6 +1,5 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 import org.hackystat.telemetry.util.project.Project;
 import org.hackystat.telemetry.util.project.ProjectManager;
 

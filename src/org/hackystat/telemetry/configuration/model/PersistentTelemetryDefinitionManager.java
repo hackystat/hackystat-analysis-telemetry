@@ -1,4 +1,4 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.hackystat.telemetry.util.user.User;
 import org.hackystat.telemetry.util.user.UserManager;
-import org.hackystat.telemetry.util.ServerProperties;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -265,6 +263,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
    * @param message The message to be logged.
    */
   private void warning(String message) {
-    ServerProperties.getInstance().getLogger().severe("[TelemetryDefinitionManager] " + message);
+    System.out.println("Telemetry Definition Manager warning: " + message);
+    //ServerProperties.getInstance().getLogger().severe("[TelemetryDefinitionManager] " + message);
   }
 }

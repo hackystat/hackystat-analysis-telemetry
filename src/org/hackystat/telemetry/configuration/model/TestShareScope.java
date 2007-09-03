@@ -1,4 +1,4 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import java.util.TreeSet;
 
@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import org.hackystat.telemetry.util.user.User;
 import org.hackystat.telemetry.util.user.UserManager;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 import org.hackystat.telemetry.util.Day;
 import org.hackystat.telemetry.util.project.Project;
 import org.hackystat.telemetry.util.project.ProjectManager;
@@ -21,8 +20,8 @@ import org.hackystat.telemetry.util.project.ProjectManager;
 public class TestShareScope extends TestCase {
 
   private String testProjectName = "Test-Project-Telemetry-ShareScope-vfdf3d";
-  private User user = UserManager.getInstance().getTestUser();
-  private Project project;
+  //private User user = UserManager.getInstance().getTestUser();
+  //private Project project;
 
   /**
    * Test case set up.

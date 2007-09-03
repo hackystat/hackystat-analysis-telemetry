@@ -1,9 +1,8 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import java.util.Collection;
 
 import org.hackystat.telemetry.util.user.User;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 
 /**
  * Telemetry definition manager base class.

@@ -1,4 +1,4 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.hackystat.telemetry.util.user.User;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 
 /**
  * The manager for <code>TelemetryDefinitionInfo</code> objects. 

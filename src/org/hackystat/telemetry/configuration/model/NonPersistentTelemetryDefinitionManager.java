@@ -1,4 +1,4 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hackystat.telemetry.util.user.User;
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 
 /**
  * Non-persistent implementation of <code>TelemetryDefinitionManager</code>.

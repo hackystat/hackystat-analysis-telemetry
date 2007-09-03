@@ -1,6 +1,5 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
-import org.hackystat.telemetry.configuration.TelemetryConfigurationException;
 
 /**
  * Type safe enumeration of telemetry definition types. We are not using Java 5 enum because 

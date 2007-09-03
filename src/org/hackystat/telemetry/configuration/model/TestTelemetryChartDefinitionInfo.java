@@ -1,4 +1,4 @@
-package org.hackystat.telemetry.configuration.model;
+package org.hackystat.telemetry.configuration;
 
 import junit.framework.TestCase;
 
