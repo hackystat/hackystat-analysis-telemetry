@@ -67,6 +67,7 @@
 
   <!-- The compile classpath is useful to many tools. -->
   <path id="compile.classpath">
+    <fileset file="${basedir}/jdom.jar"/>
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/hackystatlogger.lib.jar"/>
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/stacktrace.lib.jar"/>
     <fileset file="${env.HACKYSTAT_UTILITIES_HOME}/tstamp.lib.jar"/>
@@ -87,7 +88,7 @@
     <javac srcdir="${src.dir}" destdir="${build.dir}/classes" source="1.5" target="1.5" debug="on" includeAntRuntime="no">
       <classpath refid="compile.classpath" />
       <compilerarg value="-Xlint:all"/>
-      <compilerarg value="-Werror"/>
+      <!-- <compilerarg value="-Werror"/> -->
     </javac>
   </target>
 

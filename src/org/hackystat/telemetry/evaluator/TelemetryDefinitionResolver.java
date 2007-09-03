@@ -1,12 +1,12 @@
 package org.hackystat.telemetry.evaluator;
 
 import org.hackystat.telemetry.util.user.User;
-import org.hackystat.telemetry.configuration.model.TelemetryChartDefinitionInfo;
-import org.hackystat.telemetry.configuration.model.TelemetryChartYAxisDefinitionInfo;
-import org.hackystat.telemetry.configuration.model.TelemetryDefinitionInfo;
-import org.hackystat.telemetry.configuration.model.TelemetryDefinitionManager;
-import org.hackystat.telemetry.configuration.model.TelemetryDefinitionType;
-import org.hackystat.telemetry.configuration.model.TelemetryStreamsDefinitionInfo;
+import org.hackystat.telemetry.configuration.TelemetryChartDefinitionInfo;
+import org.hackystat.telemetry.configuration.TelemetryChartYAxisDefinitionInfo;
+import org.hackystat.telemetry.configuration.TelemetryDefinitionInfo;
+import org.hackystat.telemetry.configuration.TelemetryDefinitionManager;
+import org.hackystat.telemetry.configuration.TelemetryDefinitionType;
+import org.hackystat.telemetry.configuration.TelemetryStreamsDefinitionInfo;
 import org.hackystat.telemetry.language.ast.TelemetryChartDefinition;
 import org.hackystat.telemetry.language.ast.TelemetryChartYAxisDefinition;
 import org.hackystat.telemetry.language.ast.TelemetryStreamsDefinition;
