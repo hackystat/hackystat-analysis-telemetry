@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hackystat.core.common.project.Project;
-import org.hackystat.core.common.selector.interval.Interval;
+import org.hackystat.telemetry.util.project.Project;
+import org.hackystat.telemetry.util.selector.interval.Interval;
 
 /**
  * A collection of telemetry streams. Note that this class does not constrain

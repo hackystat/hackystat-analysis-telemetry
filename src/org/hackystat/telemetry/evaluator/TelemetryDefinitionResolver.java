@@ -1,6 +1,6 @@
 package org.hackystat.telemetry.evaluator;
 
-import org.hackystat.core.kernel.user.User;
+import org.hackystat.telemetry.util.user.User;
 import org.hackystat.telemetry.configuration.model.TelemetryChartDefinitionInfo;
 import org.hackystat.telemetry.configuration.model.TelemetryChartYAxisDefinitionInfo;
 import org.hackystat.telemetry.configuration.model.TelemetryDefinitionInfo;

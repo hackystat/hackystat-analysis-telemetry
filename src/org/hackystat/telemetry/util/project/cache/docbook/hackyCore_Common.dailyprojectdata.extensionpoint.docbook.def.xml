@@ -1,0 +1,7 @@
+<hackydocbook>
+  <reference-guide-section chapter="Extension Point Definition Files"
+                           sortString="Daily Project Data"
+                           fileName="hackyCore_Common.dailyprojectdata.extensionpoint.docbook.xml">
+    <author name="Philip Johnson" linkend="sec:hackyCore_Common.dailyprojectdata.extensionpoint"/>
+  </reference-guide-section>
+</hackydocbook>

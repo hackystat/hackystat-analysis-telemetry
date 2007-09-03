@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensor>
+  <entry tstamp="1073517908000" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="47" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073517908001" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="16" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073518024002" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="31" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073518024003" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="15" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073518067004" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="16" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073518067005" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="null" elapsedTime="0" errorString="junit.framework.AssertionFailedError  at junit.framework.Assert.fail(Assert.java:47)  at junit.framework.Assert.assertTrue(Assert.java:20)  at junit.framework.Assert.assertNotNull(Assert.java:220)  at junit.framework.Assert.assertNotNull(Assert.java:213)  at junit.framework.TestCase.runTest(TestCase.java:138)  at junit.framework.TestCase.runBare(TestCase.java:127)  at junit.framework.TestResult$1.protect(TestResult.java:106)  at junit.framework.TestResult.runProtected(TestResult.java:124)  at junit.framework.TestResult.run(TestResult.java:109)  at junit.framework.TestCase.run(TestCase.java:118)  at junit.framework.TestSuite.runTest(TestSuite.java:208)  at junit.framework.TestSuite.run(TestSuite.java:203)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)  at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)  " failureString=" " />
+  <entry tstamp="1073518345006" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="4328" errorString=" " failureString=" " />
+  <entry tstamp="1073518352007" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="7297" errorString=" " failureString=" " />
+  <entry tstamp="1073518389008" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="2016" errorString=" " failureString=" " />
+  <entry tstamp="1073518391009" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="1969" errorString=" " failureString=" " />
+  <entry tstamp="1073522463010" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="5984" errorString=" " failureString=" " />
+  <entry tstamp="1073522469011" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="5828" errorString=" " failureString=" " />
+  <entry tstamp="1073522522012" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="2953" errorString=" " failureString=" " />
+  <entry tstamp="1073522525013" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="3875" errorString=" " failureString=" " />
+  <entry tstamp="1073522586014" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="2375" errorString=" " failureString=" " />
+  <entry tstamp="1073522591015" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="4954" errorString=" " failureString=" " />
+  <entry tstamp="1073522707016" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="1844" errorString=" " failureString=" " />
+  <entry tstamp="1073522710017" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="2954" errorString=" " failureString=" " />
+  <entry tstamp="1073522786018" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="1328" errorString=" " failureString=" " />
+  <entry tstamp="1073522788019" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="1610" errorString=" " failureString=" " />
+  <entry tstamp="1073522807020" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="1328" errorString=" " failureString=" " />
+  <entry tstamp="1073522808021" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="1578" errorString=" " failureString=" " />
+  <entry tstamp="1073522975022" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="1312" errorString=" " failureString=" " />
+  <entry tstamp="1073522977023" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="1547" errorString=" " failureString=" " />
+  <entry tstamp="1073526491024" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073526692025" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527003026" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527003027" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="15" errorString="junit.framework.AssertionFailedError: Checks whether the map is empty expected:&lt;4&gt; but was:&lt;7&gt;
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.failNotEquals(Assert.java:282)
+	at junit.framework.Assert.assertEquals(Assert.java:64)
+	at junit.framework.Assert.assertEquals(Assert.java:201)
+	at org.hackystat.stdext.test.TestParameters.testAddIntervals(TestParameters.java:43)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)
+
+" failureString=" " />
+  <entry tstamp="1073527028028" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527028029" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="15" errorString="junit.framework.AssertionFailedError: Checks whether map size is five expected:&lt;5&gt; but was:&lt;7&gt;
+	at junit.framework.Assert.fail(Assert.java:47)
+	at junit.framework.Assert.failNotEquals(Assert.java:282)
+	at junit.framework.Assert.assertEquals(Assert.java:64)
+	at junit.framework.Assert.assertEquals(Assert.java:201)
+	at org.hackystat.stdext.test.TestParameters.testAddIntervals(TestParameters.java:43)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at junit.framework.TestCase.runTest(TestCase.java:154)
+	at junit.framework.TestCase.runBare(TestCase.java:127)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:118)
+	at junit.framework.TestSuite.runTest(TestSuite.java:208)
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:395)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:279)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:171)
+
+" failureString=" " />
+  <entry tstamp="1073527040030" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527040031" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527127032" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="16" errorString=" " failureString=" " />
+  <entry tstamp="1073527127033" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527282034" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527282035" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527358036" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="16" errorString=" " failureString=" " />
+  <entry tstamp="1073527358037" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527401038" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527401039" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="16" errorString=" " failureString=" " />
+  <entry tstamp="1073527663040" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAdd" elapsedTime="15" errorString=" " failureString=" " />
+  <entry tstamp="1073527663041" tool="Sensor Shell" testCaseName="org.hackystat.stdext.test.TestParameters" testName="testAddIntervals" elapsedTime="0" errorString=" " failureString=" " />
+  <entry tstamp="1073527936042" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetTable" elapsedTime="1391" errorString=" " failureString=" " />
+  <entry tstamp="1073527937043" tool="Sensor Shell" testCaseName="org.hackystat.stdext.activity.analysis.activetime.TestActiveTimeTrend" testName="testGetChartImage" elapsedTime="1469" errorString=" " failureString=" " />
+</sensor>
+

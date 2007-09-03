@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hackystat.core.common.selector.interval.DayInterval;
-import org.hackystat.core.common.selector.interval.IllegalIntervalException;
-import org.hackystat.core.common.selector.interval.Interval;
-import org.hackystat.core.common.selector.interval.MonthInterval;
-import org.hackystat.core.common.selector.interval.WeekInterval;
-import org.hackystat.core.kernel.util.Day;
-import org.hackystat.core.kernel.util.Month;
-import org.hackystat.core.kernel.util.TimePeriod;
-import org.hackystat.core.kernel.util.Week;
+import org.hackystat.telemetry.util.Day;
+import org.hackystat.telemetry.util.Month;
+import org.hackystat.telemetry.util.TimePeriod;
+import org.hackystat.telemetry.util.Week;
+import org.hackystat.telemetry.util.selector.interval.DayInterval;
+import org.hackystat.telemetry.util.selector.interval.IllegalIntervalException;
+import org.hackystat.telemetry.util.selector.interval.Interval;
+import org.hackystat.telemetry.util.selector.interval.MonthInterval;
+import org.hackystat.telemetry.util.selector.interval.WeekInterval;
 
 /**
  * Interval utility.

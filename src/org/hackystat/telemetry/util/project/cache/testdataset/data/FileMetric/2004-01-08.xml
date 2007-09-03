@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensor>
+  <entry tstamp="1073627349000" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\CPPLineSizeMeasure.java" className="csdl.locc.measures.cpp.cppline.CPPLineSizeMeasure" data="size=1229,loc=21,wmc=5" lmod="1060394446000" />
+  <entry tstamp="1073627349001" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextDiffPrinter.java" className="csdl.locc.measures.cpp.cppline.TextDiffPrinter" data="size=2959,loc=49,wmc=8" lmod="1073092491000" />
+  <entry tstamp="1073627349002" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextOutputFormat.java" className="csdl.locc.measures.cpp.cppline.TextOutputFormat" data="size=1155,loc=18,wmc=4" lmod="1060394447000" />
+  <entry tstamp="1073627349003" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextTotalPrinter.java" className="csdl.locc.measures.cpp.cppline.TextTotalPrinter" data="size=2168,loc=33,wmc=7" lmod="1073006091000" />
+  <entry tstamp="1073627349004" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextTotalVisitor.java" className="csdl.locc.measures.cpp.cppline.TextTotalVisitor" data="size=4060,loc=64,wmc=7" lmod="1060394447000" />
+  <entry tstamp="1073627395000" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\CPPLineSizeMeasure.java" className="csdl.locc.measures.cpp.cppline.CPPLineSizeMeasure" data="size=1229,loc=21,wmc=5" lmod="1060394446000" />
+  <entry tstamp="1073627395001" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextDiffPrinter.java" className="csdl.locc.measures.cpp.cppline.TextDiffPrinter" data="size=2959,loc=49,wmc=8" lmod="1060394447000" />
+  <entry tstamp="1073627395002" tool="LOCC" fileName="C:\cvsCSDL\locc\src\csdl\locc\measures\cpp\cppline\TextOutputFormat.java" className="csdl.locc.measures.cpp.cppline.TextOutputFormat" data="size=1155,loc=18,wmc=4" lmod="1060394447000" />
+  <entry tstamp="1073630613005" tool="Sensor Shell" fileName="C:/cvsCSDL/hackyStdExt/src/org/hackystat/stdext/project/cache/ProjectFileMetric.java" className="org.hackystat.stdext.project.cache.ProjectFileMetric" data="cbo=7,dit=0,loc=23,noc=0,rfc=8,size=2293,wmc=7" lmod="1073630599772" />
+  <entry tstamp="1073630673007" tool="Sensor Shell" fileName="C:/cvsCSDL/hackyStdExt/src/org/hackystat/stdext/project/cache/ProjectFileMetric.java" className="org.hackystat.stdext.project.cache.ProjectFileMetric" data="cbo=7,dit=2,loc=23,noc=0,rfc=8,size=2293,wmc=7" lmod="1073630599772" />
+  <entry tstamp="1073630673017" tool="Sensor Shell" fileName="C:/cvsCSDL/hackyStdExt/src/org/hackystat/stdext/project/cache/DailyProjectDataCache.java" className="org.hackystat.stdext.project.cache.DailyProjectDataCache" data="cbo=3,dit=1,loc=24,noc=0,rfc=3,size=1831,wmc=7" lmod="1073630599792" />
+</sensor>
+

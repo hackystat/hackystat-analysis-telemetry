@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.hackystat.core.kernel.util.TimePeriod;
+import org.hackystat.telemetry.util.TimePeriod;
 
 /**
  * Represents one telemetry stream.

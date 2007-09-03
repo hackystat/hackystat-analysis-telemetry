@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import org.hackystat.core.kernel.admin.ServerProperties;
+import org.hackystat.telemetry.util.ServerProperties;
 import org.hackystat.telemetry.function.impl.AddFunction;
 import org.hackystat.telemetry.function.impl.DivFunction;
 import org.hackystat.telemetry.function.impl.IdempotentFunction;

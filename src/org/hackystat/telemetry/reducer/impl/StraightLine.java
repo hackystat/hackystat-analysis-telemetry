@@ -3,14 +3,14 @@ package org.hackystat.telemetry.reducer.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hackystat.core.common.project.Project;
-import org.hackystat.core.common.selector.interval.Interval;
 import org.hackystat.telemetry.model.TelemetryDataPoint;
 import org.hackystat.telemetry.model.TelemetryStream;
 import org.hackystat.telemetry.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.reducer.TelemetryReducer;
 import org.hackystat.telemetry.reducer.TelemetryReducerException;
 import org.hackystat.telemetry.reducer.util.IntervalUtility;
+import org.hackystat.telemetry.util.project.Project;
+import org.hackystat.telemetry.util.selector.interval.Interval;
 
 /**
  * Draws straight line over the chart.

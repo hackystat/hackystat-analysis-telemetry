@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import org.hackystat.core.common.project.Project;
-import org.hackystat.core.common.selector.interval.Interval;
-import org.hackystat.core.kernel.admin.ServerProperties;
+import org.hackystat.telemetry.util.ServerProperties;
 import org.hackystat.telemetry.model.TelemetryStreamCollection;
+import org.hackystat.telemetry.util.project.Project;
+import org.hackystat.telemetry.util.selector.interval.Interval;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 

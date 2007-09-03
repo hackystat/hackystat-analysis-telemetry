@@ -2,8 +2,6 @@ package org.hackystat.telemetry.evaluator;
 
 import java.util.Iterator;
 
-import org.hackystat.core.common.project.Project;
-import org.hackystat.core.common.selector.interval.Interval;
 import org.hackystat.telemetry.function.TelemetryFunctionManager;
 import org.hackystat.telemetry.language.ast.ChartReference;
 import org.hackystat.telemetry.language.ast.Constant;
@@ -22,6 +20,8 @@ import org.hackystat.telemetry.language.ast.YAxisReference;
 import org.hackystat.telemetry.model.TelemetryStream;
 import org.hackystat.telemetry.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.reducer.TelemetryReducerManager;
+import org.hackystat.telemetry.util.project.Project;
+import org.hackystat.telemetry.util.selector.interval.Interval;
 
 /**
  * Telemetry evaluator.

@@ -3,11 +3,11 @@ package org.hackystat.telemetry.function.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hackystat.core.kernel.util.TimePeriod;
 import org.hackystat.telemetry.function.TelemetryFunctionException;
 import org.hackystat.telemetry.model.TelemetryDataPoint;
 import org.hackystat.telemetry.model.TelemetryStream;
 import org.hackystat.telemetry.model.TelemetryStreamCollection;
+import org.hackystat.telemetry.util.TimePeriod;
 
 /**
  * Helper class to perform binary operations on <code>TelemetryStreamCollection</code> objects.

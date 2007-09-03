@@ -2,12 +2,12 @@ package org.hackystat.telemetry.function.impl;
 
 import junit.framework.TestCase;
 
-import org.hackystat.core.common.project.Project;
-import org.hackystat.core.common.project.ProjectManager;
-import org.hackystat.core.common.selector.interval.DayInterval;
-import org.hackystat.core.kernel.util.Day;
 import org.hackystat.telemetry.function.TelemetryFunctionManager;
 import org.hackystat.telemetry.model.TelemetryStreamCollection;
+import org.hackystat.telemetry.util.Day;
+import org.hackystat.telemetry.util.project.Project;
+import org.hackystat.telemetry.util.project.ProjectManager;
+import org.hackystat.telemetry.util.selector.interval.DayInterval;
 
 /**
  * Test suite for <code>IdempotentFunction</code<>

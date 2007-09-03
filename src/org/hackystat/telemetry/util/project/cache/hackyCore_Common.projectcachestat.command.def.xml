@@ -1,0 +1,14 @@
+<commands>
+  <command type="admin"
+           page="admin"
+           label="Project Cache"
+           buttonlabel="Generate"
+           enabled="true"
+           commandrequest="org.hackystat.core.common.project.cache.ProjectCacheStatistics"
+           docstring="Provides the project cache statistics report."
+           docfile="doc.projectcache.html"
+           group="Statistics"
+           contact="Hongbing (hongbing@hawaii.edu)">
+    <resultpage file="ProjectCache.jsp"/>
+  </command>
+</commands>
