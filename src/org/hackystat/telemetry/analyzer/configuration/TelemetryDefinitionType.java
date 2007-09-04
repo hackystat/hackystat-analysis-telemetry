@@ -4,9 +4,10 @@ package org.hackystat.telemetry.analyzer.configuration;
 /**
  * Type safe enumeration of telemetry definition types. We are not using Java 5 enum because 
  * we still have to support Java 1.4.
+ * <p>
+ * V8 Notes: Convert to Java 5 enum.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryDefinitionType {
 

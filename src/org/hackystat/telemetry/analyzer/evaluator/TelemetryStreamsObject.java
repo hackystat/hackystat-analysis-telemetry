@@ -11,7 +11,6 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStream;
  * The evaluation result after resolving a telemetry streams definition. 
  *
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryStreamsObject {
   

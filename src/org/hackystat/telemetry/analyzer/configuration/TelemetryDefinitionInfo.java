@@ -3,10 +3,10 @@ package org.hackystat.telemetry.analyzer.configuration;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Base class for information holder about various telemetry object definition.
+ * Base class for information holders of telemetry objects such as Charts,  
+ * Y-Axes, Reports, and Streams.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id: TelemetryDefInfo.java,v 1.1.1.1 2005/10/20 23:56:48 johnson Exp $
  */
 public abstract class TelemetryDefinitionInfo {
 
@@ -17,7 +17,7 @@ public abstract class TelemetryDefinitionInfo {
   /**
    * Constructs this instance.
    * 
-   * @param fullDefinitionString The defintion string.
+   * @param fullDefinitionString The definition string.
    * @param owner The owner of this definition.
    * @param shareScope The share scope of this definition.
    */

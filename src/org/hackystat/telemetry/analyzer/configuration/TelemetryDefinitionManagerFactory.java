@@ -1,11 +1,10 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
 /**
- * Factory for <code>TelemetryDefinitionManager</code>.
+ * Provides a Factory class for generating the single PersistentTelemetryDefinitionManager
+ * and as many non-persistent ones as required.  
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id: TelemetryDefinitionManagerFactory.java,v 1.1.1.1 2005/10/20
- *          23:56:48 johnson Exp $
  */
 public class TelemetryDefinitionManagerFactory {
 
@@ -13,10 +12,7 @@ public class TelemetryDefinitionManagerFactory {
       = new PersistentTelemetryDefinitionManager();
 
   /**
-   * Gets the singleton global instance of
-   * <code>TelemetryDefinitionManger</code>. Note that this instance is
-   * responsible for persisting telemetry defintions to user direcotries, and
-   * reads them out.
+   * Gets the singleton global instance of <code>TelemetryDefinitionManger</code>. 
    * 
    * @return The global instance of <code>TelemetryDefinitionManager</code>.
    */

@@ -10,7 +10,6 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryReportDefinition;
  * The evaluation result after resolving a telemetry report definition. 
  *
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryReportObject {
   

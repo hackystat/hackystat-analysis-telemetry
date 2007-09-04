@@ -24,10 +24,10 @@ import org.hackystat.telemetry.analyzer.util.project.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**
- * Telemetry evaluator.
+ * Provides an evaluation function for Telemetry, in which a definition is evaluated with 
+ * respect to a set of variables and their values, a Project, and an Interval. 
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryEvaluator {
 
@@ -38,14 +38,15 @@ public class TelemetryEvaluator {
   }
   
   /**
-   * Evaluates a telemetry streams definition to <code>TeemetryStreamsObject</code> object.
+   * Evaluates a telemetry streams definition to produce a 
+   * <code>TelemetryStreamsObject</code> object.
    * 
    * @param streamsDefinition The telemetry streams definition.
    * @param variableResolver The variable resolver.
    * @param project The project.
    * @param interval The interval.
    * 
-   * @return An instance of <code>TelemetryStreamsObject</code> object.  
+   * @return An instance of a <code>TelemetryStreamsObject</code> object.  
    * 
    * @throws TelemetryEvaluationException If there is any error during the evalutation process.
    */
@@ -208,7 +209,7 @@ public class TelemetryEvaluator {
   }
   
   /**
-   * Evaluates a telemetry report definition to <code>TeemetryReportObject</code> object.
+   * Evaluates a telemetry report definition to <code>TelemetryReportObject</code> object.
    * 
    * @param reportDefinition The telemetry report definition.
    * @param telemetryDefinitionResolver The telemetry definition resolver.

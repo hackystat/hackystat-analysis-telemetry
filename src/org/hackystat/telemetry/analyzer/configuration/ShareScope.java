@@ -4,11 +4,13 @@ import org.hackystat.telemetry.analyzer.util.project.Project;
 import org.hackystat.telemetry.analyzer.util.project.ProjectManager;
 
 /**
- * The scope that a telemetry chart or report definition can be shared.
+ * The level of sharing associated with a telemetry chart or report definition.
  * The share scope can be global, project or private (not shared).
+ * <p>
+ * V8 Notes:  Initially, all scope will be global.  This is an enumerated type and
+ * really should be implemented that way. 
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class ShareScope {
 

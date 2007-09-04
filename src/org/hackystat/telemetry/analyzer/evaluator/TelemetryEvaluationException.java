@@ -4,7 +4,6 @@ package org.hackystat.telemetry.analyzer.evaluator;
  * Telemetry evaluation exception.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryEvaluationException extends Exception {
  

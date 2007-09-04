@@ -6,10 +6,9 @@ import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Information holder for a telemetry chart definition.
+ * Provides information about a telemetry chart, including its name, type, and definition.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryChartDefinitionInfo extends TelemetryDefinitionInfo {
 
@@ -17,8 +16,11 @@ public class TelemetryChartDefinitionInfo extends TelemetryDefinitionInfo {
 
   /**
    * Constructs this instance.
-   * 
-   * @param fullDefinitionString The defintion string.
+   * <p>
+   * Note that although this constructor checks for syntactic validity, 
+   * it does not check for semantic validity.
+   *
+   * @param fullDefinitionString The definition string.
    * @param owner The owner of this definition.
    * @param shareScope The share scope of this definition.
    * 
@@ -33,7 +35,6 @@ public class TelemetryChartDefinitionInfo extends TelemetryDefinitionInfo {
     catch (TelemetryLanguageException ex) {
       throw new TelemetryConfigurationException(ex);
     }
-    //TODO: though the definition is syntatically correct, need to perform semantic validation!
   }
   
   /**

@@ -10,7 +10,6 @@ import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
  * Test suite for <code>TelemetryExpressionEvaluator</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryExpressionEvaluator extends TestCase {
 

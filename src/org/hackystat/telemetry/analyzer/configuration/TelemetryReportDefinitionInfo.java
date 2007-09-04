@@ -6,10 +6,10 @@ import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Information holder for a telemetry report definition.
+ * Provides information about a Telemetry Report, including its name, its type (Report), and
+ * the definition.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryReportDefinitionInfo extends TelemetryDefinitionInfo {
 

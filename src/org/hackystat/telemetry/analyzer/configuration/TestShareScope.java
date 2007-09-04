@@ -13,9 +13,11 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
 
 /**
  * Test suite for <code>ShareScope</code>.
+ * <p>
+ * V8 Notes:  This test class must be reimplemented since it requires the creation of a
+ * Project instance. 
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id: TestShareScope.java,v 1.1.1.1 2005/10/20 23:56:48 johnson Exp $
  */
 public class TestShareScope extends TestCase {
 

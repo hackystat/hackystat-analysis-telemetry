@@ -11,7 +11,6 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
  * Test suite for <code>TelemetryChartDefinitionInfo</code>
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryChartDefinitionInfo extends TestCase {
 

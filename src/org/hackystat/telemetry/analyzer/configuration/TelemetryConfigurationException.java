@@ -4,7 +4,6 @@ package org.hackystat.telemetry.analyzer.configuration;
  * Telemetry configuration exception.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryConfigurationException extends Exception {
  

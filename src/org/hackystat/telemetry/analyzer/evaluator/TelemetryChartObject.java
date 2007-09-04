@@ -10,7 +10,6 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
  * The evaluation result after resolving a telemetry chart definition. 
  *
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryChartObject {
 
@@ -54,10 +53,9 @@ public class TelemetryChartObject {
   }
   
   /**
-   * A telemetry sub chart.
+   * A telemetry sub chart, consisting of a Y-Axis and a Telemetry Stream.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   public static class SubChart {
 
@@ -95,10 +93,10 @@ public class TelemetryChartObject {
   }
   
   /**
-   * Y-axis.
+   * A Y-axis, consisting of a label, a boolean indicating if the Axis is an integer, and 
+   * an optional lower bound and upper bound value. 
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   public static class YAxis {
     private String label; 

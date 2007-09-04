@@ -6,10 +6,10 @@ import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Information holder for a telemetry chart y-axis definition.
+ * Provides information about a telemetry chart y-axis definition, including its
+ * name, type, and definition.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryChartYAxisDefinitionInfo extends TelemetryDefinitionInfo {
 

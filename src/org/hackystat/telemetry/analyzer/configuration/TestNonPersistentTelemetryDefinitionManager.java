@@ -9,7 +9,6 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
  * Test suite for <code>NonPersistentTelemetryDefinitionManager</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
 

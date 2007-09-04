@@ -5,10 +5,10 @@ import java.util.Collection;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Telemetry definition manager base class.
+ * Provides the base class associated with the persistent and non-persistent
+ * Telemetry definition managers.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public abstract class TelemetryDefinitionManager {
   

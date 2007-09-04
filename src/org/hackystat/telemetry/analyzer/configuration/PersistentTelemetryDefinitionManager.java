@@ -14,13 +14,15 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
- * Telemetry definition manager. This class is responsible for on-disk
+ * Implements a persistent Telemetry definition manager. This class is responsible for on-disk
  * persistence of telemetry defintions for all Hackystat users.
  * <p>
  * All public methods in the class are thread-safe.
+ * <p>
+ * V8 Notes:  Minor rewriting required to load these definitions using JAXB and store them
+ * in the Admin User account with global access. 
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id:$
  */
 class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
 

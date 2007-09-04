@@ -8,7 +8,7 @@ import java.util.Map;
 import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
- * Non-persistent implementation of <code>TelemetryDefinitionManager</code>.
+ * Implements the non-persistent TelemetryDefinitionManager.
  * This class can be made to merge its repository with the global singleton instance of
  * <code>PersistentTelemetryDefinitionManager</code>. The effect is that (1)
  * All telemetry definitions in this instance and in the global instance share
@@ -17,9 +17,12 @@ import org.hackystat.telemetry.analyzer.util.user.User;
  * searched. (3) Adding and deleting are only performed on the repository
  * managed by this instance. (4) The repository managed by this instance only
  * exists in memory, it will not be persisted.
+ * <p>
+ * V8 Notes: Not sure if this class is needed for the initial implementation. It may be
+ * useful later on when someone wants to send a Telemetry definition via REST for 
+ * execution. 
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   

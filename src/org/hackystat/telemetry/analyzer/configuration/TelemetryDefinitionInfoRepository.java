@@ -9,11 +9,19 @@ import org.hackystat.telemetry.analyzer.util.user.User;
 
 /**
  * The manager for <code>TelemetryDefinitionInfo</code> objects. 
- * <p/> 
+ * <p> 
  * <bold>Warning:</bold> This class is NOT thread-safe.
+ * <p>
+ * V8 Notes: If/when we decide to provide project-level sharing, we need to enforce the
+ * condition that only one instance of a name can exist for a given project. Right now it
+ * appears that multiple users can create telemetry definitions with the same name with 
+ * project scope.
+ * <p>
+ * I wonder why this class is not thread safe.  Perhaps synchronization occurs at a higher
+ * level. 
+ *
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 class TelemetryDefinitionInfoRepository {
 
