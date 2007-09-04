@@ -54,13 +54,17 @@ org.telemetry.analyzer.configuration
                       .util
 
 Maybe that wouldn't be excessively hard to do, since we're moving all packages down a level. 
+
+Actually, it wasn't, and I did it. 
+
 * So, how to start?  Where to get traction? 
 
 (1) Do the repackaging to at least get the service stuff split away from the analyzer. Otherwise, this thing will be totally difficult to understand. 
-
-(2) Move Day/Week/Month and Interval stuff to Hackystat-Utilities. 
+ -- DONE
 
 (3) Do a pass over the JavaDocs and improve them. This will be a good way to load the code into memory and get a better sense for how to proceed. 
+
+(2) Move Day/Week/Month and Interval stuff to Hackystat-Utilities. 
 
 (4) Find the "manager" instances in each package, and understand them.  Create an instance of them in the Server as needed.  Eliminate singletons when possible. 
 
