@@ -4,7 +4,6 @@ package org.hackystat.telemetry.analyzer.function;
  * Telemetry function exception.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryFunctionException extends Exception {
  

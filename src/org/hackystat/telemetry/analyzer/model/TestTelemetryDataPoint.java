@@ -11,7 +11,6 @@ import junit.framework.TestCase;
  * Test suite for <code>TelemetryDataPoint</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryDataPoint extends TestCase {
 

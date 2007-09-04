@@ -1,11 +1,10 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
 /**
- * A class that contains information about a particular implementation of 
+ * Provides information about a particular implementation of 
  * <code>TelemetryReducer</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryReducerInfo {
 
@@ -31,7 +30,7 @@ public class TelemetryReducerInfo {
   }
 
   /**
-   * Gets the name of the telemtry reducer.
+   * Gets the name of the telemetry reducer.
    * 
    * @return The name.
    */
@@ -40,7 +39,7 @@ public class TelemetryReducerInfo {
   }
 
   /**
-   * Gets the instance of the telemtry reducer.
+   * Gets the instance of the telemetry reducer.
    * 
    * @return The instance.
    */

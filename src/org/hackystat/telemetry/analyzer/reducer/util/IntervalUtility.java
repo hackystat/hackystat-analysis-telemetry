@@ -15,10 +15,9 @@ import org.hackystat.telemetry.analyzer.util.selector.interval.MonthInterval;
 import org.hackystat.telemetry.analyzer.util.selector.interval.WeekInterval;
 
 /**
- * Interval utility.
+ * Provides utility functions for processing Intervals. 
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class IntervalUtility {
  
@@ -60,10 +59,9 @@ public class IntervalUtility {
   }
   
   /**
-   * Time period, which is either day, week or month.
+   * Provides a Time period, which is either day, week or month.
    * 
    * @author (Cedric) Qin Zhang.
-   * @version $Id: IntervalUtility.java,v 1.1.1.1 2005/10/20 23:56:49 johnson Exp $
    */
   public static class Period {
     

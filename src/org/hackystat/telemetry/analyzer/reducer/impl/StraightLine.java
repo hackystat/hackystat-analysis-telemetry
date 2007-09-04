@@ -13,11 +13,9 @@ import org.hackystat.telemetry.analyzer.util.project.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**
- * Draws straight line over the chart.
- * 
+ * Draws a straight line over the chart.
  * 
  * @author Pavel Senin.
- * 
  */
 public class StraightLine implements TelemetryReducer {
 
@@ -27,7 +25,6 @@ public class StraightLine implements TelemetryReducer {
    * @param project The project.
    * @param interval The interval over which the computation should be performed.
    * @param parameters parameters, first one is initial line value, second one is delta.
-   * 
    * @return Telemetry stream collection.
    * @throws TelemetryReducerException If there is any error.
    */

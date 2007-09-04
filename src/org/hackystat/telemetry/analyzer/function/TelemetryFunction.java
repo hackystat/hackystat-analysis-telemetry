@@ -1,7 +1,8 @@
 package org.hackystat.telemetry.analyzer.function;
 
 /**
- * Abstract base class for telemetry functions. A telemetry function operates on an array of
+ * Provides an abstract base class for telemetry functions. 
+ * A telemetry function operates on an array of
  * <code>Number</code> and/or <code>TelemetryStreamCollection</code> objects, and 
  * returns either a <code>Number</code> or a <code>TelemetryStreamCollection</code> object.
  * <p/>
@@ -9,7 +10,6 @@ package org.hackystat.telemetry.analyzer.function;
  * should be thread-safe.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public abstract class TelemetryFunction {
 
@@ -35,13 +35,13 @@ public abstract class TelemetryFunction {
   }
   
   /**
-   * Performs operation. Note that multiple thread might call this method at the same time.
+   * Invokes the function. Note that multiple thread might call this method at the same time.
    * The implementation must be thread-safe.
    * 
    * @param parameters An array of objects of type either <code>String</code>,
    *        <code>Number</code>, and/or <code>TelemetryStreamCollection</code>. 
-   *        <b>Note: Since telemetry chart analysis might pass in parameter values as string,
-   *        custom implementation should be prepared to handle string even if it is expecting
+   *        <b>Note: Since telemetry chart analyses might pass in parameter values as Strings,
+   *        the implementation should be prepared to handle Strings even if it is expecting
    *        a number instance.</b>
    * 
    * @return Either an instance of <code>Number</code> or <code>TelemetryStreamCollection</code>.

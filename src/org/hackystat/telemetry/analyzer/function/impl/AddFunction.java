@@ -5,11 +5,10 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 
 /**
- * Stock telememtry function: "Add". "Stock" means that this function is essential to telemetry
+ * Stock telemetry function: "Add". "Stock" means that this function is essential to telemetry
  * functionality and is always available.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class AddFunction extends TelemetryFunction {
   
@@ -61,7 +60,6 @@ public class AddFunction extends TelemetryFunction {
    * Binary operator used by the enclosing class.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   private static class AddOperator implements BinaryOperationUtility.BinaryOperator {
     /**

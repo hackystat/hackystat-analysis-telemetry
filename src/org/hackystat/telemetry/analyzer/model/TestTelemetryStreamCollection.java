@@ -9,7 +9,6 @@ import junit.framework.TestCase;
  * Test suite for <code>TelemetryStreamCollection</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryStreamCollection extends TestCase {
 

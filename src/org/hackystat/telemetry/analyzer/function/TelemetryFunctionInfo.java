@@ -1,11 +1,10 @@
 package org.hackystat.telemetry.analyzer.function;
 
 /**
- * A class that contains information about a particular implementation of 
- * <code>TelemetryFunction</code>.
+ * Provides information about a specific implementation of <code>TelemetryFunction</code>, 
+ * including its name, the function instance, and its description.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryFunctionInfo {
 
@@ -28,7 +27,7 @@ public class TelemetryFunctionInfo {
   }
 
   /**
-   * Gets the name of the telemtry function.
+   * Gets the name of the telemetry function.
    * 
    * @return The name.
    */

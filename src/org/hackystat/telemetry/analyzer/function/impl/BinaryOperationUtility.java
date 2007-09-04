@@ -13,7 +13,6 @@ import org.hackystat.telemetry.analyzer.util.TimePeriod;
  * Helper class to perform binary operations on <code>TelemetryStreamCollection</code> objects.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 class BinaryOperationUtility {
   
@@ -21,7 +20,6 @@ class BinaryOperationUtility {
    * Binary operator interface.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   interface BinaryOperator {
     /**
@@ -29,7 +27,6 @@ class BinaryOperationUtility {
      * 
      * @param a Number 1.
      * @param b Number 2.
-     * 
      * @return The result.
      */
     Number computes(Number a, Number b);
@@ -42,9 +39,7 @@ class BinaryOperationUtility {
    * @param operator The binary operator.
    * @param streamCollection1 The first <code>TelemetryStreamCollection</code> object.
    * @param streamCollection2 The second <code>TelemetryStreamCollection</code> object.
-   * 
    * @return A new <code>TelemetryStreamCollection</code> object after applying the operator.
-   * 
    * @throws TelemetryFunctionException If there is anything wrong.
    */
   static TelemetryStreamCollection computes(BinaryOperator operator,
@@ -89,13 +84,13 @@ class BinaryOperationUtility {
   }
   
   /**
-   * Applies binary operation to two telemetry streams and generate a new stream.
+   * Applies binary operation to two telemetry streams and generates a new stream.
    * The two source streams must:
    * <ul>
    * <li>Have the same tag.</li>
    * <li>All time periods in the data points must match.</li>
    * </ul>
-   * If one of the value in data point is null, then null will be put in the
+   * If one of the values in a data point is null, then a null will be put in the
    * generated data point.
    * 
    * @param operator The binary operator.
@@ -103,9 +98,7 @@ class BinaryOperationUtility {
    *        operations.
    * @param stream2 Source telemetry stream 2. Order may be important in certain
    *        operations.
-   * 
    * @return The new generated telemetry stream after applying the operator.
-   * 
    * @throws TelemetryFunctionException If there is any error.
    */
   private static TelemetryStream computes(BinaryOperator operator,

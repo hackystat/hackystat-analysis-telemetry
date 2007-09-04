@@ -8,9 +8,9 @@ import org.hackystat.telemetry.analyzer.util.project.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**
- * A collection of telemetry streams. Note that this class does not constrain
- * what kind of telemetry streams can be added. Typically, you want to add only
- * related streams, and streams for the same interval.
+ * Provides a collection of telemetry streams. Note that this class does not constrain
+ * what kind of telemetry streams are present in a collection. Typically, you want to add only
+ * related streams, and each stream should contain points over the same interval.
  * <p>
  * Thread Safety: methods in this class are not synchronized.
  * 

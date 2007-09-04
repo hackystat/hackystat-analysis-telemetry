@@ -16,7 +16,6 @@ import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
  * Test suite for <code>AddFunction</code<>
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TestAddFunction extends TestCase {
 

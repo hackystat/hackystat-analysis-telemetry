@@ -16,9 +16,9 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
- * A singleton manager for telemtry reducers. Telemetry reducer instances are defined in 
- * "*.telemetry.def.xml" files in WEB-INF/telemetry directory. This class uses reflection to 
- * instantiate reducers according to the definition files.
+ * Provides a singleton manager for telemetry reducers. 
+ * <p>
+ * V8 Notes: Reducers must be read in using JAXB.
  * 
  * @author Qin ZHANG
  * @version $Id$
@@ -40,7 +40,7 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Initializes telemetry reducers. If a reducer defintion file cannot be parsed or a 
+   * Initializes telemetry reducers. If a reducer definition file cannot be parsed or a 
    * telemetry reducer cannot be instantiated, no exception will be raised. 
    * Instead errors will be logged through Hackystat standard logging mechanism.
    */
@@ -67,7 +67,7 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Processes single telemetry reducers definition file.
+   * Processes a single telemetry reducers definition file.
    * 
    * @param xmlFile The xml definition file.
    */
@@ -121,16 +121,14 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Invokes telemetry reducer to perform computation.
+   * Invokes the telemetry reducer to perform computations and generate a TelemetryStreamCollection.
    * 
    * @param reducerName The name of the reducer to be invoked.
    * @param project The project which defines the scope of metrics to be used in the computation.
    * @param interval The time interval.
    * @param parameters Parameters passed to reducer implementation. In case a reducer does not
    *        need any parameter, either null or an empty array may be passed.
-   * 
    * @return The resulting instance of <code>TelemetryStreamCollection</code>. 
-   * 
    * @throws TelemetryReducerException If anything is wrong.
    */
   public TelemetryStreamCollection compute(String reducerName, Project project,

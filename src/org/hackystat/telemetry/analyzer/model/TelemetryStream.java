@@ -9,7 +9,8 @@ import java.util.TreeMap;
 import org.hackystat.telemetry.analyzer.util.TimePeriod;
 
 /**
- * Represents one telemetry stream.
+ * Represents a single telemetry stream, which contains an ordered series of TelemetryDataPoint
+ * instances.
  * 
  * @author (Cedric) Qin Zhang
  */

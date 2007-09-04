@@ -19,19 +19,18 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
- * Global singleton instance managing telemetry function. It serves two purposes:
+ * Implements a global singleton for managing telemetry function instances. It serves two purposes:
  * <ul>
- *   <li>A central repository for all available telemetry functions.
- *   <li>A proxy to invoke those functions.
+ *   <li>Provides a central repository for all available telemetry functions.
+ *   <li>Provides a interface for invoking those functions.
  * </ul>
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryFunctionManager {
 
   /**
-   * Stock functions essential to the functioning of telemetry lanaguage and evaluator.
+   * Built-in functions essential to the functioning of telemetry language and evaluator.
    * Key is function name (lower case), value is TelemetryFunctionInfo instance. 
    */
   private TreeMap<String, TelemetryFunctionInfo> essentialFunctionInfoMap = 
@@ -60,14 +59,14 @@ public class TelemetryFunctionManager {
   }
 
   /**
-   * Private constructor to enforce singleton pattern.
+   * Private no-arg constructor to enforce singleton pattern.
    */
   private TelemetryFunctionManager() {
     this.logger = ServerProperties.getInstance().getLogger();
     
-    //Register essential functions.
-    //Note that the name of these essential functions are hardwired in telemetry language parser.
-    String description = "Telemetry infrastructure internal use only.";
+    //Register built-in functions.
+    //Note that the names of these essential functions are hardwired in telemetry language parser.
+    String description = "Telemetry infrastructure. Internal use only.";
     this.essentialFunctionInfoMap.put("Add", 
         new TelemetryFunctionInfo(new AddFunction("Add"), description, ""));
     this.essentialFunctionInfoMap.put("Sub", 
@@ -96,7 +95,7 @@ public class TelemetryFunctionManager {
   }
   
   /**
-   * Processes single telemetry reducers definition file.
+   * Processes a single telemetry reducers definition file.
    * 
    * @param telemetryDefFile The telemetry xml definition file.
    */
@@ -130,7 +129,7 @@ public class TelemetryFunctionManager {
           }
           else {
             try {
-              Class clazz = Class.forName(className);
+              Class<?> clazz = Class.forName(className);
               Constructor ctor = clazz.getConstructor(new Class[]{String.class});
               TelemetryFunction function = (TelemetryFunction) ctor.newInstance(new Object[]{name});
               TelemetryFunctionInfo functionInfo = new TelemetryFunctionInfo(function,
@@ -179,7 +178,7 @@ public class TelemetryFunctionManager {
 
   /**
    * Gets information about all telemetry function defined through telemetry function extension
-   * point. Note that those essential internal telemetry functions are not returned.
+   * point. Note that built-in, "essential" internal telemetry functions are not returned.
    * 
    * @return A collection of <code>TelemetryFunctionInfo</code> instances.
    */

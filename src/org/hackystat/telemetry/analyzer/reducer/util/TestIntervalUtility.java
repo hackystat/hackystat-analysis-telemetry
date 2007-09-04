@@ -15,7 +15,6 @@ import org.hackystat.telemetry.analyzer.util.selector.interval.WeekInterval;
  * Test suite for <code>IntervalUtility</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestIntervalUtility extends TestCase {
 

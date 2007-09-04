@@ -6,7 +6,6 @@ import org.hackystat.telemetry.analyzer.util.TimePeriod;
  * Represents one data point a telemetry stream.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TelemetryDataPoint {
 

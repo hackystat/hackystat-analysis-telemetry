@@ -10,7 +10,6 @@ import org.hackystat.telemetry.analyzer.util.Day;
  * Test suite for <code>TelemetryStream</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryStream extends TestCase {
 

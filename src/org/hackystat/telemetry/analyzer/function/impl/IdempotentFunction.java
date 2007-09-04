@@ -8,7 +8,6 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
  * to telemetry functionality and is always available.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class IdempotentFunction extends TelemetryFunction {
 

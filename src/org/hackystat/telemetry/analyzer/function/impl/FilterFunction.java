@@ -39,7 +39,7 @@ public class FilterFunction extends TelemetryFunction {
   
   /**
    * Performs filter operation. The returned <code>TelemetryStreamCollection</code> only contains
-   * telemetry streams that statifies the specified criteria.
+   * telemetry streams that satisfies the specified criteria.
    * 
    * @param parameters An array of 3 objects.
    *        <ul>
@@ -109,7 +109,7 @@ public class FilterFunction extends TelemetryFunction {
   }
   
   /**
-   * Applies filter and return only the telemetry streams meeting the criteria.
+   * Applies filter and returns only the telemetry streams meeting the criteria.
    * 
    * @param streams Telemetry stream collection.
    * @param rankFunction The rank function.
@@ -136,7 +136,7 @@ public class FilterFunction extends TelemetryFunction {
   }
   
   /**
-   * Applies filter and return the telemetry streams at the top or bottom.
+   * Applies filter and returns the telemetry streams at the top or bottom.
    * 
    * @param streams Telemetry stream collection.
    * @param rankFunction The rank function.
@@ -199,7 +199,7 @@ public class FilterFunction extends TelemetryFunction {
   }
   
   /**
-   * Sort the telemetry streams according to a rank function.
+   * Sorts the telemetry streams according to a rank function.
    * 
    * @param rankFunction The rank function.
    * @param streams Telemetry stream collection.
@@ -248,8 +248,8 @@ public class FilterFunction extends TelemetryFunction {
     double getRank(TelemetryStream stream);
   }
   
-  //NOTE: Sum function is bad, it ignore the data point with no value, which makes the sum
-  //      of different telemetry streams not comparable if there is missing point.
+  //NOTE: Sum function is bad, it ignores the data points with no value, which makes the sum
+  //      of different telemetry streams not comparable if there is a missing point.
   //      There is no easy way around this. Use Average instead.
   
 //  /**
@@ -286,7 +286,6 @@ public class FilterFunction extends TelemetryFunction {
    * A rank function using average as ranking criteria.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class AverageRankFunction implements RankFunction {
     
@@ -318,7 +317,6 @@ public class FilterFunction extends TelemetryFunction {
    * A rank function using max as ranking criteria.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class MaxRankFunction implements RankFunction {
     
@@ -349,7 +347,6 @@ public class FilterFunction extends TelemetryFunction {
    * A rank function using min as ranking criteria.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class MinRankFunction implements RankFunction {
     
@@ -380,7 +377,6 @@ public class FilterFunction extends TelemetryFunction {
    * A rank function using the lastest data point value as ranking criteria.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class LastRankFunction implements RankFunction {
     
@@ -409,7 +405,6 @@ public class FilterFunction extends TelemetryFunction {
    * A rank function using delta as ranking criteria.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class DeltaRankFunction implements RankFunction {
     
@@ -443,7 +438,6 @@ public class FilterFunction extends TelemetryFunction {
    * as criteria. Note that this rank value may be negative if the last 
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   static class SimpleDeltaRankFunction implements RankFunction {
     

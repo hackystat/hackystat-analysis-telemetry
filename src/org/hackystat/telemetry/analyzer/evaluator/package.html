@@ -1,5 +1,9 @@
 <body>
-Implements a telemetry evaluator. The evaluator walks the telemetry expression abstract syntax tree 
+Provides the evaluator for Telemetry Language expressions, which given a definition, a 
+Project, and a time interval, returns one of TelemetryReportObject, TelemetryChartObject,
+or TelemetryStreamsObject. 
+<p>
+The evaluator walks the telemetry expression abstract syntax tree 
 and resolves reducer calls and function calls. It evaluates telemetry definitions
 and represents the results as TelemetryChartObjects, TelemetryReportObjects, or 
 TelemetryStreamsObjects.

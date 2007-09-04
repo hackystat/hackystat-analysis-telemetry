@@ -9,7 +9,6 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
  * functionality and is always available.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class MulFunction extends TelemetryFunction {
 
@@ -30,7 +29,6 @@ public class MulFunction extends TelemetryFunction {
    *        or <code>TelemetryStreamCollection</code>. 
    * 
    * @return Either an instance of <code>Number</code> or <code>TelemetryStreamCollection</code>. 
-   * 
    * @throws TelemetryFunctionException If anything is wrong.
    */
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
@@ -61,7 +59,6 @@ public class MulFunction extends TelemetryFunction {
    * Binary operator used by the enclosing class.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   private static class MulOperator implements BinaryOperationUtility.BinaryOperator {
     /**

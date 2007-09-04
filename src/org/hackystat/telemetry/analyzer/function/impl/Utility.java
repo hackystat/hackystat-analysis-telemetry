@@ -11,20 +11,17 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
  * Utility class handling miscellaneous tasks.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 class Utility {
   
   /**
    * Creates a new instance of <code>TelemetryStreamCollection</code> based on supplied source,
-   * and fill it with supplied value.
+   * and fills it with supplied value.
    * 
    * @param value The value to fill the newly created instance of 
    *        <code>TelemetryStreamCollection</code>.
    * @param source The template <code>TelemetryStreamCollection</code> object.
-   * 
    * @return A newly created instance of <code>TelemetryStreamCollection</code>.
-   * 
    * @throws TelemetryFunctionException If anything is wrong.
    */
   static TelemetryStreamCollection expandNumber(Number value, TelemetryStreamCollection source) 
@@ -45,13 +42,11 @@ class Utility {
 
   /**
    * Creates a new instance of <code>TelemetryStream</code> based on supplied source,
-   * and fill it with supplied value.
+   * and fills it with supplied value.
    * 
    * @param value The value to fill the newly created instance of <code>TelemetryStream</code>.
    * @param source The template <code>TelemetryStream</code> object.
-   * 
    * @return A newly created instance of <code>TelemetryStream</code>.
-   * 
    * @throws TelemetryFunctionException If anything is wrong.
    */
   private static TelemetryStream expandNumber(Number value, TelemetryStream source) 

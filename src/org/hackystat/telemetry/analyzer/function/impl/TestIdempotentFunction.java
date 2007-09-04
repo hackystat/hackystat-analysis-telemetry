@@ -13,7 +13,6 @@ import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
  * Test suite for <code>IdempotentFunction</code<>
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TestIdempotentFunction extends TestCase {
 

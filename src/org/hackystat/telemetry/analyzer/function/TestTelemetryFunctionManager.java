@@ -6,7 +6,6 @@ import junit.framework.TestCase;
  * Test suite for <code>TelemetryFunctionManager</code>.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TestTelemetryFunctionManager extends TestCase {
 

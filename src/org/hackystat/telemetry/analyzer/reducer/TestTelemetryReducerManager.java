@@ -9,11 +9,10 @@ import junit.framework.TestCase;
  * Test suite for <code>TelemetryReducerManager</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class TestTelemetryReducerManager extends TestCase {
 
-  /** How many stock reducer implementation do you have? */
+  /** How many stock reducer implementations do you have? */
   private static final int numberOfStockReducer = 0;
 
   /**

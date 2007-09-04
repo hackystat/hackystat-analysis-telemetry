@@ -14,7 +14,6 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
  * <code>TelemetryStreamCollection</code> object. 
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class FilterZeroFunction extends TelemetryFunction {
 
@@ -30,9 +29,7 @@ public class FilterZeroFunction extends TelemetryFunction {
  /**
   * Performs filter operation.
   * @param parameters An array of 1 objects of <code>TelemetryStreamCollection</code> type.
-  * 
   * @return A new <code>TelemetryStreamCollection</code> instance after filtering.
-  * 
   * @throws TelemetryFunctionException If anything is wrong.
   */
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
@@ -60,10 +57,9 @@ public class FilterZeroFunction extends TelemetryFunction {
   }
   
   /**
-   * Checks whether a telemetry stream contains all zero or no value at all.
+   * Checks whether a telemetry stream contains all zeros or no value at all.
    * 
    * @param stream The telemetry stream to be checked.
-   * 
    * @return True if it contains all zero or no value.
    */
   private boolean isAllZero(TelemetryStream stream) {

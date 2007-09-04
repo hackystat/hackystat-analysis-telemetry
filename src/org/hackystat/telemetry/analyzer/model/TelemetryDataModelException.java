@@ -4,7 +4,6 @@ package org.hackystat.telemetry.analyzer.model;
  * Telemetry data model exception.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryDataModelException extends Exception {
  

@@ -3,10 +3,9 @@ package org.hackystat.telemetry.analyzer.reducer.util;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
 
 /**
- * Utility function for handling reducer options.
+ * Provides utility functions for handling reducer options.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$.
  */
 public class ReducerOptionUtility {
 
@@ -15,9 +14,7 @@ public class ReducerOptionUtility {
    * 
    * @param optionIndex The 0-based option position.
    * @param optionString The option string to be parsed.
-   * 
    * @return True or false.
-   * 
    * @throws TelemetryReducerException If the option string does not represent a boolean value.
    */
   public static boolean parseBooleanOption(int optionIndex, String optionString) 
@@ -40,9 +37,7 @@ public class ReducerOptionUtility {
    * @param optionIndex The 0-based option position.
    * @param modes An array of acceptable strings.
    * @param modeString The option string to be parsed.
-   * 
    * @return The index into modes where modes[index] == modeString (case insensitive).
-   * 
    * @throws TelemetryReducerException If no match can be found.
    */
   public static int parseModeOption(int optionIndex, String[] modes, String modeString) 

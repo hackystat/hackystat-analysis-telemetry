@@ -1,6 +1,19 @@
-9/3/07
-
 Telemetry Language Migration Status and Future Directions.
+
+9/4/07
+
+* Next steps:
+  - remove warnings.
+  - get unit tests to pass.
+  - move day/week/month to utilities. 
+
+* All the unit tests are in JUnit 3 syntax. Should upgrade. 
+
+* It looks like the Filter Functions are not "stock" telemetry, but are loaded as definitions.
+
+* There are 32 warnings I need to go through and remove.  Weird that they don't show up in Eclipse.
+
+9/3/07
 
 Currently, I've ported the Telemetry stuff over to V8 and it compiles (not
 gracefully, though, because I had to disable the -Werror option in the Ant

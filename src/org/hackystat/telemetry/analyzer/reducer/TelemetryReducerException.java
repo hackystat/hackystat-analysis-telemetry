@@ -4,7 +4,6 @@ package org.hackystat.telemetry.analyzer.reducer;
  * Telemetry reducer exception.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TelemetryReducerException extends Exception {
  

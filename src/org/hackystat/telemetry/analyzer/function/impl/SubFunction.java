@@ -5,11 +5,10 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 
 /**
- * Stock telememtry function: "Sub". "Stock" means that this function is essential to telemetry
+ * Stock telemetry function: "Sub". "Stock" means that this function is essential to telemetry
  * functionality and is always available.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class SubFunction extends TelemetryFunction {
   
@@ -30,7 +29,6 @@ public class SubFunction extends TelemetryFunction {
    *        or <code>TelemetryStreamCollection</code>. 
    * 
    * @return Either an instance of <code>Number</code> or <code>TelemetryStreamCollection</code>. 
-   * 
    * @throws TelemetryFunctionException If anything is wrong.
    */
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
@@ -61,7 +59,6 @@ public class SubFunction extends TelemetryFunction {
    * Binary operator used by the enclosing class.
    * 
    * @author (Cedric) Qin ZHANG
-   * @version $Id$
    */
   private static class SubOperator implements BinaryOperationUtility.BinaryOperator {
     /**
