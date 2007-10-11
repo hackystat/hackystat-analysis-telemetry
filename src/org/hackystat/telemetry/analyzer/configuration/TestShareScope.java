@@ -56,7 +56,7 @@ public class TestShareScope extends TestCase {
    * @throws Exception If tear down failed.
    */
   protected void tearDown() throws Exception {
-    ProjectManager.getInstance().deleteProject(this.testProjectName);
+    //ProjectManager.getInstance().deleteProject(this.testProjectName);
   }
 
   /**

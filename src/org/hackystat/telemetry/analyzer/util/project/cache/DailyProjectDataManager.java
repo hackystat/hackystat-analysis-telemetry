@@ -149,16 +149,16 @@ public class DailyProjectDataManager {
    * @param analysisName  The name of the daily analysis
    * @return The class instance associated with this name.
    */
-  public Class getDailyProjectDataClass(String analysisName) {
+  public Class<?> getDailyProjectDataClass(String analysisName) {
     
-    return (Class) this.dailyProjectDataMap.get(analysisName);
+    return (Class<?>) this.dailyProjectDataMap.get(analysisName);
   }
 
   /**
    * Returns a collection of Class instances consisting of all available DailyProjectData classes.
    * @return A collection of currently defined DailyProjectData subclasses. 
    */
-  public Collection getClasses() {
-    return this.dailyProjectDataMap.values();
+  public Collection<Class> getClasses() {
+    return (Collection<Class>) this.dailyProjectDataMap.values();
   }  
 }

@@ -151,7 +151,7 @@ public class FilterFunction extends TelemetryFunction {
     
     TelemetryStreamCollection target = new TelemetryStreamCollection(
         streams.getName(), streams.getProject(), streams.getInterval());
-    ArrayList orderedList = this.sort(rankFunction, streams);
+    ArrayList<TelemetryStream> orderedList = this.sort(rankFunction, streams);
     
     if ("TopPercent".equalsIgnoreCase(opMode)) {
       if (cutoff < 0 || cutoff > 100) {
@@ -208,7 +208,7 @@ public class FilterFunction extends TelemetryFunction {
    * 
    * @throws TelemetryFunctionException If the rank function does not exist.
    */
-  private ArrayList sort(RankFunction rankFunction, TelemetryStreamCollection streams) 
+  private ArrayList<TelemetryStream> sort(RankFunction rankFunction, TelemetryStreamCollection streams) 
       throws TelemetryFunctionException {
 
     TreeMap<Double, List<TelemetryStream>> map = new TreeMap<Double, List<TelemetryStream>>();

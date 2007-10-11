@@ -37,7 +37,8 @@ public class TelemetryReportDefinition extends TelemetryDefinition {
    *         charts.
    */
   public TelemetryReportDefinition(String name, String docString, Variable[] variables, 
-      List chartReferences, TextPosition textPosition) throws TelemetryLanguageException {
+      List<ChartReference> chartReferences, TextPosition textPosition) 
+  throws TelemetryLanguageException {
     
     super(name, textPosition);
 
@@ -46,7 +47,8 @@ public class TelemetryReportDefinition extends TelemetryDefinition {
     this.title = commaIndex >= 0 ? this.docString.substring(0, commaIndex) : this.docString;
     
     this.variables = variables == null ? new Variable[0] : variables;
-    this.chartReferences = chartReferences == null ? new ArrayList() : chartReferences;
+    this.chartReferences = (chartReferences == null)
+    ? new ArrayList<ChartReference>() : chartReferences;
 
     // check whether all variable has unique name or not.
     //TreeSet varNames = new TreeSet();

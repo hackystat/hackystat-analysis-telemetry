@@ -16,13 +16,13 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
   private String title;
   private String docString;
   private Variable[] variables;
-  private List subChartDefinitions; //List<TelemetryChartDefinition.SubChartDefinition>
+  private List<SubChartDefinition> subChartDefinitions; 
 
   /**
    * Constructs this instance.
    * 
    * @param name The name of the chart.
-   * @param docString The doc string of the chart. The chart title is extracted fromthe doc string.
+   * @param docString The doc string of the chart. The chart title is extracted from the doc string.
    * @param variables The variables used in the expression. Variables are essentially holding
    *        places so that real value can be swapped in when the expression is evaluated.
    *        Null is valid if there is no variable used in this definition.
@@ -30,12 +30,13 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
    *        objects, referring to the sub charts that should be contained in this chart.
    * @param textPosition The text position of the definition string in the input.
    * 
-   * @throws TelemetryLanguageException If the varaible array contains duplicated variable 
+   * @throws TelemetryLanguageException If the variable array contains duplicated variable 
    *         declaration or does not declare all variables needed by the referred telemetry
    *         streams.
    */
   public TelemetryChartDefinition(String name, String docString, Variable[] variables, 
-      List subChartDefinitions, TextPosition textPosition) throws TelemetryLanguageException {
+      List<SubChartDefinition> subChartDefinitions, TextPosition textPosition) 
+  throws TelemetryLanguageException {
     
     super(name, textPosition);
     
@@ -44,7 +45,8 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
     this.title = commaIndex >= 0 ? this.docString.substring(0, commaIndex) : this.docString;
     
     this.variables = variables == null ? new Variable[0] : variables;
-    this.subChartDefinitions = subChartDefinitions == null ? new ArrayList() : subChartDefinitions;
+    this.subChartDefinitions = subChartDefinitions == null ? 
+        new ArrayList<SubChartDefinition>() : subChartDefinitions;
 
     // check whether all variable has unique name or not.
 //    TreeSet varNames = new TreeSet();
@@ -94,7 +96,7 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
   /**
    * Gets an array of variables used in the definition.
    * 
-   * @return An array of <code>Varaible</code> objects. If there is no variable used,
+   * @return An array of <code>Variable</code> objects. If there is no variable used,
    *         then an empty array is returned.
    */
   public Variable[] getVariables() {
@@ -106,12 +108,12 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
    * 
    * @return A list of <code>TelemetryChartDefinition.SubChartDefinition</code> objects.
    */
-  public List getSubCharts() {
+  public List<SubChartDefinition> getSubCharts() {
     return this.subChartDefinitions;
   }
   
   /**
-   * Sub-chart definition. A telemtry chart can contain one or more sub-charts, with each sub-chart
+   * Sub-chart definition. A telemetry chart can contain one or more sub-charts, with each sub-chart
    * having its own axis.
    *  
    * @author (Cedric) Qin ZHANG
@@ -124,7 +126,7 @@ public class TelemetryChartDefinition extends TelemetryDefinition {
     /**
      * Constructs this instance.
      * @param streamsReference A reference to streams definition.
-     * @param yAxisReference A refrence to y-axis definition.
+     * @param yAxisReference A reference to y-axis definition.
      */
     public SubChartDefinition(StreamsReference streamsReference, YAxisReference yAxisReference) {
       this.streamsReference = streamsReference;

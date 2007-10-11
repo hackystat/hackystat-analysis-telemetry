@@ -98,7 +98,7 @@ public class TelemetryEvaluator {
    * 
    * @return An instance of <code>TelemetryChartObject</code> object.  
    * 
-   * @throws TelemetryEvaluationException If there is any error during the evalutation process.
+   * @throws TelemetryEvaluationException If there is any error during the evalutaion process.
    */
   public static TelemetryChartObject evaluate(TelemetryChartDefinition chartDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
@@ -219,7 +219,7 @@ public class TelemetryEvaluator {
    * 
    * @return An instance of <code>TelemetryReportObject</code> object.  
    * 
-   * @throws TelemetryEvaluationException If there is any error during the evalutation process.
+   * @throws TelemetryEvaluationException If there is any error during the evaluation process.
    */
   public static TelemetryReportObject evaluate(TelemetryReportDefinition reportDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 

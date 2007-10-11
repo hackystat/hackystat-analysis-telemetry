@@ -29,6 +29,7 @@ public class TestAddFunction extends TestCase {
    * Sets up this test case.
    * @throws Exception If test case cannot be set up.
    */
+  @Override
   protected void setUp() throws Exception {
 
     this.project = ProjectManager.getInstance().createTestProjectClientSide(projectName);

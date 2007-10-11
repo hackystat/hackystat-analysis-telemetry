@@ -1,7 +1,6 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
 import org.hackystat.telemetry.analyzer.util.project.Project;
-import org.hackystat.telemetry.analyzer.util.project.ProjectManager;
 
 /**
  * The level of sharing associated with a telemetry chart or report definition.
@@ -10,7 +9,7 @@ import org.hackystat.telemetry.analyzer.util.project.ProjectManager;
  * V8 Notes:  Initially, all scope will be global.  This is an enumerated type and
  * really should be implemented that way. 
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang  
  */
 public class ShareScope {
 
@@ -20,7 +19,7 @@ public class ShareScope {
 
   private static final String GLOBAL_STRING = "Global";
   private static final String PRIVATE_STRING = "Not Shared";
-  private static final String PROJECT_PREFIX_STRING = "Project@@@";
+  //private static final String PROJECT_PREFIX_STRING = "Project@@@";
 
   private static final ShareScope GLOBAL_SHARE_SCOPE = new ShareScope(GLOBAL, null);
   private static final ShareScope PRIVATE_SHARE_SCOPE = new ShareScope(PRIVATE, null);
@@ -53,13 +52,14 @@ public class ShareScope {
    * Gets the project share scope.
    * 
    * @param project The project.
-   * @return The project share scope.
+   * @return The project share scope. Always Global in V8.
    */
   public static ShareScope getProjectShareScope(Project project) {
-    if (project == null) {
-      throw new IllegalArgumentException("Project cannot be null");
-    }
-    return new ShareScope(PROJECT, project);
+    return GLOBAL_SHARE_SCOPE;
+//    if (project == null) {
+//      throw new IllegalArgumentException("Project cannot be null");
+//    }
+//    return new ShareScope(PROJECT, project);
   }
 
   /**
@@ -117,6 +117,7 @@ public class ShareScope {
    * 
    * @return The string representation.
    */
+  @Override
   public String toString() {
     if (this.isGlobal()) {
       return GLOBAL_STRING;
@@ -158,23 +159,24 @@ public class ShareScope {
    */
   public static ShareScope deserializeFromString(String shareScope) 
       throws TelemetryConfigurationException {
-    if (GLOBAL_STRING.equals(shareScope)) {
-      return new ShareScope(GLOBAL, null);
-    }
-    else if (PRIVATE_STRING.equals(shareScope)) {
-      return new ShareScope(PRIVATE, null);
-    }
-    else {
-      if (!shareScope.startsWith(PROJECT_PREFIX_STRING)) {
-        throw new TelemetryConfigurationException("Invalid serialized form.");
-      }
-      String projectName = shareScope.substring(PROJECT_PREFIX_STRING.length());
-      Project project = ProjectManager.getInstance().getProject(projectName);
-      if (project == null) {
-        throw new TelemetryConfigurationException("Project " + shareScope + " does not exist.");
-      }
-      return new ShareScope(PROJECT, project);
-    }
+    return GLOBAL_SHARE_SCOPE;
+//    if (GLOBAL_STRING.equals(shareScope)) {
+//      return new ShareScope(GLOBAL, null);
+//    }
+//    else if (PRIVATE_STRING.equals(shareScope)) {
+//      return new ShareScope(PRIVATE, null);
+//    }
+//    else {
+//      if (!shareScope.startsWith(PROJECT_PREFIX_STRING)) {
+//        throw new TelemetryConfigurationException("Invalid serialized form.");
+//      }
+//      String projectName = shareScope.substring(PROJECT_PREFIX_STRING.length());
+//      Project project = ProjectManager.getInstance().getProject(projectName);
+//      if (project == null) {
+//        throw new TelemetryConfigurationException("Project " + shareScope + " does not exist.");
+//      }
+      //return new ShareScope(PROJECT, project);
+    //}
   }
 
   /**
@@ -184,6 +186,7 @@ public class ShareScope {
    * 
    * @return True if they are equal.
    */
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof ShareScope)) {
       return false;

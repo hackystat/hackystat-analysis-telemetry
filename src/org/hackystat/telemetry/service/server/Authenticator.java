@@ -28,7 +28,7 @@ public class Authenticator extends Guard {
   /** A map containing previously verified credentials. */
   private Map<String, String> credentials = new HashMap<String, String>();
   
-  /** A map containing SensorBaseClient instances, one per credentialed user. */
+  /** A map containing DailyProjectDataClient instances, one per credentialled user. */
   private Map<String, DailyProjectDataClient> userClientMap = 
     new HashMap<String, DailyProjectDataClient>();
    

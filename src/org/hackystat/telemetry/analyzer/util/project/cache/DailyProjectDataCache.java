@@ -78,7 +78,7 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
    * @param analysisClass The ProjectDailyData class associated with this data.
    * @return True if the DailyProject data instance exists in the cache.
    */
-  public boolean isCached(Project project, Day day, Class analysisClass) {
+  public boolean isCached(Project project, Day day, Class<?> analysisClass) {
     return true;
     //return (!(this.dailyDataCache.get(project, day, analysisClass) == null)); 
   }
@@ -94,7 +94,7 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
    * @param analysisClass The analysis class type to be retrieved or instantiated.
    * @return The requested DailyProjectData instance.
    */
-  public DailyProjectData get(Project project, Day day, Class analysisClass) {
+  public DailyProjectData get(Project project, Day day, Class<?> analysisClass) {
     return null;
 //    DailyProjectData data = (DailyProjectData) this.dailyDataCache.get(project, day, analysisClass);
 //    if (data == null) {

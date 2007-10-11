@@ -100,7 +100,7 @@ public class TelemetryReducerManager {
           }
           else {
             try {
-              Class clazz = Class.forName(className);
+              Class<?> clazz = Class.forName(className);
               TelemetryReducer reducer = (TelemetryReducer) clazz.newInstance();
               TelemetryReducerInfo reducerInfo = new TelemetryReducerInfo(name, reducer,
                   reducerDescription, optionDescription);

@@ -22,7 +22,7 @@ import org.hackystat.telemetry.analyzer.util.user.User;
  * useful later on when someone wants to send a Telemetry definition via REST for 
  * execution. 
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang 
  */
 class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   
@@ -65,6 +65,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
    * 
    * @return The object if found, or null.
    */
+  @Override
   public synchronized TelemetryDefinitionInfo get(
       User owner, String name, boolean includeShared, TelemetryDefinitionType type) {
     TelemetryDefinitionInfo defInfo = null;
@@ -94,6 +95,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
    *       
    * @return A collection of found objects.
    */
+  @Override
   public synchronized Collection<TelemetryDefinitionInfo> getAll(User owner, boolean includeShared, 
       TelemetryDefinitionType type) {
     ArrayList<TelemetryDefinitionInfo> result = new ArrayList<TelemetryDefinitionInfo>();
@@ -118,6 +120,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
    * 
    * @throws TelemetryConfigurationException If there is duplicated definition.
    */
+  @Override
   public synchronized void add(TelemetryDefinitionInfo defInfo) 
       throws TelemetryConfigurationException {
     if (this.linkToGlobalSingleton && this.globalSingleton.isNameInUse(defInfo.getName())) {
@@ -152,6 +155,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
    * @param name The name of the definition.
    * @param type The definition type.
    */
+  @Override
   public synchronized void remove(User owner, String name, TelemetryDefinitionType type) {
     TelemetryDefinitionInfoRepository repository 
         = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);

@@ -115,9 +115,11 @@ public abstract class TelemetryResource extends Resource {
    * Returns a SensorBaseClient instance associated with the User in this request. 
    * @return The SensorBaseClient instance. 
    */
+  @SuppressWarnings("unchecked")
   public DailyProjectDataClient getDailyProjectDataClient() {
-    Map userClientMap = 
-      (Map)this.telemetryServer.getContext().getAttributes().get(AUTHENTICATOR_DPD_CLIENTS_KEY);
+    Map<String, DailyProjectDataClient> userClientMap = 
+      (Map<String, DailyProjectDataClient>)this.telemetryServer.getContext().getAttributes()
+      .get(AUTHENTICATOR_DPD_CLIENTS_KEY);
     return (DailyProjectDataClient)userClientMap.get(this.authUser);
   }
 
