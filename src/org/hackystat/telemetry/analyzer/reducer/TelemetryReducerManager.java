@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
-import org.hackystat.telemetry.analyzer.util.ServerProperties;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 import org.jdom.Element;
@@ -45,10 +44,10 @@ public class TelemetryReducerManager {
    * Instead errors will be logged through Hackystat standard logging mechanism.
    */
   private TelemetryReducerManager() {
-    this.logger = ServerProperties.getInstance().getLogger();
+    this.logger = null; //ServerProperties.getInstance().getLogger();
     
     // find all "**telemetry.def.xml" files, and call processSingleFile() on each file.
-    File webInfDir = ServerProperties.getInstance().getWebInfDir(false);
+    File webInfDir = null; //ServerProperties.getInstance().getWebInfDir(false);
     File telemetryDir = new File(webInfDir, "telemetry");
     if (!telemetryDir.isDirectory()) {
       this.logger.fine("[TelemetryReducerManager] Reducer definition directory " 

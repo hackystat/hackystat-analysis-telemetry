@@ -14,7 +14,6 @@ import org.hackystat.telemetry.analyzer.function.impl.IdempotentFunction;
 import org.hackystat.telemetry.analyzer.function.impl.MulFunction;
 import org.hackystat.telemetry.analyzer.function.impl.SubFunction;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
-import org.hackystat.telemetry.analyzer.util.ServerProperties;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
@@ -62,7 +61,7 @@ public class TelemetryFunctionManager {
    * Private no-arg constructor to enforce singleton pattern.
    */
   private TelemetryFunctionManager() {
-    this.logger = ServerProperties.getInstance().getLogger();
+    this.logger = null; //ServerProperties.getInstance().getLogger();
     
     //Register built-in functions.
     //Note that the names of these essential functions are hardwired in telemetry language parser.
@@ -80,7 +79,7 @@ public class TelemetryFunctionManager {
     
     //Register custom functions.
     //Find all "**telemetry.def.xml" files, and call processSingleFile() on each file.
-    File webInfDir = ServerProperties.getInstance().getWebInfDir(false);
+    File webInfDir = null; //ServerProperties.getInstance().getWebInfDir(false);
     File telemetryDir = new File(webInfDir, "telemetry");
     if (telemetryDir.isDirectory()) {
       File[] files = telemetryDir.listFiles();

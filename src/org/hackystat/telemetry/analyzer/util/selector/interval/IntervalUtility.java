@@ -7,10 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TreeMap;
-
-//import org.hackystat.core.common.selector.day.MonthNameComparator;
 import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.ServerProperties;
 import org.hackystat.telemetry.analyzer.util.Week;
 
 /**
@@ -68,8 +65,8 @@ class IntervalUtility {
    * Fills out the week options.
    */
   private void fillWeekOptions() {
-    String weekSizeString = ServerProperties.getInstance().getProperty(
-             "hackystat.selector.interval.week.start", null);
+    String weekSizeString = null; //ServerProperties.getInstance().getProperty(
+             //"hackystat.selector.interval.week.start", null);
     
     Week start;
     // Goes back for two weeks if the start day is not specified. 
@@ -118,8 +115,8 @@ class IntervalUtility {
     }
     catch (ParseException e) {
       // Now we're hosed; both the default and US Locales didn't work. 
-      ServerProperties.getInstance().getLogger().warning("Cannot parse the first day from " +
-                              "week string " + weekString + e);
+      //ServerProperties.getInstance().getLogger().warning("Cannot parse the first day from " +
+        //                      "week string " + weekString + e);
      throw new IllegalArgumentException("Week string " + weekString + " is not well formatted" + e);
     }    
   }
