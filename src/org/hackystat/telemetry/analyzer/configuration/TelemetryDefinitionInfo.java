@@ -1,6 +1,6 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Base class for information holders of telemetry objects such as Charts,  

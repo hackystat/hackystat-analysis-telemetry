@@ -3,7 +3,7 @@ package org.hackystat.telemetry.analyzer.configuration;
 import org.hackystat.telemetry.analyzer.language.TelemetryLanguageException;
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartYAxisDefinition;
 import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Provides information about a telemetry chart y-axis definition, including its

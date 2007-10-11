@@ -9,7 +9,7 @@ import org.hackystat.telemetry.analyzer.configuration.TelemetryStreamsDefinition
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartYAxisDefinition;
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryStreamsDefinition;
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Telemetry definition resolver. It finds telemetry definition objects by name.

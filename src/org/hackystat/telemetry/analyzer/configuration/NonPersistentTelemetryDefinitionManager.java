@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Implements the non-persistent TelemetryDefinitionManager.

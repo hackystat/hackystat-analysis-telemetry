@@ -4,8 +4,7 @@ import junit.framework.TestCase;
 
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryReportDefinition;
 import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Test suite for <code>TelemetryReportDefInfo</code>
@@ -21,7 +20,7 @@ public class TestTelemetryReportDefinitionInfo extends TestCase {
    * @throws Exception If test fails.
    */
   public void testCase1() throws Exception {
-    User user = UserManager.getInstance().getTestUser();
+    User user = null; //UserManager.getInstance().getTestUser();
     ShareScope share = ShareScope.getPrivateShareScope();
     String defString = "report name(t) = {\"title\", MyChart(t), MyChart2()};";
 
@@ -43,7 +42,7 @@ public class TestTelemetryReportDefinitionInfo extends TestCase {
    * @throws Exception If test fails.
    */
   public void testCase2() throws Exception {
-    User user = UserManager.getInstance().getTestUser();
+    User user = null; //UserManager.getInstance().getTestUser();
     ShareScope share = ShareScope.getPrivateShareScope();
     String defString = "report name(t) = {\"title\", MyChart(t), MyChart2()};";
     TelemetryReportDefinition def = TelemetryLanguageParser.parseReportDef(defString);

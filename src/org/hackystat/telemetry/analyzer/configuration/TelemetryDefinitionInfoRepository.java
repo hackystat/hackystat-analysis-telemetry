@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * The manager for <code>TelemetryDefinitionInfo</code> objects. 

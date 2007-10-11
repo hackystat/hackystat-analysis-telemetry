@@ -6,8 +6,7 @@ import junit.framework.TestCase;
 
 import org.hackystat.telemetry.analyzer.util.Day;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 
 /**

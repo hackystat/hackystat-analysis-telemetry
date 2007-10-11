@@ -2,8 +2,7 @@ package org.hackystat.telemetry.analyzer.configuration;
 
 import junit.framework.TestCase;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Test suite for <code>TelemetryDefInfoRepository</codee>.
@@ -14,7 +13,7 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
  */
 public class TestTelemetryDefInfoRepository extends TestCase {
 
-  private User user = UserManager.getInstance().getTestUser();
+  private User user = null; //UserManager.getInstance().getTestUser();
   private ShareScope privateShareScope = ShareScope.getPrivateShareScope();
 
   /**

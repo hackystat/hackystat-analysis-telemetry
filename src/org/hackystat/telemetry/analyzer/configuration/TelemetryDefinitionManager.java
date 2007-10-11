@@ -2,7 +2,7 @@ package org.hackystat.telemetry.analyzer.configuration;
 
 import java.util.Collection;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Provides the base class associated with the persistent and non-persistent

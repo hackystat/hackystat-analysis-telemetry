@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 //import javax.servlet.ServletContext;
 
 //import org.hackystat.core.kernel.sdt.SensorDataType;
-import org.hackystat.telemetry.analyzer.util.user.User;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 //import javax.servlet.ServletContext;
 //
@@ -552,7 +552,7 @@ public class ServerProperties {
    * @return The User's directory.
    */
   public File getUserDir(User user) {
-    return new File(this.getUsersDir(), user.getUserKey());
+    return null; //new File(this.getUsersDir(), user.getUserKey());
   }
 
   /**

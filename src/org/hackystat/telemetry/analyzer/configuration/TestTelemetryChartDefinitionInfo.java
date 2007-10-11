@@ -4,8 +4,7 @@ import junit.framework.TestCase;
 
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
 import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
  * Test suite for <code>TelemetryChartDefinitionInfo</code>
@@ -20,7 +19,7 @@ public class TestTelemetryChartDefinitionInfo extends TestCase {
    * @throws Exception If test fails.
    */
   public void testCase1() throws Exception {
-    User user = UserManager.getInstance().getTestUser();
+    User user = null; // = UserManager.getInstance().getTestUser();
     ShareScope share = ShareScope.getPrivateShareScope();
     String defString = "chart name(t) = {\"title\", (MyStreams(t), yAxis()), " +
         "(MyStreams2(),yAxis())};";
@@ -44,7 +43,7 @@ public class TestTelemetryChartDefinitionInfo extends TestCase {
    * @throws Exception If test fails.
    */
   public void testCase2() throws Exception {
-    User user = UserManager.getInstance().getTestUser();
+    User user = null; //UserManager.getInstance().getTestUser();
     ShareScope share = ShareScope.getPrivateShareScope();
     String defString = "chart name(t) = {\"title\", (MyStreams(t), yAxis()), " +
         "(MyStreams2(),yAxis())};";

@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
 import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -47,9 +46,9 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
     
     this.disableWrite = true;
     try {
-      for (Iterator i = UserManager.getInstance().iterator(); i.hasNext();) {
-        this.read((User) i.next());
-      }
+//      for (Iterator i = UserManager.getInstance().iterator(); i.hasNext();) {
+//        this.read((User) i.next());
+//      }
     }
     catch (Exception ex) {
       System.err.println("[PersistenTelemetryDefinitionManager] " +
@@ -175,7 +174,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
    * @param user The owern, which is at the same time a Hackystat user.
    */
   private synchronized void read(User user) {
-    Document doc = user.getJDomDocument("telemetry2");
+    Document doc = null; //user.getJDomDocument("telemetry2");
     if (doc.hasRootElement()) {
       Element root = doc.getRootElement();
       
@@ -256,7 +255,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
     }
    
     Document doc = new Document(root);
-    owner.putJDomDocument(doc, "telemetry2");
+    //owner.putJDomDocument(doc, "telemetry2");
   }
 
   /**

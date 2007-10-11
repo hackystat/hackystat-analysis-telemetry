@@ -2,8 +2,8 @@ package org.hackystat.telemetry.analyzer.configuration;
 
 import junit.framework.TestCase;
 
-import org.hackystat.telemetry.analyzer.util.user.User;
-import org.hackystat.telemetry.analyzer.util.user.UserManager;
+import org.hackystat.sensorbase.resource.users.jaxb.User;
+
 
 /**
  * Test suite for <code>NonPersistentTelemetryDefinitionManager</code>.
@@ -12,7 +12,7 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
  */
 public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
 
-  private User user = UserManager.getInstance().getTestUser();  
+  private User user; //UserManager.getInstance().getTestUser();  
   private ShareScope privateShareScope = ShareScope.getPrivateShareScope();
   
   private String chartDefName = "nonpersistent-CreatedbyUnitTest-ChartDefName";
