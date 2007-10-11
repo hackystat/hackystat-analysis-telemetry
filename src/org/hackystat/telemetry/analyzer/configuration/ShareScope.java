@@ -1,6 +1,6 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
-import org.hackystat.telemetry.analyzer.util.project.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 
 /**
  * The level of sharing associated with a telemetry chart or report definition.

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hackystat.telemetry.analyzer.util.project.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**

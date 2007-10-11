@@ -113,7 +113,7 @@ class TelemetryDefinitionInfoRepository {
             }
             else if (shareScope.isProject()) {
               try {
-                if (shareScope.getProject().getMembers().contains(owner)) {
+                if (shareScope.getProject().getMembers().getMember().contains(owner)) {
                   list.add(defInfo);
                 }
               }

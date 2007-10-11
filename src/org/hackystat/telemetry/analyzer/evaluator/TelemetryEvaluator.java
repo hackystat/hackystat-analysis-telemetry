@@ -20,7 +20,7 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerManager;
-import org.hackystat.telemetry.analyzer.util.project.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**

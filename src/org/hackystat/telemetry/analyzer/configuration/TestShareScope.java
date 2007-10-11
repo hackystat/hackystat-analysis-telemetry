@@ -5,8 +5,7 @@ import java.util.TreeSet;
 import junit.framework.TestCase;
 
 import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.project.Project;
-import org.hackystat.telemetry.analyzer.util.project.ProjectManager;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.user.User;
 import org.hackystat.telemetry.analyzer.util.user.UserManager;
 
@@ -21,7 +20,7 @@ import org.hackystat.telemetry.analyzer.util.user.UserManager;
  */
 public class TestShareScope extends TestCase {
 
-  private String testProjectName = "Test-Project-Telemetry-ShareScope-vfdf3d";
+  //private String testProjectName = "Test-Project-Telemetry-ShareScope-vfdf3d";
   //private User user = UserManager.getInstance().getTestUser();
   //private Project project;
 

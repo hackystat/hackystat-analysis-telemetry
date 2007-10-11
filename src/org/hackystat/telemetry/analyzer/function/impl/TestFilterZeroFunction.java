@@ -7,8 +7,7 @@ import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.project.Project;
-import org.hackystat.telemetry.analyzer.util.project.ProjectManager;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
 
 /**
@@ -30,7 +29,9 @@ public class TestFilterZeroFunction extends TestCase {
    */
   protected void setUp() throws Exception {
 
-    this.project = ProjectManager.getInstance().createTestProjectClientSide(projectName);
+    //this.project = ProjectManager.getInstance().createTestProjectClientSide(projectName);
+    this.project = new Project();
+    this.project.setName(projectName);   
     this.startDay = Day.getInstance("01-Jan-2004"); 
     this.interval = new DayInterval(this.startDay, this.startDay.inc(1));
   }
@@ -40,7 +41,7 @@ public class TestFilterZeroFunction extends TestCase {
    * @throws Exception If tear down failed.
    */
   protected void tearDown() throws Exception {
-    ProjectManager.getInstance().deleteProject(this.projectName);
+    //ProjectManager.getInstance().deleteProject(this.projectName);
   }
   
   /**

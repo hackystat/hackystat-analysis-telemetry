@@ -1,7 +1,7 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
-import org.hackystat.telemetry.analyzer.util.project.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 
 /**
