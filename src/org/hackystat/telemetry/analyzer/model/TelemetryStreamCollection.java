@@ -99,7 +99,7 @@ public class TelemetryStreamCollection {
    * @return TelemetryStream The telemetry stream, or null if it does not exist.
    */
   public TelemetryStream get(Object tag) {
-    return (TelemetryStream) this.streamMap.get(tag);
+    return this.streamMap.get(tag);
   }
 
   /**

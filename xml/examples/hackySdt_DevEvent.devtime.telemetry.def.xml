@@ -1,0 +1,48 @@
+<TelemetryReducers>
+
+  <!-- Single-Stream Reducer -->
+  <Reducer name="DevTime" 
+           class="org.hackystat.sdt.devevent.reducer.DevTimeReducer"
+           reducerDescription="Computes a single telemetry stream representing the total dev time of the entire project in hours."
+           optionDescription="(1) eventType: If '*' is supplied, then the dev time will be summed up over all dev event types. Default: '*'
+                              (2) memberEmail: If '*' is supplied, then the dev time will be summed up over all project members. Default: '*'   
+                              (3) filePattern: Ant-like file pattern specifying the files to be included in computation. Default: '**'. 
+                              (4) isCumulative: If true, a cumulative version of telemetry stream is returned. Default: 'false'." />         
+
+
+  <!-- Member Level -->
+  <Reducer name="MemberDevTime" 
+           class="org.hackystat.sdt.devevent.reducer.MemberDevTimeReducer"
+           reducerDescription="Computes telemetry stream(s) representing project member dev time in hours."
+           optionDescription="(1) eventType: If '*' is supplied, then the dev time will be accumulated over all dev event types. Default: '*'
+                              (2) memberEmail: If '*' is supplied, then a collection of telemetry streams is return, with one telemetry stream for each member in the project. 
+                                              If a member email is supplied, then only one telemetry stream is returned representing this member's dev time in the project. 
+                                              Default: '*'. 
+                              (3) filePattern: Ant-like file pattern specifying the files to be included in computation. Default: '**'. 
+                              (4) isCumulative: If true, a cumulative version of telemetry stream is returned. Default: 'false'."/>
+
+  <!-- Workspace Level -->
+  <Reducer name="WorkspaceDevTime" 
+           class="org.hackystat.sdt.devevent.reducer.WorkspaceDevTimeReducer"
+           reducerDescription="Computes a collection of telemetry streams representing project dev time in hours, one telemetry stream for each top-level workspace."
+           optionDescription="(1) eventType: If '*' is supplied, then the dev time will be accumulated over all dev event types. Default: '*' 
+                              (2) memberEmail: If '*' is supplied, then all project member's dev time is summed up in the computation.
+                                              If a member email is supplied, only that member's dev time is used in the computation.
+                                              Default: '*'.
+                              (3) filePattern: Ant-like file pattern specifying the files to be included in computation. Default: '**'.
+                                              If '**' supplied, it will return a collection of streams of dev time over all top level workspace, other
+                                              wise it will return a single stream.  
+                              (4) isCumulative: If true, an cumulative version of telemetry stream is returned. Default: 'false'."/>
+
+  <!-- Event type Level -->
+  <Reducer name="EventTypeDevTime" 
+           class="org.hackystat.sdt.devevent.reducer.EventTypeDevTimeReducer"
+           reducerDescription="Computes a collection of telemetry streams representing project dev time in hours, one telemetry stream for event type."
+           optionDescription="(1) eventType: If '*' is supplied, then it will returns a collection of stream of dev time of all event types, otherwise it 
+                                            will return a single stream of dev time of given event type. Default: '*'. 
+                              (2) memberEmail: If '*' is supplied, then all project member's dev time is summed up in the computation.
+                                              If a member email is supplied, only that member's dev time is used in the computation.
+                                              Default: '*'.
+                              (3) filePattern: Ant-like file pattern specifying the files to be included in computation. Default: '**'.
+                              (4) isCumulative: If true, a cumulative version of telemetry stream is returned. Default: 'false'."/>
+</TelemetryReducers>

@@ -73,7 +73,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   public synchronized TelemetryDefinitionInfo get(
       User owner, String name, boolean includeShared, TelemetryDefinitionType type) {
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+        = this.defInfoRepositoryMap.get(type);
     if (repository == null) {
       throw new RuntimeException("Unknow telemetry definition type " + type);
     }
@@ -95,7 +95,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   public synchronized Collection<TelemetryDefinitionInfo> getAll(User owner, boolean includeShared, 
       TelemetryDefinitionType type) {
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+        = this.defInfoRepositoryMap.get(type);
     if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition type " + type);
     }
@@ -114,7 +114,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   public synchronized void add(TelemetryDefinitionInfo defInfo) 
       throws TelemetryConfigurationException {
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(defInfo.getType());
+        = this.defInfoRepositoryMap.get(defInfo.getType());
     if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition: " + defInfo.getClass().getName());
     }
@@ -156,7 +156,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
    */
   public synchronized void remove(User owner, String name, TelemetryDefinitionType type) {
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+        = this.defInfoRepositoryMap.get(type);
     if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition type " + type);
     }

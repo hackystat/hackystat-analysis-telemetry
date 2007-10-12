@@ -120,7 +120,7 @@ public abstract class TelemetryResource extends Resource {
     Map<String, DailyProjectDataClient> userClientMap = 
       (Map<String, DailyProjectDataClient>)this.telemetryServer.getContext().getAttributes()
       .get(AUTHENTICATOR_DPD_CLIENTS_KEY);
-    return (DailyProjectDataClient)userClientMap.get(this.authUser);
+    return userClientMap.get(this.authUser);
   }
 
 }

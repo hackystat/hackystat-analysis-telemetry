@@ -74,7 +74,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
     }
     if (defInfo == null) {
       TelemetryDefinitionInfoRepository repository 
-          = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+          = this.defInfoRepositoryMap.get(type);
       if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition type " + type);
       }
@@ -103,7 +103,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
       result.addAll(this.globalSingleton.getAll(owner, includeShared, type));
     }
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+        = this.defInfoRepositoryMap.get(type);
     if (repository == null) {
         throw new RuntimeException("Unknown telemetry definition type " + type);
     }
@@ -130,7 +130,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
     }
     
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(defInfo.getType());
+        = this.defInfoRepositoryMap.get(defInfo.getType());
     if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition: " + defInfo.getClass().getName());
     }
@@ -158,7 +158,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
   @Override
   public synchronized void remove(User owner, String name, TelemetryDefinitionType type) {
     TelemetryDefinitionInfoRepository repository 
-        = (TelemetryDefinitionInfoRepository) this.defInfoRepositoryMap.get(type);
+        = this.defInfoRepositoryMap.get(type);
     if (repository == null) {
         throw new RuntimeException("Unknow telemetry definition type " + type);
     }

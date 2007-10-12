@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<telemetry>
+  <Streams share="Global"><![CDATA[streams ActiveTime(filePattern, cumulative) = {
+  "Active Time for this Project", 
+  ActiveTime(filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ActiveTime-Member(filePattern, cumulative) = {
+  "Active Time per Project Member", 
+  MemberActiveTime(filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ActiveTime-Percentage(filePattern1, filePattern2) = {
+  "Active Time for FilePattern1 divided by ActiveTime for FilePattern1",
+  ActiveTime(filePattern1, "false") / ActiveTime(filePattern2, "false") * 100
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ActiveTime-SingleMember(filePattern, cumulative, memberEmail) = {
+  "Active Time for a single Project Member", 
+  MemberActiveTime(filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ActiveTime-Workspace(filePattern, cumulative) = {
+  "Active Time over the specified Workspace", 
+  WorkspaceActiveTime(filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Build-Count(cumulative) = {
+  "The total number of build invocations for this Project", 
+  Build("BuildCount", cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Build-FailureCount(cumulative) = {
+  "The total number of failed build invocations for this Project",
+  Build("BuildCount", cumulative) - Build("SuccessCount", cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Build-SuccessCount(cumulative) = {
+  "The total number of successful builds for this Project", 
+  Build("SuccessCount", cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Build-SuccessPercentage() = {
+  "The percentage of succeeding builds for this Project", 
+  Build("SuccessCount") / Build("BuildCount") * 100
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Churn(filePattern, cumulative, churnType) = {
+  "The lines added, deleted, or changed based on churnType", 
+  CodeChurn(churnType, filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Churn-Absolute(filePattern, cumulative) = {
+  "Lines added plus deleted for this Project", 
+  CodeChurn("LinesAdded", filePattern, cumulative) + 
+  CodeChurn("LinesDeleted", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Churn-Member-Absolute(filePattern, cumulative) = {
+  "Lines added plus deleted per Member for this Project",
+  MemberCodeChurn("LinesAdded", filePattern, cumulative) +
+  MemberCodeChurn("LinesDeleted", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Churn-SingleMember-Absolute(filePattern, cumulative, memberEmail) = {
+  "Lines added plus deleted for the given Member", 
+  MemberCodeChurn("LinesAdded", filePattern, cumulative, memberEmail) +
+  MemberCodeChurn("LinesDeleted", filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Churn-Workspace-Absolute(filePattern, cumulative) = {
+  "Lines added plus deleted for the given Workspace",
+  WorkspaceCodeChurn("LinesAdded", filePattern, cumulative) +
+  WorkspaceCodeChurn("LinesDeleted", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ClientSensorVerification_ActiveTime(member) = {
+  "Total non-cumulative Active Time for the given member", 
+  MemberActiveTime("**", "false", member)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ClientSensorVerification_Build(member) = {
+  "Total number of non-cumulative build invocations for the given member", 
+  Build("BuildCount", "false", member)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ClientSensorVerification_Commit(member)  = {
+  "Total number of non-cumulative Commits for the given Member", 
+  MemberCommit("Commit", "**", "false", member)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ClientSensorVerification_UnitTest(member) = {
+  "Total number of non-cumulative Unit Test invocations for the member", 
+  MemberUnitTest("TotalCount", "**", "false", member)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams CodeIssue(filePattern, tool, category, treatment) = {
+  "The number of CodeIssues satisfying the parameters.", 
+  CodeIssue(filePattern, tool, category, treatment) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Commit(mode, filePattern, cumulative) = {
+  "Commits for this Project.", 
+  Commit(mode, filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Commit-Member(mode, filePattern, cumulative) = {
+  "Number of commits per Member", 
+  MemberCommit(mode, filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Commit-Workspace(mode, filePattern, cumulative) = {
+  "Number of commits per Workspace", 
+  WorkspaceCommit(mode, filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Coverage-Percentage(filePattern, granularity) = {
+  "Percentage coverage of Java code", 
+  Coverage("Percentage", filePattern, granularity)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams CoveragePercentage(filePattern, granularity) = {
+  "The percentage coverage of Java classes.", 
+  Coverage("Percentage", filePattern, granularity) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime(filePattern, cumulative) = {
+  "Dev time for this Project", 
+  DevTime("*", "*", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime-EventType(filePattern, cumulative) = {
+  "Dev Time over per event type", 
+  EventTypeDevTime("*", "*", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime-Member(filePattern, cumulative) = {
+  "Development Time per Project Member", 
+  MemberDevTime("*", "*", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime-Percentage(filePattern1, filePattern2) = {
+  "Dev Time for FilePattern1 divided by Dev Time for FilePattern1",
+  DevTime(filePattern1, "false") / DevTime(filePattern2, "false") * 100
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime-SingleMember(memberEmail, filePattern, cumulative) = {
+  "Dev Time for a single Project Member", 
+  MemberDevTime("*", memberEmail, filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams DevTime-Workspace(filePattern, cumulative) = {
+  "Dev Time per workspace", 
+  WorkspaceDevTime("*", "*", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FileCommit(filePattern) = {
+  "Total number of non-cumulative commits.", 
+  Commit("Commit", filePattern, "false") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FileMetric(metricName, filePattern) = {
+  "Total size for the given metric.", 
+  FileMetric("*", metricName, filePattern)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredEventTypeDevTime
+  (memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Filtered cumulative Dev Time to all event types", 
+  Filter(
+    EventTypeDevTime("*", memberEmail, filePattern, cumulative), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredMemberActiveTime
+  (filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Filtered cumulative Active Time per Member", 
+  Filter(
+    MemberActiveTime(filePattern, cumulative, "*"), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredMemberDevTime
+  (filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Filtered cumulative Dev Time per Member", 
+  Filter(
+    MemberDevTime("*", "*", filePattern, cumulative), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredMemberFileCommit
+  (filePattern, member, rankFunction, opMode, cutoff) = {
+  "Filtered number of non-cumulative Commits per Member", 
+  Filter(
+    MemberCommit("Commit", filePattern, "false", member), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredWorkspaceActiveTime
+ (filePattern, cumulative, memberEmail, rankFunction, opMode, cutoff) = {
+  "The Filtered Active Time per Workspace", 
+  Filter(
+    WorkspaceActiveTime(filePattern, cumulative, memberEmail), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredWorkspaceCommit
+  (filePattern, cumulative, rankFunction, opMode, cutoff)  = {
+  "The Filtered number of Commits per Workspace", 
+  Filter(
+    WorkspaceCommit("Commit", filePattern, cumulative), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredWorkspaceCoverage(rankFunction, opMode, cutoff) = {
+  "Non-zero filtered coverage for each Workspace in the Project.", 
+  Filter(
+    FilterZero(
+      WorkspaceCoverage("Percentage", "**", "line")), 
+      rankFunction, 
+      opMode, 
+      cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams FilteredWorkspaceDevTime
+  (memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Filtered cumulative Dev Time to top-level workspace", 
+  Filter(
+    WorkspaceDevTime("*", memberEmail, filePattern, cumulative), 
+    rankFunction, 
+    opMode, 
+    cutoff) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams IntegrationBuildFailure(integrationBuildMember, cumulative) = {
+  "The simple count of integration build failures for this member", 
+  IntegrationBuildFailure(integrationBuildMember, "SimpleCount", cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Issue(fixVersion, status) = {
+  "The number of issues with the specified status for the given fixVersion", 
+  Issue(fixVersion, "*", status)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams Issue-Remaining(fixVersion) = {
+  "Total number of Opened, Reopened, and In Progress issues for this fixVersion", 
+  Issue(fixVersion, "*", "Open") + 
+  Issue(fixVersion, "*", "Reopened") + 
+  Issue(fixVersion, "*", "In Progress")
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ProductionEffort() = {
+  "Production Effort", 
+  ProductionEffort()
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams RawLinesAdded(filePattern, cumulative) = {
+  "The total number of lines added.", 
+  CodeChurn("LinesAdded", filePattern, cumulative) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams RawLinesDeleted(filePattern, cumulative)  = {
+  "The number of deleted lines for this Project.", 
+  CodeChurn("LinesDeleted", filePattern, cumulative) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReleasePlan_ActiveTime(filePattern, cumulative) = {
+  "The Active Time for this Project.", 
+  ActiveTime(filePattern, cumulative) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReleasePlan_ClosedIssue
+  (fixVersion, type, priority, memberEmail, filePattern) = {
+  "The total issues minus the open, reopened, and inprogress issues.",
+  Issue(fixVersion, type, "*", priority, memberEmail, filePattern) -
+  Issue(fixVersion, type, "Open", priority, memberEmail, filePattern) -
+  Issue(fixVersion, type, "Reopened", priority, memberEmail, filePattern) -
+  Issue(fixVersion, type, "In Progress", priority, memberEmail, filePattern) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReleasePlan_RemainingIssue
+  (fixVersion, type, priority, memberEmail, filePattern) = {
+  "The sum of Open, Reopened, and InProgress issues.",
+  Issue(fixVersion, type, "Open", priority, memberEmail, filePattern) +
+  Issue(fixVersion, type, "Reopened", priority, memberEmail, filePattern) +
+  Issue(fixVersion, type, "In Progress", priority, memberEmail, filePattern) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReleasePlan_TotalIssue
+  (fixVersion, type, priority, memberEmail, filePattern) = {
+  "The total issues of all types.", 
+  Issue(fixVersion, type, "*", priority, memberEmail, filePattern) 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReviewTime(filePattern, cumulative) = {
+  "Project-total review Activity", 
+  ReviewActivity("Project", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ReviewTime-Member(filePattern, cumulative) = {
+  "Total amount of review activity per Member", 
+  ReviewActivity("Individual", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_CodeIssue() = {
+  "Total number of Code Issues for this Project", 
+  CodeIssue("**", "*") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_Commit() = {
+  "Total number of Commits for this Project.", 
+  Commit("Commit", "**", "false") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_Coverage() = {
+  "The Line-level Java coverage percentage.", 
+  Coverage("Percentage", "**", "line") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_FileSize() = {
+  "The total TotalLines metric for this Project.", 
+  FileMetric("*", "totalLines", "**") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_Issue() = {
+  "The total Issues of any type.", 
+  Issue("*", "*", "*") 
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams ServerSensorVerification_JavaDependency() = {
+  "Total number of in/outbound dependencies for this Project",
+  JavaDependency("InboundInternal", "**") + 
+  JavaDependency("OutboundInternal", "**") + 
+  JavaDependency("InboundExternal", "**") + 
+  JavaDependency("OutboundExternal", "**")
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams TDDEpisodeDuration() = {
+  "Duration of TDD episode", 
+  EpisodeDuration()
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams TDDPercent(type) = {
+  "Percentage of Test-Driven Development", 
+  TDDPercent(type) * 100
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams TestEffort() = {
+  "Test Effort", 
+  TestEffort()
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams TotalIndividualBuild()  = {
+  "The total Builds minus those by the hackystat-l user", 
+  Build("BuildCount", "false", "*") - 
+  Build("BuildCount", "false", "hackystat-l@hawaii.edu")
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-Count(filePattern, cumulative) = {
+  "Total number of Unit Test invocations.", 
+  UnitTest("TotalCount", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-FailureCount(filePattern, cumulative) = {
+  "Total number of failing unit tests", 
+  UnitTest("TotalCount", filePattern, cumulative) - 
+  UnitTest("SuccessCount", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-Member-FailureCount(filePattern, cumulative) = {
+  "Total number of failing unit tests per Member", 
+  MemberUnitTest("TotalCount", filePattern, cumulative) - 
+  MemberUnitTest("SuccessCount", filePattern, cumulative)};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-Member-SuccessCount(filePattern, cumulative) = {
+  "Total number of successful unit test invocations per Member", 
+  MemberUnitTest("SuccessCount", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-Member-SuccessPercentage(filePattern, cumulative) = {
+  "Unit Test success percentage per member", 
+  MemberUnitTest("SuccessCount", filePattern, cumulative) /
+  MemberUnitTest("TotalCount", filePattern, cumulative) * 100
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-MemberCount(filePattern, cumulative) = {
+  "Total number of Unit Test invocations per Member", 
+  MemberUnitTest("TotalCount", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SingleMember-Count(filePattern, cumulative, memberEmail) = {
+  "Total number of Unit Test invocations for the specified member", 
+  MemberUnitTest("TotalCount", filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SingleMember-FailureCount(filePattern, cumulative, memberEmail) = {
+  "Total Unit Test failures for the given member", 
+  MemberUnitTest("TotalCount", filePattern, cumulative, memberEmail) -
+  MemberUnitTest("SuccessCount", filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SingleMember-SuccessCount(filePattern, cumulative, memberEmail) = {
+  "Total number of successful unit test invocations for this member", 
+  MemberUnitTest("SuccessCount", filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SingleMember-SuccessPercentage(filePattern, cumulative, memberEmail) = {
+  "Unit test success percentage for the given Member", 
+  MemberUnitTest("SuccessCount", filePattern, cumulative, memberEmail) /
+  MemberUnitTest("TotalCount", filePattern, cumulative, memberEmail)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SuccessCount(filePattern, cumulative) = {
+  "Total number of successful unit test invocations", 
+  UnitTest("SuccessCount", filePattern, cumulative)
+};]]></Streams>
+  <Streams share="Global"><![CDATA[streams UnitTest-SuccessPercentage(filePattern, cumulative) = {
+  "Percentage of successful unit test invocations.", 
+  UnitTest("SuccessCount", filePattern, cumulative) / 
+  UnitTest("TotalCount", filePattern, cumulative) * 100
+};]]></Streams>
+  <Chart share="Global"><![CDATA[chart ActiveTime-Chart(filePattern, cumulative) = {
+  "Active Time in hours", 
+  (ActiveTime(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ActiveTime-DevTime-Chart(filePattern, cumulative) = {
+  "Active Time v.s. Dev Time", 
+  (ActiveTime(filePattern, cumulative), yAxis("hours")),
+  (DevTime(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ActiveTime-Member-Chart(filePattern, cumulative) = {
+  "Project Member Active Time", 
+  (ActiveTime-Member(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ActiveTime-Workspace-Chart(filePattern, cumulative) = {
+  "Workspace Active Time", 
+  (ActiveTime-Workspace(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ActiveTimeChart(filePattern, cumulative) = {
+  "Developer Active Time", 
+  (ActiveTime(filePattern, cumulative), yAxis("Hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Build-Chart(cumulative) = {
+  "System Build Success and Failure Count", 
+  (Build-SuccessCount(cumulative), yAxis("count")),
+  (Build-FailureCount(cumulative), yAxis("count"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Churn-Chart(filePattern, cumulative) = {
+  "Lines Added and Deleted", 
+  (Churn(filePattern, cumulative, "LinesAdded"), yAxis("lines")),
+  (Churn(filePattern, cumulative, "LinesDeleted"), yAxis("lines"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ClientSensorVerificationChart(member) = {
+  "Client Side Sensor Verification for the given member",
+  (ClientSensorVerification_ActiveTime(member), yAxis("Active Time Hours")),
+  (ClientSensorVerification_Commit(member), yAxis("Commits")),
+  (ClientSensorVerification_Build(member), yAxis("Builds")),
+  (ClientSensorVerification_UnitTest(member), yAxis("Unit Test Invocation"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart CodeChurnChart(filePattern, cumulative) = {
+  "Code Churn: Lines added and lines deleted", 
+  (RawLinesAdded(filePattern, cumulative), yAxis("Lines")), 
+  (RawLinesDeleted(filePattern, cumulative), yAxis("Lines")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart CodeIssue-Chart(filePattern) = {
+  "All Code Issues", 
+  (CodeIssue(filePattern, "*", "*", "*"), yAxis("Code Issues"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Commit-Chart(filePattern, cumulative) = {
+  "Project-level Commits", 
+  (Commit("Commit", filePattern, cumulative), yAxis("commits"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Commit-Member-Chart(filePattern, cumulative) = {
+  "Member-level Commits", 
+  (Commit-Member("Commit", filePattern, cumulative), yAxis("commits"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Commit-Workspace-Chart(filePattern, cumulative) = {
+  "Workspace Commits", 
+  (Commit-Workspace("Commit", filePattern, cumulative), yAxis("commits"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Coverage-Percentage-Chart(filePattern, granularity) = {
+  "Unit Test Coverage", 
+  (Coverage-Percentage(filePattern, granularity), percentageYAxis("percent"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart CoveragePercentageChart(filePattern, granularity) = {
+  "Coverage Percentage", 
+  (CoveragePercentage(filePattern, granularity), percentageYAxis("percent"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart DevTime-Chart(filePattern, cumulative) = {
+  "Dev Time in hours", 
+  (DevTime(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart DevTime-EventType-Chart(filePattern, cumulative) = {
+  "Event Type Dev Time", 
+  (DevTime-EventType(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart DevTime-Member-Chart(filePattern, cumulative) = {
+  "Project Member Dev Time", 
+  (DevTime-Member(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart DevTime-Workspace-Chart(filePattern, cumulative) = {
+  "Workspace Dev Time", 
+  (DevTime-Workspace(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart EpisodeDuration() = {
+  "Average Duration of TDD Episode", 
+  (EpisodeDuration(), doubleYAxis("minutes"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FileCommitChart(filePattern) = {
+  "File Level Commit Count", 
+  (FileCommit(filePattern), yAxis("Count")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FileMetric-Chart(metricName, filePattern) = {
+  "File Metrics", 
+  (FileMetric(metricName, filePattern), yAxis("units"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredEventTypeDevTimeChart
+  (memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Event Type Dev Time", 
+  (FilteredEventTypeDevTime(memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff), 
+    yAxis("Hours")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredMemberActiveTimeChart
+  (filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Member Active Time", 
+  (FilteredMemberActiveTime(filePattern, cumulative, rankFunction, opMode, cutoff), 
+    yAxis("Hours")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredMemberDevTimeChart
+  (filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Member Dev Time", 
+  (FilteredMemberDevTime(filePattern, cumulative, rankFunction, opMode, cutoff), 
+    yAxis("Hours")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredMemberFileCommitChart
+  (filePattern, member, rankFunction, opMode, cutoff) = {
+  "Filtered Member Commit Count", 
+  (FilteredMemberFileCommit(filePattern, member, rankFunction, opMode, cutoff),
+    yAxis("Count")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredWorksapceCoverageChart(rankFunction, opMode, cutoff)  = {
+  "Workspace Coverage", 
+  (FilteredWorkspaceCoverage(rankFunction, opMode, cutoff), percentageYAxis("percent")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredWorkspaceActiveTimeChart
+  (filePattern, cumulative, memberEmail, rankFunction, opMode, cutoff) = {
+  "Workspace Active Time", 
+  (FilteredWorkspaceActiveTime(filePattern, cumulative, memberEmail, rankFunction, opMode, cutoff), 
+    yAxis("Hours")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredWorkspaceDevTimeChart
+  (memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Workspace Dev Time", 
+  (FilteredWorkspaceDevTime(memberEmail, filePattern, cumulative, rankFunction, opMode, cutoff), 
+    yAxis("Hours")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FilteredWorkspaceFileCommitChart
+  (filePattern, cumulative, rankFunction, opMode, cutoff) = {
+  "Workspace Commit Count", 
+  (FilteredWorkspaceCommit(filePattern, cumulative, rankFunction, opMode, cutoff),
+     yAxis("Count")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart FindBugsCodeIssueChart(filePattern) = {
+  "Code Issues by FindBugs, by category.", 
+  (CodeIssue(filePattern, "FindBugs", "*", "fail"), yAxis("Code Issues")),
+  (CodeIssue(filePattern, "FindBugs", "*", "monitor"), yAxis("Code Issues")),
+  (CodeIssue(filePattern, "FindBugs", "*", "toss"), yAxis("Code Issues")),
+  (CodeIssue(filePattern, "FindBugs", "*", "unknown"), yAxis("Code Issues"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart HackystatIntegrationBuildFailureChart(cumulative) = {
+  "Integration Build Failure", 
+  (IntegrationBuildFailure("hackystat-l@hawaii.edu", cumulative), yAxis("Count")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart IntegrationBuildFailureChart(cumulative) = {
+  "Integration Build Failure", 
+  (IntegrationBuildFailure("hackystat-l@hawaii.edu", cumulative), yAxis("Count")) 
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart Issue-Chart(fixVersion, status) = {
+  "Issue", 
+  (Issue(fixVersion, status), yAxis("count"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart IssueTracking-Chart(fixVersion) = {
+  "Total issues and those remaining for this fixVersion", 
+  (Issue(fixVersion, "*"), yAxis("count")), 
+  (Issue-Remaining(fixVersion), yAxis("count"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ReleasePlan_IssueClosureAndActiveTimeChart(fixVersion) = {
+  "Project Management: Closed Issues and Team Active Times", 
+  (ReleasePlan_ClosedIssue(fixVersion, "*", "*", "*", "**"), 
+    percentageYAxis("Issues")),
+  (ReleasePlan_ActiveTime("**", "true"), 
+    yAxis("Active Time Hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ReleasePlan_IssueTrackingChart(fixVersion) = {
+  "Project Management - Remaining Issues v.s. Total Scheduled Issues", 
+  (ReleasePlan_TotalIssue(fixVersion, "*", "*", "*", "**"), 
+    percentageYAxis("Issues")),
+  (ReleasePlan_RemainingIssue(fixVersion, "*", "*", "*", "**"), 
+    percentageYAxis("Issues"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ReviewTime-Chart(filePattern, cumulative) = {
+  "Review Active Time", 
+  (ReviewTime(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ReviewTime-Member-Chart(filePattern, cumulative) = {
+  "Member Review Active Time", 
+  (ReviewTime-Member(filePattern, cumulative), yAxis("hours"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ServerSensorVerificationChart1() = {
+  "Server Side Sensor Verification",
+  (ServerSensorVerification_FileSize(), yAxis("LOC")),
+  (ServerSensorVerification_Commit(), yAxis("Commits")),
+  (ServerSensorVerification_Coverage(), yAxis("Coverage %"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart ServerSensorVerificationChart2() = {
+  "Server Side Sensor Verification",
+  (ServerSensorVerification_Issue(), yAxis("Issues")),
+  (ServerSensorVerification_CodeIssue(), yAxis("Code Issues")),
+  (ServerSensorVerification_JavaDependency(), yAxis("Dependencies"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart TDD-Coverage-Percentage-Chart() = {
+  "Percentage of TDD Episodes (time) and Coverage", 
+  (TDDPercent("time"), percentageYAxis("TDD %")),
+  (Coverage-Percentage("**", "line"), percentageYAxis("Coverage %"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart TDDPercent-Chart(type) = {
+  "Percentage of TDD", 
+  (TDDPercent(type), percentageYAxis("Tdd %"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart TotalIndividualBuildChart() = {
+  "Local Build",
+  (TotalIndividualBuild(), yAxis("Local Build Count"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart UnitTest-Chart(filePattern, cumulative) = {
+  "Unit Test Successful and Failed Invocations", 
+  (UnitTest-SuccessCount(filePattern, cumulative), yAxis("Invocations")), 
+  (UnitTest-FailureCount(filePattern, cumulative), yAxis("Invocations"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart UnitTest-Member-Chart(filePattern, cumulative) = {
+  "Unit Test Member-level Invocations", 
+  (UnitTest-MemberCount(filePattern, cumulative), yAxis("Invocations"))
+};]]></Chart>
+  <Chart share="Global"><![CDATA[chart UnitTestFailures (filePattern, cumulative) = {
+  "Unit Test Failed Invocations",    
+  (UnitTest-FailureCount(filePattern, cumulative), yAxis("Invocations"))
+};]]></Chart>
+  <Report share="Global"><![CDATA[report ClientSensorVerificationReport() = {
+  "Client Size Sensor Verification for johnson and qzhang only.", 
+  ClientSensorVerificationChart("johnson@hawaii.edu"),
+  ClientSensorVerificationChart("qzhang@hawaii.edu")
+};]]></Report>
+  <Report share="Global"><![CDATA[report DevelopmentProgressReport() = {
+  "Active Time, Builds, FileMetrics, and Java Coverage", 
+  ActiveTime-Chart("**", "true"), 
+  Build-Chart("true"), 
+  FileMetric-Chart("totalLines", "**"), 
+  Coverage-Percentage-Chart("**", "line")
+};]]></Report>
+  <Report share="Global"><![CDATA[report HotSpotDevTime() = {
+  "Most worked-on modules, users and mostly occurred event types with respect to Dev Time", 
+  FilteredWorkspaceDevTimeChart("*", "**", "true", "Avg", "Top", 6),
+  FilteredMemberDevTimeChart("**", "true", "Avg", "Top", 5),
+  FilteredEventTypeDevTimeChart("*", "**", "true", "Avg", "Top", 3)
+};]]></Report>
+  <Report share="Global"><![CDATA[report HotSpotModules() = {
+  "Most worked-on modules with respect to Active Time and File Commits", 
+  FilteredWorkspaceActiveTimeChart("**", "false", "*", "Avg", "Top", 5),
+  FilteredWorkspaceFileCommitChart("**", "false", "Avg", "Top", 5)
+};]]></Report>
+  <Report share="Global"><![CDATA[report JavaFileSizeAndTimeReport() = {
+  "Java Total File Size and total Java file Active Time", 
+  FileMetric-Chart("totalLines", "**/*.java"), 
+  ActiveTime-Chart("**/*.java", "true")
+};]]></Report>
+  <Report share="Global"><![CDATA[report MemberWorkingModules() = {
+  "Top modules Hackystat members are working on", 
+  FilteredWorkspaceActiveTimeChart("**", "true", "johnson@hawaii.edu", "Avg", "Top", 5),
+  FilteredWorkspaceActiveTimeChart("**", "true", "qzhang@hawaii.edu", "Avg", "Top", 5),
+  FilteredWorkspaceActiveTimeChart("**", "true", "hongbing@hawaii.edu", "Avg", "Top", 5),
+  FilteredWorkspaceActiveTimeChart("**", "true", "mpauldin@hawaii.edu", "Avg", "Top", 5)
+};]]></Report>
+  <Report share="Global"><![CDATA[report ProcessStabilityReport() = {
+  "Non-cumulative Size, Coverage, DevTime, UnitTests, Commits, and Builds", 
+  FileMetric-Chart("totalLines", "**"), 
+  Coverage-Percentage-Chart("**", "line"), 
+  DevTime-Chart("**", "false"), 
+  UnitTest-Chart("**", "false"), 
+  Commit-Chart("**", "false"), 
+  CodeIssue-Chart("**"),
+  Build-Chart("false")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ProjectDescription() = {
+  "Project integration builds, individual builds, commits, churn, active time", 
+  IntegrationBuildFailureChart("false"), 
+  TotalIndividualBuildChart(),
+  FileCommitChart("**"),
+  CodeChurnChart("**", "false"),
+  ActiveTimeChart("**", "false")
+};]]></Report>
+  <Report share="Global"><![CDATA[report QualityAssuranceProgressReport() = {
+  "Quality Assurance: Coverage, Unit Test invocations, Review Time", 
+  Coverage-Percentage-Chart("**", "line"), 
+  UnitTest-Chart("**", "true"), 
+  ReviewTime-Chart("**", "true")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ReleasePlanReport-730() = {
+  "Issue Tracking and Issue Closure/Active Time for Release 7.3", 
+  ReleasePlan_IssueTrackingChart("7.3"), 
+  ReleasePlan_IssueClosureAndActiveTimeChart("7.3")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ReleasePlanReport-740() = {
+  "Issue Tracking and Issue Closure/Active Time for Release 7.4", 
+  ReleasePlan_IssueTrackingChart("7.4"), 
+  ReleasePlan_IssueClosureAndActiveTimeChart("7.4")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ReleasePlanReport-750() = {
+  "Issue Tracking and Issue Closure/Active Time for Release 7.5", 
+  ReleasePlan_IssueTrackingChart("7.5"), 
+  ReleasePlan_IssueClosureAndActiveTimeChart("7.5")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ReviewReport() = {
+  "Review Time in aggregate and on per-member basis", 
+  ReviewTime-Chart("**", "false"), 
+  ReviewTime-Member-Chart("**", "false")
+};]]></Report>
+  <Report share="Global"><![CDATA[report ServerSensorVerificationReport() = {
+  "Server Side (Product Metrics) Sensor Verification", 
+  ServerSensorVerificationChart1(), 
+  ServerSensorVerificationChart2()
+};]]></Report>
+  <Report share="Global"><![CDATA[report TraffoMeterReport() = {
+  "Project Reports for the TraffoMeter project", 
+  FileMetric-Chart("totalLines", "**"), 
+  Coverage-Percentage-Chart("**", "line"), 
+  CodeIssue-Chart("**"),
+  Build-Chart("false"),
+  DevTime-Chart("**", "true"), 
+  DevTime-Member-Chart("**", "true"), 
+  Commit-Chart("**", "true"), 
+  Commit-Member-Chart("**", "true"), 
+  UnitTest-Chart("**", "true"), 
+  UnitTest-Member-Chart("**", "true") 
+};]]></Report>
+  <Report share="Global"><![CDATA[report WorkspaceCoverageReport() = {
+  "Workspace Coverage Filtered in Different Ways", 
+  FilteredWorksapceCoverageChart("Avg", "top", 5),
+  FilteredWorksapceCoverageChart("Avg", "bottom", 5),
+  FilteredWorksapceCoverageChart("SimpleDelta", "top", 3),
+  FilteredWorksapceCoverageChart("SimpleDelta", "bottom", 3)
+};]]></Report>
+  <Report share="Global"><![CDATA[report memberProcessReport() = {
+  "Member Metrics: Active Time, Commits, UnitTests, ReviewTime", 
+  ActiveTime-Member-Chart("**", "true"), 
+  Commit-Member-Chart("**", "true"), 
+  UnitTest-Member-Chart("**", "true"), 
+  ReviewTime-Member-Chart("**", "true")
+};]]></Report>
+  <YAxis share="Global"><![CDATA[y-axis doubleYAxis(label) = {
+  label, "double"
+};]]></YAxis>
+  <YAxis share="Global"><![CDATA[y-axis percentageYAxis(label) = {
+  label, "integer", 0, 100
+};]]></YAxis>
+  <YAxis share="Global"><![CDATA[y-axis yAxis(label) = {
+  label, "integer"
+};]]></YAxis>
+</telemetry>
+

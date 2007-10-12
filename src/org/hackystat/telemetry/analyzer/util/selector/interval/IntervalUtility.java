@@ -153,7 +153,7 @@ class IntervalUtility {
    * Update the week options if today is not in. 
    */
   private void checkWeekUpdates() {
-    String lastWeekString = (String) this.weekOptions.firstKey();
+    String lastWeekString = this.weekOptions.firstKey();
     Week endWeek = getWeek(lastWeekString);
     
     // If today is not in the range of week then rebuild the week options.
@@ -191,8 +191,8 @@ class IntervalUtility {
      * @return    -1, 0, 1 if o1 is less than, equal to, or greater than o2
      */
     public int compare(String o1, String o2) {
-      String week1 = (String) o1;
-      String week2 = (String) o2;
+      String week1 = o1;
+      String week2 = o2;
 
       SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
       
@@ -271,6 +271,6 @@ class IntervalUtility {
    * @return Current week
    */
   public String getCurrentWeek() {
-    return (String) this.weekOptions.lastKey();
+    return this.weekOptions.lastKey();
   }
 }

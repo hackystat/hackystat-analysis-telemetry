@@ -132,7 +132,7 @@ public class TelemetryReducerManager {
    */
   public TelemetryStreamCollection compute(String reducerName, Project project,
       Interval interval, String[] parameters) throws TelemetryReducerException {
-    TelemetryReducerInfo reducerInfo = (TelemetryReducerInfo) this.reducerMap.get(reducerName);
+    TelemetryReducerInfo reducerInfo = this.reducerMap.get(reducerName);
     if (reducerInfo == null) {
       throw new TelemetryReducerException("Telemetry reducer " + reducerName + " not defined.");
     }
@@ -156,7 +156,7 @@ public class TelemetryReducerManager {
    * @return The telemetry reducer information, or null if the reducer is not defined.
    */
   public TelemetryReducerInfo getReducerInfo(String reducerName) {
-    return (TelemetryReducerInfo) this.reducerMap.get(reducerName);
+    return this.reducerMap.get(reducerName);
   }
 
   /**

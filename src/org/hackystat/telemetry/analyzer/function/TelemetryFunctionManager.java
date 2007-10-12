@@ -168,9 +168,9 @@ public class TelemetryFunctionManager {
    */
   public TelemetryFunctionInfo getFunctionInfo(String functionName) {
     TelemetryFunctionInfo functionInfo
-        = (TelemetryFunctionInfo) this.essentialFunctionInfoMap.get(functionName);
+        = this.essentialFunctionInfoMap.get(functionName);
     if (functionInfo == null) {
-      functionInfo = (TelemetryFunctionInfo) this.additionalFunctionInfoMap.get(functionName);
+      functionInfo = this.additionalFunctionInfoMap.get(functionName);
     }
     return functionInfo;
   }

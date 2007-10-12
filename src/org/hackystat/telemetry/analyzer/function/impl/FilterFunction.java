@@ -78,7 +78,7 @@ public class FilterFunction extends TelemetryFunction {
     TelemetryStreamCollection streams = (TelemetryStreamCollection) parameters[0];
      
     String rankFunctionName = (String) parameters[1];
-    RankFunction rankFunction = (RankFunction) RANK_FUNCTIONS.get(rankFunctionName.toLowerCase());
+    RankFunction rankFunction = RANK_FUNCTIONS.get(rankFunctionName.toLowerCase());
     if (rankFunction == null) {
       throw new TelemetryFunctionException("Rank function '" + rankFunctionName 
           + "' does not exist.");
@@ -164,7 +164,7 @@ public class FilterFunction extends TelemetryFunction {
         start = 0;
       }
       for (int i = start; i < orderedList.size(); i++) {
-        target.add((TelemetryStream) orderedList.get(i));
+        target.add(orderedList.get(i));
       }
     }
     else if ("BottomPercent".equalsIgnoreCase(opMode)) {
@@ -174,7 +174,7 @@ public class FilterFunction extends TelemetryFunction {
       }
       int count = (int) Math.ceil((double) orderedList.size() * cutoff / 100);
       for (int i = 0; i < count && i < orderedList.size(); i++) {
-        target.add((TelemetryStream) orderedList.get(i));
+        target.add(orderedList.get(i));
       }
     }
     else if ("Top".equalsIgnoreCase(opMode)) {
@@ -183,12 +183,12 @@ public class FilterFunction extends TelemetryFunction {
         start = 0;
       }
       for (int i = start; i < orderedList.size(); i++) {
-        target.add((TelemetryStream) orderedList.get(i));
+        target.add(orderedList.get(i));
       }
     }
     else if ("Bottom".equalsIgnoreCase(opMode)) {
       for (int i = 0; i < cutoff && i < orderedList.size(); i++) {
-        target.add((TelemetryStream) orderedList.get(i));
+        target.add(orderedList.get(i));
       }
     }
     else {

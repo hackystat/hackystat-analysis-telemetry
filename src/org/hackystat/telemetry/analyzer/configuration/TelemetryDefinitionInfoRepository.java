@@ -19,7 +19,6 @@ import org.hackystat.sensorbase.resource.users.jaxb.User;
  * <p>
  * I wonder why this class is not thread safe.  Perhaps synchronization occurs at a higher
  * level. 
- *
  * 
  * @author (Cedric) Qin Zhang
  */
@@ -152,10 +151,10 @@ class TelemetryDefinitionInfoRepository {
   }
 
   /**
-   * Goes throught all users, and checks whethers there is a defintion by name.
+   * Goes through all users, and checks whether there is a definition by name.
    * 
    * @param telemetryDefinitionName The definition name.
-   * @return True if exists.
+   * @return True if it exists.
    */
   boolean exists(String telemetryDefinitionName) {
     boolean found = false;
@@ -176,7 +175,7 @@ class TelemetryDefinitionInfoRepository {
    * @param telemetryDefinitionName The name of the definition.
    */
   void remove(User owner, String telemetryDefinitionName) {
-    Map secondLevelMap = (Map) this.ownerKeyedDefMap.get(owner);
+    Map<String, TelemetryDefinitionInfo> secondLevelMap = this.ownerKeyedDefMap.get(owner);
     if (secondLevelMap != null) {
       secondLevelMap.remove(telemetryDefinitionName);
     }
