@@ -14,7 +14,7 @@ import org.jdom.output.XMLOutputter;
 
 /**
  * Implements a persistent Telemetry definition manager. This class is responsible for on-disk
- * persistence of telemetry defintions for all Hackystat users.
+ * persistence of telemetry definitions for all Hackystat users.
  * <p>
  * All public methods in the class are thread-safe.
  * <p>
@@ -52,7 +52,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
     }
     catch (Exception ex) {
       System.err.println("[PersistenTelemetryDefinitionManager] " +
-          "Unexpected excetion during initialization." + ex.getMessage());
+          "Unexpected exception during initialization." + ex.getMessage());
     }
     finally {
       this.disableWrite = false;

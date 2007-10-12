@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <telemetry>
-  <Streams share="Global"><![CDATA[streams ActiveTime(filePattern, cumulative) = {
+  <Streams share="Global">
+<![CDATA[streams ActiveTime(filePattern, cumulative) = {
   "Active Time for this Project", 
   ActiveTime(filePattern, cumulative)
-};]]></Streams>
+};]]>
+</Streams>
   <Streams share="Global"><![CDATA[streams ActiveTime-Member(filePattern, cumulative) = {
   "Active Time per Project Member", 
   MemberActiveTime(filePattern, cumulative)
