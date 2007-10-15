@@ -1,0 +1,30 @@
+<ReducerDefinitions>
+<ReducerDefinition>
+  <Name>DevTime</Name>
+  <Class>org.hackystat.sdt.devevent.reducer.DevTimeReducer</Class>
+  <Description>Computes a single telemetry stream representing the DevTime of the project in hours.</Description>
+  <Parameters>
+    <Parameter>
+      <Name>eventType</Name>
+      <Description>If '*' is supplied, then the dev time will be summed up over all dev event types.</Description>
+      <Default>*</Default>
+    </Parameter>
+    <Parameter>
+      <Name>memberEmail</Name>
+      <Description>If '*' is supplied, then the dev time will be summed up over all project members.</Description>
+      <Default>*</Default>
+    </Parameter>
+    <Parameter>
+      <Name>filePattern</Name>
+      <Description>Ant-like file pattern specifying the files to be included in computation.</Description>
+      <Default>**</Default>
+    </Parameter>
+    <Parameter>
+      <Name>isCumulative</Name>
+      <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+      <Default>false</Default>
+    </Parameter
+   </Parameters>
+  <ReducerDefinition>         
+
+</ReducerDefinitions>
