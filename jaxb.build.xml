@@ -14,5 +14,6 @@
 
   <target name="jaxb" description="Runs the XJC compiler.">
     <xjc schema="${basedir}/xml/schema/telemetry.xsd" destdir="src" package="org.hackystat.telemetry.resource.chart.jaxb"/>
+    <xjc schema="${basedir}/xml/schema/reducer.xsd" destdir="src" package="org.hackystat.telemetry.analyzer.reducer.jaxb"/>
   </target>
 </project>

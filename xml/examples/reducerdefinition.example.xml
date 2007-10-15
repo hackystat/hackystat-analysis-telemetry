@@ -23,8 +23,8 @@
       <Name>isCumulative</Name>
       <Description>If true, a cumulative version of telemetry stream is returned.</Description>
       <Default>false</Default>
-    </Parameter
+    </Parameter>
    </Parameters>
-  <ReducerDefinition>         
+  </ReducerDefinition>         
 
 </ReducerDefinitions>
