@@ -21,7 +21,7 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerManager;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
+import org.hackystat.utilities.time.interval.Interval;
 
 /**
  * Provides an evaluation function for Telemetry, in which a definition is evaluated with 

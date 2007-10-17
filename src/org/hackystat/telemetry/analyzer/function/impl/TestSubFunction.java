@@ -7,9 +7,9 @@ import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.model.TestTelemetryStreamCollection;
-import org.hackystat.telemetry.analyzer.util.Day;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
+import org.hackystat.utilities.time.interval.DayInterval;
+import org.hackystat.utilities.time.period.Day;
 
 /**
  * Test suite for <code>SubFunction</code<>

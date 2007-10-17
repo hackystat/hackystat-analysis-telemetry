@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
+import org.hackystat.utilities.time.interval.Interval;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 

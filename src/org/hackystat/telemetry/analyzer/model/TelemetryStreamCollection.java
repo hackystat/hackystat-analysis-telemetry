@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
+import org.hackystat.utilities.time.interval.Interval;
 
 /**
  * Provides a collection of telemetry streams. Note that this class does not constrain

@@ -2,7 +2,7 @@ package org.hackystat.telemetry.analyzer.reducer;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
+import org.hackystat.utilities.time.interval.Interval;
 
 /**
  * Provides the Telemetry reducer interface. A reducer is reponsible for processing raw software

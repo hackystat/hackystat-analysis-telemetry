@@ -10,7 +10,7 @@ import org.hackystat.telemetry.analyzer.reducer.TelemetryReducer;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
 import org.hackystat.telemetry.analyzer.reducer.util.IntervalUtility;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
+import org.hackystat.utilities.time.interval.Interval;
 
 /**
  * Draws a straight line over the chart.

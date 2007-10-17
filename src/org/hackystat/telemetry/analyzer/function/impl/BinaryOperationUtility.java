@@ -7,7 +7,7 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
-import org.hackystat.telemetry.analyzer.util.TimePeriod;
+import org.hackystat.utilities.time.period.TimePeriod;
 
 /**
  * Helper class to perform binary operations on <code>TelemetryStreamCollection</code> objects.

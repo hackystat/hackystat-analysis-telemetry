@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.Month;
-import org.hackystat.telemetry.analyzer.util.TimePeriod;
-import org.hackystat.telemetry.analyzer.util.Week;
-import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
-import org.hackystat.telemetry.analyzer.util.selector.interval.IllegalIntervalException;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
-import org.hackystat.telemetry.analyzer.util.selector.interval.MonthInterval;
-import org.hackystat.telemetry.analyzer.util.selector.interval.WeekInterval;
+import org.hackystat.utilities.time.interval.DayInterval;
+import org.hackystat.utilities.time.interval.IllegalIntervalException;
+import org.hackystat.utilities.time.interval.Interval;
+import org.hackystat.utilities.time.interval.MonthInterval;
+import org.hackystat.utilities.time.interval.WeekInterval;
+import org.hackystat.utilities.time.period.Day;
+import org.hackystat.utilities.time.period.Month;
+import org.hackystat.utilities.time.period.TimePeriod;
+import org.hackystat.utilities.time.period.Week;
 
 /**
  * Provides utility functions for processing Intervals. 

@@ -1,6 +1,6 @@
 package org.hackystat.telemetry.analyzer.model;
 
-import org.hackystat.telemetry.analyzer.util.TimePeriod;
+import org.hackystat.utilities.time.period.TimePeriod;
 
 /**
  * Represents one data point a telemetry stream.

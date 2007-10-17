@@ -4,7 +4,7 @@ import java.util.TreeSet;
 
 import junit.framework.TestCase;
 
-import org.hackystat.telemetry.analyzer.util.Day;
+import org.hackystat.utilities.time.period.Day;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
 

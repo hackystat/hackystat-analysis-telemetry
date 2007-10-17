@@ -4,12 +4,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.Month;
-import org.hackystat.telemetry.analyzer.util.Week;
-import org.hackystat.telemetry.analyzer.util.selector.interval.DayInterval;
-import org.hackystat.telemetry.analyzer.util.selector.interval.MonthInterval;
-import org.hackystat.telemetry.analyzer.util.selector.interval.WeekInterval;
+import org.hackystat.utilities.time.interval.DayInterval;
+import org.hackystat.utilities.time.interval.MonthInterval;
+import org.hackystat.utilities.time.interval.WeekInterval;
+import org.hackystat.utilities.time.period.Day;
+import org.hackystat.utilities.time.period.Month;
+import org.hackystat.utilities.time.period.Week;
 
 /**
  * Test suite for <code>IntervalUtility</code>.

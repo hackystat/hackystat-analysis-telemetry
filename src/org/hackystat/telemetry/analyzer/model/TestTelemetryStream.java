@@ -4,7 +4,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.hackystat.telemetry.analyzer.util.Day;
+import org.hackystat.utilities.time.period.Day;
 
 /**
  * Test suite for <code>TelemetryStream</code>.

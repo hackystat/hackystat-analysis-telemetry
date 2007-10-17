@@ -8,10 +8,8 @@ import java.util.Map;
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.dailyprojectdata.resource.devtime.jaxb.DevTimeDailyProjectData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.telemetry.analyzer.util.selector.interval.Interval;
 import org.hackystat.sensorbase.uripattern.UriPattern;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
-import org.hackystat.telemetry.analyzer.util.Day;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
@@ -20,6 +18,8 @@ import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
 import org.hackystat.telemetry.analyzer.reducer.util.IntervalUtility;
 import org.hackystat.telemetry.analyzer.reducer.util.ReducerOptionUtility;
 import org.hackystat.telemetry.service.server.ServerProperties;
+import org.hackystat.utilities.time.interval.Interval;
+import org.hackystat.utilities.time.period.Day;
 import org.hackystat.utilities.tstamp.Tstamp;
 
 
@@ -178,19 +178,19 @@ public class DevTimeReducer implements TelemetryReducer {
         for (String projectMember : project.getMembers().getMember()) {
           // If we want to include the project member's DevTime data... 
           if (projectMember.equals(member) || (member == null)) {
-            DevTimeDailyProjectData data = 
-              dpdClient.getDevTime(projectMember, project.getName(), Tstamp.makeTimestamp(day));
+            DevTimeDailyProjectData data = null;
+              //dpdClient.getDevTime(projectMember, project.getName(), Tstamp.makeTimestamp(day));
           }
         }
-        DailyProjectDevTime dailyProjectDevTime = null; //DailyProjectDevTime.getInstance(project, day);
-        if (dailyProjectDevTime.hasSensorData()) {
-          if (member == null) {
-            devTime += dailyProjectDevTime.getDevTime(filePattern, eventType);
-          }
-          else {
-            devTime += dailyProjectDevTime.getDevTime(filePattern, member, eventType);
-          }
-        }
+//        DailyProjectDevTime dailyProjectDevTime = null; //DailyProjectDevTime.getInstance(project, day);
+//        if (dailyProjectDevTime.hasSensorData()) {
+//          if (member == null) {
+//            devTime += dailyProjectDevTime.getDevTime(filePattern, eventType);
+//          }
+//          else {
+//            devTime += dailyProjectDevTime.getDevTime(filePattern, member, eventType);
+//          }
+//        }
       }
     }
     catch (Exception ex) {

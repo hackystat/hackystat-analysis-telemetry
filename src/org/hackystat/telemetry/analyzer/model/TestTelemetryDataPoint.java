@@ -1,9 +1,9 @@
 package org.hackystat.telemetry.analyzer.model;
 
-import org.hackystat.telemetry.analyzer.util.Day;
-import org.hackystat.telemetry.analyzer.util.Month;
-import org.hackystat.telemetry.analyzer.util.TimePeriod;
-import org.hackystat.telemetry.analyzer.util.Week;
+import org.hackystat.utilities.time.period.Day;
+import org.hackystat.utilities.time.period.Month;
+import org.hackystat.utilities.time.period.TimePeriod;
+import org.hackystat.utilities.time.period.Week;
 
 import junit.framework.TestCase;
 
