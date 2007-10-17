@@ -18,34 +18,35 @@ import org.hackystat.telemetry.analyzer.reducer.util.ReducerOptionUtility;
 
 
 /**
- * A class that returns dev time related telemtry stream.
+ * Returns a single stream providing DevTime data. 
  * <p>
- * <pre>
- *   Multiplicity: single-stream.
- *
- *   Options: 
- *   (1) EventType, such as "*", "edit", "build", etc. 
- *       Optional. Default is "*" for all file types. 
- *   (2) User, Optional. Default is the aggregation of all project members.
- *   (3) FileFilterPattern, optional, default="**".
- *   (4) isCumulative, optional, default=false.
- * </pre>
+ * Options:
+ * <ol>
+ * <li> EventType: Could be "*", "edit", "build", etc. 
+ *       Default is "*" which indicates all file types. 
+ *  <li> User: Default is "*" indicating the set of all project members.
+ *  <li> UriFilterPattern: Default is "**".
+ *  <li> isCumulative: Default is false.
+ * </ol>
  * 
  * @author Hongbing Kou
  */
 public class DevTimeReducer implements TelemetryReducer {
+
   /**
    * Computes the required telemetry streams object.
    *
    * @param project The project.
+   * @param user The user email.
+   * @param password The user password. 
    * @param interval The interval.
    * @param options The optional parameters.
    *
    * @return Telemetry stream collection.
    * @throws TelemetryReducerException If there is any error.
    */
-  public TelemetryStreamCollection compute(Project project, Interval interval, String[] options)
-      throws TelemetryReducerException {
+  public TelemetryStreamCollection compute(Project project, String user, String password, 
+      Interval interval, String[] options) throws TelemetryReducerException {
     String eventType = null;
     User member = null;
     UriPattern fileFilterPattern = null;
@@ -148,17 +149,17 @@ public class DevTimeReducer implements TelemetryReducer {
       User member, UriPattern filePattern) throws TelemetryReducerException {
     double devTime = 0;
     try {
-      for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
-        DailyProjectDevTime dailyProjectDevTime = null; //DailyProjectDevTime.getInstance(project, day);
-        if (dailyProjectDevTime.hasSensorData()) {
-          if (member == null) {
-            devTime += dailyProjectDevTime.getDevTime(filePattern, eventType);
-          }
-          else {
-            devTime += dailyProjectDevTime.getDevTime(filePattern, member, eventType);
-          }
-        }
-      }
+//      for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
+//        DailyProjectDevTime dailyProjectDevTime = null; //DailyProjectDevTime.getInstance(project, day);
+//        if (dailyProjectDevTime.hasSensorData()) {
+//          if (member == null) {
+//            devTime += dailyProjectDevTime.getDevTime(filePattern, eventType);
+//          }
+//          else {
+//            devTime += dailyProjectDevTime.getDevTime(filePattern, member, eventType);
+//          }
+//        }
+//      }
     }
     catch (Exception ex) {
       throw new TelemetryReducerException(ex);

@@ -28,7 +28,8 @@ public class StraightLine implements TelemetryReducer {
    * @return Telemetry stream collection.
    * @throws TelemetryReducerException If there is any error.
    */
-  public TelemetryStreamCollection compute(Project project, Interval interval, String[] parameters)
+  public TelemetryStreamCollection compute(Project project, String user, String password, 
+      Interval interval, String[] parameters)
       throws TelemetryReducerException {
     try {
 

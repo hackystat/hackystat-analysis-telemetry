@@ -51,11 +51,11 @@ public class TelemetryEvaluator {
    * @throws TelemetryEvaluationException If there is any error during the evalutation process.
    */
   public static TelemetryStreamsObject evaluate(TelemetryStreamsDefinition streamsDefinition, 
-      VariableResolver variableResolver, Project project, Interval interval)
+      VariableResolver variableResolver, Project project, String user, String password, Interval interval)
       throws TelemetryEvaluationException {
     
     Object result = resolveExpression(streamsDefinition.getExpression(), 
-                                      variableResolver, project, interval);
+                                      variableResolver, project, user, password, interval);
     if (! (result instanceof TelemetryStreamCollection)) {
       throw new TelemetryEvaluationException("Telemetry streams " + streamsDefinition.getName()
           + " does not evaluation to TelemetryStreamCollection. "
@@ -102,7 +102,7 @@ public class TelemetryEvaluator {
    */
   public static TelemetryChartObject evaluate(TelemetryChartDefinition chartDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
     
     TelemetryChartObject telemetryChartObject = new TelemetryChartObject(chartDefinition);
     
@@ -139,7 +139,8 @@ public class TelemetryEvaluator {
       }
       //get TelemetryStreamsObject
       TelemetryStreamsObject streamsObject 
-          = TelemetryEvaluator.evaluate(streamsDef, streamsVariableResolver, project, interval);
+          = TelemetryEvaluator.evaluate(streamsDef, streamsVariableResolver, project, user, 
+              password, interval);
     
       
       //find the YAxisDefinition object
@@ -223,7 +224,7 @@ public class TelemetryEvaluator {
    */
   public static TelemetryReportObject evaluate(TelemetryReportDefinition reportDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
     
     TelemetryReportObject telemetryReportObject = new TelemetryReportObject(reportDefinition);
     for (Iterator i = reportDefinition.getChartReferences().iterator(); i.hasNext(); ) {
@@ -258,7 +259,7 @@ public class TelemetryEvaluator {
     
       //generate telemetry chart object
       TelemetryChartObject chartObject = TelemetryEvaluator.evaluate(chartDef, 
-          telemetryDefinitionResolver, chartVariableResolver, project, interval);  
+          telemetryDefinitionResolver, chartVariableResolver, project, user, password, interval);  
       telemetryReportObject.addChartObject(chartObject);
     }
     
@@ -280,10 +281,10 @@ public class TelemetryEvaluator {
    * @throws TelemetryEvaluationException If the expression call cannot be resolved.
    */
   static Object resolveExpression(Expression expression, VariableResolver variableResolver,
-      Project project, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
     try {
       FunctionCall idempotent = new FunctionCall("Idempotent", new Expression[]{expression});
-      return resolveFunctionCall(idempotent, variableResolver, project, interval);
+      return resolveFunctionCall(idempotent, variableResolver, project, user, password, interval);
     }
     catch (Exception ex) {
       throw new TelemetryEvaluationException(ex);
@@ -305,7 +306,8 @@ public class TelemetryEvaluator {
    * @throws Exception If the function call cannot be resolved.
    */
   private static Object resolveFunctionCall(FunctionCall functionCall, 
-      VariableResolver variableResolver, Project project, Interval interval) throws Exception {
+      VariableResolver variableResolver, Project project, String user, String password, 
+      Interval interval) throws Exception {
     
     Expression[] parameters = functionCall.getParameters();
     
@@ -321,11 +323,13 @@ public class TelemetryEvaluator {
       //fill parameterValues next
       if (param instanceof ReducerCall) {
         parameterValues[i] 
-            = resolveReducerCall((ReducerCall) param, variableResolver, project, interval);
+            = resolveReducerCall((ReducerCall) param, variableResolver, project, user, password, 
+                interval);
       }
       else if (param instanceof FunctionCall) {
         parameterValues[i] 
-            = resolveFunctionCall((FunctionCall) param, variableResolver, project, interval);
+            = resolveFunctionCall((FunctionCall) param, variableResolver, project, user, password, 
+                interval);
       }
       else if (param instanceof NumberConstant) {
         parameterValues[i] = ((NumberConstant) param).getValue();
@@ -356,7 +360,8 @@ public class TelemetryEvaluator {
    * @throws Exception If the reducer call cannot be resolved.
    */
   private static TelemetryStreamCollection resolveReducerCall(ReducerCall reducerCall, 
-      VariableResolver variableResolver, Project project, Interval interval) throws Exception {
+      VariableResolver variableResolver, Project project, String user, String password, 
+      Interval interval) throws Exception {
     
     Expression[] parameters = reducerCall.getParameters();
     
@@ -379,6 +384,6 @@ public class TelemetryEvaluator {
       }
     }
     return TelemetryReducerManager.getInstance().compute(reducerCall.getReducerName(),
-        project, interval, parameterValues);
+        user, password, project, interval, parameterValues);
   }
 }

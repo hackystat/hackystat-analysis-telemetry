@@ -25,12 +25,14 @@ public interface TelemetryReducer {
    * null should be used as the value for that time period.
    * 
    * @param project The project which defines the scope of metrics to be used in the computation.
+   * @param user The user email. 
+   * @param password The user password. 
    * @param interval The time interval.
    * @param parameters Parameters passed to reducer implementation. In case a reducer does not
    *        need any parameters, either null or an empty array may be passed.
    * @throws TelemetryReducerException If there is any error during metrics computation.
    * @return The resulting telemetry stream collection.
    */
-  TelemetryStreamCollection compute(Project project, Interval interval, String[] parameters)
-      throws TelemetryReducerException;
+  TelemetryStreamCollection compute(Project project, String user, String password, 
+      Interval interval, String[] parameters) throws TelemetryReducerException;
 }
