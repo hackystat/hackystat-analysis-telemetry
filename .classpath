@@ -6,6 +6,5 @@
 	<classpathentry kind="var" path="HACKYSTAT_SENSORBASE_HOME/sensorbase.jar"/>
 	<classpathentry kind="var" path="HACKYSTAT_DAILYPROJECTDATA_HOME/dailyprojectdata.jar"/>
 	<classpathentry kind="lib" path="jdom.jar"/>
-	<classpathentry kind="var" path="HACKYSTAT_UTILITIES_HOME/time.lib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

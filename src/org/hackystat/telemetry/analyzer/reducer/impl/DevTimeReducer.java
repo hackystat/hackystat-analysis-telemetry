@@ -1,5 +1,6 @@
 package org.hackystat.telemetry.analyzer.reducer.impl;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.dailyprojectdata.resource.devtime.jaxb.DevTimeDailyProjectData;
+import org.hackystat.dailyprojectdata.resource.devtime.jaxb.MemberData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.sensorbase.uripattern.UriPattern;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
@@ -174,35 +176,24 @@ public class DevTimeReducer implements TelemetryReducer {
     try {
       // For each day in the interval... 
       for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
-        // Go through each project member...
-        for (String projectMember : project.getMembers().getMember()) {
-          // If we want to include the project member's DevTime data... 
-          if (projectMember.equals(member) || (member == null)) {
-            DevTimeDailyProjectData data = null;
-              //dpdClient.getDevTime(projectMember, project.getName(), Tstamp.makeTimestamp(day));
+        // Get the DPD...
+        DevTimeDailyProjectData data = 
+          dpdClient.getDevTime(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day));
+        // Go through the DPD per-member data...
+        for (MemberData memberData : data.getMemberData()) {
+          // If this DPD memberdata's owner matches who we want
+          if ((member == null) || (memberData.getMemberUri().equals(member))) {
+            devTime += memberData.getDevTime().doubleValue();
           }
         }
-//        DailyProjectDevTime dailyProjectDevTime = null; //DailyProjectDevTime.getInstance(project, day);
-//        if (dailyProjectDevTime.hasSensorData()) {
-//          if (member == null) {
-//            devTime += dailyProjectDevTime.getDevTime(filePattern, eventType);
-//          }
-//          else {
-//            devTime += dailyProjectDevTime.getDevTime(filePattern, member, eventType);
-//          }
-//        }
       }
     }
     catch (Exception ex) {
       throw new TelemetryReducerException(ex);
     }
-    
-    Double result = null;
-    //Zero means no de time data for the pattern specified, we return null instead of zero.
-    if (devTime > 0) {
-      result = new Double(devTime);
-    }
-    return result;
+
+    //Return null if no data, the DevTime data otherwise. 
+    return (devTime > 0) ? new Double(devTime) : null; 
   }
 
 }

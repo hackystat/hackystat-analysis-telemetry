@@ -1,8 +1,6 @@
 package org.hackystat.telemetry.analyzer.reducer.impl;
 
-import java.util.Iterator;
 import java.util.List;
-
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
@@ -46,16 +44,12 @@ public class StraightLine implements TelemetryReducer {
       TelemetryStream telemetryStream = new TelemetryStream(null);
       // Use a utility class 'IntervalUtility' to break interval into periods.
       // One period corresponds to one data point on the telemetry stream.
-      List periods = IntervalUtility.getPeriods(interval);
-      for (Iterator i = periods.iterator(); i.hasNext();) {
-        IntervalUtility.Period period = (IntervalUtility.Period) i.next();
-
+      List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
+      for (IntervalUtility.Period period : periods) {
         // Compute total elapsed time for the current period.
         // We make use of the DailyProjectSimpleSdt abstraction layer, instead of the raw data.
         // We simply add elapsed time for each data to get the total elapsed time for this period.
-
         currentValue += deltaValue;
-
         TelemetryDataPoint dp = new TelemetryDataPoint(period.getTimePeriod(), new Double(
             currentValue));
 
