@@ -15,15 +15,14 @@ public class TestTelemetryFunctionManager extends TestCase {
   public void testAll() {
     TelemetryFunctionManager manager = TelemetryFunctionManager.getInstance();
     
-    String[] essentialFunctionNames = {"Add", "Sub", "Mul", "Div", "Idempotent"};
+    String[] essentialFunctionNames = {"add", "sub", "mul", "div", "idempotent"};
     
     for (int i = 0; i < essentialFunctionNames.length; i++) {
       String name = essentialFunctionNames[i];
       TelemetryFunctionInfo info = (TelemetryFunctionInfo) manager.getFunctionInfo(name);
       assertNotNull(info);
       assertEquals(info.getName(), info.getFunction().getName());
-      assertTrue(manager.isFunctionExist(name));
-      assertFalse(manager.getAllCustomFunctionInfo().contains(name));
+      assertTrue(manager.isFunction(name));
     }
   }
 }

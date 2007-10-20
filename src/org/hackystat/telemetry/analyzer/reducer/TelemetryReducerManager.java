@@ -69,7 +69,7 @@ public class TelemetryReducerManager {
         this.logger.info("Defining built-in telemetry reduction function " + name);
         Class<?> clazz = Class.forName(definition.getClassName());
         TelemetryReducer reducer = (TelemetryReducer) clazz.newInstance();
-        TelemetryReducerInfo reducerInfo =  new TelemetryReducerInfo(name, reducer, definition);
+        TelemetryReducerInfo reducerInfo =  new TelemetryReducerInfo(reducer, definition);
         this.reducerMap.put(name, reducerInfo);
       }
       catch (Exception classEx) {
@@ -102,12 +102,12 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Determines whether a particular telemetry reducer is available.
+   * Determines whether a particular telemetry reducer is defined.
    * 
    * @param reducerName Telemetry reducer name.
-   * @return True if the specified telemetry reducer is available.
+   * @return True if the specified telemetry reducer is defined.
    */
-  public boolean doesReducerExist(String reducerName) {
+  public boolean isReducer(String reducerName) {
     return this.reducerMap.containsKey(reducerName);
   }
 

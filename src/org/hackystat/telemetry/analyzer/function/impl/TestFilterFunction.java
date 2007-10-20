@@ -16,7 +16,7 @@ import org.hackystat.utilities.time.period.Day;
  */
 public class TestFilterFunction extends TestCase {
 
-  private FilterFunction filterFunction = new FilterFunction("Filter");
+  private FilterFunction filterFunction = new FilterFunction();
   private String projectName = "TestFilterFunction";
   private Project project;
   private Day startDay;

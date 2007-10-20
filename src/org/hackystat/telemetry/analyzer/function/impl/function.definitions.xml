@@ -1,7 +1,7 @@
 <FunctionDefinitions>
 
 <FunctionDefinition>
-  <Name>Add</Name>
+  <Name>add</Name>
   <ClassName>org.hackystat.telemetry.analyzer.function.impl.AddFunction</ClassName>
   <Description>Adds two numbers or two telemetry streams.</Description>
   <Parameters>
@@ -17,7 +17,7 @@
   </FunctionDefinition>      
 
 <FunctionDefinition>
-  <Name>Div</Name>
+  <Name>div</Name>
   <ClassName>org.hackystat.telemetry.analyzer.function.impl.DivFunction</ClassName>
   <Description>Divides two numbers or two telemetry streams.</Description>
   <Parameters>
@@ -69,7 +69,7 @@
   </FunctionDefinition>      
 
 <FunctionDefinition>
-  <Name>Idempotent</Name>
+  <Name>idempotent</Name>
   <ClassName>org.hackystat.telemetry.analyzer.function.impl.IdempotentFunction</ClassName>
   <Description>Returns the passed number or telemetry stream unchanged.</Description>
   <Parameters>
@@ -81,7 +81,7 @@
   </FunctionDefinition>        
 
 <FunctionDefinition>
-  <Name>Mul</Name>
+  <Name>mul</Name>
   <ClassName>org.hackystat.telemetry.analyzer.function.impl.MulFunction</ClassName>
   <Description>Multiplies two numbers or two telemetry streams.</Description>
   <Parameters>
@@ -98,7 +98,7 @@
 
 
  <FunctionDefinition>
-  <Name>Sub</Name>
+  <Name>sub</Name>
   <ClassName>org.hackystat.telemetry.analyzer.function.impl.SubFunction</ClassName>
   <Description>Subtracts two numbers or two telemetry streams.</Description>
   <Parameters>

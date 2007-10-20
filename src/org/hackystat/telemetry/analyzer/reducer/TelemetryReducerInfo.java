@@ -10,8 +10,6 @@ import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinition;
  */
 public class TelemetryReducerInfo {
 
-  /** The name of this reducer function. */
-  private String name;
   /** The instance. */
   private TelemetryReducer reducer;
   /** The ReducerDefinition instance obtained from the XML. */
@@ -24,8 +22,7 @@ public class TelemetryReducerInfo {
    * @param reducer The concrete instance of telemetry reducer.
    * @param definition The ReducerDefinition. 
    */
-  TelemetryReducerInfo(String name, TelemetryReducer reducer, ReducerDefinition definition) {
-    this.name = name;
+  TelemetryReducerInfo(TelemetryReducer reducer, ReducerDefinition definition) {
     this.reducer = reducer;
     this.definition = definition;
   }
@@ -36,7 +33,7 @@ public class TelemetryReducerInfo {
    * @return The name.
    */
   public String getName() {
-    return this.name;
+    return this.definition.getName();
   }
 
   /**

@@ -5,10 +5,10 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 
 /**
- * Stock telemetry function: "Sub". "Stock" means that this function is essential to telemetry
- * functionality and is always available.
+ * If passed two numbers, returns their difference, and if passed two telemetry streams, returns a 
+ * new TelemetryStreamCollection containing the pairwise difference of the individual elements. 
  * 
- * @author (Cedric) Qin ZHANG
+ * @author (Cedric) Qin ZHANG, Philip Johnson
  */
 public class SubFunction extends TelemetryFunction {
   
@@ -17,11 +17,9 @@ public class SubFunction extends TelemetryFunction {
   
   /**
    * Constructs this instance.
-   * 
-   * @param name The assigned name of this function.
    */
-  public SubFunction(String name) {
-    super(name);
+  public SubFunction() {
+    super("sub");
   }
   
   /**

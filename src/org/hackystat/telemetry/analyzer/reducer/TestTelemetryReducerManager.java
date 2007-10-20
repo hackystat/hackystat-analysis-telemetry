@@ -30,7 +30,7 @@ public class TestTelemetryReducerManager {
 
     for (TelemetryReducerInfo theReducer : reducerInfo) {
       assertSame("Checking num reducers", theReducer, manager.getReducerInfo(theReducer.getName()));
-      assertTrue("Checking that manager exists", manager.doesReducerExist(theReducer.getName()));
+      assertTrue("Checking that manager exists", manager.isReducer(theReducer.getName()));
     }
   }
 }

@@ -25,10 +25,9 @@ public class FilterFunction extends TelemetryFunction {
   /**
    * Constructs this instance.
    * 
-   * @param name The assigned name of this function.
    */
-  public FilterFunction(String name) {
-    super(name);
+  public FilterFunction() {
+    super("Filter");
     RANK_FUNCTIONS.put("avg", new AverageRankFunction());
     RANK_FUNCTIONS.put("max", new MaxRankFunction());
     RANK_FUNCTIONS.put("min", new MinRankFunction());

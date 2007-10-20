@@ -4,20 +4,17 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunction;
 import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 
 /**
- * Stock telememtry function: "Idempotent". "Stock" means that this function is essential
- * to telemetry functionality and is always available.
+ * Accepts either a number or a telemetry stream and returns it. 
  * 
- * @author (Cedric) Qin ZHANG
+ * @author (Cedric) Qin ZHANG, Philip Johnson
  */
 public class IdempotentFunction extends TelemetryFunction {
 
   /**
    * Constructs this instance.
-   * 
-   * @param name The assigned name of this function.
    */
-  public IdempotentFunction(String name) {
-    super(name);
+  public IdempotentFunction() {
+    super("idempotent");
   }
   
  /**

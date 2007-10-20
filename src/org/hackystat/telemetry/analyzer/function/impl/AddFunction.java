@@ -5,10 +5,10 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 
 /**
- * Stock telemetry function: "Add". "Stock" means that this function is essential to telemetry
- * functionality and is always available.
+ * If passed two numbers, returns their sum, and if passed two telemetry streams, returns a 
+ * new TelemetryStreamCollection containing the pairwise addition of the individual elements. 
  * 
- * @author (Cedric) Qin ZHANG
+ * @author (Cedric) Qin ZHANG, Philip Johnson
  */
 public class AddFunction extends TelemetryFunction {
   
@@ -18,10 +18,9 @@ public class AddFunction extends TelemetryFunction {
   /**
    * Constructs this instance.
    * 
-   * @param name The assigned name of this function.
    */
-  public AddFunction(String name) {
-    super(name);
+  public AddFunction() {
+    super("add");
   }
   
  /**

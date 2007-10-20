@@ -19,11 +19,9 @@ public class FilterZeroFunction extends TelemetryFunction {
 
   /**
    * Constructs this instance.
-   * 
-   * @param name The assigned name of this function.
    */
-  public FilterZeroFunction(String name) {
-    super(name);
+  public FilterZeroFunction() {
+    super("FilterZero");
   }
   
  /**
@@ -32,6 +30,7 @@ public class FilterZeroFunction extends TelemetryFunction {
   * @return A new <code>TelemetryStreamCollection</code> instance after filtering.
   * @throws TelemetryFunctionException If anything is wrong.
   */
+  @Override
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
     if (parameters.length != 1 || ! (parameters[0] instanceof TelemetryStreamCollection)) {
       throw new TelemetryFunctionException("Telemetry function " + this.getName()

@@ -1,21 +1,17 @@
 package org.hackystat.telemetry.analyzer.function;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.io.InputStream;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import org.hackystat.telemetry.analyzer.function.impl.AddFunction;
-import org.hackystat.telemetry.analyzer.function.impl.DivFunction;
-import org.hackystat.telemetry.analyzer.function.impl.IdempotentFunction;
-import org.hackystat.telemetry.analyzer.function.impl.MulFunction;
-import org.hackystat.telemetry.analyzer.function.impl.SubFunction;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
+import org.hackystat.telemetry.analyzer.function.jaxb.FunctionDefinition;
+import org.hackystat.telemetry.analyzer.function.jaxb.FunctionDefinitions;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
+import org.hackystat.utilities.logger.HackystatLogger;
+import org.hackystat.utilities.stacktrace.StackTrace;
 
 /**
  * Implements a global singleton for managing telemetry function instances. It serves two purposes:
@@ -29,17 +25,10 @@ import org.jdom.input.SAXBuilder;
 public class TelemetryFunctionManager {
 
   /**
-   * Built-in functions essential to the functioning of telemetry language and evaluator.
+   * Built-in functions for telemetry language and evaluator.
    * Key is function name (lower case), value is TelemetryFunctionInfo instance. 
    */
-  private TreeMap<String, TelemetryFunctionInfo> essentialFunctionInfoMap = 
-    new TreeMap<String, TelemetryFunctionInfo>();
-  
-  /**
-   * Additional custom-supplied functions through telemetry function extension point.
-   * Key is function name (lower case), value is TelemetryFunctionInfo instance. 
-   */
-  private TreeMap<String, TelemetryFunctionInfo> additionalFunctionInfoMap = 
+  private TreeMap<String, TelemetryFunctionInfo> functionMap = 
     new TreeMap<String, TelemetryFunctionInfo>();
   
   /** The global instance of this manager. */
@@ -47,6 +36,9 @@ public class TelemetryFunctionManager {
   
   /** The logger. */
   private Logger logger;
+  
+  /** The predefined function definitions. */
+  private FunctionDefinitions definitions;
   
   /**
    * Gets the global instance.
@@ -58,106 +50,49 @@ public class TelemetryFunctionManager {
   }
 
   /**
-   * Private no-arg constructor to enforce singleton pattern.
+   * Defines "built-in" telemetry functions. 
    */
   private TelemetryFunctionManager() {
-    this.logger = null; //ServerProperties.getInstance().getLogger();
+    this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
     
-    //Register built-in functions.
-    //Note that the names of these essential functions are hardwired in telemetry language parser.
-    String description = "Telemetry infrastructure. Internal use only.";
-    this.essentialFunctionInfoMap.put("Add", 
-        new TelemetryFunctionInfo(new AddFunction("Add"), description, ""));
-    this.essentialFunctionInfoMap.put("Sub", 
-        new TelemetryFunctionInfo(new SubFunction("Sub"), description, ""));
-    this.essentialFunctionInfoMap.put("Mul", 
-        new TelemetryFunctionInfo(new MulFunction("Mul"), description, ""));
-    this.essentialFunctionInfoMap.put("Div", 
-        new TelemetryFunctionInfo(new DivFunction("Div"), description, ""));
-    this.essentialFunctionInfoMap.put("Idempotent", 
-        new TelemetryFunctionInfo(new IdempotentFunction("Idempotent"), description, ""));
-    
-    //Register custom functions.
-    //Find all "**telemetry.def.xml" files, and call processSingleFile() on each file.
-    File webInfDir = null; //ServerProperties.getInstance().getWebInfDir(false);
-    File telemetryDir = new File(webInfDir, "telemetry");
-    if (telemetryDir.isDirectory()) {
-      File[] files = telemetryDir.listFiles();
-      for (int i = 0; i < files.length; i++) {
-        File file = files[i];
-        String fileName = file.getName();
-        if (fileName.endsWith("telemetry.def.xml")) {
-          this.processSingleFile(file);
-        }
+    try {
+      this.logger.info("Loading built-in telemetry function definitions.");
+      InputStream defStream = getClass().getResourceAsStream("impl/function.definitions.xml");
+      JAXBContext jaxbContext = JAXBContext
+      .newInstance(org.hackystat.telemetry.analyzer.function.jaxb.ObjectFactory.class);
+      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+      this.definitions = (FunctionDefinitions) unmarshaller.unmarshal(defStream);
+    } 
+    catch (Exception e) {
+      this.logger.severe("Could not find built-in telemetry function definitions! " 
+          + StackTrace.toString(e));
+    }
+
+    for (FunctionDefinition definition : this.definitions.getFunctionDefinition()) {
+      String name = definition.getName();
+      try {
+        this.logger.info("Defining built-in telemetry function " + name);
+        Class<?> clazz = Class.forName(definition.getClassName());
+        TelemetryFunction telemetryFunc = (TelemetryFunction) clazz.newInstance();
+        TelemetryFunctionInfo funcInfo =  new TelemetryFunctionInfo(telemetryFunc, definition);
+        this.functionMap.put(name, funcInfo);
       }
-    }    
+      catch (Exception classEx) {
+        this.logger.severe("Unable to define " 
+            + definition.getClassName() + ". Entry ignored. " + classEx.getMessage());
+        continue;
+      }
+    }
   }
   
-  /**
-   * Processes a single telemetry reducers definition file.
-   * 
-   * @param telemetryDefFile The telemetry xml definition file.
-   */
-  private void processSingleFile(File telemetryDefFile) {
-    this.logger.fine("[TelemetryFunctionManager] Processing " + telemetryDefFile.getAbsolutePath());
-    try {
-      Element root = new SAXBuilder().build(telemetryDefFile).getRootElement();
-      List functions = root.getChildren("function");
-
-      for (Iterator i = functions.iterator(); i.hasNext();) {
-        Element functionElement = (Element) i.next();
-        String name = functionElement.getAttributeValue("name");
-        String className = functionElement.getAttributeValue("class");
-        String functionDescription = functionElement.getAttributeValue("description");
-        String parameterDescription = functionElement.getAttributeValue("parameters");
-
-        if (name == null) {
-          this.logger.severe("[TelemetryFunctionManager] One function definition is ignored, " +
-              "because attribute 'name' is not defined.");
-        }
-        else if (this.essentialFunctionInfoMap.containsKey(name) 
-              || this.additionalFunctionInfoMap.containsKey(name)) {
-          this.logger.severe("[TelemetryFunctionManager] Duplicated function definition '" 
-              + name + "' ignored.");
-        }
-        else {
-          // instantiate the class
-          if (className == null) {
-            this.logger.severe("[TelemetryFunctionManager] Function class not defined for " 
-                + name + ". Entry ignored.");
-          }
-          else {
-            try {
-              Class<?> clazz = Class.forName(className);
-              Constructor ctor = clazz.getConstructor(new Class[]{String.class});
-              TelemetryFunction function = (TelemetryFunction) ctor.newInstance(new Object[]{name});
-              TelemetryFunctionInfo functionInfo = new TelemetryFunctionInfo(function,
-                  functionDescription, parameterDescription);
-              this.additionalFunctionInfoMap.put(name, functionInfo);
-            }
-            catch (Exception classEx) {
-              this.logger.severe("[TelemetryFunctionManager] Unable to instantiate class " 
-                  + className + ". Entry ignored. ");
-              classEx.printStackTrace();
-            }
-          }
-        } // end else
-      } // end for loop
-    }
-    catch (Exception ex) {
-      this.logger.severe("[TelemetryFunctionManager] Severe error: " + ex.getMessage());
-    }
-  }
-    
   /**
    * Determines whether a particular telemetry function is available.
    * 
    * @param functionName Telemetry function name.
    * @return True if the specified telemetry function is available.
    */
-  public boolean isFunctionExist(String functionName) {
-    return this.essentialFunctionInfoMap.containsKey(functionName)
-        || this.additionalFunctionInfoMap.containsKey(functionName);
+  public boolean isFunction(String functionName) {
+    return this.functionMap.containsKey(functionName);
   }
 
   /**
@@ -167,22 +102,7 @@ public class TelemetryFunctionManager {
    * @return The telemetry function information, or null if the function is not defined.
    */
   public TelemetryFunctionInfo getFunctionInfo(String functionName) {
-    TelemetryFunctionInfo functionInfo
-        = this.essentialFunctionInfoMap.get(functionName);
-    if (functionInfo == null) {
-      functionInfo = this.additionalFunctionInfoMap.get(functionName);
-    }
-    return functionInfo;
-  }
-
-  /**
-   * Gets information about all telemetry function defined through telemetry function extension
-   * point. Note that built-in, "essential" internal telemetry functions are not returned.
-   * 
-   * @return A collection of <code>TelemetryFunctionInfo</code> instances.
-   */
-  public Collection<TelemetryFunctionInfo> getAllCustomFunctionInfo() {
-    return this.additionalFunctionInfoMap.values();
+    return this.functionMap.get(functionName);
   }
   
   /**
@@ -219,7 +139,7 @@ public class TelemetryFunctionManager {
     //check output types
     if (! (result instanceof Number || result instanceof TelemetryStreamCollection)) {
       throw new TelemetryFunctionException("Telemetry function " + functionName 
-          + " implementation error. It returns result of unexpected type.");
+          + " implementation error. It returns a result of unexpected type.");
     }
     return result;
   }

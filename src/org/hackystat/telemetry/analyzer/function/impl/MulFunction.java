@@ -5,10 +5,10 @@ import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 
 /**
- * Stock telememtry function: "Mul". "Stock" means that this function is essential to telemetry
- * functionality and is always available.
+ * If passed two numbers, returns their product, and if passed two telemetry streams, returns a 
+ * new TelemetryStreamCollection containing the pairwise multiplication of the individual elements. 
  * 
- * @author (Cedric) Qin ZHANG
+ * @author (Cedric) Qin ZHANG, Philip Johnson
  */
 public class MulFunction extends TelemetryFunction {
 
@@ -17,11 +17,9 @@ public class MulFunction extends TelemetryFunction {
   
   /**
    * Constructs this instance.
-   * 
-   * @param name The assigned name of this function.
    */
-  public MulFunction(String name) {
-    super(name);
+  public MulFunction() {
+    super("mul");
   }
   
   /**

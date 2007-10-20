@@ -1,29 +1,27 @@
 package org.hackystat.telemetry.analyzer.function;
 
+import org.hackystat.telemetry.analyzer.function.jaxb.FunctionDefinition;
+import org.hackystat.telemetry.analyzer.function.jaxb.Parameters;
+
 /**
- * Provides information about a specific implementation of <code>TelemetryFunction</code>, 
- * including its name, the function instance, and its description.
+ * Provides information about a specific implementation of a TelemetryFunction. 
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang, Philip Johnson
  */
 public class TelemetryFunctionInfo {
 
   private TelemetryFunction function;
-  private String functionDescription;
-  private String parameterDescription;
+  private FunctionDefinition definition;
 
   /**
    * Constructs this instance.
    * 
    * @param function The concrete instance of telemetry function.
-   * @param functionDescription The description of the function.
-   * @param parameterDescription The description of the parameters the function takes.
+   * @param definition The definition of this function, from the JAXB XML class.
    */
-  TelemetryFunctionInfo(TelemetryFunction function, String functionDescription,
-      String parameterDescription) {
+  TelemetryFunctionInfo(TelemetryFunction function, FunctionDefinition definition) {
     this.function = function;
-    this.functionDescription = functionDescription;
-    this.parameterDescription = parameterDescription;
+    this.definition = definition;
   }
 
   /**
@@ -36,7 +34,7 @@ public class TelemetryFunctionInfo {
   }
 
   /**
-   * Gets the instance of the telemtry function.
+   * Gets the instance of the telemetry function.
    * 
    * @return The instance.
    */
@@ -50,7 +48,7 @@ public class TelemetryFunctionInfo {
    * @return The description of the function.
    */
   public String getFunctionDescription() {
-    return this.functionDescription;
+    return this.definition.getDescription();
   }
 
   /**
@@ -58,7 +56,7 @@ public class TelemetryFunctionInfo {
    * 
    * @return The description of the parameters.
    */
-  public String getParameterDescription() {
-    return this.parameterDescription;
+  public Parameters getParameterDescription() {
+    return this.definition.getParameters();
   }
 }
