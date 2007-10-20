@@ -1,34 +1,36 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
-import java.util.Collection;
-import java.util.Iterator;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import java.util.Collection;
+
+import org.junit.Test;
 
 /**
- * Test suite for <code>TelemetryReducerManager</code>.
+ * Test suite for TelemetryReducerManager.
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang, Philip Johnson
  */
-public class TestTelemetryReducerManager extends TestCase {
+public class TestTelemetryReducerManager {
 
   /** How many stock reducer implementations do you have? */
   private static final int numberOfStockReducer = 0;
 
   /**
-   * Tests all methods except reducer-dispatch code.
+   * Tests that built-in reducers can be found and defined.
    * 
    * @throws Exception If test fails.
    */
+  @Test
   public void testFramework() throws Exception {
     TelemetryReducerManager manager = TelemetryReducerManager.getInstance();
-    Collection allReducerInfos = manager.getAllReducerInfo();
-    assertTrue(allReducerInfos.size() >= TestTelemetryReducerManager.numberOfStockReducer);
+    Collection<TelemetryReducerInfo> reducerInfo = manager.getAllReducerInfo();
+    assertTrue(reducerInfo.size() >= TestTelemetryReducerManager.numberOfStockReducer);
 
-    for (Iterator i = allReducerInfos.iterator(); i.hasNext();) {
-      TelemetryReducerInfo theReducer = (TelemetryReducerInfo) i.next();
+    for (TelemetryReducerInfo theReducer : reducerInfo) {
       assertSame("Checking num reducers", theReducer, manager.getReducerInfo(theReducer.getName()));
-      assertTrue("Checking that manager exists", manager.isReducerExist(theReducer.getName()));
+      assertTrue("Checking that manager exists", manager.doesReducerExist(theReducer.getName()));
     }
   }
 }

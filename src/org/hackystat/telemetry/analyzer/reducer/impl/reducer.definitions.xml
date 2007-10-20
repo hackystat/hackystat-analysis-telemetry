@@ -1,0 +1,49 @@
+<ReducerDefinitions>
+  <ReducerDefinition>
+    <Name>DevTime</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.DevTimeReducer</ClassName>
+    <Description>Computes a single telemetry stream representing the DevTime of the project in hours.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>eventType</Name>
+        <Description>If '*' is supplied, then the dev time will be summed up over all dev event types.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>memberEmail</Name>
+        <Description>If '*' is supplied, then the dev time will be summed up over all project members.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>uriPattern</Name>
+        <Description>Ant-like file pattern specifying the files to be included in computation.</Description>
+        <Default>**</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
+    <Name>StraightLine</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.StraightLine</ClassName>
+    <Description>Draws a straight line on the plot. The line can have a slope that can be adjusted by using the delta parameter.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>initialValue</Name>
+        <Description>The initial Y value for the line.</Description>
+        <Default>1</Default>
+      </Parameter>
+      <Parameter>
+        <Name>delta</Name>
+        <Description>The increment for each interval.</Description>
+        <Default>0</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>         
+        
+
+</ReducerDefinitions>

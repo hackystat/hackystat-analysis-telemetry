@@ -1,32 +1,33 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
+import org.hackystat.telemetry.analyzer.reducer.jaxb.Parameters;
+import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinition;
+
 /**
- * Provides information about a particular implementation of 
- * <code>TelemetryReducer</code>.
+ * Provides information about a single Telemetry Reduction Function. 
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang, Philip Johnson
  */
 public class TelemetryReducerInfo {
 
+  /** The name of this reducer function. */
   private String name;
+  /** The instance. */
   private TelemetryReducer reducer;
-  private String reducerDescription;
-  private String optionDescription;
+  /** The ReducerDefinition instance obtained from the XML. */
+  private ReducerDefinition definition;
 
   /**
    * Constructs this instance.
    * 
-   * @param name The name of the telemtry reducer.
+   * @param name The name of this telemetry reducer.
    * @param reducer The concrete instance of telemetry reducer.
-   * @param reducerDescription The description of the reducer.
-   * @param optionDescription The description of the parameters the reducer takes.
+   * @param definition The ReducerDefinition. 
    */
-  TelemetryReducerInfo(String name, TelemetryReducer reducer, String reducerDescription,
-      String optionDescription) {
+  TelemetryReducerInfo(String name, TelemetryReducer reducer, ReducerDefinition definition) {
     this.name = name;
     this.reducer = reducer;
-    this.reducerDescription = reducerDescription;
-    this.optionDescription = optionDescription;
+    this.definition = definition;
   }
 
   /**
@@ -53,7 +54,7 @@ public class TelemetryReducerInfo {
    * @return The description of the reducer.
    */
   public String getReducerDescription() {
-    return this.reducerDescription;
+    return this.definition.getDescription();
   }
 
   /**
@@ -61,7 +62,8 @@ public class TelemetryReducerInfo {
    * 
    * @return The description of the options.
    */
-  public String getParameterDescription() {
-    return this.optionDescription;
+  public Parameters getParameterDescription() {
+    //Should return the Parameters object.   
+    return definition.getParameters();
   }
 }

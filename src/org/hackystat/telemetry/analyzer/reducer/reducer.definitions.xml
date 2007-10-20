@@ -1,7 +1,7 @@
 <ReducerDefinitions>
   <ReducerDefinition>
     <Name>DevTime</Name>
-    <Class>org.hackystat.telemetry.analyzer.reducer.impl.DevTimeReducer</Class>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.DevTimeReducer</ClassName>
     <Description>Computes a single telemetry stream representing the DevTime of the project in hours.</Description>
     <Parameters>
       <Parameter>
@@ -29,7 +29,7 @@
 
   <ReducerDefinition>
     <Name>StraightLine</Name>
-    <Class>org.hackystat.telemetry.analyzer.reducer.impl.StraightLine</Class>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.StraightLine</ClassName>
     <Description>Draws a straight line on the plot. The line can have a slope that can be adjusted by using the delta parameter.</Description>
     <Parameters>
       <Parameter>

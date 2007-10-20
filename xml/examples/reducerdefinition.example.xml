@@ -1,7 +1,7 @@
 <ReducerDefinitions>
 <ReducerDefinition>
   <Name>DevTime</Name>
-  <Class>org.hackystat.sdt.devevent.reducer.DevTimeReducer</Class>
+  <ClassName>org.hackystat.sdt.devevent.reducer.DevTimeReducer</ClassName>
   <Description>Computes a single telemetry stream representing the DevTime of the project in hours.</Description>
   <Parameters>
     <Parameter>

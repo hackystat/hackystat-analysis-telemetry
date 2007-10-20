@@ -5,12 +5,12 @@ import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.time.interval.Interval;
 
 /**
- * Provides the Telemetry reducer interface. A reducer is reponsible for processing raw software
+ * Provides the Telemetry reducer interface. A reducer is responsible for processing raw software
  * metrics to generate an instance of <code>TelemetryStreamCollection</code>. 
  * <p>
  * Note to reducer implementers: 
  * <ul>
- *   <li> The "time periods" for the data points in the generated telemtry stream(s) 
+ *   <li> The "time periods" for the data points in the generated telemetry stream(s) 
  *        must be derived from the 'interval' parameter.  
  *   <li> Reducer implementation class must have a public constructor which takes no parameters.
  *   <li> Reducer implementation must be thread-safe.

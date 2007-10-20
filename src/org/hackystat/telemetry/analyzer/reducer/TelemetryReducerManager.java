@@ -1,10 +1,7 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
@@ -13,13 +10,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
+import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinition;
 import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinitions;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.logger.HackystatLogger;
 import org.hackystat.utilities.stacktrace.StackTrace;
 import org.hackystat.utilities.time.interval.Interval;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 /**
  * Provides a singleton manager for telemetry reducers. 
@@ -46,98 +42,45 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Initializes telemetry reducers. If a reducer definition file cannot be parsed or a 
-   * telemetry reducer cannot be instantiated, no exception will be raised. 
-   * Instead errors will be logged through Hackystat standard logging mechanism.
+   * Finds and defines built-in telemetry reducer functions. 
+   * If the reducer.definitions.xml file cannot be found, or the file specifies
+   * a class that cannot be instantiated, then logging messages will the displayed but no
+   * errors will be thrown.
    */
   private TelemetryReducerManager() {
     this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
     
     try {
-      InputStream definitionsStream = getClass().getResourceAsStream("reducer.definitions.xml");
+      this.logger.info("Loading built-in telemetry reduction function definitions.");
+      InputStream defStream = getClass().getResourceAsStream("impl/reducer.definitions.xml");
       JAXBContext jaxbContext = JAXBContext
       .newInstance(org.hackystat.telemetry.analyzer.reducer.jaxb.ObjectFactory.class);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-      this.definitions = (ReducerDefinitions) unmarshaller.unmarshal(definitionsStream);
+      this.definitions = (ReducerDefinitions) unmarshaller.unmarshal(defStream);
     } 
     catch (Exception e) {
-      String trace = StackTrace.toString(e);
-      this.logger.warning("Could not find telemetry reduction function definitions! " + trace);
+      this.logger.severe("Could not find built-in telemetry reduction function definitions! " 
+          + StackTrace.toString(e));
     }
 
-
-    File webInfDir = null; //ServerProperties.getInstance().getWebInfDir(false);
-    File telemetryDir = new File(webInfDir, "telemetry");
-    if (!telemetryDir.isDirectory()) {
-      this.logger.fine("[TelemetryReducerManager] Reducer definition directory " 
-          + telemetryDir.getAbsolutePath() + " does not exists. No telemetry reducer defined.");
-    }
-    else {
-      File[] files = telemetryDir.listFiles();
-      for (int i = 0; i < files.length; i++) {
-        File file = files[i];
-        String fileName = file.getName();
-        if (fileName.endsWith("telemetry.def.xml")) {
-          this.processSingleFile(file);
-        }
+    for (ReducerDefinition definition : this.definitions.getReducerDefinition()) {
+      String name = definition.getName();
+      try {
+        this.logger.info("Defining built-in telemetry reduction function " + name);
+        Class<?> clazz = Class.forName(definition.getClassName());
+        TelemetryReducer reducer = (TelemetryReducer) clazz.newInstance();
+        TelemetryReducerInfo reducerInfo =  new TelemetryReducerInfo(name, reducer, definition);
+        this.reducerMap.put(name, reducerInfo);
+      }
+      catch (Exception classEx) {
+        this.logger.severe("Unable to define " 
+            + definition.getClassName() + ". Entry ignored. " + classEx.getMessage());
+        continue;
       }
     }
   }
 
-  /**
-   * Processes a single telemetry reducers definition file.
-   * 
-   * @param xmlFile The xml definition file.
-   */
-  private void processSingleFile(File xmlFile) {
-    this.logger.fine("[TelemetryReducerManager] Processing " + xmlFile.getAbsolutePath());
-    try {
-      Element root = new SAXBuilder().build(xmlFile).getRootElement();
-      List reducers = root.getChildren("Reducer");
-
-      for (Iterator i = reducers.iterator(); i.hasNext();) {
-        Element reducerElement = (Element) i.next();
-        String name = reducerElement.getAttributeValue("name");
-        String className = reducerElement.getAttributeValue("class");
-        String reducerDescription = reducerElement.getAttributeValue("reducerDescription");
-        String optionDescription = reducerElement.getAttributeValue("optionDescription");
-
-        if (name == null) {
-          this.logger.severe("[TelemetryReducerManager] One reducer definition is ignored, " +
-              "because attribute 'name' is not defined.");
-        }
-        else if (this.reducerMap.containsKey(name)) {
-          this.logger.severe("[TelemetryReducerManager] Duplicated definition '" 
-              + name + "' ignored.");
-        }
-        else {
-          // instantiate the class
-          if (className == null) {
-            this.logger.severe("[TelemetryReducerManager] Reducer class not defined for " 
-                + name + ". Entry ignored.");
-          }
-          else {
-            try {
-              Class<?> clazz = Class.forName(className);
-              TelemetryReducer reducer = (TelemetryReducer) clazz.newInstance();
-              TelemetryReducerInfo reducerInfo = new TelemetryReducerInfo(name, reducer,
-                  reducerDescription, optionDescription);
-              this.reducerMap.put(name, reducerInfo);
-            }
-            catch (Exception classEx) {
-              this.logger.severe("[TelemetryReducerManager] Unable to instantiate class " 
-                  + className + ". Entry ignored. " + classEx.getMessage());
-              continue;
-            }
-          }
-        } // end else
-      } // end for loop
-    }
-    catch (Exception ex) {
-      this.logger.severe("[TelemetryReducerManager] Severe error: " + ex.getMessage());
-    }
-  }
-
+ 
   /**
    * Invokes the telemetry reducer to perform computations and generate a TelemetryStreamCollection.
    * 
@@ -164,7 +107,7 @@ public class TelemetryReducerManager {
    * @param reducerName Telemetry reducer name.
    * @return True if the specified telemetry reducer is available.
    */
-  public boolean isReducerExist(String reducerName) {
+  public boolean doesReducerExist(String reducerName) {
     return this.reducerMap.containsKey(reducerName);
   }
 
@@ -179,7 +122,7 @@ public class TelemetryReducerManager {
   }
 
   /**
-   * Gets information about all defined telemetry reducers.
+   * Returns information about all defined TelemetryReducers. 
    * 
    * @return A collection of <code>TelemetryReducerInfo</code> instances.
    */
