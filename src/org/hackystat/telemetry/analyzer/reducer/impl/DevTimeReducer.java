@@ -1,8 +1,6 @@
 package org.hackystat.telemetry.analyzer.reducer.impl;
 
-import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import org.hackystat.dailyprojectdata.resource.devtime.jaxb.DevTimeDailyProjectD
 import org.hackystat.dailyprojectdata.resource.devtime.jaxb.MemberData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.sensorbase.uripattern.UriPattern;
-import org.hackystat.sensorbase.resource.users.jaxb.User;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
@@ -134,10 +131,9 @@ public class DevTimeReducer implements TelemetryReducer {
       UriPattern filePattern, boolean isCumulative, Object streamTagValue) 
         throws Exception {
     TelemetryStream telemetryStream = new TelemetryStream(streamTagValue);
-    List periods = IntervalUtility.getPeriods(interval);
+    List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     double cumulativeDevTime = 0;
-    for (Iterator i = periods.iterator(); i.hasNext(); ) {
-      IntervalUtility.Period period = (IntervalUtility.Period) i.next();
+    for (IntervalUtility.Period period : periods) {
       Double value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
           eventType, member, filePattern);
       
@@ -168,7 +164,7 @@ public class DevTimeReducer implements TelemetryReducer {
    * @param filePattern File filter pattern, or null to match all files.
    * @throws TelemetryReducerException If anything goes wrong.
    *
-   * @return The DevTime, or null if there is no SensorData for that time period. 
+   * @return The DevTime, or null if there is no DevEvent SensorData for that time period. 
    */
   Double getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
       String eventType, String member, UriPattern filePattern) throws TelemetryReducerException {

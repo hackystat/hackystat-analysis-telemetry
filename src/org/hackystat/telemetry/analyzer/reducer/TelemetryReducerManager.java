@@ -1,6 +1,7 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -8,26 +9,32 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
+import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinitions;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
+import org.hackystat.utilities.logger.HackystatLogger;
+import org.hackystat.utilities.stacktrace.StackTrace;
 import org.hackystat.utilities.time.interval.Interval;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
  * Provides a singleton manager for telemetry reducers. 
- * <p>
- * V8 Notes: Reducers must be read in using JAXB.
  * 
- * @author Qin ZHANG
- * @version $Id$
+ * @author Qin ZHANG, Philip Johnson
  */
 public class TelemetryReducerManager {
 
+  /** The singleton */
   private static TelemetryReducerManager theInstance = new TelemetryReducerManager();
-  private Map<String, TelemetryReducerInfo> reducerMap = 
-    new TreeMap<String, TelemetryReducerInfo>();
+  /** Maps reducer names to a data structure with information about them. */ 
+  private Map<String, TelemetryReducerInfo> reducerMap = new TreeMap<String, TelemetryReducerInfo>();
   private Logger logger;
+  
+  private ReducerDefinitions definitions;
 
   /**
    * Gets the singleton instance of this class.
@@ -44,9 +51,21 @@ public class TelemetryReducerManager {
    * Instead errors will be logged through Hackystat standard logging mechanism.
    */
   private TelemetryReducerManager() {
-    this.logger = null; //ServerProperties.getInstance().getLogger();
+    this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
     
-    // find all "**telemetry.def.xml" files, and call processSingleFile() on each file.
+    try {
+      InputStream definitionsStream = getClass().getResourceAsStream("reducer.definitions.xml");
+      JAXBContext jaxbContext = JAXBContext
+      .newInstance(org.hackystat.telemetry.analyzer.reducer.jaxb.ObjectFactory.class);
+      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+      this.definitions = (ReducerDefinitions) unmarshaller.unmarshal(definitionsStream);
+    } 
+    catch (Exception e) {
+      String trace = StackTrace.toString(e);
+      this.logger.warning("Could not find telemetry reduction function definitions! " + trace);
+    }
+
+
     File webInfDir = null; //ServerProperties.getInstance().getWebInfDir(false);
     File telemetryDir = new File(webInfDir, "telemetry");
     if (!telemetryDir.isDirectory()) {
