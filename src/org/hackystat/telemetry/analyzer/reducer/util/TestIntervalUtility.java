@@ -1,8 +1,8 @@
 package org.hackystat.telemetry.analyzer.reducer.util;
 
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
+import java.util.List;
 
 import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.interval.MonthInterval;
@@ -10,22 +10,24 @@ import org.hackystat.utilities.time.interval.WeekInterval;
 import org.hackystat.utilities.time.period.Day;
 import org.hackystat.utilities.time.period.Month;
 import org.hackystat.utilities.time.period.Week;
+import org.junit.Test;
 
 /**
  * Test suite for <code>IntervalUtility</code>.
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang, Philip Johnson
  */
-public class TestIntervalUtility extends TestCase {
+public class TestIntervalUtility {
 
   /**
    * Tests with day interval.
    * 
    * @throws Exception If test fails.
    */
+  @Test
   public void testWithDayInterval() throws Exception {
     DayInterval interval = new DayInterval("2002", "0", "1", "2002", "0", "3");
-    List periods = IntervalUtility.getPeriods(interval);
+    List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     assertEquals(3, periods.size());
     
     Day firstDay = Day.getInstance(2002, 0, 1);
@@ -47,7 +49,7 @@ public class TestIntervalUtility extends TestCase {
   public void testWithWeekInterval() throws Exception {
     WeekInterval interval = new WeekInterval("06-Jan-2002 to 12-Jan-2002",
                                              "20-Jan-2002 to 26-Jan-2002");
-    List periods = IntervalUtility.getPeriods(interval);
+    List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     assertEquals(3, periods.size());
     
     Week currentWeek = new Week(Day.getInstance(2002, 0, 6));
@@ -68,7 +70,7 @@ public class TestIntervalUtility extends TestCase {
    */
   public void testWithMonthInterval() throws Exception {
     MonthInterval interval = new MonthInterval("2002", "0", "2002", "3");//jan to april
-    List periods = IntervalUtility.getPeriods(interval);
+    List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     assertEquals(4, periods.size());
     
     Month currentMonth = new Month(2002, 0);

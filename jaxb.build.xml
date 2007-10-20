@@ -13,7 +13,17 @@
   </taskdef>   
 
   <target name="jaxb" description="Runs the XJC compiler.">
-    <xjc schema="${basedir}/xml/schema/telemetry.xsd" destdir="src" package="org.hackystat.telemetry.service.resource.chart.jaxb"/>
-    <xjc schema="${basedir}/xml/schema/reducer.xsd" destdir="src" package="org.hackystat.telemetry.analyzer.reducer.jaxb"/>
+    <xjc schema="${basedir}/xml/schema/telemetry.xsd" destdir="src" 
+         package="org.hackystat.telemetry.service.resource.chart.jaxb">
+      <produces dir="${src.dir}/org/hackystat/telemetry/service/resource/chart/jaxb" includes="*" />
+    </xjc>
+    <xjc schema="${basedir}/xml/schema/reducer.xsd" destdir="src" 
+         package="org.hackystat.telemetry.analyzer.reducer.jaxb">
+      <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/reducer/jaxb" includes="*" />
+      </xjc>
+    <xjc schema="${basedir}/xml/schema/function.xsd" destdir="src" 
+         package="org.hackystat.telemetry.analyzer.function.jaxb">
+      <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/function/jaxb" includes="*" />
+      </xjc>
   </target>
 </project>

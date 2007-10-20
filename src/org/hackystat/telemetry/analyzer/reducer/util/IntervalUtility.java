@@ -1,7 +1,6 @@
 package org.hackystat.telemetry.analyzer.reducer.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hackystat.utilities.time.interval.DayInterval;
@@ -17,7 +16,7 @@ import org.hackystat.utilities.time.period.Week;
 /**
  * Provides utility functions for processing Intervals. 
  * 
- * @author (Cedric) Qin Zhang
+ * @author (Cedric) Qin Zhang, Philip Johnson
  */
 public class IntervalUtility {
  
@@ -34,20 +33,20 @@ public class IntervalUtility {
     ArrayList<IntervalUtility.Period> list = new ArrayList<IntervalUtility.Period>();
     
     if (interval instanceof DayInterval) {
-      for (Iterator i = interval.iterator(); i.hasNext(); ) {
-        Day day = (Day) i.next();
+      DayInterval dayInterval = (DayInterval) interval;
+      for (Day day : dayInterval) {
         list.add(new Period(day));
       }
     }
     else if (interval instanceof WeekInterval) {
-      for (Iterator i = interval.iterator(); i.hasNext(); ) {
-        Week week = (Week) i.next();
+      WeekInterval weekInterval = (WeekInterval) interval;
+      for (Week week : weekInterval) {
         list.add(new Period(week));
       }      
     }
     else if (interval instanceof MonthInterval) {
-      for (Iterator i = interval.iterator(); i.hasNext(); ) {
-        Month month = (Month) i.next();
+      MonthInterval monthInterval = (MonthInterval) interval;
+      for (Month month : monthInterval) {
         list.add(new Period(month));
       }  
     }
