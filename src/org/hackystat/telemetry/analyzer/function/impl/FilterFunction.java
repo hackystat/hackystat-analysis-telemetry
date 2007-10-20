@@ -1,7 +1,6 @@
 package org.hackystat.telemetry.analyzer.function.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -125,8 +124,7 @@ public class FilterFunction extends TelemetryFunction {
     
     TelemetryStreamCollection target = new TelemetryStreamCollection(
         streams.getName(), streams.getProject(), streams.getInterval());   
-    for (Iterator i = streams.getTelemetryStreams().iterator(); i.hasNext(); ) {
-      TelemetryStream stream = (TelemetryStream) i.next();
+    for (TelemetryStream stream : streams) {
       double rank = rankFunction.getRank(stream);
       if ((isAbove && rank > cutoff) || (! isAbove && rank < cutoff)) {
         target.add(stream);
@@ -297,8 +295,7 @@ public class FilterFunction extends TelemetryFunction {
     public double getRank(TelemetryStream stream) {
       int count = 0;
       double sum = 0;
-      for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint dp : stream.getDataPoints()) {
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();
@@ -327,8 +324,7 @@ public class FilterFunction extends TelemetryFunction {
      */
     public double getRank(TelemetryStream stream) {
       double max = Double.MIN_VALUE;
-      for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint dp : stream.getDataPoints()) {
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();
@@ -357,8 +353,7 @@ public class FilterFunction extends TelemetryFunction {
      */
     public double getRank(TelemetryStream stream) {
       double min = Double.MAX_VALUE;
-      for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint dp : stream.getDataPoints()) {
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();
@@ -386,7 +381,7 @@ public class FilterFunction extends TelemetryFunction {
      * @return The last value.
      */
     public double getRank(TelemetryStream stream) {
-      List list = stream.getDataPoints();
+      List<TelemetryDataPoint> list = stream.getDataPoints();
       for (int i = list.size() - 1; i >= 0; i--) {
         TelemetryDataPoint dp = (TelemetryDataPoint) list.get(i);
         Number number = dp.getValue();
@@ -416,8 +411,7 @@ public class FilterFunction extends TelemetryFunction {
     public double getRank(TelemetryStream stream) {
       double sum = 0;
       double lastValue = Double.NaN;
-      for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint dp : stream.getDataPoints()) {
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();
@@ -449,8 +443,7 @@ public class FilterFunction extends TelemetryFunction {
     public double getRank(TelemetryStream stream) {
       double firstValue = Double.NaN;
       double lastValue = Double.NaN;
-      for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint dp : stream.getDataPoints()) {
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();

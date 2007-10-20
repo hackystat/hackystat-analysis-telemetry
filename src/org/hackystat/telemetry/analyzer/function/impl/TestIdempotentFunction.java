@@ -50,7 +50,7 @@ public class TestIdempotentFunction extends TestCase {
    */
   public void testNumbers() throws Exception {
     Number num = new Integer(1);
-    Object result = this.manager.compute("Idempotent", new Number[]{num});
+    Object result = this.manager.compute("idempotent", new Number[]{num});
     assertSame(num, result);
   }
   
@@ -62,7 +62,7 @@ public class TestIdempotentFunction extends TestCase {
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("Idempotent", new Object[]{input});
+        this.manager.compute("idempotent", new Object[]{input});
     assertSame(input, output);
   }
 }

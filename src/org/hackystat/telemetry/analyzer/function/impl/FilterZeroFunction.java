@@ -1,7 +1,5 @@
 package org.hackystat.telemetry.analyzer.function.impl;
 
-import java.util.Iterator;
-
 import org.hackystat.telemetry.analyzer.function.TelemetryFunction;
 import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataModelException;
@@ -41,8 +39,7 @@ public class FilterZeroFunction extends TelemetryFunction {
         TelemetryStreamCollection source = (TelemetryStreamCollection) parameters[0];
         TelemetryStreamCollection target = new TelemetryStreamCollection(
             source.getName(), source.getProject(), source.getInterval());
-        for (Iterator i = source.getTelemetryStreams().iterator(); i.hasNext(); ) {
-          TelemetryStream stream = (TelemetryStream) i.next();
+        for (TelemetryStream stream : source.getTelemetryStreams()) {
           if (! this.isAllZero(stream)) {
             target.add(stream);
           }
@@ -62,8 +59,7 @@ public class FilterZeroFunction extends TelemetryFunction {
    * @return True if it contains all zero or no value.
    */
   private boolean isAllZero(TelemetryStream stream) {
-    for (Iterator i = stream.getDataPoints().iterator(); i.hasNext(); ) {
-      TelemetryDataPoint dp = (TelemetryDataPoint) i.next();
+    for (TelemetryDataPoint dp : stream.getDataPoints()) {
       Number value = dp.getValue();
       if (value != null) {
         if ((value instanceof Double || value instanceof Float)

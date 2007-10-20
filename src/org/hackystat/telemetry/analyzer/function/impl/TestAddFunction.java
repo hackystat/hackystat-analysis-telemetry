@@ -54,17 +54,17 @@ public class TestAddFunction extends TestCase {
   public void testWith2Numbers() throws Exception {
     Number num1 = new Integer(1);
     Number num2 = new Integer(3);
-    Object result = this.manager.compute("Add", new Number[]{num1, num2});
+    Object result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4, ((Integer) result).intValue());
     
     num1 = new Integer(1);
     num2 = new Double(3.5);
-    result = this.manager.compute("Add", new Number[]{num1, num2});
+    result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4.50, ((Double) result).doubleValue(), 0.00001);
     
     num1 = new Double(1.1);
     num2 = new Double(3.5);
-    result = this.manager.compute("Add", new Number[]{num1, num2});
+    result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4.60, ((Double) result).doubleValue(), 0.00001);
   }
   
@@ -81,7 +81,7 @@ public class TestAddFunction extends TestCase {
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("Add", new Object[]{input, new Double(0.1)});
+        this.manager.compute("add", new Object[]{input, new Double(0.1)});
     
     TelemetryStreamCollection expected 
         = new TelemetryStreamCollection("test", this.project, this.interval);
@@ -106,7 +106,7 @@ public class TestAddFunction extends TestCase {
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("Add", new Object[]{new Double(0.1), input});
+        this.manager.compute("add", new Object[]{new Double(0.1), input});
 
     TelemetryStreamCollection expected 
         = new TelemetryStreamCollection("test", this.project, this.interval);
@@ -138,7 +138,7 @@ public class TestAddFunction extends TestCase {
     input2.add(inputStream2);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("Add", new Object[]{input1, input2});
+        this.manager.compute("add", new Object[]{input1, input2});
 
     TelemetryStreamCollection expected 
         = new TelemetryStreamCollection("test", this.project, this.interval);

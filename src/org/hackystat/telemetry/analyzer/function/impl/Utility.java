@@ -1,7 +1,5 @@
 package org.hackystat.telemetry.analyzer.function.impl;
 
-import java.util.Iterator;
-
 import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
@@ -29,8 +27,7 @@ class Utility {
     TelemetryStreamCollection target = new TelemetryStreamCollection(source.getName(),
         source.getProject(), source.getInterval());
     try {
-      for (Iterator i = source.getTelemetryStreams().iterator(); i.hasNext(); ) {
-        TelemetryStream srcStream = (TelemetryStream) i.next();
+      for (TelemetryStream srcStream : source) {
         target.add(expandNumber(value, srcStream));
       }
     }
@@ -53,8 +50,7 @@ class Utility {
       throws TelemetryFunctionException {
     TelemetryStream target = new TelemetryStream(source.getTag());
     try {
-      for (Iterator i = source.getDataPoints().iterator(); i.hasNext(); ) {
-        TelemetryDataPoint srcDataPoint = (TelemetryDataPoint) i.next();
+      for (TelemetryDataPoint srcDataPoint : source.getDataPoints()) {
         target.addDataPoint(new TelemetryDataPoint(srcDataPoint.getPeriod(), value));
       }
     }

@@ -2,6 +2,7 @@ package org.hackystat.telemetry.analyzer.model;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
@@ -16,7 +17,7 @@ import org.hackystat.utilities.time.interval.Interval;
  * 
  * @author (Cedric) Qin Zhang
  */
-public class TelemetryStreamCollection {
+public class TelemetryStreamCollection implements Iterable<TelemetryStream> {
 
   private String name;
 
@@ -46,7 +47,7 @@ public class TelemetryStreamCollection {
   /**
    * Sets the name tag.
    * 
-   * @param name The name tage.
+   * @param name The name tag.
    */
   public void setName(String name) {
     this.name = name;
@@ -101,6 +102,15 @@ public class TelemetryStreamCollection {
   public TelemetryStream get(Object tag) {
     return this.streamMap.get(tag);
   }
+  
+  /**
+   * Return an iterator over the TelemetryStreams in this collection.
+   * 
+   * @return An iterator over TelemetryStreams.
+   */
+  public Iterator<TelemetryStream> iterator() {
+    return this.streamMap.values().iterator();
+  }
 
   /**
    * Gets all the telemetry streams contained in this collection.
@@ -110,4 +120,5 @@ public class TelemetryStreamCollection {
   public Collection<TelemetryStream> getTelemetryStreams() {
     return this.streamMap.values();
   }
+
 }

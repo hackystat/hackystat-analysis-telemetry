@@ -1,6 +1,5 @@
 package org.hackystat.telemetry.analyzer.function.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hackystat.telemetry.analyzer.function.TelemetryFunctionException;
@@ -12,7 +11,7 @@ import org.hackystat.utilities.time.period.TimePeriod;
 /**
  * Helper class to perform binary operations on <code>TelemetryStreamCollection</code> objects.
  * 
- * @author (Cedric) Qin ZHANG
+ * @author (Cedric) Qin ZHANG, Philip Johnson
  */
 class BinaryOperationUtility {
   
@@ -59,20 +58,18 @@ class BinaryOperationUtility {
           "Two stream collections have different number of streams.");
     }
     else {
-      for (Iterator i = streamCollection1.getTelemetryStreams().iterator(); i.hasNext();) {
-        TelemetryStream stream1 = (TelemetryStream) i.next();
+      for (TelemetryStream stream1 : streamCollection1) {
         if (streamCollection2.get(stream1.getTag()) == null) {
           throw new TelemetryFunctionException("Two stream collections do not match.");
         }
       }
     }
 
-    //do compuatation
+    //do computation
     try {
       TelemetryStreamCollection resultStreams = new TelemetryStreamCollection(null,
           streamCollection1.getProject(), streamCollection2.getInterval());
-      for (Iterator i = streamCollection1.getTelemetryStreams().iterator(); i.hasNext();) {
-        TelemetryStream stream1 = (TelemetryStream) i.next();
+      for (TelemetryStream stream1 : streamCollection1) {
         TelemetryStream stream2 = streamCollection2.get(stream1.getTag());
         resultStreams.add(computes(operator, stream1, stream2));
       }
@@ -119,8 +116,8 @@ class BinaryOperationUtility {
       }
     }
     // check number of data points in the two streams
-    List dataPointSeries1 = stream1.getDataPoints();
-    List dataPointSeries2 = stream2.getDataPoints();
+    List<TelemetryDataPoint> dataPointSeries1 = stream1.getDataPoints();
+    List<TelemetryDataPoint> dataPointSeries2 = stream2.getDataPoints();
     if (dataPointSeries1.size() != dataPointSeries2.size()) {
       throw new TelemetryFunctionException("Two telemetry streams are of different size.");
     }
