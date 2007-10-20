@@ -28,6 +28,7 @@ public class IdempotentFunction extends TelemetryFunction {
   * 
   * @throws TelemetryFunctionException If anything is wrong.
   */
+  @Override
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
     if (parameters.length == 1) {
       return parameters[0];

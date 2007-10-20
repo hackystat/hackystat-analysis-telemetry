@@ -56,6 +56,7 @@ public class FilterFunction extends TelemetryFunction {
    * 
    * @throws TelemetryFunctionException If anything is wrong.
    */
+  @Override
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
     if (parameters.length != 4 || ! (parameters[0] instanceof TelemetryStreamCollection)
          || ! (parameters[1] instanceof String) || ! (parameters[2] instanceof String)

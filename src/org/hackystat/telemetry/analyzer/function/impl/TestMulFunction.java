@@ -28,6 +28,7 @@ public class TestMulFunction extends TestCase {
    * Sets up this test case.
    * @throws Exception If test case cannot be set up.
    */
+  @Override
   protected void setUp() throws Exception {
 
     //this.project = ProjectManager.getInstance().createTestProjectClientSide(projectName);
@@ -41,6 +42,7 @@ public class TestMulFunction extends TestCase {
    * Tears down this test case.
    * @throws Exception If tear down failed.
    */
+  @Override
   protected void tearDown() throws Exception {
     //ProjectManager.getInstance().deleteProject(this.projectName);
   }

@@ -1,0 +1,26 @@
+<FunctionDefinitions>
+<FunctionDefinition>
+  <Name>Filter</Name>
+  <ClassName>org.hackystat.telemetry.analyzer.function.impl.FilterFunction</ClassName>
+  <Description>Filters telemetry streams in a telemetry stream collection.</Description>
+  <Parameters>
+    <Parameter>
+      <Name>telemetryStream</Name>
+      <Description>The telemetry stream collection to be filtered.</Description>
+    </Parameter>
+    <Parameter>
+      <Name>rankFunction</Name>
+      <Description>Specifies how to order the streams. One of 'Avg|Max|Min|Last|Delta|SimpleDelta'</Description>
+    </Parameter>
+    <Parameter>
+      <Name>cutoffMode</Name>
+      <Description>Specifies how to filter the ordered streams. One of 'Above|Below|Top|Bottom|TopPercent|BottomPercent'</Description>
+    </Parameter>
+    <Parameter>
+      <Name>cutoffValue</Name>
+      <Description>A number representing a cutoff or threshold value.</Description>
+    </Parameter>
+   </Parameters>
+  </FunctionDefinition>         
+
+</FunctionDefinitions>

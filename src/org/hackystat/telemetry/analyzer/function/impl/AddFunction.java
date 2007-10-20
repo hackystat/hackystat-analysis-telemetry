@@ -32,6 +32,7 @@ public class AddFunction extends TelemetryFunction {
   * 
   * @throws TelemetryFunctionException If anything is wrong.
   */
+  @Override
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
     //parameter validity check
     if (parameters.length != 2 

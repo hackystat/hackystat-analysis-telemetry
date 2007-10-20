@@ -42,6 +42,7 @@ public class TestAddFunction extends TestCase {
    * Tears down this test case.
    * @throws Exception If tear down failed.
    */
+  @Override
   protected void tearDown() throws Exception {
     //ProjectManager.getInstance().deleteProject(this.projectName);
   }
