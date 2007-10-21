@@ -57,6 +57,7 @@ public class TelemetryChartDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return The name.
    */
+  @Override
   public String getName() {
     return this.getChartDefinitionObject().getName();
   }
@@ -66,6 +67,7 @@ public class TelemetryChartDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return Telemetry definition type.
    */
+  @Override
   public TelemetryDefinitionType getType() {
     return TelemetryDefinitionType.CHART;
   }

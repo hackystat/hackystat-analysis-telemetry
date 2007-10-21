@@ -210,6 +210,7 @@ public class ShareScope {
    * 
    * @return The hash code.
    */
+  @Override
   public int hashCode() {
     if (this.project != null) {
       return this.project.hashCode();

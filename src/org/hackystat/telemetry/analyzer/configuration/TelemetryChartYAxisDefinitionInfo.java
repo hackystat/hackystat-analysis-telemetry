@@ -57,6 +57,7 @@ public class TelemetryChartYAxisDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return The name.
    */
+  @Override
   public String getName() {
     return this.chartYAxisDefinition.getName();
   }
@@ -66,6 +67,7 @@ public class TelemetryChartYAxisDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return Telemetry definition type.
    */
+  @Override
   public TelemetryDefinitionType getType() {
     return TelemetryDefinitionType.YAXIS;
   }

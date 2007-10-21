@@ -58,8 +58,8 @@ public class TelemetryEvaluator {
                                       variableResolver, project, user, password, interval);
     if (! (result instanceof TelemetryStreamCollection)) {
       throw new TelemetryEvaluationException("Telemetry streams " + streamsDefinition.getName()
-          + " does not evaluation to TelemetryStreamCollection. "
-          + "Is there any reducer in the expression?");
+          + " does not evaluate to a TelemetryStreamCollection. "
+          + "Is there at least one reducer in the expression?");
     }
     
     // telemetry_streams_definition_name[<parameter, ..., parameter>][:individual_stream_tag].

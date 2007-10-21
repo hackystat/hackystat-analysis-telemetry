@@ -123,7 +123,7 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
   @Override
   public synchronized void add(TelemetryDefinitionInfo defInfo) 
       throws TelemetryConfigurationException {
-    if (this.linkToGlobalSingleton && this.globalSingleton.isNameInUse(defInfo.getName())) {
+    if (this.linkToGlobalSingleton && this.globalSingleton.isDefinition(defInfo.getName())) {
       throw new TelemetryConfigurationException(
           "All telemetry definitions (chart, report) share a global namespace. The name '"
           + defInfo.getName() + "' is already used by either you or other user.");        

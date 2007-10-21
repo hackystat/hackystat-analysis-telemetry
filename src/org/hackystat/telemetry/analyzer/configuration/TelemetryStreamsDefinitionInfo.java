@@ -18,7 +18,7 @@ public class TelemetryStreamsDefinitionInfo extends TelemetryDefinitionInfo {
   /**
    * Constructs this instance.
    * 
-   * @param fullDefinitionString The defintion string.
+   * @param fullDefinitionString The definition string.
    * @param owner The owner of this definition.
    * @param shareScope The share scope of this definition.
    * 
@@ -55,6 +55,7 @@ public class TelemetryStreamsDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return The name.
    */
+  @Override
   public String getName() {
     return this.streamsDefinition.getName();
   }
@@ -64,6 +65,7 @@ public class TelemetryStreamsDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return Telemetry definition type.
    */
+  @Override
   public TelemetryDefinitionType getType() {
     return TelemetryDefinitionType.STREAMS;
   }

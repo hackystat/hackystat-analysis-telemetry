@@ -163,6 +163,7 @@ public class TelemetryChartObject {
      * @param o another object to be compared with this object.
      * @return True if they are equal.
      */
+    @Override
     public boolean equals(Object o) {
       if (o instanceof YAxis) {
         YAxis y = (YAxis) o;
@@ -176,6 +177,7 @@ public class TelemetryChartObject {
      * Computes hash code.
      * @return The hash code.
      */
+    @Override
     public int hashCode() {
       return this.label.hashCode();
     }

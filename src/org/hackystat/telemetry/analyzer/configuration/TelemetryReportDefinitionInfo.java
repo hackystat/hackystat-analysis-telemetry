@@ -56,6 +56,7 @@ public class TelemetryReportDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return The name.
    */
+  @Override
   public String getName() {
     return this.getReportDefinitionObject().getName();
   }
@@ -65,6 +66,7 @@ public class TelemetryReportDefinitionInfo extends TelemetryDefinitionInfo {
    * 
    * @return Telemetry definition type.
    */
+  @Override
   public TelemetryDefinitionType getType() {
     return TelemetryDefinitionType.REPORT;
   }

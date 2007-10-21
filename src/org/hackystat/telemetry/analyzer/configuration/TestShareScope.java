@@ -28,6 +28,7 @@ public class TestShareScope extends TestCase {
    * 
    * @throws Exception If test case cannot be set up.
    */
+  @Override
   protected void setUp() throws Exception {
 //    ProjectManager projectManager = ProjectManager.getInstance();
 //
@@ -53,6 +54,7 @@ public class TestShareScope extends TestCase {
    * 
    * @throws Exception If tear down failed.
    */
+  @Override
   protected void tearDown() throws Exception {
     //ProjectManager.getInstance().deleteProject(this.testProjectName);
   }

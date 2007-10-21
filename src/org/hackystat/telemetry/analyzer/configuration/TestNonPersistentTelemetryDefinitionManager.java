@@ -23,6 +23,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
    * Sets up the testcase.
    * 
    */
+  @Override
   protected void setUp() {
     TelemetryDefinitionManager globalManager 
         = TelemetryDefinitionManagerFactory.getGlobalPersistentInstance();
@@ -36,6 +37,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
   /**
    * Tears down the testcase.
    */
+  @Override
   protected void tearDown() {
     this.setUp(); // just do the clean up one more time.
   }
