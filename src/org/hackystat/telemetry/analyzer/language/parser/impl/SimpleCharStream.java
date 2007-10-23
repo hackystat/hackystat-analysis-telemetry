@@ -199,19 +199,17 @@ public class SimpleCharStream
   }
 
   /**
-   * @deprecated 
+   * @Deprecated 
    * @see #getEndColumn
    */
-
   public int getColumn() {
      return bufcolumn[bufpos];
   }
 
   /**
-   * @deprecated 
+   * @Deprecated 
    * @see #getEndLine
    */
-
   public int getLine() {
      return bufline[bufpos];
   }

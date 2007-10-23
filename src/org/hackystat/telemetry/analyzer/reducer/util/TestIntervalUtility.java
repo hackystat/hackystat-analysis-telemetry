@@ -33,7 +33,7 @@ public class TestIntervalUtility {
     Day firstDay = Day.getInstance(2002, 0, 1);
     for (int i = 0; i < periods.size(); i++) {
       Day expected = firstDay.inc(i);
-      IntervalUtility.Period period = (IntervalUtility.Period) periods.get(i);
+      IntervalUtility.Period period = periods.get(i);
       assertEquals(expected, period.getTimePeriod());
       assertEquals(expected, period.getStartDay());
       assertEquals(expected, period.getEndDay());
@@ -54,7 +54,7 @@ public class TestIntervalUtility {
     
     Week currentWeek = new Week(Day.getInstance(2002, 0, 6));
     for (int i = 0; i < periods.size(); i++) {
-      IntervalUtility.Period period = (IntervalUtility.Period) periods.get(i);
+      IntervalUtility.Period period = periods.get(i);
       assertEquals(currentWeek, period.getTimePeriod());
       assertEquals(currentWeek.getFirstDay(), period.getStartDay());
       assertEquals(currentWeek.getLastDay(), period.getEndDay());
@@ -75,7 +75,7 @@ public class TestIntervalUtility {
     
     Month currentMonth = new Month(2002, 0);
     for (int i = 0; i < periods.size(); i++) {
-      IntervalUtility.Period period = (IntervalUtility.Period) periods.get(i);
+      IntervalUtility.Period period = periods.get(i);
       assertEquals(currentMonth, period.getTimePeriod());
       assertEquals(currentMonth.getFirstDay(), period.getStartDay());
       assertEquals(currentMonth.getLastDay(), period.getEndDay());

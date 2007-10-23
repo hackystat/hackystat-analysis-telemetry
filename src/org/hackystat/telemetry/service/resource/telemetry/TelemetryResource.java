@@ -17,8 +17,8 @@ import org.restlet.resource.StringRepresentation;
 import org.restlet.resource.Variant;
 
 import static org.hackystat.telemetry.service.server.Authenticator.AUTHENTICATOR_DPD_CLIENTS_KEY;
-import static org.hackystat.telemetry.service.server.ServerProperties.DAILYPROJECTDATA_HOST_KEY;
-import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_HOST_KEY;
+import static org.hackystat.telemetry.service.server.ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY;
+import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_FULLHOST_KEY;
 
 /**
  * An abstract superclass for all Telemetry resources that supplies common 
@@ -81,8 +81,8 @@ public abstract class TelemetryResource extends Resource {
     }
     this.telemetryServer = (Server)getContext().getAttributes().get("TelemetryServer");
     ServerProperties properties = this.telemetryServer.getServerProperties();
-    this.dpdHost = properties.get(DAILYPROJECTDATA_HOST_KEY);
-    this.sensorBaseHost = properties.get(SENSORBASE_HOST_KEY);
+    this.dpdHost = properties.get(DAILYPROJECTDATA_FULLHOST_KEY);
+    this.sensorBaseHost = properties.get(SENSORBASE_FULLHOST_KEY);
     this.chart = (String) request.getAttributes().get("chart");
     this.uriUser = (String) request.getAttributes().get("email");
     this.project = (String) request.getAttributes().get("project");

@@ -19,7 +19,7 @@ public class TestTelemetryFunctionManager extends TestCase {
     
     for (int i = 0; i < essentialFunctionNames.length; i++) {
       String name = essentialFunctionNames[i];
-      TelemetryFunctionInfo info = (TelemetryFunctionInfo) manager.getFunctionInfo(name);
+      TelemetryFunctionInfo info = manager.getFunctionInfo(name);
       assertNotNull(info);
       assertEquals(info.getName(), info.getFunction().getName());
       assertTrue(manager.isFunction(name));

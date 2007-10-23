@@ -16,11 +16,11 @@ import org.restlet.Router;
 import org.restlet.data.Protocol;
 
 import static org.hackystat.telemetry.service.server.ServerProperties.CONTEXT_ROOT_KEY;
-import static org.hackystat.telemetry.service.server.ServerProperties.DAILYPROJECTDATA_HOST_KEY;
+import static org.hackystat.telemetry.service.server.ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.HOSTNAME_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.LOGGING_LEVEL_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.PORT_KEY;
-import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_HOST_KEY;
+import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_FULLHOST_KEY;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -47,14 +47,36 @@ public class Server extends Application {
   private ServerProperties properties;
   
   /**
-   * Creates a new instance of a Telemetry HTTP server, listening on the supplied port.  
+   * Creates a new instance of a Telemetry HTTP server using the telemetry.properties configuration.
    * @return The Server instance created. 
    * @throws Exception If problems occur starting up this server. 
    */
   public static Server newInstance() throws Exception {
+    return newInstance(new ServerProperties());
+  }
+  
+  /**
+   * Creates a new instance of a Telemetry HTTP server suitable for unit testing. 
+   * Telemetry properties are initialized from the User's telemetry.properties file, 
+   * then set to their "testing" versions.   
+   * @return The Server instance created. 
+   * @throws Exception If problems occur starting up this server. 
+   */
+  public static Server newTestInstance() throws Exception {
+    ServerProperties properties = new ServerProperties();
+    properties.setTestProperties();
+    return newInstance(properties);
+  }
+  
+  /**
+   * Creates a new instance of a Telemetry HTTP server, listening on the supplied port.  
+   * @return The Server instance created. 
+   * @throws Exception If problems occur starting up this server. 
+   */
+  public static Server newInstance(ServerProperties properties) throws Exception {
     Server server = new Server();
     server.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
-    server.properties = new ServerProperties();
+    server.properties = properties;
     server.hostName = "http://" +
                       server.properties.get(HOSTNAME_KEY) + 
                       ":" + 
@@ -82,9 +104,9 @@ public class Server extends Application {
     // Now let's open for business. 
     server.logger.warning("Host: " + server.hostName);
     HackystatLogger.setLoggingLevel(server.logger, server.properties.get(LOGGING_LEVEL_KEY));
-    server.properties.echoProperties(server);
-    String sensorBaseHost = server.properties.get(SENSORBASE_HOST_KEY);
-    String dailyProjectDataHost = server.properties.get(DAILYPROJECTDATA_HOST_KEY);
+    server.logger.info(server.properties.echoProperties());
+    String sensorBaseHost = server.properties.get(SENSORBASE_FULLHOST_KEY);
+    String dailyProjectDataHost = server.properties.get(DAILYPROJECTDATA_FULLHOST_KEY);
     boolean sensorBaseOK = SensorBaseClient.isHost(sensorBaseHost);
     boolean dailyProjectDataOK = DailyProjectDataClient.isHost(dailyProjectDataHost);
     server.logger.warning("Service SensorBase " + sensorBaseHost + 
@@ -136,7 +158,7 @@ public class Server extends Application {
         ChartResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
-        this.getServerProperties().get(SENSORBASE_HOST_KEY));
+        this.getServerProperties().get(SENSORBASE_FULLHOST_KEY));
     guard.setNext(authRouter);
    guard.setNext(authRouter);
     
@@ -157,13 +179,13 @@ public class Server extends Application {
    */
   public static String getVersion() {
     String version = 
-      Package.getPackage("org.hackystat.telemetry.server").getImplementationVersion();
+      Package.getPackage("org.hackystat.telemetry.service.server").getImplementationVersion();
     return (version == null) ? "Development" : version; 
   }
   
   /**
    * Returns the host name associated with this server. 
-   * Example: "http://localhost:9877/dailyprojectdata"
+   * Example: "http://localhost:9878/telemetry"
    * @return The host name. 
    */
   public String getHostName() {

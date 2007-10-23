@@ -203,8 +203,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals(0, def.getVariables().length);
     assertEquals(3, def.getSubCharts().size());
     
-    TelemetryChartDefinition.SubChartDefinition subChart0 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(0);
+    TelemetryChartDefinition.SubChartDefinition subChart0 = def.getSubCharts().get(0);
     StreamsReference streamsRef0 = subChart0.getStreamsReference();
     assertEquals("Aa", streamsRef0.getName());
     assertEquals(0, streamsRef0.getParameters().length);
@@ -212,8 +211,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals("yAxisA", yAxisRef0.getName());
     assertEquals(0, yAxisRef0.getParameters().length);
 
-    TelemetryChartDefinition.SubChartDefinition subChart1 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(1);
+    TelemetryChartDefinition.SubChartDefinition subChart1 = def.getSubCharts().get(1);
     StreamsReference streamsRef1 = subChart1.getStreamsReference();
     assertEquals("Bb", streamsRef1.getName());
     assertEquals(0, streamsRef1.getParameters().length);
@@ -222,8 +220,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals(1, yAxisRef1.getParameters().length);
     assertEquals("var", ((Variable) yAxisRef1.getParameters()[0]).getName());
     
-    TelemetryChartDefinition.SubChartDefinition subChart2 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(2);
+    TelemetryChartDefinition.SubChartDefinition subChart2 = def.getSubCharts().get(2);
     StreamsReference streamsRef2 = subChart2.getStreamsReference();
     assertEquals("Cc", streamsRef2.getName());
     assertEquals(0, streamsRef2.getParameters().length);
@@ -257,8 +254,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals("t2", vars[1].getName());
 
     // check subcharts
-    TelemetryChartDefinition.SubChartDefinition subChart0 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(0);
+    TelemetryChartDefinition.SubChartDefinition subChart0  = def.getSubCharts().get(0);
     StreamsReference streamsRef0 = subChart0.getStreamsReference();
     assertEquals("Aa", streamsRef0.getName());
     assertEquals(2, streamsRef0.getParameters().length);
@@ -267,8 +263,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     YAxisReference yAxisRef0 = subChart0.getYAxisReference();
     assertEquals("yAxisA", yAxisRef0.getName());
 
-    TelemetryChartDefinition.SubChartDefinition subChart1 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(1);
+    TelemetryChartDefinition.SubChartDefinition subChart1 = def.getSubCharts().get(1);
     StreamsReference streamsRef1 = subChart1.getStreamsReference();
     assertEquals("Bb", streamsRef1.getName());
     assertEquals(0, streamsRef1.getParameters().length);
@@ -276,8 +271,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals("yAxisB", yAxisRef1.getName());
     assertEquals(0, yAxisRef1.getParameters().length);
 
-    TelemetryChartDefinition.SubChartDefinition subChart2 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(2);
+    TelemetryChartDefinition.SubChartDefinition subChart2 = def.getSubCharts().get(2);
     StreamsReference streamsRef2 = subChart2.getStreamsReference();
     assertEquals("Cc", streamsRef2.getName());
     assertEquals(0, streamsRef2.getParameters().length);
@@ -300,8 +294,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals(0, def.getVariables().length);
     assertEquals(1, def.getSubCharts().size());
 
-    TelemetryChartDefinition.SubChartDefinition subChart0 
-        = (TelemetryChartDefinition.SubChartDefinition) def.getSubCharts().get(0);
+    TelemetryChartDefinition.SubChartDefinition subChart0 = def.getSubCharts().get(0);
     StreamsReference streamsRef0 = subChart0.getStreamsReference();
     assertEquals("Sloc", streamsRef0.getName());
     assertEquals(1, streamsRef0.getParameters().length);
@@ -325,11 +318,11 @@ public class TestTelemetryLanguageParser extends TestCase {
     List<ChartReference> nameRefs = def.getChartReferences();
     assertEquals(2, nameRefs.size());
 
-    ChartReference ref0 = (ChartReference) nameRefs.get(0);
+    ChartReference ref0 = nameRefs.get(0);
     assertEquals("Aa", ref0.getName());
     assertEquals(0, ref0.getParameters().length);
 
-    ChartReference ref1 = (ChartReference) nameRefs.get(1);
+    ChartReference ref1 = nameRefs.get(1);
     assertEquals("Bb", ref1.getName());
     assertEquals(0, ref1.getParameters().length);
   }
@@ -356,17 +349,17 @@ public class TestTelemetryLanguageParser extends TestCase {
     List<ChartReference> nameRefs = def.getChartReferences();
     assertEquals(3, nameRefs.size());
 
-    ChartReference ref0 = (ChartReference) nameRefs.get(0);
+    ChartReference ref0 = nameRefs.get(0);
     assertEquals("Aa", ref0.getName());
     assertEquals(2, ref0.getParameters().length);
     assertEquals("t1", ((Variable) ref0.getParameters()[0]).getName());
     assertEquals("r2", ((StringConstant) ref0.getParameters()[1]).getValue());
 
-    ChartReference ref1 = (ChartReference) nameRefs.get(1);
+    ChartReference ref1 = nameRefs.get(1);
     assertEquals("Bb", ref1.getName());
     assertEquals(0, ref1.getParameters().length);
 
-    ChartReference ref2 = (ChartReference) nameRefs.get(2);
+    ChartReference ref2 = nameRefs.get(2);
     assertEquals("Cc", ref2.getName());
     assertEquals(0, ref2.getParameters().length);
   }
@@ -518,7 +511,7 @@ public class TestTelemetryLanguageParser extends TestCase {
         "draw  B    (\"b1\", \"b2\");",
     };
     for (int i = 0; i < 6; i++) {
-      TelemetryDefinition telemetryDefinition = (TelemetryDefinition) list.get(i);
+      TelemetryDefinition telemetryDefinition = list.get(i);
       assertEquals(expectedDefStrings[i], telemetryDefinition.getDefinitionString());
     }
   }

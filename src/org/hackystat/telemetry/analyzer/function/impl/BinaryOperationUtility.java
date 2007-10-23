@@ -127,8 +127,8 @@ class BinaryOperationUtility {
     try {
       int size = dataPointSeries1.size();
       for (int i = 0; i < size; i++) {
-        TelemetryDataPoint dataPoint1 = (TelemetryDataPoint) dataPointSeries1.get(i);
-        TelemetryDataPoint dataPoint2 = (TelemetryDataPoint) dataPointSeries2.get(i);
+        TelemetryDataPoint dataPoint1 = dataPointSeries1.get(i);
+        TelemetryDataPoint dataPoint2 = dataPointSeries2.get(i);
         TimePeriod timePeriod = dataPoint1.getPeriod();
         if (!timePeriod.equals(dataPoint2.getPeriod())) {
           throw new TelemetryFunctionException(

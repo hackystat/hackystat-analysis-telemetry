@@ -42,6 +42,6 @@ public class VariableResolver {
     if (! this.map.containsKey(varName)) {
       throw new TelemetryEvaluationException("Variable " + varName + " not found.");
     }
-    return (Constant) this.map.get(varName);
+    return this.map.get(varName);
   }
 }

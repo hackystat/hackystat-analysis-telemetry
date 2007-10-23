@@ -144,6 +144,7 @@ public class FilterFunction extends TelemetryFunction {
    * @return A new <code>TelemetryStreamCollection</code> instance after filtering. 
    * @throws Exception If there is anything wrong.
    */
+  @SuppressWarnings("cast")
   private TelemetryStreamCollection applyRelativeCutoff(TelemetryStreamCollection streams, 
       RankFunction rankFunction, String opMode, int cutoff) throws Exception {
     
@@ -383,7 +384,7 @@ public class FilterFunction extends TelemetryFunction {
     public double getRank(TelemetryStream stream) {
       List<TelemetryDataPoint> list = stream.getDataPoints();
       for (int i = list.size() - 1; i >= 0; i--) {
-        TelemetryDataPoint dp = (TelemetryDataPoint) list.get(i);
+        TelemetryDataPoint dp = list.get(i);
         Number number = dp.getValue();
         if (number != null) {
           double numberValue = number.doubleValue();

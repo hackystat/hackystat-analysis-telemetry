@@ -41,7 +41,7 @@ public class TelemetryLanguageParser {
     try {
       TelemetryLanguageParserImpl parser 
           = new TelemetryLanguageParserImpl(new StringReader(string));
-      List<TelemetryDefinition> defs = (List<TelemetryDefinition>)parser.all_input();
+      List<TelemetryDefinition> defs = parser.all_input();
       TextExtractor textExtractor = new TextExtractor(string);
       for (TelemetryDefinition def : defs) {
         def.setDefinitionString(textExtractor.extract(def.getTextPosition()));       
@@ -188,18 +188,18 @@ public class TelemetryLanguageParser {
       
       if (startRow < endRow) {
         StringBuffer buffer = new StringBuffer(64);      
-        String line = (String) this.lines.get(startRow);
+        String line = this.lines.get(startRow);
         buffer.append(line.substring(startCol)).append('\n');
         for (int i = startRow + 1; i < endRow; i++) {
-          buffer.append((String) this.lines.get(i)).append('\n');
+          buffer.append(this.lines.get(i)).append('\n');
         }
-        line = (String) this.lines.get(endRow);
+        line = this.lines.get(endRow);
         buffer.append(line.substring(0, endCol + 1));
         return buffer.toString();
       }
       else if (startRow == endRow) {
         if (startCol <= endCol) {
-          String line = (String) this.lines.get(startRow);
+          String line = this.lines.get(startRow);
           return line.substring(startCol, endCol + 1);
         }
         else {

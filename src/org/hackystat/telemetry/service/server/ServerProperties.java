@@ -12,9 +12,9 @@ import java.util.Properties;
 public class ServerProperties {
   
   /** The sensorbase host. */
-  public static final String SENSORBASE_HOST_KEY =  "telemetry.sensorbase.host";
+  public static final String SENSORBASE_FULLHOST_KEY =  "telemetry.sensorbase.host";
   /** The DPD host. */
-  public static final String DAILYPROJECTDATA_HOST_KEY =  "telemetry.dailyprojectdata.host";
+  public static final String DAILYPROJECTDATA_FULLHOST_KEY =  "telemetry.dailyprojectdata.host";
   /** The dailyprojectdata hostname key. */
   public static final String HOSTNAME_KEY =        "telemetry.hostname";
   /** The dailyprojectdata context root. */
@@ -25,6 +25,16 @@ public class ServerProperties {
   public static final String PORT_KEY =            "telemetry.port";
   /** The XML directory key. */
   public static final String XML_DIR_KEY =         "telemetry.xml.dir";
+  /** The dpd port key during testing. */
+  public static final String TEST_PORT_KEY =       "telemetry.test.port";
+  /** The test installation key. */
+  public static final String TEST_INSTALL_KEY =    "telemetry.test.install";
+  /** The test installation key. */
+  public static final String TEST_HOSTNAME_KEY =    "telemetry.test.hostname";
+  /** The test sensorbase host key. */
+  public static final String TEST_SENSORBASE_HOST_KEY = "telemetry.test.sensorbase.host";
+  /** The test dpd host key. */
+  public static final String TEST_DAILYPROJECTDATA_FULLHOST_KEY = "telemetry.test.dpd.host";
   
   /** Where we store the properties. */
   private Properties properties; 
@@ -53,13 +63,20 @@ public class ServerProperties {
     String propFile = userHome + "/.hackystat/telemetry/telemetry.properties";
     this.properties = new Properties();
     // Set defaults
-    properties.setProperty(SENSORBASE_HOST_KEY, "http://localhost:9876/sensorbase/");
-    properties.setProperty(DAILYPROJECTDATA_HOST_KEY, "http://localhost:9877/dailyprojectdata/");
+    properties.setProperty(SENSORBASE_FULLHOST_KEY, "http://localhost:9876/sensorbase/");
+    properties.setProperty(DAILYPROJECTDATA_FULLHOST_KEY, 
+        "http://localhost:9877/dailyprojectdata/");
     properties.setProperty(HOSTNAME_KEY, "localhost");
     properties.setProperty(PORT_KEY, "9878");
     properties.setProperty(CONTEXT_ROOT_KEY, "telemetry");
     properties.setProperty(LOGGING_LEVEL_KEY, "INFO");
     properties.setProperty(XML_DIR_KEY, userDir + "/xml");
+    properties.setProperty(TEST_PORT_KEY, "9978");
+    properties.setProperty(TEST_HOSTNAME_KEY, "localhost");
+    properties.setProperty(TEST_SENSORBASE_HOST_KEY, "http://localhost:9976/sensorbase");
+    properties.setProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY, 
+        "http://localhost:9977/dailyprojectdata");
+    properties.setProperty(TEST_INSTALL_KEY, "false");
     FileInputStream stream = null;
     try {
       stream = new FileInputStream(propFile);
@@ -75,37 +92,57 @@ public class ServerProperties {
       }
     }
     // make sure that SENSORBASE_HOST always has a final slash.
-    String sensorBaseHost = (String) properties.get(SENSORBASE_HOST_KEY);
+    String sensorBaseHost = (String) properties.get(SENSORBASE_FULLHOST_KEY);
     if (!sensorBaseHost.endsWith("/")) {
-      properties.put(SENSORBASE_HOST_KEY, sensorBaseHost + "/");
+      properties.put(SENSORBASE_FULLHOST_KEY, sensorBaseHost + "/");
     }    
     // make sure that DAILYPROJECTDATA_HOST always has a final slash.
-    String dailyProjectDataHost = (String) properties.get(DAILYPROJECTDATA_HOST_KEY);
+    String dailyProjectDataHost = (String) properties.get(DAILYPROJECTDATA_FULLHOST_KEY);
     if (!dailyProjectDataHost.endsWith("/")) {
-      properties.put(DAILYPROJECTDATA_HOST_KEY, dailyProjectDataHost + "/");
+      properties.put(DAILYPROJECTDATA_FULLHOST_KEY, dailyProjectDataHost + "/");
     }
     // Now add to System properties.
     Properties systemProperties = System.getProperties();
     systemProperties.putAll(properties);
     System.setProperties(systemProperties);
   }
+  
+  /**
+   * Sets the following properties' values to their "test" equivalent.
+   * <ul>
+   * <li> HOSTNAME_KEY
+   * <li> PORT_KEY
+   * <li> SENSORBASE_HOST_KEY
+   * <li> DAILYPROJECTDATA_FULLHOST_KEY
+   * </ul>
+   * Also sets TEST_INSTALL_KEY's value to "true".
+   */
+  public void setTestProperties() {
+    properties.setProperty(HOSTNAME_KEY, properties.getProperty(TEST_HOSTNAME_KEY));
+    properties.setProperty(PORT_KEY, properties.getProperty(TEST_PORT_KEY));
+    properties.setProperty(SENSORBASE_FULLHOST_KEY, 
+        properties.getProperty(TEST_SENSORBASE_HOST_KEY));
+    properties.setProperty(DAILYPROJECTDATA_FULLHOST_KEY, 
+        properties.getProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY));
+    properties.setProperty(TEST_INSTALL_KEY, "true");
+  }
 
   /**
    * Prints all of the DPD settings to the logger.
    * @param server The DPD server.   
    */
-  public void echoProperties(Server server) {
+  public String echoProperties() {
     String cr = System.getProperty("line.separator"); 
     String eq = " = ";
     String pad = "                ";
-    String propertyInfo = "Telemetry Properties:" + cr +
-      pad + SENSORBASE_HOST_KEY   + eq + get(SENSORBASE_HOST_KEY) + cr +
-      pad + DAILYPROJECTDATA_HOST_KEY   + eq + get(DAILYPROJECTDATA_HOST_KEY) + cr +
+    return "Telemetry Properties:" + cr +
+      pad + SENSORBASE_FULLHOST_KEY   + eq + get(SENSORBASE_FULLHOST_KEY) + cr +
+      pad + DAILYPROJECTDATA_FULLHOST_KEY   + eq + get(DAILYPROJECTDATA_FULLHOST_KEY) + cr +
       pad + HOSTNAME_KEY      + eq + get(HOSTNAME_KEY) + cr +
       pad + CONTEXT_ROOT_KEY  + eq + get(CONTEXT_ROOT_KEY) + cr +
       pad + LOGGING_LEVEL_KEY + eq + get(LOGGING_LEVEL_KEY) + cr +
-      pad + PORT_KEY          + eq + get(PORT_KEY);
-    server.getLogger().info(propertyInfo);
+      pad + PORT_KEY          + eq + get(PORT_KEY) + cr +
+      pad + TEST_INSTALL_KEY  + eq + get(TEST_INSTALL_KEY);
   }
   
   /**

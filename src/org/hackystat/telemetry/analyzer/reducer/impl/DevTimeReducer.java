@@ -88,7 +88,7 @@ public class DevTimeReducer implements TelemetryReducer {
     }
     
     // Find out the DailyProjectData host, throw error if not found.
-    String dpdHost = System.getProperty(ServerProperties.DAILYPROJECTDATA_HOST_KEY);
+    String dpdHost = System.getProperty(ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY);
     if (dpdHost == null) {
       throw new TelemetryReducerException("Null DPD host in DevTimeReducer");
     }

@@ -1,6 +1,6 @@
 package org.hackystat.telemetry.service.resource.ping;
 
-import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_HOST_KEY;
+import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_FULLHOST_KEY;
 
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.service.resource.telemetry.TelemetryResource;
@@ -52,7 +52,7 @@ public class PingResource extends TelemetryResource {
       return new StringRepresentation(unauthenticated);
     }
     // There is a user and password. So, check the SensorBase to see if they're OK. 
-    String sensorBaseHost = telemetryServer.getServerProperties().get(SENSORBASE_HOST_KEY);
+    String sensorBaseHost = telemetryServer.getServerProperties().get(SENSORBASE_FULLHOST_KEY);
     boolean OK = SensorBaseClient.isRegistered(sensorBaseHost, user, password);
     return new StringRepresentation((OK ? authenticated : unauthenticated));
   }
