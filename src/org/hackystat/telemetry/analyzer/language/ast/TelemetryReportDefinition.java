@@ -17,7 +17,7 @@ public class TelemetryReportDefinition extends TelemetryDefinition {
   private String title;
   private String docString;
   private Variable[] variables; //List<Variable>
-  private List chartReferences; //List<ChartReference>
+  private List<ChartReference> chartReferences; 
 
   /**
    * Constructs this instance.
@@ -98,7 +98,7 @@ public class TelemetryReportDefinition extends TelemetryDefinition {
   /**
    * Gets an array of variables used in the definition.
    * 
-   * @return An array of <code>Varaible</code> objects. If there is no variable used,
+   * @return An array of <code>Variable</code> objects. If there is no variable used,
    *         then an empty array is returned.
    */
   public Variable[] getVariables() {
@@ -110,7 +110,7 @@ public class TelemetryReportDefinition extends TelemetryDefinition {
    * 
    * @return A list of <code>ChartReference</code> objects.
    */
-  public List getChartReferences() {
+  public List<ChartReference> getChartReferences() {
     return this.chartReferences;
   }
 }

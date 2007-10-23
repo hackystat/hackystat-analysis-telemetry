@@ -37,6 +37,7 @@ public class NumberConstant extends Constant {
    * 
    * @return The string representation of this number.
    */
+  @Override
   public String getValueString() {
     return this.value.toString();
   }
@@ -48,6 +49,7 @@ public class NumberConstant extends Constant {
    * 
    * @return True if two instances are equal.
    */
+  @Override
   public boolean equals(Object another) {
     return (another instanceof NumberConstant)
         && (this.value.equals(((NumberConstant) another).value));
@@ -58,6 +60,7 @@ public class NumberConstant extends Constant {
    * 
    * @return The hash code.
    */
+  @Override
   public int hashCode() {
     return this.value.hashCode();
   }

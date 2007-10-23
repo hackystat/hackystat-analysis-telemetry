@@ -3,7 +3,6 @@ package org.hackystat.telemetry.analyzer.language.parser;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
@@ -37,14 +36,14 @@ public class TelemetryLanguageParser {
    * 
    * @throws ParsingException If there is parsing error.
    */
-  public static List parse(String string) throws ParsingException {
+  @SuppressWarnings("unchecked")
+  public static List<TelemetryDefinition> parse(String string) throws ParsingException {
     try {
       TelemetryLanguageParserImpl parser 
           = new TelemetryLanguageParserImpl(new StringReader(string));
-      List defs = parser.all_input();
+      List<TelemetryDefinition> defs = (List<TelemetryDefinition>)parser.all_input();
       TextExtractor textExtractor = new TextExtractor(string);
-      for (Iterator i = defs.iterator(); i.hasNext(); ) {
-        TelemetryDefinition def = (TelemetryDefinition) i.next();
+      for (TelemetryDefinition def : defs) {
         def.setDefinitionString(textExtractor.extract(def.getTextPosition()));       
       }
       return defs;
@@ -62,7 +61,7 @@ public class TelemetryLanguageParser {
    *        
    * @return Java object representation of the "streams" definition.
    * 
-   * @throws ParsingException If the input is not gramatically correct.
+   * @throws ParsingException If the input is not grammatically correct.
    */
   public static TelemetryStreamsDefinition parseStreamsDef(String string) throws ParsingException {
     try {

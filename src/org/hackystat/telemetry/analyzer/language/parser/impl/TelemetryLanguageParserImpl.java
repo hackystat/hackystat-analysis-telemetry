@@ -20,6 +20,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryStreamsDefinition;
 import org.hackystat.telemetry.analyzer.language.ast.TextPosition;
 import org.hackystat.telemetry.analyzer.language.ast.Variable;
 import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
+import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.SubChartDefinition;
 
   public class TelemetryLanguageParserImpl implements TelemetryLanguageParserImplConstants {
 
@@ -105,6 +106,7 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
 //                           Main Grammar
 //
 //==========================================================================
+  @SuppressWarnings("unchecked")
   final public List all_input() throws ParseException {
                      List list;
     list = statements();
@@ -316,11 +318,12 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
 //                        TelemetryChartDefinition
 //
 //==========================================================================
+  @SuppressWarnings("unchecked")
   final public TelemetryChartDefinition chart_statement() throws ParseException {
   String id;
   String title;
   Variable[] vars;
-  List subCharts;
+  List<SubChartDefinition> subCharts;
   Token startToken, endToken;
     startToken = jj_consume_token(CHART);
     id = identifier();
@@ -411,6 +414,7 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
 //                        TelemetryReportDefinition
 //
 //==========================================================================
+  @SuppressWarnings("unchecked")
   final public TelemetryReportDefinition report_statement() throws ParseException {
   String id;
   String title;
@@ -1186,6 +1190,7 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
       return (jj_ntk = jj_nt.kind);
   }
 
+  @SuppressWarnings("unchecked")
   private java.util.Vector jj_expentries = new java.util.Vector();
   private int[] jj_expentry;
   private int jj_kind = -1;

@@ -66,6 +66,7 @@ public class TextPosition {
    * Gets string representation of this instance.
    * @return The string representation.
    */
+  @Override
   public String toString() {
     return "TextPosition: (" + this.beginLine + ", " + this.beginColumn + ") - ("
       + this.endLine + ", " + this.endColumn + ")";

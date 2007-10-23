@@ -41,6 +41,7 @@ public class Variable implements Expression {
    * 
    * @return True if two instances are equal.
    */
+  @Override
   public boolean equals(Object another) {
     return (another instanceof Variable)
         && (this.name.equals(((Variable) another).name));
@@ -51,6 +52,7 @@ public class Variable implements Expression {
    * 
    * @return The hash code.
    */
+  @Override
   public int hashCode() {
     return this.name.hashCode();
   }

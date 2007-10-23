@@ -23,7 +23,6 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
  * Test suite for <code>TelemetryQueryParser</code>.
  * 
  * @author (Cedric) Qin ZHANG
- * @version $Id$
  */
 public class TestTelemetryLanguageParser extends TestCase {
 
@@ -323,7 +322,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals("A Description, testing report", def.getTitle());
     assertEquals("A Description, testing report.", def.getDocString());
     
-    List nameRefs = def.getChartReferences();
+    List<ChartReference> nameRefs = def.getChartReferences();
     assertEquals(2, nameRefs.size());
 
     ChartReference ref0 = (ChartReference) nameRefs.get(0);
@@ -354,7 +353,7 @@ public class TestTelemetryLanguageParser extends TestCase {
     assertEquals("t2", vars[1].getName());
 
     // check subcharts
-    List nameRefs = def.getChartReferences();
+    List<ChartReference> nameRefs = def.getChartReferences();
     assertEquals(3, nameRefs.size());
 
     ChartReference ref0 = (ChartReference) nameRefs.get(0);
@@ -436,7 +435,7 @@ public class TestTelemetryLanguageParser extends TestCase {
         + "draw A ( ) ;\n"
         + "streams MyStreamsB() = {\"description\", MyreducerB()};\n"
         + "draw  B    (\"b1\", \"b2\");\n";
-    List list = TelemetryLanguageParser.parse(defs);
+    List<TelemetryDefinition> list = TelemetryLanguageParser.parse(defs);
     assertEquals(6, list.size());
     assertTrue(list.get(0) instanceof TelemetryStreamsDefinition);
     assertTrue(list.get(1) instanceof TelemetryChartDefinition);
@@ -501,7 +500,7 @@ public class TestTelemetryLanguageParser extends TestCase {
       + "draw A \n\n\n( ) ;\n"
       + "              streams MyStreamsB() = {\"description\", MyreducerB()};\n"
       + "draw  B    (\"b1\", \"b2\");\n";
-    List list = TelemetryLanguageParser.parse(defs);
+    List<TelemetryDefinition> list = TelemetryLanguageParser.parse(defs);
     assertEquals(6, list.size());
     assertTrue(list.get(0) instanceof TelemetryStreamsDefinition);
     assertTrue(list.get(1) instanceof TelemetryChartDefinition);

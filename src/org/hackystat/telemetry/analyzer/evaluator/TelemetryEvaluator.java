@@ -1,7 +1,5 @@
 package org.hackystat.telemetry.analyzer.evaluator;
 
-import java.util.Iterator;
-
 import org.hackystat.telemetry.analyzer.function.TelemetryFunctionManager;
 import org.hackystat.telemetry.analyzer.language.ast.ChartReference;
 import org.hackystat.telemetry.analyzer.language.ast.Constant;
@@ -76,9 +74,7 @@ public class TelemetryEvaluator {
     }
     
     TelemetryStreamsObject telemetryStreamsObject = new TelemetryStreamsObject(streamsDefinition);
-    for (Iterator i = ((TelemetryStreamCollection) result).getTelemetryStreams().iterator(); 
-         i.hasNext();) {
-      TelemetryStream stream = (TelemetryStream) i.next();
+    for (TelemetryStream stream : ((TelemetryStreamCollection) result)) {
       Object streamTag = stream.getTag();
       String streamName = streamTag == null ? categorySeriesNamePrefix.toString()
           : categorySeriesNamePrefix.toString() + ':' + streamTag.toString();
@@ -106,9 +102,7 @@ public class TelemetryEvaluator {
     
     TelemetryChartObject telemetryChartObject = new TelemetryChartObject(chartDefinition);
     
-    for (Iterator i = chartDefinition.getSubCharts().iterator(); i.hasNext(); ) {
-      TelemetryChartDefinition.SubChartDefinition subChart 
-          = (TelemetryChartDefinition.SubChartDefinition) i.next();
+    for (TelemetryChartDefinition.SubChartDefinition subChart : chartDefinition.getSubCharts()) {
       
       //find the TelmetryStreamsDefinition object
       StreamsReference streamsRef = subChart.getStreamsReference();
@@ -227,9 +221,8 @@ public class TelemetryEvaluator {
       Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
     
     TelemetryReportObject telemetryReportObject = new TelemetryReportObject(reportDefinition);
-    for (Iterator i = reportDefinition.getChartReferences().iterator(); i.hasNext(); ) {
+    for (ChartReference chartRef : reportDefinition.getChartReferences()) {
       //find the TelmetryChartDefinition object
-      ChartReference chartRef = (ChartReference) i.next();
       TelemetryChartDefinition chartDef 
           = telemetryDefinitionResolver.resolveChartDefinition(chartRef.getName());
       

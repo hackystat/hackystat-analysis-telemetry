@@ -37,6 +37,7 @@ public class StringConstant extends Constant {
    * 
    * @return The string value.
    */
+  @Override
   public String getValueString() {
     return this.value;
   }
@@ -48,6 +49,7 @@ public class StringConstant extends Constant {
    * 
    * @return True if two instances are equal.
    */
+  @Override
   public boolean equals(Object another) {
     return (another instanceof StringConstant)
         && (this.value.equals(((StringConstant) another).value));
@@ -58,6 +60,7 @@ public class StringConstant extends Constant {
    * 
    * @return The hash code.
    */
+  @Override
   public int hashCode() {
     return this.value.hashCode();
   }

@@ -49,6 +49,7 @@ public class TelemetryDataPoint {
    * @return <code>true</code> if this object is the same as the obj argument;
    *         <code>false</code> otherwise.
    */
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof TelemetryDataPoint)) {
       return false;
@@ -75,6 +76,7 @@ public class TelemetryDataPoint {
    * 
    * @return The hash code.
    */
+  @Override
   public int hashCode() {
     int result = this.period.hashCode();
     if (this.value != null) {

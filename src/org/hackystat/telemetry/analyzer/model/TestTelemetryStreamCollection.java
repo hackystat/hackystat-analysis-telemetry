@@ -1,7 +1,6 @@
 package org.hackystat.telemetry.analyzer.model;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import junit.framework.TestCase;
 
@@ -71,11 +70,10 @@ public class TestTelemetryStreamCollection extends TestCase {
     assertEquals(streamCollection1.getProject(), streamCollection2.getProject());
     assertEquals(streamCollection1.getInterval(), streamCollection2.getInterval());
     
-    Collection streams1 = streamCollection1.getTelemetryStreams();
+    Collection<TelemetryStream> streams1 = streamCollection1.getTelemetryStreams();
     assertEquals(streams1.size(), streamCollection2.getTelemetryStreams().size());
     
-    for (Iterator i = streams1.iterator(); i.hasNext(); ) {
-      TelemetryStream streamFrom1 = (TelemetryStream) i.next();
+    for (TelemetryStream streamFrom1 : streams1) {
       Object tag = streamFrom1.getTag();
       TelemetryStream streamFrom2 = streamCollection2.get(tag);
       if (streamFrom2 == null) {
