@@ -54,12 +54,12 @@ public class TestFilterZeroFunction extends TestCase {
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream inputStream1 = new TelemetryStream("test1"); //remain
-    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(1)));
-    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(2)));
+    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(1)));
+    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(2)));
     input.add(inputStream1);
     TelemetryStream inputStream2 = new TelemetryStream("test2"); 
-    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(0)));
-    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(0)));
+    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
+    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(0)));
     input.add(inputStream2);
     TelemetryStream inputStream3 = new TelemetryStream("test3");
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay, null));
@@ -86,7 +86,7 @@ public class TestFilterZeroFunction extends TestCase {
     inputStream8.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), null));
     input.add(inputStream8);
     TelemetryStream inputStream9 = new TelemetryStream("test9"); //remain
-    inputStream9.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(2)));
+    inputStream9.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(2)));
     inputStream9.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), null));
     input.add(inputStream9);
     

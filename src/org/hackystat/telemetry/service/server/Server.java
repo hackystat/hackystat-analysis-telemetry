@@ -70,6 +70,7 @@ public class Server extends Application {
   
   /**
    * Creates a new instance of a Telemetry HTTP server, listening on the supplied port.  
+   * @param properties The ServerProperties instance. 
    * @return The Server instance created. 
    * @throws Exception If problems occur starting up this server. 
    */

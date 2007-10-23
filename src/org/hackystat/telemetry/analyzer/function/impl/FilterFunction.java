@@ -207,7 +207,8 @@ public class FilterFunction extends TelemetryFunction {
    * 
    * @throws TelemetryFunctionException If the rank function does not exist.
    */
-  private ArrayList<TelemetryStream> sort(RankFunction rankFunction, TelemetryStreamCollection streams) 
+  private ArrayList<TelemetryStream> sort(RankFunction rankFunction, 
+      TelemetryStreamCollection streams) 
       throws TelemetryFunctionException {
 
     TreeMap<Double, List<TelemetryStream>> map = new TreeMap<Double, List<TelemetryStream>>();

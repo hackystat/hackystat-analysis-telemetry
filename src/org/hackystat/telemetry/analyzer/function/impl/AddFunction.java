@@ -70,10 +70,10 @@ public class AddFunction extends TelemetryFunction {
      */
     public Number computes(Number a, Number b) {
       if (a instanceof Integer && b instanceof Integer) {
-        return new Integer(a.intValue() + b.intValue());
+        return Integer.valueOf(a.intValue() + b.intValue());
       }
       else {
-        return new Double(a.doubleValue() + b.doubleValue());
+        return Double.valueOf(a.doubleValue() + b.doubleValue());
       }      
     }
   }

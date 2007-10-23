@@ -19,7 +19,7 @@ public class TestTelemetryDataPoint extends TestCase {
    */
   public void testProperties() {
     TimePeriod period = Day.getInstance(2002, 1, 1);
-    Number value = new Integer(12);
+    Number value = Integer.valueOf(12);
     TelemetryDataPoint dataPoint = new TelemetryDataPoint(period, value);
     assertEquals(period, dataPoint.getPeriod());
     assertEquals(value, dataPoint.getValue());
@@ -32,7 +32,7 @@ public class TestTelemetryDataPoint extends TestCase {
     Day day1 = Day.getInstance(2002, 1, 1);
     Day day2 = Day.getInstance(2002, 1, 1);
     Day day3 = Day.getInstance(2002, 2, 2);
-    Number value = new Integer(12);
+    Number value = Integer.valueOf(12);
     assertEquals(new TelemetryDataPoint(day1, value), new TelemetryDataPoint(day2, value));
     assertEquals(new TelemetryDataPoint(day1, value).hashCode(),
         new TelemetryDataPoint(day2, value).hashCode());

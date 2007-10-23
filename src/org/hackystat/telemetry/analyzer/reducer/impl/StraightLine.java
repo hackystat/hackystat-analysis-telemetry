@@ -21,6 +21,8 @@ public class StraightLine implements TelemetryReducer {
    * Performs the computation.
    * 
    * @param project The project.
+   * @param user The user.
+   * @param password The password.
    * @param interval The interval over which the computation should be performed.
    * @param parameters parameters, first one is initial line value, second one is delta.
    * @return Telemetry stream collection.

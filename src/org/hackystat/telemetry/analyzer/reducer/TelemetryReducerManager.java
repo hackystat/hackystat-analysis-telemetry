@@ -27,7 +27,8 @@ public class TelemetryReducerManager {
   /** The singleton */
   private static TelemetryReducerManager theInstance = new TelemetryReducerManager();
   /** Maps reducer names to a data structure with information about them. */ 
-  private Map<String, TelemetryReducerInfo> reducerMap = new TreeMap<String, TelemetryReducerInfo>();
+  private Map<String, TelemetryReducerInfo> reducerMap = 
+    new TreeMap<String, TelemetryReducerInfo>();
   private Logger logger;
   
   private ReducerDefinitions definitions;
@@ -52,7 +53,9 @@ public class TelemetryReducerManager {
     
     try {
       this.logger.info("Loading built-in telemetry reduction function definitions.");
-      InputStream defStream = getClass().getResourceAsStream("impl/reducer.definitions.xml");
+      //InputStream defStream = getClass().getResourceAsStream("impl/reducer.definitions.xml");
+      InputStream defStream = 
+        TelemetryReducerManager.class.getResourceAsStream("impl/reducer.definitions.xml");
       JAXBContext jaxbContext = JAXBContext
       .newInstance(org.hackystat.telemetry.analyzer.reducer.jaxb.ObjectFactory.class);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -86,6 +89,8 @@ public class TelemetryReducerManager {
    * 
    * @param reducerName The name of the reducer to be invoked.
    * @param project The project which defines the scope of metrics to be used in the computation.
+   * @param user The user.
+   * @param password The password.
    * @param interval The time interval.
    * @param parameters Parameters passed to reducer implementation. In case a reducer does not
    *        need any parameter, either null or an empty array may be passed.

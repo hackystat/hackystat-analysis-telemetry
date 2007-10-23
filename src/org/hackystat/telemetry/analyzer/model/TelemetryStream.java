@@ -1,5 +1,6 @@
 package org.hackystat.telemetry.analyzer.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -113,10 +114,11 @@ public class TelemetryStream {
    * time period property.
    * 
    * @author (Cedric) Qin Zhang
-   * @version $Id: TelemetryStream.java,v 1.6 2005/03/15 06:08:36 christoph Exp $
    */
   private static class TelemetryDataPointTimePeriodComparator 
-  implements Comparator<TelemetryDataPoint> {
+  implements Serializable, Comparator<TelemetryDataPoint> {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * Compares two instances.

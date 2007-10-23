@@ -18,7 +18,6 @@ public class TelemetryReducerInfo {
   /**
    * Constructs this instance.
    * 
-   * @param name The name of this telemetry reducer.
    * @param reducer The concrete instance of telemetry reducer.
    * @param definition The ReducerDefinition. 
    */

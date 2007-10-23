@@ -49,7 +49,7 @@ public class TestIdempotentFunction extends TestCase {
    * @throws Exception If test fails.
    */
   public void testNumbers() throws Exception {
-    Number num = new Integer(1);
+    Number num = Integer.valueOf(1);
     Object result = this.manager.compute("idempotent", new Number[]{num});
     assertSame(num, result);
   }

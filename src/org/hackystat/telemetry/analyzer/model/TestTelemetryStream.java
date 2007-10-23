@@ -23,21 +23,21 @@ public class TestTelemetryStream extends TestCase {
     assertEquals("TestingStream", telemetryStream.getTag());
 
     Day day = Day.getInstance(2003, 1, 1);
-    telemetryStream.addDataPoint(new TelemetryDataPoint(day.inc(1), new Integer(1)));
-    telemetryStream.addDataPoint(new TelemetryDataPoint(day, new Integer(0)));
-    telemetryStream.addDataPoint(new TelemetryDataPoint(day.inc(2), new Integer(2)));
+    telemetryStream.addDataPoint(new TelemetryDataPoint(day.inc(1), Integer.valueOf(1)));
+    telemetryStream.addDataPoint(new TelemetryDataPoint(day, Integer.valueOf(0)));
+    telemetryStream.addDataPoint(new TelemetryDataPoint(day.inc(2), Integer.valueOf(2)));
 
-    assertEquals(new Integer(0), telemetryStream.getDataPointValue(day));
-    assertEquals(new Integer(1), telemetryStream.getDataPointValue(day.inc(1)));
-    assertEquals(new Integer(2), telemetryStream.getDataPointValue(day.inc(2)));
+    assertEquals(Integer.valueOf(0), telemetryStream.getDataPointValue(day));
+    assertEquals(Integer.valueOf(1), telemetryStream.getDataPointValue(day.inc(1)));
+    assertEquals(Integer.valueOf(2), telemetryStream.getDataPointValue(day.inc(2)));
 
     List<TelemetryDataPoint> list = telemetryStream.getDataPoints();
     assertEquals(day, list.get(0).getPeriod());
-    assertEquals(new Integer(0), list.get(0).getValue());
+    assertEquals(Integer.valueOf(0), list.get(0).getValue());
     assertEquals(day.inc(1), list.get(1).getPeriod());
-    assertEquals(new Integer(1), list.get(1).getValue());
+    assertEquals(Integer.valueOf(1), list.get(1).getValue());
     assertEquals(day.inc(2), list.get(2).getPeriod());
-    assertEquals(new Integer(2), list.get(2).getValue());
+    assertEquals(Integer.valueOf(2), list.get(2).getValue());
   }
   
   /**

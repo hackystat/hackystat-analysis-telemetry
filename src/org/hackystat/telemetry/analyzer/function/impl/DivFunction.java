@@ -68,7 +68,7 @@ public class DivFunction extends TelemetryFunction {
      * @return The result.
      */
     public Number computes(Number a, Number b) {
-      return new Double(a.doubleValue() / b.doubleValue());     
+      return Double.valueOf(a.doubleValue() / b.doubleValue());     
     }
   }
 }

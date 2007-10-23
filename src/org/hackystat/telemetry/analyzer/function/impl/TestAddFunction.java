@@ -52,18 +52,18 @@ public class TestAddFunction extends TestCase {
    * @throws Exception If test fails.
    */
   public void testWith2Numbers() throws Exception {
-    Number num1 = new Integer(1);
-    Number num2 = new Integer(3);
+    Number num1 = Integer.valueOf(1);
+    Number num2 = Integer.valueOf(3);
     Object result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4, ((Integer) result).intValue());
     
-    num1 = new Integer(1);
-    num2 = new Double(3.5);
+    num1 = Integer.valueOf(1);
+    num2 = Double.valueOf(3.5);
     result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4.50, ((Double) result).doubleValue(), 0.00001);
     
-    num1 = new Double(1.1);
-    num2 = new Double(3.5);
+    num1 = Double.valueOf(1.1);
+    num2 = Double.valueOf(3.5);
     result = this.manager.compute("add", new Number[]{num1, num2});
     assertEquals(4.60, ((Double) result).doubleValue(), 0.00001);
   }
@@ -76,8 +76,8 @@ public class TestAddFunction extends TestCase {
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream inputStream = new TelemetryStream("test");
-    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(0)));
-    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(1)));
+    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
+    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
@@ -101,8 +101,8 @@ public class TestAddFunction extends TestCase {
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream inputStream = new TelemetryStream("test");
-    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(0)));
-    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(1)));
+    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
+    inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
@@ -126,15 +126,15 @@ public class TestAddFunction extends TestCase {
     TelemetryStreamCollection input1
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream inputStream1 = new TelemetryStream("test");
-    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(0)));
-    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(1)));
+    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
+    inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input1.add(inputStream1);
 
     TelemetryStreamCollection input2 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream inputStream2 = new TelemetryStream("test");
-    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(10)));
-    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(11)));
+    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(10)));
+    inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(11)));
     input2.add(inputStream2);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
@@ -143,8 +143,8 @@ public class TestAddFunction extends TestCase {
     TelemetryStreamCollection expected 
         = new TelemetryStreamCollection("test", this.project, this.interval);
     TelemetryStream expectedStream = new TelemetryStream("test");
-    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay, new Integer(10)));
-    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), new Integer(12)));
+    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(10)));
+    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(12)));
     expected.add(expectedStream);
 
     TestTelemetryStreamCollection.assertEqualsIgnoreName(expected, output);    

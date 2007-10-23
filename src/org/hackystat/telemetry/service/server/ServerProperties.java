@@ -128,8 +128,8 @@ public class ServerProperties {
   }
 
   /**
-   * Prints all of the DPD settings to the logger.
-   * @param server The DPD server.   
+   * Returns all of the Telemetry settings to the logger.
+   * @return The string indicating the properties. 
    */
   public String echoProperties() {
     String cr = System.getProperty("line.separator"); 

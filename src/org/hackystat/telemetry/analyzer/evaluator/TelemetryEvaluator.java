@@ -42,6 +42,8 @@ public class TelemetryEvaluator {
    * @param streamsDefinition The telemetry streams definition.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password. 
    * @param interval The interval.
    * 
    * @return An instance of a <code>TelemetryStreamsObject</code> object.  
@@ -49,7 +51,8 @@ public class TelemetryEvaluator {
    * @throws TelemetryEvaluationException If there is any error during the evalutation process.
    */
   public static TelemetryStreamsObject evaluate(TelemetryStreamsDefinition streamsDefinition, 
-      VariableResolver variableResolver, Project project, String user, String password, Interval interval)
+      VariableResolver variableResolver, Project project, String user, String password, 
+      Interval interval)
       throws TelemetryEvaluationException {
     
     Object result = resolveExpression(streamsDefinition.getExpression(), 
@@ -90,6 +93,8 @@ public class TelemetryEvaluator {
    * @param telemetryDefinitionResolver The telemetry definition resolver.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password. 
    * @param interval The interval.
    * 
    * @return An instance of <code>TelemetryChartObject</code> object.  
@@ -98,7 +103,8 @@ public class TelemetryEvaluator {
    */
   public static TelemetryChartObject evaluate(TelemetryChartDefinition chartDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) 
+  throws TelemetryEvaluationException {
     
     TelemetryChartObject telemetryChartObject = new TelemetryChartObject(chartDefinition);
     
@@ -210,6 +216,8 @@ public class TelemetryEvaluator {
    * @param telemetryDefinitionResolver The telemetry definition resolver.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password. 
    * @param interval The interval.
    * 
    * @return An instance of <code>TelemetryReportObject</code> object.  
@@ -218,7 +226,8 @@ public class TelemetryEvaluator {
    */
   public static TelemetryReportObject evaluate(TelemetryReportDefinition reportDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) 
+  throws TelemetryEvaluationException {
     
     TelemetryReportObject telemetryReportObject = new TelemetryReportObject(reportDefinition);
     for (ChartReference chartRef : reportDefinition.getChartReferences()) {
@@ -266,6 +275,8 @@ public class TelemetryEvaluator {
    * @param expression The telemetry expression.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password. 
    * @param interval The interval.
    * 
    * @return The resulting instance of type either <code>TelemetryStreamCollection</code>
@@ -274,7 +285,8 @@ public class TelemetryEvaluator {
    * @throws TelemetryEvaluationException If the expression call cannot be resolved.
    */
   static Object resolveExpression(Expression expression, VariableResolver variableResolver,
-      Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
+      Project project, String user, String password, Interval interval) 
+  throws TelemetryEvaluationException {
     try {
       FunctionCall idempotent = new FunctionCall("idempotent", new Expression[]{expression});
       return resolveFunctionCall(idempotent, variableResolver, project, user, password, interval);
@@ -291,6 +303,8 @@ public class TelemetryEvaluator {
    * @param functionCall The <code>FunctionCall</code> instance.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password.     
    * @param interval The interval.
    * 
    * @return The result. It's an instance of type either <code>TelemetryStreamCollection</code>
@@ -346,6 +360,8 @@ public class TelemetryEvaluator {
    * @param reducerCall The <code>ReducerCall</code> instance.
    * @param variableResolver The variable resolver.
    * @param project The project.
+   * @param user The user.
+   * @param password The user's password.   
    * @param interval The interval.
    * 
    * @return The resulting instance of <code>TelemetryStreamCollection</code>.

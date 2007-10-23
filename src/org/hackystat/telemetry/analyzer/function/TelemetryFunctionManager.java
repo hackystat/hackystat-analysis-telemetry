@@ -59,7 +59,9 @@ public class TelemetryFunctionManager {
     
     try {
       this.logger.info("Loading built-in telemetry function definitions.");
-      InputStream defStream = getClass().getResourceAsStream("impl/function.definitions.xml");
+      //InputStream defStream = getClass().getResourceAsStream("impl/function.definitions.xml");
+      InputStream defStream = 
+        TelemetryFunctionManager.class.getResourceAsStream("impl/function.definitions.xml");
       JAXBContext jaxbContext = JAXBContext
       .newInstance(org.hackystat.telemetry.analyzer.function.jaxb.ObjectFactory.class);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
