@@ -283,7 +283,7 @@ public class TelemetryEvaluator {
   static Object resolveExpression(Expression expression, VariableResolver variableResolver,
       Project project, String user, String password, Interval interval) throws TelemetryEvaluationException {
     try {
-      FunctionCall idempotent = new FunctionCall("Idempotent", new Expression[]{expression});
+      FunctionCall idempotent = new FunctionCall("idempotent", new Expression[]{expression});
       return resolveFunctionCall(idempotent, variableResolver, project, user, password, interval);
     }
     catch (Exception ex) {

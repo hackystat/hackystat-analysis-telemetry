@@ -91,6 +91,9 @@
       <compilerarg value="-Xlint:all"/>
       <!-- <compilerarg value="-Werror"/> -->
     </javac>
+    <copy todir="${build.dir}/classes">
+      <fileset dir="${src.dir}" includes="**/*.xml"/>
+    </copy>
   </target>
 
   <target name="clean" description="Delete build/ directory and top-level jar files.">
