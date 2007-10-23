@@ -33,7 +33,7 @@ public class TestTelemetryExpressionEvaluator extends TestCase {
    */
   public void testEvaluatorWithConstants() throws Exception {
     for (int i = 0; i < this.expressions.length; i++) {
-      // construts a query contains all the formulae listed above.
+      // constructs a query contains all the formulae listed above.
       StringBuffer buffer = new StringBuffer(512);
       buffer.append("streams StreamForUnitTest() = { \"desc\", ");
       buffer.append(expressions[i]);

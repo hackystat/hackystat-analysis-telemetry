@@ -20,6 +20,8 @@ import org.hackystat.utilities.stacktrace.StackTrace;
  *   <li>Provides a interface for invoking those functions.
  * </ul>
  * 
+ * All function names are case-insensitive.
+ * 
  * @author (Cedric) Qin ZHANG
  */
 public class TelemetryFunctionManager {
@@ -75,7 +77,7 @@ public class TelemetryFunctionManager {
         Class<?> clazz = Class.forName(definition.getClassName());
         TelemetryFunction telemetryFunc = (TelemetryFunction) clazz.newInstance();
         TelemetryFunctionInfo funcInfo =  new TelemetryFunctionInfo(telemetryFunc, definition);
-        this.functionMap.put(name, funcInfo);
+        this.functionMap.put(name.toLowerCase(), funcInfo);
       }
       catch (Exception classEx) {
         this.logger.severe("Unable to define " 
@@ -92,7 +94,7 @@ public class TelemetryFunctionManager {
    * @return True if the specified telemetry function is available.
    */
   public boolean isFunction(String functionName) {
-    return this.functionMap.containsKey(functionName);
+    return this.functionMap.containsKey(functionName.toLowerCase());
   }
 
   /**
@@ -102,7 +104,7 @@ public class TelemetryFunctionManager {
    * @return The telemetry function information, or null if the function is not defined.
    */
   public TelemetryFunctionInfo getFunctionInfo(String functionName) {
-    return this.functionMap.get(functionName);
+    return this.functionMap.get(functionName.toLowerCase());
   }
   
   /**
@@ -119,7 +121,7 @@ public class TelemetryFunctionManager {
   public Object compute(String functionName, Object[] parameters) 
       throws TelemetryFunctionException {
 
-    TelemetryFunctionInfo functionInfo = this.getFunctionInfo(functionName);
+    TelemetryFunctionInfo functionInfo = this.getFunctionInfo(functionName.toLowerCase());
     if (functionInfo == null) {
       throw new TelemetryFunctionException(
           "Telemetry function " + functionName + " does not exist.");
