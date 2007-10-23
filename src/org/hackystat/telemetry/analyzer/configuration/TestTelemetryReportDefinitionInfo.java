@@ -20,7 +20,8 @@ public class TestTelemetryReportDefinitionInfo extends TestCase {
    * @throws Exception If test fails.
    */
   public void testCase1() throws Exception {
-    User user = null; //UserManager.getInstance().getTestUser();
+    User user = new User();
+    user.setEmail("TelemetryDefinitions@hackystat.org");
     ShareScope share = ShareScope.getPrivateShareScope();
     String defString = "report name(t) = {\"title\", MyChart(t), MyChart2()};";
 

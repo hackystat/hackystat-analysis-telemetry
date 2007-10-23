@@ -13,7 +13,7 @@ import org.hackystat.sensorbase.resource.users.jaxb.User;
  */
 public class TestTelemetryDefInfoRepository extends TestCase {
 
-  private User user = null; //UserManager.getInstance().getTestUser();
+  private User user = new User();
   private ShareScope privateShareScope = ShareScope.getPrivateShareScope();
 
   /**
@@ -22,6 +22,7 @@ public class TestTelemetryDefInfoRepository extends TestCase {
    * @throws Exception If test fails.
    */
   public void testAll() throws Exception {
+    this.user.setEmail("TelemetryDefinitions@hackystat.org");
     TelemetryChartDefinitionInfo a1 = new TelemetryChartDefinitionInfo(
         "chart A() = {\"title\", (StreamRef1(), yAxis())};", this.user, this.privateShareScope);
     TelemetryChartDefinitionInfo a2 = new TelemetryChartDefinitionInfo(

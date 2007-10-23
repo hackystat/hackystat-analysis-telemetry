@@ -70,6 +70,10 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
       ShareScope globalScope = ShareScope.getGlobalShareScope();
       User user = new User();
       user.setEmail("TelemetryDefinitions@hackystat.org");
+      // A bit of stuff to make the logging message pretty.
+      String oneLineDef = definition.getValue().replace("\n", "");
+      int equalsPos = oneLineDef.indexOf("=");
+      this.logger.info("  " + oneLineDef.substring(0, equalsPos));
 
       try {
         if (TelemetryDefinitionType.STREAMS.toString().equalsIgnoreCase(defType)) {

@@ -12,7 +12,7 @@ import org.hackystat.sensorbase.resource.users.jaxb.User;
  */
 public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
 
-  private User user; //UserManager.getInstance().getTestUser();  
+  private User user = new User();
   private ShareScope privateShareScope = ShareScope.getPrivateShareScope();
   
   private String chartDefName = "nonpersistent-CreatedbyUnitTest-ChartDefName";
@@ -25,6 +25,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
    */
   @Override
   protected void setUp() {
+    this.user.setEmail("TelemetryDefinitions@hackystat.org");
     TelemetryDefinitionManager globalManager 
         = TelemetryDefinitionManagerFactory.getGlobalPersistentInstance();
     globalManager.remove(this.user, this.chartDefName, TelemetryDefinitionType.CHART);
@@ -51,7 +52,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
     TelemetryDefinitionManager manager 
         = TelemetryDefinitionManagerFactory.createNonPersistentInstance(false);  
     
-    // chart defintion
+    // chart definition
     TelemetryChartDefinitionInfo chartDefInfo = new TelemetryChartDefinitionInfo(
         "chart " + this.chartDefName + "() = {\"title\", (StreamRef(), yAxis())};", 
         this.user, this.privateShareScope);
@@ -68,7 +69,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
     assertEquals(chartDefSize, manager.getAll(this.user, false, 
         TelemetryDefinitionType.CHART).size());
 
-    // report defintion
+    // report definition
     TelemetryReportDefinitionInfo reportDefInfo = new TelemetryReportDefinitionInfo(
         "report " + this.reportDefName + "() = {\"title\", ChartRef()};",
         this.user, this.privateShareScope);

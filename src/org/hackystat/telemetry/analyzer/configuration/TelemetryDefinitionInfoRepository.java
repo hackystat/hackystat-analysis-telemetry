@@ -26,11 +26,11 @@ class TelemetryDefinitionInfoRepository {
 
   /**
    * Two level map storing <code>TelemetryDefInfo</code> objects. The first
-   * level is keyed by user (the owner), and the second level is keyed by the
+   * level is keyed by userEmail (the owner), and the second level is keyed by the
    * name of the telemetry definition object.
    */
-  private Map<User, Map<String, TelemetryDefinitionInfo>> ownerKeyedDefMap = 
-    new TreeMap<User, Map<String, TelemetryDefinitionInfo>>();
+  private Map<String, Map<String, TelemetryDefinitionInfo>> ownerKeyedDefMap = 
+    new TreeMap<String, Map<String, TelemetryDefinitionInfo>>();
 
   /**
    * Find the telemetry definition object by name. This method returns null if
@@ -54,7 +54,8 @@ class TelemetryDefinitionInfoRepository {
     TelemetryDefinitionInfo result = null;
 
     // find whether there is any definition owned by this user
-    Map<String, TelemetryDefinitionInfo> secondLevelMap = this.ownerKeyedDefMap.get(owner);
+    Map<String, TelemetryDefinitionInfo> secondLevelMap = 
+      this.ownerKeyedDefMap.get(owner.getEmail());
     if (secondLevelMap != null) {
       result = secondLevelMap.get(name);
     }
@@ -93,7 +94,8 @@ class TelemetryDefinitionInfoRepository {
    */
   Collection<TelemetryDefinitionInfo> findAll(User owner, boolean includesShared) {
     if (!includesShared) {
-      Map<String, TelemetryDefinitionInfo> secondLevelMap =  this.ownerKeyedDefMap.get(owner);
+      Map<String, TelemetryDefinitionInfo> secondLevelMap =  
+        this.ownerKeyedDefMap.get(owner.getEmail());
       return secondLevelMap == null ? 
           new ArrayList<TelemetryDefinitionInfo>(0) : secondLevelMap.values();
     }
@@ -136,10 +138,11 @@ class TelemetryDefinitionInfoRepository {
    */
   void add(TelemetryDefinitionInfo telemetryDefInfo) throws TelemetryConfigurationException {
     User owner = telemetryDefInfo.getOwner();
-    Map<String, TelemetryDefinitionInfo> secondLevelMap = this.ownerKeyedDefMap.get(owner);
+    Map<String, TelemetryDefinitionInfo> secondLevelMap = 
+      this.ownerKeyedDefMap.get(owner.getEmail());
     if (secondLevelMap == null) {
       secondLevelMap = new TreeMap<String, TelemetryDefinitionInfo>();
-      this.ownerKeyedDefMap.put(owner, secondLevelMap);
+      this.ownerKeyedDefMap.put(owner.getEmail(), secondLevelMap);
     }
 
     String name = telemetryDefInfo.getName();
@@ -175,7 +178,7 @@ class TelemetryDefinitionInfoRepository {
    * @param telemetryDefinitionName The name of the definition.
    */
   void remove(User owner, String telemetryDefinitionName) {
-    Map<String, TelemetryDefinitionInfo> secondLevelMap = this.ownerKeyedDefMap.get(owner);
+    Map<String, TelemetryDefinitionInfo> secondLevelMap = this.ownerKeyedDefMap.get(owner.getEmail());
     if (secondLevelMap != null) {
       secondLevelMap.remove(telemetryDefinitionName);
     }

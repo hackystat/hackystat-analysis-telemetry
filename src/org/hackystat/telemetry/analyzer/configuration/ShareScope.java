@@ -55,11 +55,10 @@ public class ShareScope {
    * @return The project share scope. Always Global in V8.
    */
   public static ShareScope getProjectShareScope(Project project) {
-    return GLOBAL_SHARE_SCOPE;
-//    if (project == null) {
-//      throw new IllegalArgumentException("Project cannot be null");
-//    }
-//    return new ShareScope(PROJECT, project);
+    if (project == null) {
+      throw new IllegalArgumentException("Project cannot be null");
+    }
+    return new ShareScope(PROJECT, project);
   }
 
   /**
@@ -148,35 +147,6 @@ public class ShareScope {
       // must be private
       return PRIVATE_STRING;
     }
-  }
-
-  /**
-   * Deserialize the string representation of share scope.
-   * 
-   * @param shareScope The share scope.
-   * @return An instance of <code>ShareScope</code>.
-   * @throws TelemetryConfigurationException If the input is not a share scope.
-   */
-  public static ShareScope deserializeFromString(String shareScope) 
-      throws TelemetryConfigurationException {
-    return GLOBAL_SHARE_SCOPE;
-//    if (GLOBAL_STRING.equals(shareScope)) {
-//      return new ShareScope(GLOBAL, null);
-//    }
-//    else if (PRIVATE_STRING.equals(shareScope)) {
-//      return new ShareScope(PRIVATE, null);
-//    }
-//    else {
-//      if (!shareScope.startsWith(PROJECT_PREFIX_STRING)) {
-//        throw new TelemetryConfigurationException("Invalid serialized form.");
-//      }
-//      String projectName = shareScope.substring(PROJECT_PREFIX_STRING.length());
-//      Project project = ProjectManager.getInstance().getProject(projectName);
-//      if (project == null) {
-//        throw new TelemetryConfigurationException("Project " + shareScope + " does not exist.");
-//      }
-      //return new ShareScope(PROJECT, project);
-    //}
   }
 
   /**
