@@ -29,4 +29,14 @@ public class TelemetryFunctionException extends Exception {
   public TelemetryFunctionException(Throwable throwable) {
     super(throwable);
   }
+  
+  /**
+   * Constructs this instance with a wrapped exception.
+   * 
+   * @param message The exception message.
+   * @param throwable The wrapped exception.
+   */
+  public TelemetryFunctionException(String message, Throwable throwable) {
+    super(message, throwable);
+  }
 }

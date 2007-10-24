@@ -182,11 +182,6 @@ public class ShareScope {
    */
   @Override
   public int hashCode() {
-    if (this.project != null) {
-      return this.project.hashCode();
-    }
-    else {
-      return this.scope;
-    }
+    return (this.project == null) ? this.scope : this.project.hashCode();
   }
 }

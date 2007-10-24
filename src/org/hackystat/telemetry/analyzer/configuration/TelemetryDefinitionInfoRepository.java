@@ -93,7 +93,7 @@ class TelemetryDefinitionInfoRepository {
    * @return A collection of <code>TelemetryDefInfo</code> objects.
    */
   Collection<TelemetryDefinitionInfo> findAll(User owner, boolean includesShared) {
-    if (!includesShared) {
+    if (!includesShared) { //NOPMD
       Map<String, TelemetryDefinitionInfo> secondLevelMap =  
         this.ownerKeyDefMap.get(owner.getEmail());
       return secondLevelMap == null ? 

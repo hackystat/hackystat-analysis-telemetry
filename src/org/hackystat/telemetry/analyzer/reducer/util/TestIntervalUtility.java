@@ -18,6 +18,9 @@ import org.junit.Test;
  * @author (Cedric) Qin Zhang, Philip Johnson
  */
 public class TestIntervalUtility {
+  
+  private String year2002 = "2002";
+  
 
   /**
    * Tests with day interval.
@@ -26,7 +29,7 @@ public class TestIntervalUtility {
    */
   @Test
   public void testWithDayInterval() throws Exception {
-    DayInterval interval = new DayInterval("2002", "0", "1", "2002", "0", "3");
+    DayInterval interval = new DayInterval(year2002, "0", "1", year2002, "0", "3");
     List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     assertEquals(3, periods.size());
     
@@ -69,7 +72,7 @@ public class TestIntervalUtility {
    * @throws Exception If test fails.
    */
   public void testWithMonthInterval() throws Exception {
-    MonthInterval interval = new MonthInterval("2002", "0", "2002", "3");//jan to april
+    MonthInterval interval = new MonthInterval(year2002, "0", year2002, "3");//jan to april
     List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     assertEquals(4, periods.size());
     

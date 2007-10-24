@@ -103,7 +103,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
       manager.add(reportDefInfo);
       fail("Global namespace constraint violation.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
     assertEquals(chartDefSize + 1, manager.getAll(this.user, false, 
@@ -146,7 +146,7 @@ public class TestNonPersistentTelemetryDefinitionManager extends TestCase {
       localManager.add(chartDefInfo);
       fail("Name already used in global instance, should not be used again in local instance.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected.
     }
     assertSame(chartDefInfo, localManager.get(this.user, chartDefInfo.getName(), 

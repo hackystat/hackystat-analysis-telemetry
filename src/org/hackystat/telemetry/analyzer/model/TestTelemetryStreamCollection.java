@@ -36,7 +36,7 @@ public class TestTelemetryStreamCollection extends TestCase {
       streams.add(stream0b);
       fail("Should not allow add stream with same tag.");
     }
-    catch (TelemetryDataModelException ex) {
+    catch (TelemetryDataModelException ex) { //NOPMD
       // expected.
     }
     assertEquals(2, streams.getTelemetryStreams().size());
@@ -44,7 +44,7 @@ public class TestTelemetryStreamCollection extends TestCase {
       streams.add(stream1b);
       fail("Should not allow add stream with same tag.");
     }
-    catch (TelemetryDataModelException ex) {
+    catch (TelemetryDataModelException ex) { //NOPMD
       // expected.
     }
     assertEquals(2, streams.getTelemetryStreams().size());

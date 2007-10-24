@@ -21,7 +21,18 @@ public class TestFilterFunction extends TestCase {
   private Project project;
   private Day startDay;
   private DayInterval interval;
-
+  
+  private String test1 = "test1";
+  private String test2 = "test2";
+  private String test3 = "test3";
+  private String avg = "Avg"; 
+  private String topPercent = "TopPercent";
+  private String bottomPercent = "BottomPercent";
+  private String top = "Top";
+  private String bottom = "Bottom";
+  
+  
+  
   /**
    * Sets up this test case.
    * @throws Exception If test case cannot be set up.
@@ -52,15 +63,15 @@ public class TestFilterFunction extends TestCase {
   public void testFilterAbsoluteMode() throws Exception {    
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream1 = new TelemetryStream("test1");
+    TelemetryStream inputStream1 = new TelemetryStream(test1);
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(1)));
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(2)));
     input.add(inputStream1);
-    TelemetryStream inputStream2 = new TelemetryStream("test2");
+    TelemetryStream inputStream2 = new TelemetryStream(test2);
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(3)));
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(4)));
     input.add(inputStream2);
-    TelemetryStream inputStream3 = new TelemetryStream("test3");
+    TelemetryStream inputStream3 = new TelemetryStream(test3);
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(5)));
     input.add(inputStream3);
@@ -69,27 +80,27 @@ public class TestFilterFunction extends TestCase {
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
         this.filterFunction.compute(new Object[]{input, "Min", "Above", Integer.valueOf(2)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream2, output.get("test2"));
+    assertSame(inputStream2, output.get(test2));
 
     //Mode AllBlow
     output = (TelemetryStreamCollection) 
         this.filterFunction.compute(new Object[]{input, "Max", "Below", Integer.valueOf(3)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
+    assertSame(inputStream1, output.get(test1));
 
     //Mode AnyAbove
     output = (TelemetryStreamCollection) 
         this.filterFunction.compute(new Object[]{input, "Max", "Above", Integer.valueOf(3)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream2, output.get("test2"));
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream2, output.get(test2));
+    assertSame(inputStream3, output.get(test3));
     
     //Mode AnyBelow
     output = (TelemetryStreamCollection) 
         this.filterFunction.compute(new Object[]{input, "Min", "Below", Integer.valueOf(3)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
-    assertSame(inputStream3, output.get("test3"));    
+    assertSame(inputStream1, output.get(test1));
+    assertSame(inputStream3, output.get(test3));    
   }
   
   /**
@@ -99,101 +110,101 @@ public class TestFilterFunction extends TestCase {
   public void testFilterRelativeMode() throws Exception {    
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream1 = new TelemetryStream("test1");
+    TelemetryStream inputStream1 = new TelemetryStream(test1);
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(1)));
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input.add(inputStream1);
-    TelemetryStream inputStream2 = new TelemetryStream("test2");
+    TelemetryStream inputStream2 = new TelemetryStream(test2);
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(2)));
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(2)));
     input.add(inputStream2);
-    TelemetryStream inputStream3 = new TelemetryStream("test3");
+    TelemetryStream inputStream3 = new TelemetryStream(test3);
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(3)));
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(3)));
     input.add(inputStream3);
 
     //Mode TopPercent
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "TopPercent", Integer.valueOf(30)});
+        this.filterFunction.compute(new Object[]{input, avg, topPercent, Integer.valueOf(30)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream3, output.get(test3));
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "TopPercent", Integer.valueOf(60)});
+        this.filterFunction.compute(new Object[]{input, avg, topPercent, Integer.valueOf(60)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream2, output.get("test2"));
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream2, output.get(test2));
+    assertSame(inputStream3, output.get(test3));
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "TopPercent", Integer.valueOf(0)});
+        this.filterFunction.compute(new Object[]{input, avg, topPercent, Integer.valueOf(0)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "TopPercent", Integer.valueOf(100)});
+        this.filterFunction.compute(new Object[]{input, avg, topPercent, Integer.valueOf(100)});
     assertEquals(3, output.getTelemetryStreams().size());
     
     //Mode BottomPercent
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "BottomPercent", Integer.valueOf(30)});
+        this.filterFunction.compute(new Object[]{input, avg, bottomPercent, Integer.valueOf(30)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
+    assertSame(inputStream1, output.get(test1));
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "BottomPercent", Integer.valueOf(60)});
+        this.filterFunction.compute(new Object[]{input, avg, bottomPercent, Integer.valueOf(60)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
-    assertSame(inputStream2, output.get("test2"));
+    assertSame(inputStream1, output.get(test1));
+    assertSame(inputStream2, output.get(test2));
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "BottomPercent", Integer.valueOf(0)});
+        this.filterFunction.compute(new Object[]{input, avg, bottomPercent, Integer.valueOf(0)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "BottomPercent", Integer.valueOf(100)});
+        this.filterFunction.compute(new Object[]{input, avg, bottomPercent, Integer.valueOf(100)});
     assertEquals(3, output.getTelemetryStreams().size());
     
     //Mode Top
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(2)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(2)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream2, output.get("test2"));
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream2, output.get(test2));
+    assertSame(inputStream3, output.get(test3));
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(-1)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(-1)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(0)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(0)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(2)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(2)});
     assertEquals(2, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(3)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(3)});
     assertEquals(3, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(4)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(4)});
     assertEquals(3, output.getTelemetryStreams().size());
 
     //Mode Bottom
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", Integer.valueOf(2)});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, Integer.valueOf(2)});
     assertEquals(2, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
-    assertSame(inputStream2, output.get("test2"));  
+    assertSame(inputStream1, output.get(test1));
+    assertSame(inputStream2, output.get(test2));  
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", Integer.valueOf(-1)});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, Integer.valueOf(-1)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", Integer.valueOf(0)});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, Integer.valueOf(0)});
     assertEquals(0, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", Integer.valueOf(2)});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, Integer.valueOf(2)});
     assertEquals(2, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", "3"});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, "3"});
     assertEquals(3, output.getTelemetryStreams().size());
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Bottom", "4"});
+        this.filterFunction.compute(new Object[]{input, avg, bottom, "4"});
     assertEquals(3, output.getTelemetryStreams().size());
   }
   
@@ -204,15 +215,15 @@ public class TestFilterFunction extends TestCase {
   public void testRankFunctions() throws Exception {    
     TelemetryStreamCollection input 
         = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream1 = new TelemetryStream("test1");
+    TelemetryStream inputStream1 = new TelemetryStream(test1);
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(100)));
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(50)));
     input.add(inputStream1);
-    TelemetryStream inputStream2 = new TelemetryStream("test2");
+    TelemetryStream inputStream2 = new TelemetryStream(test2);
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(3)));
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(4)));
     input.add(inputStream2);
-    TelemetryStream inputStream3 = new TelemetryStream("test3");
+    TelemetryStream inputStream3 = new TelemetryStream(test3);
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(120)));
     inputStream3.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(-100)));
     input.add(inputStream3);
@@ -225,9 +236,9 @@ public class TestFilterFunction extends TestCase {
     assertEquals(7.0 / 2, rank.getRank(inputStream2), 0);
     assertEquals(20.0 / 2, rank.getRank(inputStream3), 0);
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Avg", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, avg, top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
+    assertSame(inputStream1, output.get(test1));
 
     //Max: (100, 4, 120)
     rank = new FilterFunction.MaxRankFunction();
@@ -235,9 +246,9 @@ public class TestFilterFunction extends TestCase {
     assertEquals(4.0, rank.getRank(inputStream2), 0);
     assertEquals(120.0, rank.getRank(inputStream3), 0);
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Max", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, "Max", top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream3, output.get(test3));
 
     //Min (50, 3, -100)
     rank = new FilterFunction.MinRankFunction();
@@ -245,9 +256,9 @@ public class TestFilterFunction extends TestCase {
     assertEquals(3.0, rank.getRank(inputStream2), 0);
     assertEquals(-100.0, rank.getRank(inputStream3), 0);
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Min", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, "Min", top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
+    assertSame(inputStream1, output.get(test1));
 
     //Min (50, 4, -100)
     rank = new FilterFunction.LastRankFunction();
@@ -255,9 +266,9 @@ public class TestFilterFunction extends TestCase {
     assertEquals(4.0, rank.getRank(inputStream2), 0);
     assertEquals(-100.0, rank.getRank(inputStream3), 0);
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Last", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, "Last", top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream1, output.get("test1"));
+    assertSame(inputStream1, output.get(test1));
     
     //Delta (50, 1, 220)
     rank = new FilterFunction.DeltaRankFunction();
@@ -265,9 +276,9 @@ public class TestFilterFunction extends TestCase {
     assertEquals(1.0, rank.getRank(inputStream2), 0);
     assertEquals(220.0, rank.getRank(inputStream3), 0);
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "Delta", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, "Delta", top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream3, output.get("test3"));
+    assertSame(inputStream3, output.get(test3));
     
     //SimpleDelta (-50, 1, -220)
     rank = new FilterFunction.SimpleDeltaRankFunction();
@@ -275,8 +286,8 @@ public class TestFilterFunction extends TestCase {
     assertEquals(1.0, rank.getRank(inputStream2), 0);
     assertEquals(-220.0, rank.getRank(inputStream3), 0);
     output = (TelemetryStreamCollection) 
-        this.filterFunction.compute(new Object[]{input, "SimpleDelta", "Top", Integer.valueOf(1)});
+        this.filterFunction.compute(new Object[]{input, "SimpleDelta", top, Integer.valueOf(1)});
     assertEquals(1, output.getTelemetryStreams().size());
-    assertSame(inputStream2, output.get("test2"));
+    assertSame(inputStream2, output.get(test2));
   }
 }

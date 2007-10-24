@@ -23,6 +23,10 @@ public class TestDivFunction extends TestCase {
   private Project project;
   private Day startDay;
   private DayInterval interval;
+  private String div = "div";
+  private String test = "test";
+  
+  
 
   /**
    * Sets up this test case.
@@ -54,27 +58,27 @@ public class TestDivFunction extends TestCase {
   public void testWith2Numbers() throws Exception {
     Number num1 = Integer.valueOf(1);
     Number num2 = Integer.valueOf(3);
-    Object result = this.manager.compute("div", new Number[]{num1, num2});
+    Object result = this.manager.compute(div, new Number[]{num1, num2});
     assertEquals(1.00 / 3, ((Double) result).doubleValue(), 0.00001);
     
     num1 = Integer.valueOf(1);
     num2 = Double.valueOf(3.5);
-    result = this.manager.compute("div", new Number[]{num1, num2});
+    result = this.manager.compute(div, new Number[]{num1, num2});
     assertEquals(1.00 / 3.5, ((Double) result).doubleValue(), 0.00001);
     
     num1 = Double.valueOf(1.1);
     num2 = Double.valueOf(3.5);
-    result = this.manager.compute("div", new Number[]{num1, num2});
+    result = this.manager.compute(div, new Number[]{num1, num2});
     assertEquals(1.1 / 3.5, ((Double) result).doubleValue(), 0.00001);
     
     num1 = Integer.valueOf(1);
     num2 = Integer.valueOf(0);
-    result = this.manager.compute("div", new Number[]{num1, num2});
+    result = this.manager.compute(div, new Number[]{num1, num2});
     assertTrue(((Double) result).isInfinite());
 
     num1 = Integer.valueOf(0);
     num2 = Integer.valueOf(0);
-    result = this.manager.compute("div", new Number[]{num1, num2});
+    result = this.manager.compute(div, new Number[]{num1, num2});
     assertTrue(((Double) result).isNaN());
   }
   
@@ -82,20 +86,20 @@ public class TestDivFunction extends TestCase {
    * Tests with 1 telemetry stream collection and 1 numbers.
    * @throws Exception If test fails.
    */
-  public void testWithTelemetryStreamCollectionAndNumber() throws Exception {    
+  public void testWithTelemetryStreamCollectionAndNumber() throws Exception {   //NOPMD assert OK.
     TelemetryStreamCollection input 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream inputStream = new TelemetryStream(test);
     inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
     inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("div", new Object[]{input, Double.valueOf(0.1)});
+        this.manager.compute(div, new Object[]{input, Double.valueOf(0.1)});
     
     TelemetryStreamCollection expected 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream expectedStream = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream expectedStream = new TelemetryStream(test);
     expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay, Double.valueOf(0.0)));
     expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Double.valueOf(10)));
     expected.add(expectedStream);
@@ -107,20 +111,20 @@ public class TestDivFunction extends TestCase {
    * Tests with 1 numbers and  1 telemetry stream collection.
    * @throws Exception If test fails.
    */
-  public void testWithNumberAndTelemetryStreamCollection() throws Exception {
+  public void testWithNumberAndTelemetryStreamCollection() throws Exception { //NOPMD assert OK.
     TelemetryStreamCollection input 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream inputStream = new TelemetryStream(test);
     inputStream.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
     inputStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(10)));
     input.add(inputStream);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("div", new Object[]{Double.valueOf(0.1), input});
+        this.manager.compute(div, new Object[]{Double.valueOf(0.1), input});
 
     TelemetryStreamCollection expected 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream expectedStream = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream expectedStream = new TelemetryStream(test);
     expectedStream.addDataPoint(new TelemetryDataPoint(
         this.startDay, Double.valueOf(Double.POSITIVE_INFINITY)));
     expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Double.valueOf(0.01)));
@@ -133,29 +137,30 @@ public class TestDivFunction extends TestCase {
    * Tests with 2 telemetry stream collections.
    * @throws Exception If test fails.
    */
-  public void testWith2TelemetryStreamCollections() throws Exception {
+  public void testWith2TelemetryStreamCollections() throws Exception { //NOPMD assert OK.
     TelemetryStreamCollection input1
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream1 = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream inputStream1 = new TelemetryStream(test);
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(0)));
     inputStream1.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(1)));
     input1.add(inputStream1);
 
     TelemetryStreamCollection input2 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream inputStream2 = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream inputStream2 = new TelemetryStream(test);
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay, Integer.valueOf(10)));
     inputStream2.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Integer.valueOf(11)));
     input2.add(inputStream2);
 
     TelemetryStreamCollection output = (TelemetryStreamCollection) 
-        this.manager.compute("div", new Object[]{input1, input2});
+        this.manager.compute(div, new Object[]{input1, input2});
 
     TelemetryStreamCollection expected 
-        = new TelemetryStreamCollection("test", this.project, this.interval);
-    TelemetryStream expectedStream = new TelemetryStream("test");
+        = new TelemetryStreamCollection(test, this.project, this.interval);
+    TelemetryStream expectedStream = new TelemetryStream(test);
     expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay, Double.valueOf(0)));
-    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), Double.valueOf(1.0 / 11)));
+    expectedStream.addDataPoint(new TelemetryDataPoint(this.startDay.inc(1), 
+        Double.valueOf(1.0 / 11)));
     expected.add(expectedStream);
 
     TestTelemetryStreamCollection.assertEqualsIgnoreName(expected, output);    

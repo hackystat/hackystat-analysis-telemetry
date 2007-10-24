@@ -72,7 +72,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
       user.setEmail("TelemetryDefinitions@hackystat.org");
       // A bit of stuff to make the logging message pretty.
       String oneLineDef = definition.getValue().replace("\n", "");
-      int equalsPos = oneLineDef.indexOf("=");
+      int equalsPos = oneLineDef.indexOf('=');
       this.logger.info("  " + oneLineDef.substring(0, equalsPos));
 
       try {
@@ -153,7 +153,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
    * @throws TelemetryConfigurationException If there is duplicated definition.
    */
   @Override
-  public synchronized void add(TelemetryDefinitionInfo defInfo) 
+  public final synchronized void add(TelemetryDefinitionInfo defInfo) 
       throws TelemetryConfigurationException {
     TelemetryDefinitionInfoRepository repository 
         = this.defInfoRepositoryMap.get(defInfo.getType());
@@ -179,7 +179,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
    * @param name The name.
    * @return True if the name has already been used.
    */
-  synchronized boolean isDefinition(String name) {
+  final synchronized boolean isDefinition(String name) {
     for (TelemetryDefinitionInfoRepository rep : this.defInfoRepositoryMap.values()) {
       if (rep.exists(name)) {
         return true;

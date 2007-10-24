@@ -33,7 +33,12 @@
          failOnRuleViolation="${pmd.failonerror}" >
       <formatter type="xml" toFile="${pmd.dir}/pmd.xml"/>
       <formatter type="text" toConsole="true"/>
-      <fileset dir="${src.dir}" includes="**/*.java" excludes="**/jaxb/**"/>
+      <fileset dir="${src.dir}">
+        <include name="**/*.java"/> 
+        <exclude name="**/jaxb/**"/>
+        <exclude name="**/language/**"/>
+      </fileset>
+        
     </pmd>    
   </target>
 

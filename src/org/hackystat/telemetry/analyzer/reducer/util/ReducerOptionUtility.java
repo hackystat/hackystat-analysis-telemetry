@@ -49,9 +49,9 @@ public class ReducerOptionUtility {
     }
     //none matching
     StringBuffer buffer = new StringBuffer(32);
-    buffer.append("Parameter ").append(optionIndex + 1).append(" must be one of ");
+    buffer.append("Parameter ").append(optionIndex + 1).append(" must be one of "); //NOPMD
     for (int i = 0; i < modes.length; i++) {
-      buffer.append("'").append(modes[i]).append("'");
+      buffer.append("'").append(modes[i]).append("'"); //NOPMD
       buffer.append(i == modes.length - 1 ? "." : ", ");
     }
     throw new TelemetryReducerException(buffer.toString());

@@ -62,10 +62,10 @@ public class TestTelemetryStream extends TestCase {
       //don't use dp1.equals(dp2), we allow some error margin due to compute rounding.
       Number value1 = dp1.getValue();
       Number value2 = dp2.getValue();
-      if (value1 == null && value2 == null) {
+      if (value1 == null && value2 == null) { //NOPMD
         //ok, do nothing
       }
-      else if (value1 != null && value2 != null) {
+      else if (value1 != null && value2 != null) { //NOPMD
         assertEquals(value1.doubleValue(), value2.doubleValue(), 0.0001);
       }
       else {

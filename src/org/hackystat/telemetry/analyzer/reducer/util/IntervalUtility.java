@@ -73,7 +73,7 @@ public class IntervalUtility {
      * 
      * @param day The day.
      */
-    private Period(Day day) {
+    public Period(Day day) {
       this.rawPeriod = day;
       this.startDay = day;
       this.endDay = day;
@@ -84,7 +84,7 @@ public class IntervalUtility {
      * 
      * @param week The week.
      */
-    private Period(Week week) {
+    public Period(Week week) {
       this.rawPeriod = week;
       this.startDay = week.getFirstDay();
       this.endDay = week.getLastDay();
@@ -95,7 +95,7 @@ public class IntervalUtility {
      * 
      * @param month The month.
      */
-    private Period(Month month) {
+    public Period(Month month) {
       this.rawPeriod = month;
       this.startDay = month.getFirstDay();
       this.endDay = month.getLastDay();

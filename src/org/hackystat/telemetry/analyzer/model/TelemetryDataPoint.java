@@ -54,21 +54,20 @@ public class TelemetryDataPoint {
     if (!(obj instanceof TelemetryDataPoint)) {
       return false;
     }
+    
     TelemetryDataPoint another = (TelemetryDataPoint) obj;
     if (!this.period.equals(another.period)) {
       return false;
     }
-    else {
-      if (this.value == null && another.value == null) {
-        return true;
-      }
-      else if (this.value != null) {
-        return this.value.equals(another.value);
-      }
-      else {
-        return another.value.equals(this.value);
-      }
+    
+    if (this.value == null && another.value == null) {
+      return true;
     }
+    
+    if (this.value != null) {
+      return this.value.equals(another.value);
+    }
+    return another.value.equals(this.value);
   }
 
   /**

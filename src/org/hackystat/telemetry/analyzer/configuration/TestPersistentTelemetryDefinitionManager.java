@@ -100,7 +100,7 @@ public class TestPersistentTelemetryDefinitionManager extends TestCase {
       manager.add(reportDefInfo);
       fail("Global namespace constraint violation.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
     assertEquals(chartDefSize + 1, manager.getAll(this.user, false, 

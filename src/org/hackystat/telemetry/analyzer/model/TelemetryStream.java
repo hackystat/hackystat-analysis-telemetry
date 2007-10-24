@@ -72,7 +72,8 @@ public class TelemetryStream {
     }
     catch (ClassCastException ex) {
       // this exception is raised when the types of time period in data points are different.
-      throw new TelemetryDataModelException("All data points must have the same time period type.");
+      throw new 
+      TelemetryDataModelException("All data points must have the same time period type.", ex);
     }
   }
 

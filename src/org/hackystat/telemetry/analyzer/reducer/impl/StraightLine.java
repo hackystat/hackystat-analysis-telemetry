@@ -66,7 +66,7 @@ public class StraightLine implements TelemetryReducer {
 
     }
     catch (Exception e) {
-      throw new TelemetryReducerException(e.getMessage());
+      throw new TelemetryReducerException(e.getMessage(), e);
     }
   }
 

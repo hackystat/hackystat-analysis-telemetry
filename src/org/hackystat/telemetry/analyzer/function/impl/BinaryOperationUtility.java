@@ -52,7 +52,7 @@ class BinaryOperationUtility {
     if (!streamCollection1.getInterval().equals(streamCollection2.getInterval())) {
       throw new TelemetryFunctionException("Two stream collections are for different intervals.");
     }
-    if (streamCollection1.getTelemetryStreams().size() 
+    if (streamCollection1.getTelemetryStreams().size() //NOPMD
         != streamCollection2.getTelemetryStreams().size()) {
       throw new TelemetryFunctionException(
           "Two stream collections have different number of streams.");
@@ -76,7 +76,7 @@ class BinaryOperationUtility {
       return resultStreams;
     }
     catch (Exception ex) {
-      throw new TelemetryFunctionException(ex.getMessage());
+      throw new TelemetryFunctionException(ex.getMessage(), ex);
     }
   }
   
@@ -144,7 +144,7 @@ class BinaryOperationUtility {
       }
     }
     catch (Exception ex) {
-      throw new TelemetryFunctionException(ex.getMessage());
+      throw new TelemetryFunctionException(ex.getMessage(), ex);
     }
     return resultStream;
   }

@@ -13,6 +13,9 @@ import org.hackystat.sensorbase.resource.users.jaxb.User;
  * @version $Id$
  */
 public class TestTelemetryReportDefinitionInfo extends TestCase {
+  
+  private String name = "name";
+  
 
   /**
    * Test case 1.
@@ -29,11 +32,11 @@ public class TestTelemetryReportDefinitionInfo extends TestCase {
         = new TelemetryReportDefinitionInfo(defString, user, share);
     assertEquals(user, defInfo.getOwner());
     assertEquals(share, defInfo.getShareScope());
-    assertEquals("name", defInfo.getName());
+    assertEquals(name, defInfo.getName());
     assertEquals(defString, defInfo.getDefinitionString());
 
     TelemetryReportDefinition def = defInfo.getReportDefinitionObject();
-    assertEquals("name", def.getName());
+    assertEquals(name, def.getName());
     assertEquals("title", def.getTitle());
   }
 
@@ -52,13 +55,13 @@ public class TestTelemetryReportDefinitionInfo extends TestCase {
         = new TelemetryReportDefinitionInfo(def, user, share);    
     assertEquals(user, defInfo.getOwner());
     assertEquals(share, defInfo.getShareScope());
-    assertEquals("name", defInfo.getName());
+    assertEquals(name, defInfo.getName());
     assertEquals(defString, defInfo.getDefinitionString());
 
 
     
     assertSame(def, defInfo.getReportDefinitionObject());
-    assertEquals("name", def.getName());
+    assertEquals(name, def.getName());
     assertEquals("title", def.getTitle());
   }
 }

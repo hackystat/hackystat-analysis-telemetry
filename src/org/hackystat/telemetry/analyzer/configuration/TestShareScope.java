@@ -38,7 +38,7 @@ public class TestShareScope extends TestCase {
       scope.getProject();
       fail("Should raise exception.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
 
@@ -50,7 +50,7 @@ public class TestShareScope extends TestCase {
       scope.getProject();
       fail("Should raise exception.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
 
@@ -64,7 +64,7 @@ public class TestShareScope extends TestCase {
       scope = ShareScope.getProjectShareScope(null);
       fail("Should raise exception.");
     }
-    catch (Exception ex) {
+    catch (Exception ex) { //NOPMD
       // expected
     }
   }

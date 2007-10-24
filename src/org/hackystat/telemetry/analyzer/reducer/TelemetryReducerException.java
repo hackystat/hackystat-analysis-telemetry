@@ -29,4 +29,14 @@ public class TelemetryReducerException extends Exception {
   public TelemetryReducerException(Throwable throwable) {
     super(throwable);
   }
+  
+  /**
+   * Constructs this instance with a wrapped exception.
+   * 
+   * @param message The message.
+   * @param throwable The wrapped exception.
+   */
+  public TelemetryReducerException(String message, Throwable throwable) {
+    super(message, throwable);
+  }
 }

@@ -331,7 +331,7 @@ public class FilterFunction extends TelemetryFunction {
         if (number != null) {
           double numberValue = number.doubleValue();
           if (! Double.isInfinite(numberValue) && ! Double.isNaN(numberValue)) {
-            if (max < numberValue) {
+            if (max < numberValue) { //NOPMD
               max = numberValue;
             }
           }
@@ -360,7 +360,7 @@ public class FilterFunction extends TelemetryFunction {
         if (number != null) {
           double numberValue = number.doubleValue();
           if (! Double.isInfinite(numberValue) && ! Double.isNaN(numberValue)) {
-            if (min > numberValue) {
+            if (min > numberValue) { //NOPMD
               min = numberValue;
             }
           }

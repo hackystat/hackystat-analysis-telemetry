@@ -46,7 +46,7 @@ public class TestTelemetryDefInfoRepository extends TestCase {
       repository.add(a2);
       fail("Should not allow adding defintion with the same name under same user.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
     assertSame(a1, repository.find(this.user, "A", false));
@@ -70,7 +70,7 @@ public class TestTelemetryDefInfoRepository extends TestCase {
       repository.add(a1);
       fail("Should not allow adding defintion with the same name under same user.");
     }
-    catch (TelemetryConfigurationException ex) {
+    catch (TelemetryConfigurationException ex) { //NOPMD
       // expected
     }
     assertSame(a2, repository.find(this.user, "A", false));

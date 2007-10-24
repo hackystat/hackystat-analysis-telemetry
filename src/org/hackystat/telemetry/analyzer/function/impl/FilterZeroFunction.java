@@ -30,7 +30,7 @@ public class FilterZeroFunction extends TelemetryFunction {
   */
   @Override
   public Object compute(Object[] parameters) throws TelemetryFunctionException {
-    if (parameters.length != 1 || ! (parameters[0] instanceof TelemetryStreamCollection)) {
+    if (parameters.length != 1 || ! (parameters[0] instanceof TelemetryStreamCollection)) { //NOPMD
       throw new TelemetryFunctionException("Telemetry function " + this.getName()
           + " takes 1 TelemetryStreamCollection object.");
     }

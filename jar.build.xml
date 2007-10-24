@@ -10,28 +10,20 @@
   <target name="jar" depends="jar-standalone, jar-lib"/>   
 
   <target name="jar-standalone" depends="compile" 
-    description="Create dailyprojectdata.jar">
+    description="Create telemetry.jar">
     <!-- Define the directories and distribution name -->
     <mkdir dir="${tmp.dir}" />
     <copy todir="${tmp.dir}">
       <fileset dir="${basedir}/build/classes"/>
     </copy>
   
-    <!-- Build dailyprojectdata.jar --> 
-    <unjar src="${env.HACKYSTAT_UTILITIES_HOME}/hackystatlogger.lib.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.HACKYSTAT_UTILITIES_HOME}/stacktrace.lib.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.HACKYSTAT_UTILITIES_HOME}/tstamp.lib.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.HACKYSTAT_SENSORBASE_HOME}/sensorbase.lib.jar" dest="${tmp.dir}"/>
+    <!-- Build telemetry.jar --> 
+    <unjar src="${env.HACKYSTAT_SENSORBASE_HOME}/sensorbase.jar" dest="${tmp.dir}"/>
     <unjar src="${env.HACKYSTAT_DAILYPROJECTDATA_HOME}/dailyprojectdata.lib.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.RESTLET_HOME}/lib/org.simpleframework_3.1/org.simpleframework.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.RESTLET_HOME}/lib/org.restlet.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.ext.net.jar" dest="${tmp.dir}"/>
-    <unjar src="${env.RESTLET_HOME}/lib/com.noelios.restlet.ext.simple_3.1.jar" dest="${tmp.dir}"/>
  
     <jar destfile="${basedir}/telemetry.jar" basedir="${tmp.dir}">
       <manifest>
-        <attribute name="Main-Class" value="org.hackystat.telemetry.server.Server"/>
+        <attribute name="Main-Class" value="org.hackystat.telemetry.service.server.Server"/>
         <attribute name="Implementation-Title" value="Hackystat Telemetry"/>
         <attribute name="Implementation-Version" value="${version}"/>
         <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
