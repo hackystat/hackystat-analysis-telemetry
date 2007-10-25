@@ -198,21 +198,21 @@ public class SimpleCharStream
      return (c);
   }
 
-  /**
-   * @Deprecated 
-   * @see #getEndColumn
-   */
-  public int getColumn() {
-     return bufcolumn[bufpos];
-  }
-
-  /**
-   * @Deprecated 
-   * @see #getEndLine
-   */
-  public int getLine() {
-     return bufline[bufpos];
-  }
+//  /**
+//   * @Deprecated 
+//   * @see #getEndColumn
+//   */
+//  public int getColumn() {
+//     return bufcolumn[bufpos];
+//  }
+//
+//  /**
+//   * @Deprecated 
+//   * @see #getEndLine
+//   */
+//  public int getLine() {
+//     return bufline[bufpos];
+//  }
 
   public int getEndColumn() {
      return bufcolumn[bufpos];

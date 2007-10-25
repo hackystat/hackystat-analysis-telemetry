@@ -1,6 +1,7 @@
 package org.hackystat.telemetry.analyzer.reducer;
 
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
+import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.time.interval.Interval;
 
@@ -25,14 +26,13 @@ public interface TelemetryReducer {
    * null should be used as the value for that time period.
    * 
    * @param project The project which defines the scope of metrics to be used in the computation.
-   * @param user The user email. 
-   * @param password The user password. 
+   * @param dpdClient The DPD Client.
    * @param interval The time interval.
    * @param parameters Parameters passed to reducer implementation. In case a reducer does not
    *        need any parameters, either null or an empty array may be passed.
    * @throws TelemetryReducerException If there is any error during metrics computation.
    * @return The resulting telemetry stream collection.
    */
-  TelemetryStreamCollection compute(Project project, String user, String password, 
+  TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] parameters) throws TelemetryReducerException;
 }

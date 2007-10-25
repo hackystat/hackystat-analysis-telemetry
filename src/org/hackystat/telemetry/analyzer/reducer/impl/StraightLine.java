@@ -7,6 +7,7 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducer;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
 import org.hackystat.telemetry.analyzer.reducer.util.IntervalUtility;
+import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.time.interval.Interval;
 
@@ -21,14 +22,13 @@ public class StraightLine implements TelemetryReducer {
    * Performs the computation.
    * 
    * @param project The project.
-   * @param user The user.
-   * @param password The password.
+   * @param dpdClient The DPD Client.
    * @param interval The interval over which the computation should be performed.
    * @param parameters parameters, first one is initial line value, second one is delta.
    * @return Telemetry stream collection.
    * @throws TelemetryReducerException If there is any error.
    */
-  public TelemetryStreamCollection compute(Project project, String user, String password, 
+  public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] parameters)
       throws TelemetryReducerException {
     try {

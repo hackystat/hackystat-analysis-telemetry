@@ -1,8 +1,6 @@
 package org.hackystat.telemetry.analyzer.reducer.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.dailyprojectdata.resource.devtime.jaxb.DevTimeDailyProjectData;
@@ -41,24 +39,20 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * @author Hongbing Kou
  */
 public class DevTimeReducer implements TelemetryReducer {
-  
-  /** Maps user emails to their DPD clients. */ 
-  private Map<String, DailyProjectDataClient> dpdClients = 
-    new HashMap<String, DailyProjectDataClient>();
+ 
 
   /**
    * Computes and returns the required telemetry streams object.
    *
    * @param project The project.
-   * @param user The user email.
-   * @param password The user password. 
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * @param options The optional parameters.
    *
    * @return Telemetry stream collection.
    * @throws TelemetryReducerException If there is any error.
    */
-  public TelemetryStreamCollection compute(Project project, String user, String password, 
+  public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] options) throws TelemetryReducerException {
     // weird. for some reason we want 'null' as default rather than '*' etc.
     String eventType = null;
@@ -95,10 +89,6 @@ public class DevTimeReducer implements TelemetryReducer {
 
     // now get the telemetry stream. 
     try {
-      if (!dpdClients.containsKey(user)) {
-        dpdClients.put(user, new DailyProjectDataClient(user, password, dpdHost));
-      }
-      DailyProjectDataClient dpdClient = dpdClients.get(user);
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,  
           eventType, member, resourcePattern, isCumulative, null);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);

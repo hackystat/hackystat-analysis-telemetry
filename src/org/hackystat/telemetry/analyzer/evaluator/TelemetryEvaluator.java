@@ -18,6 +18,7 @@ import org.hackystat.telemetry.analyzer.language.ast.YAxisReference;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerManager;
+import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.time.interval.Interval;
 
@@ -42,21 +43,20 @@ public class TelemetryEvaluator {
    * @param streamsDefinition The telemetry streams definition.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password. 
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return An instance of a <code>TelemetryStreamsObject</code> object.  
    * 
-   * @throws TelemetryEvaluationException If there is any error during the evalutation process.
+   * @throws TelemetryEvaluationException If there is any error during the evaluation process.
    */
   public static TelemetryStreamsObject evaluate(TelemetryStreamsDefinition streamsDefinition, 
-      VariableResolver variableResolver, Project project, String user, String password, 
+      VariableResolver variableResolver, Project project, DailyProjectDataClient dpdClient,
       Interval interval)
       throws TelemetryEvaluationException {
     
     Object result = resolveExpression(streamsDefinition.getExpression(), 
-                                      variableResolver, project, user, password, interval);
+                                      variableResolver, project, dpdClient, interval);
     if (! (result instanceof TelemetryStreamCollection)) {
       throw new TelemetryEvaluationException("Telemetry streams " + streamsDefinition.getName()
           + " does not evaluate to a TelemetryStreamCollection. "
@@ -93,17 +93,16 @@ public class TelemetryEvaluator {
    * @param telemetryDefinitionResolver The telemetry definition resolver.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password. 
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return An instance of <code>TelemetryChartObject</code> object.  
    * 
-   * @throws TelemetryEvaluationException If there is any error during the evalutaion process.
+   * @throws TelemetryEvaluationException If there is any error during the evaluation process.
    */
   public static TelemetryChartObject evaluate(TelemetryChartDefinition chartDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, String user, String password, Interval interval) 
+      Project project, DailyProjectDataClient dpdClient, Interval interval) 
   throws TelemetryEvaluationException {
     
     TelemetryChartObject telemetryChartObject = new TelemetryChartObject(chartDefinition);
@@ -139,8 +138,8 @@ public class TelemetryEvaluator {
       }
       //get TelemetryStreamsObject
       TelemetryStreamsObject streamsObject 
-          = TelemetryEvaluator.evaluate(streamsDef, streamsVariableResolver, project, user, 
-              password, interval);
+          = TelemetryEvaluator.evaluate(streamsDef, streamsVariableResolver, project, dpdClient, 
+              interval);
     
       
       //find the YAxisDefinition object
@@ -216,8 +215,7 @@ public class TelemetryEvaluator {
    * @param telemetryDefinitionResolver The telemetry definition resolver.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password. 
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return An instance of <code>TelemetryReportObject</code> object.  
@@ -226,7 +224,7 @@ public class TelemetryEvaluator {
    */
   public static TelemetryReportObject evaluate(TelemetryReportDefinition reportDefinition, 
       TelemetryDefinitionResolver telemetryDefinitionResolver, VariableResolver variableResolver, 
-      Project project, String user, String password, Interval interval) 
+      Project project, DailyProjectDataClient dpdClient, Interval interval) 
   throws TelemetryEvaluationException {
     
     TelemetryReportObject telemetryReportObject = new TelemetryReportObject(reportDefinition);
@@ -261,7 +259,7 @@ public class TelemetryEvaluator {
     
       //generate telemetry chart object
       TelemetryChartObject chartObject = TelemetryEvaluator.evaluate(chartDef, 
-          telemetryDefinitionResolver, chartVariableResolver, project, user, password, interval);  
+          telemetryDefinitionResolver, chartVariableResolver, project, dpdClient, interval);  
       telemetryReportObject.addChartObject(chartObject);
     }
     
@@ -275,8 +273,7 @@ public class TelemetryEvaluator {
    * @param expression The telemetry expression.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password. 
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return The resulting instance of type either <code>TelemetryStreamCollection</code>
@@ -285,11 +282,11 @@ public class TelemetryEvaluator {
    * @throws TelemetryEvaluationException If the expression call cannot be resolved.
    */
   static Object resolveExpression(Expression expression, VariableResolver variableResolver,
-      Project project, String user, String password, Interval interval) 
+      Project project, DailyProjectDataClient dpdClient, Interval interval) 
   throws TelemetryEvaluationException {
     try {
       FunctionCall idempotent = new FunctionCall("idempotent", new Expression[]{expression});
-      return resolveFunctionCall(idempotent, variableResolver, project, user, password, interval);
+      return resolveFunctionCall(idempotent, variableResolver, project, dpdClient, interval);
     }
     catch (Exception ex) {
       throw new TelemetryEvaluationException(ex);
@@ -303,8 +300,7 @@ public class TelemetryEvaluator {
    * @param functionCall The <code>FunctionCall</code> instance.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password.     
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return The result. It's an instance of type either <code>TelemetryStreamCollection</code>
@@ -313,7 +309,7 @@ public class TelemetryEvaluator {
    * @throws Exception If the function call cannot be resolved.
    */
   private static Object resolveFunctionCall(FunctionCall functionCall, 
-      VariableResolver variableResolver, Project project, String user, String password, 
+      VariableResolver variableResolver, Project project, DailyProjectDataClient dpdClient, 
       Interval interval) throws Exception {
     
     Expression[] parameters = functionCall.getParameters();
@@ -330,12 +326,12 @@ public class TelemetryEvaluator {
       //fill parameterValues next
       if (param instanceof ReducerCall) {
         parameterValues[i] 
-            = resolveReducerCall((ReducerCall) param, variableResolver, project, user, password, 
+            = resolveReducerCall((ReducerCall) param, variableResolver, project, dpdClient, 
                 interval);
       }
       else if (param instanceof FunctionCall) {
         parameterValues[i] 
-            = resolveFunctionCall((FunctionCall) param, variableResolver, project, user, password, 
+            = resolveFunctionCall((FunctionCall) param, variableResolver, project, dpdClient, 
                 interval);
       }
       else if (param instanceof NumberConstant) {
@@ -360,8 +356,7 @@ public class TelemetryEvaluator {
    * @param reducerCall The <code>ReducerCall</code> instance.
    * @param variableResolver The variable resolver.
    * @param project The project.
-   * @param user The user.
-   * @param password The user's password.   
+   * @param dpdClient The DPD Client.
    * @param interval The interval.
    * 
    * @return The resulting instance of <code>TelemetryStreamCollection</code>.
@@ -369,7 +364,7 @@ public class TelemetryEvaluator {
    * @throws Exception If the reducer call cannot be resolved.
    */
   private static TelemetryStreamCollection resolveReducerCall(ReducerCall reducerCall, 
-      VariableResolver variableResolver, Project project, String user, String password, 
+      VariableResolver variableResolver, Project project, DailyProjectDataClient dpdClient, 
       Interval interval) throws Exception {
     
     Expression[] parameters = reducerCall.getParameters();
@@ -393,6 +388,6 @@ public class TelemetryEvaluator {
       }
     }
     return TelemetryReducerManager.getInstance().compute(reducerCall.getReducerName(),
-        user, password, project, interval, parameterValues);
+        dpdClient, project, interval, parameterValues);
   }
 }

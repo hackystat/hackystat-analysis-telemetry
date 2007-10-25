@@ -159,9 +159,9 @@ public class Server extends Application {
         ChartResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
-        this.getServerProperties().get(SENSORBASE_FULLHOST_KEY));
+        this.getServerProperties().get(SENSORBASE_FULLHOST_KEY),
+        this.getServerProperties().get(DAILYPROJECTDATA_FULLHOST_KEY));
     guard.setNext(authRouter);
-   guard.setNext(authRouter);
     
     // Now create our "top-level" router which will allow the Ping URI to proceed without
     // authentication, but all other URI patterns will go to the guarded Router. 

@@ -12,6 +12,7 @@ import javax.xml.bind.Unmarshaller;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinition;
 import org.hackystat.telemetry.analyzer.reducer.jaxb.ReducerDefinitions;
+import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.utilities.logger.HackystatLogger;
 import org.hackystat.utilities.stacktrace.StackTrace;
@@ -89,21 +90,20 @@ public class TelemetryReducerManager {
    * 
    * @param reducerName The name of the reducer to be invoked.
    * @param project The project which defines the scope of metrics to be used in the computation.
-   * @param user The user.
-   * @param password The password.
+   * @param dpdClient The DPD Client.
    * @param interval The time interval.
    * @param parameters Parameters passed to reducer implementation. In case a reducer does not
    *        need any parameter, either null or an empty array may be passed.
    * @return The resulting instance of <code>TelemetryStreamCollection</code>. 
    * @throws TelemetryReducerException If anything is wrong.
    */
-  public TelemetryStreamCollection compute(String reducerName, String user, String password,
+  public TelemetryStreamCollection compute(String reducerName, DailyProjectDataClient dpdClient,
       Project project, Interval interval, String[] parameters) throws TelemetryReducerException {
     TelemetryReducerInfo reducerInfo = this.reducerMap.get(reducerName);
     if (reducerInfo == null) {
       throw new TelemetryReducerException("Telemetry reducer " + reducerName + " not defined.");
     }
-    return reducerInfo.getReducer().compute(project, user, password, interval, parameters);
+    return reducerInfo.getReducer().compute(project, dpdClient, interval, parameters);
   }
 
   /**

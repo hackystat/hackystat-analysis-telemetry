@@ -44,7 +44,7 @@ public class TestTelemetryExpressionEvaluator extends TestCase {
       Expression expression = streamsDef.getExpression();
       // evaluation the expression
       Object result = 
-        TelemetryEvaluator.resolveExpression(expression, null, null, null, null, null);
+        TelemetryEvaluator.resolveExpression(expression, null, null, null, null);
       // check with expected result
       Number expected = new Double(this.expectedResults[i]);
       assertEquals(expected.doubleValue(), ((Number) result).doubleValue(), 0.00001);

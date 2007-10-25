@@ -3,6 +3,7 @@ package org.hackystat.telemetry.service.resource.telemetry;
 import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
+import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.service.server.Server;
 import org.hackystat.telemetry.service.server.ServerProperties;
 import org.restlet.Context;
@@ -17,6 +18,8 @@ import org.restlet.resource.StringRepresentation;
 import org.restlet.resource.Variant;
 
 import static org.hackystat.telemetry.service.server.Authenticator.AUTHENTICATOR_DPD_CLIENTS_KEY;
+import static 
+org.hackystat.telemetry.service.server.Authenticator.AUTHENTICATOR_SENSORBASE_CLIENTS_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_FULLHOST_KEY;
 
@@ -112,14 +115,26 @@ public abstract class TelemetryResource extends Resource {
   }
   
   /**
-   * Returns a SensorBaseClient instance associated with the User in this request. 
-   * @return The SensorBaseClient instance. 
+   * Returns a DailyProjectDataClient instance associated with the User in this request. 
+   * @return The DailyProjectDataClient instance. 
    */
   @SuppressWarnings("unchecked")
   public DailyProjectDataClient getDailyProjectDataClient() {
     Map<String, DailyProjectDataClient> userClientMap = 
       (Map<String, DailyProjectDataClient>)this.telemetryServer.getContext().getAttributes()
       .get(AUTHENTICATOR_DPD_CLIENTS_KEY);
+    return userClientMap.get(this.authUser);
+  }
+  
+  /**
+   * Returns a SensorBaseClient instance associated with the User in this request. 
+   * @return The SensorBaseClient instance. 
+   */
+  @SuppressWarnings("unchecked")
+  public SensorBaseClient getSensorBaseClient() {
+    Map<String, SensorBaseClient> userClientMap = 
+      (Map<String, SensorBaseClient>)this.telemetryServer.getContext().getAttributes()
+      .get(AUTHENTICATOR_SENSORBASE_CLIENTS_KEY);
     return userClientMap.get(this.authUser);
   }
 

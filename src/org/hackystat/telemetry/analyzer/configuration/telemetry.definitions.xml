@@ -2,39 +2,35 @@
 
 <TelemetryDefinition DefinitionType="Streams" ShareScope="Global">
 <![CDATA[
-streams ActiveTime(filePattern, cumulative) = {
-  "Active Time for this Project", 
-  ActiveTime(filePattern, cumulative)
+streams DevTimeStream(filePattern, cumulative) = {
+  "Dev time for this Project", 
+  DevTime("*", "*", filePattern, cumulative)
 };
 ]]>
 </TelemetryDefinition>   
 
 <TelemetryDefinition DefinitionType="Chart" ShareScope="Global">
 <![CDATA[
-chart ActiveTime-DevTime-Chart(filePattern, cumulative) = {
-  "Active Time v.s. Dev Time", 
-  (ActiveTime(filePattern, cumulative), yAxis("hours")),
-  (DevTime(filePattern, cumulative), yAxis("hours"))
+chart DevTime(filePattern, cumulative) = {
+  "Dev Time in hours", 
+  (DevTimeStream(filePattern, cumulative), yAxis("hours"))
 };
 ]]>
-</TelemetryDefinition>   
+</TelemetryDefinition>    
 
-<TelemetryDefinition DefinitionType="Report" ShareScope="Global">
+<TelemetryDefinition DefinitionType="Chart" ShareScope="Global">
 <![CDATA[
-report DevelopmentProgressReport() = {
-  "Active Time, Builds, FileMetrics, and Java Coverage", 
-  ActiveTime-Chart("**", "true"), 
-  Build-Chart("true"), 
-  FileMetric-Chart("totalLines", "**"), 
-  Coverage-Percentage-Chart("**", "line")
+chart TotalCumulativeDevTime() = {
+  "Total Dev Time in hours", 
+  (DevTimeStream("**", "true"), yAxis("hours"))
 };
 ]]>
-</TelemetryDefinition>   
+</TelemetryDefinition>    
 
 <TelemetryDefinition DefinitionType="YAxis" ShareScope="Global">
 <![CDATA[
-y-axis percentageYAxis(label) = {
-  label, "integer", 0, 100
+y-axis yAxis(label) = {
+  label, "integer"
 };
 ]]>
 </TelemetryDefinition>         

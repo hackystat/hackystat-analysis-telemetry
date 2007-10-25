@@ -48,9 +48,10 @@ public class TestChartRestApi extends TelemetryTestHelper {
     
     // Now connect to the Telemetry server. 
     TelemetryClient telemetryClient = new TelemetryClient(getTelemetryHostName(), user, user);
-    telemetryClient.authenticate(); 
-    TelemetryChart chart =  telemetryClient.getChart("DevTime", user, "Default", "Day", 
-        Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
+    telemetryClient.authenticate();
+    String chartName = "TotalCumulativeDevTime";
+    TelemetryChart chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
     assertEquals("Checking chart", "Day", chart.getGranularity());
   }
   

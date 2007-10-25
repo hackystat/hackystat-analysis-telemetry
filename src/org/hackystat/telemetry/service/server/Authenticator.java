@@ -29,26 +29,40 @@ public class Authenticator extends Guard {
   private Map<String, String> credentials = new HashMap<String, String>();
   
   /** A map containing DailyProjectDataClient instances, one per credentialled user. */
-  private Map<String, DailyProjectDataClient> userClientMap = 
+  private Map<String, DailyProjectDataClient> dpdMap = 
     new HashMap<String, DailyProjectDataClient>();
+  
+  /** A map containing SensorBaseClient instances, one per credentialled user. */
+  private Map<String, SensorBaseClient> sensorbaseMap = 
+    new HashMap<String, SensorBaseClient>();
    
   /** The sensorbase host, such as "http://localhost:9876/sensorbase/" */
   private String sensorBaseHost;
-  
+
+  /** The DailyProjectData host, such as "http://localhost:9877/dailyprojectdata/" */
+  private String dpdHost;
+
   /** The key to be used to retrieve the DailyProjectDataClient map from the server context. */
   public static final String AUTHENTICATOR_DPD_CLIENTS_KEY = "authenticator.dpd.clients";
+
+  /** The key to be used to retrieve the SensorbaseClient map from the server context. */
+  public static final String AUTHENTICATOR_SENSORBASE_CLIENTS_KEY = 
+    "authenticator.sensorbase.clients";
 
   /**
    * Initializes this Guard to do HTTP Basic authentication.
    * Puts the credentials map in the server context so that Resources can get the 
    * password associated with the uriUser for their own invocations to the SensorBase. 
    * @param context The server context.
-   * @param sensorBaseHost The host, such as 'http://localhost:9876/sensorbase/'.
+   * @param sensorBaseHost The sensorbase service, such as 'http://localhost:9876/sensorbase/'.
+   * @param dpdHost The DPD service, such as 'http://localhost:9877/dailyprojectdata/'.
    */
-  public Authenticator (Context context, String sensorBaseHost) {
+  public Authenticator (Context context, String sensorBaseHost, String dpdHost) {
     super(context, ChallengeScheme.HTTP_BASIC,  "DailyProjectData");
     this.sensorBaseHost = sensorBaseHost;
-    context.getAttributes().put(AUTHENTICATOR_DPD_CLIENTS_KEY, userClientMap);
+    this.dpdHost = dpdHost;
+    context.getAttributes().put(AUTHENTICATOR_DPD_CLIENTS_KEY, dpdMap);
+    context.getAttributes().put(AUTHENTICATOR_SENSORBASE_CLIENTS_KEY, sensorbaseMap);
   }
   
   /**
@@ -67,9 +81,17 @@ public class Authenticator extends Guard {
     // Otherwise we check the credentials with the SensorBase.
     boolean isRegistered = SensorBaseClient.isRegistered(sensorBaseHost, identifier, secret);
     if (isRegistered) {
-      // Credentials are good, so save them and create a sensorbase client for this user. 
+      // Credentials are good, so save them and create clients for this user. 
       credentials.put(identifier, secret);
-      userClientMap.put(identifier, new DailyProjectDataClient(sensorBaseHost, identifier, secret));
+      // Only create a new client if there is no old one. This is intended to facilitate caching,
+      // but has the problem that there's no way to get rid of bogus entries besides restarting
+      // this service.  Something to worry about. 
+      if (!dpdMap.containsKey(identifier)) {
+        dpdMap.put(identifier, new DailyProjectDataClient(dpdHost, identifier, secret));
+      }
+      if (!sensorbaseMap.containsKey(identifier)) {
+        sensorbaseMap.put(identifier, new SensorBaseClient(sensorBaseHost, identifier, secret));
+      }
     }
     return isRegistered;
   }
