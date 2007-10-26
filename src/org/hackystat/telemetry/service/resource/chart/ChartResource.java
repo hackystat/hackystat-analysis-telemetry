@@ -23,14 +23,19 @@ import org.hackystat.telemetry.analyzer.configuration.TelemetryDefinitionType;
 import org.hackystat.telemetry.analyzer.evaluator.TelemetryChartObject;
 import org.hackystat.telemetry.analyzer.evaluator.TelemetryDefinitionResolver;
 import org.hackystat.telemetry.analyzer.evaluator.TelemetryEvaluator;
+import org.hackystat.telemetry.analyzer.evaluator.TelemetryStreamsObject;
 import org.hackystat.telemetry.analyzer.evaluator.VariableResolver;
+import org.hackystat.telemetry.analyzer.evaluator.TelemetryChartObject.SubChart;
+import org.hackystat.telemetry.analyzer.evaluator.TelemetryStreamsObject.Stream;
 import org.hackystat.telemetry.analyzer.language.ast.StringConstant;
 import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
 import org.hackystat.telemetry.analyzer.language.ast.Variable;
+import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Parameter;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
+import org.hackystat.telemetry.service.resource.chart.jaxb.YAxis;
 import org.hackystat.telemetry.service.resource.telemetry.TelemetryResource;
 import org.hackystat.utilities.stacktrace.StackTrace;
 import org.hackystat.utilities.time.interval.DayInterval;
@@ -55,6 +60,9 @@ import org.w3c.dom.Document;
  * @author Philip Johnson
  */
 public class ChartResource extends TelemetryResource {
+  
+  private XMLGregorianCalendar startDay; 
+  private XMLGregorianCalendar endDay;
 
   /**
    * The standard constructor.
@@ -130,18 +138,16 @@ public class ChartResource extends TelemetryResource {
         }
         
         // [5] Get the start and end days, return with error if cannot be parsed.
-        XMLGregorianCalendar startDay;
         try {
-          startDay = Tstamp.makeTimestamp(this.start);
+          this.startDay = Tstamp.makeTimestamp(this.start);
         }
         catch (Exception e) {
           String msg = "Start day " + this.start + " cannot be parsed.";
           getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
           return null;
         }
-        XMLGregorianCalendar endDay;
         try {
-          endDay = Tstamp.makeTimestamp(this.end);
+          this.endDay = Tstamp.makeTimestamp(this.end);
         }
         catch (Exception e) {
           String msg = "End day " + this.end + " cannot be parsed.";
@@ -196,20 +202,68 @@ public class ChartResource extends TelemetryResource {
             TelemetryDefinitionManagerFactory.getGlobalPersistentInstance(), user);
         TelemetryChartObject chartObject = TelemetryEvaluator.evaluate(chartDef,
             telemetryDefinitionResolver, variableResolver, project, dpdClient, interval);
+        
+        // [10] Convert the TelemetryChartObject into it's "resource" representation.
+        TelemetryChart chart = convertChartObjectToResource(chartObject);
 
-        // [3] invoke the Telemetry language processor, which returns a TelemetryChart.
-        TelemetryChart chart = makeSampleChart();
-        // [4] package the resulting data up in XML and return it.
-        return this.getStringRepresentation(makeChart(chart));
+        // [11] package the resulting data up in XML and return it.
+        return this.getStringRepresentation(makeChartXml(chart));
       }
       catch (Exception e) {
-        this.telemetryServer.getLogger().warning("Error in chart: " + StackTrace.toString(e));
+        this.telemetryServer.getLogger().warning("Chart process error: " + StackTrace.toString(e));
         return null;
       }
     }
+    // Shouldn't ever get here. 
     return null;
   }
 
+  /**
+   * Takes the TelemetryChartObject returned from the telemetry analyzer code and converts it
+   * into the resource representation. 
+   * @param chartObject The TelemetryChartObject
+   * @return A TelemetryChart resource representation. 
+   */
+  private TelemetryChart convertChartObjectToResource(TelemetryChartObject chartObject) {
+    // All of the JAXB instances will have variable names ending with "Resource" in order to
+    // distinguish them from their Telemetry Analyzer counterparts.  
+    TelemetryChart chartResource = new TelemetryChart();
+    chartResource.setURI(this.telemetryServer.getHostName() + "chart/" + this.chart +
+        "/" + this.uriUser + "/" + this.project + "/" + this.granularity + "/" +
+        this.start + "/" + this.end + "/");
+    //Not dealing with <Parameter> yet.
+    // for each Analyzer subchart...
+    for (SubChart subChart : chartObject.getSubCharts()) {
+      // Get the Analyzer YAxis instance. 
+      org.hackystat.telemetry.analyzer.evaluator.TelemetryChartObject.YAxis yaxis = 
+        subChart.getYAxis();
+      YAxis yAxisResource = new YAxis();
+      yAxisResource.setName("Unknown");
+      yAxisResource.setUnits(yaxis.getLabel());
+      // Get the StreamsObject inside the SubChart.
+      TelemetryStreamsObject streams = subChart.getTelemetryStreamsObject();
+      // Get each Stream inside the StreamsObject...
+      for (Stream streamObject : streams.getStreams()) {
+        // Create a TelemetryStream Resource to associate with the Analyzer streamObject
+        TelemetryStream telemetryStreamResource = new TelemetryStream();
+        telemetryStreamResource.setYAxis(yAxisResource);
+        chartResource.getTelemetryStream().add(telemetryStreamResource);
+        telemetryStreamResource.setName(streamObject.getName());
+        // Now get the Analyzer TelemetryStream 'model' instance associated with the streamObject.
+        org.hackystat.telemetry.analyzer.model.TelemetryStream stream 
+        = streamObject.getTelemetryStream();
+        // Now iterate through the Analyzer TelemetryDataPoint instances. 
+        for (TelemetryDataPoint dataPoint : stream.getDataPoints()) {
+          // Create a resource DataPoint.
+          TelemetryPoint pointResource = new TelemetryPoint();
+          pointResource.setTime(Tstamp.makeTimestamp(dataPoint.getPeriod().getFirstDay()));
+          pointResource.setValue(dataPoint.getValue().toString());
+          telemetryStreamResource.getTelemetryPoint().add(pointResource);
+        }
+      }
+    }      
+    return chartResource;
+  }
 
   /**
    * Creates a fake TelemetryChart instance with reasonable looking internal data.
@@ -217,13 +271,11 @@ public class ChartResource extends TelemetryResource {
    * @return A TelemetryChart instance.
    * @throws Exception If problems occur in Tstamp.
    */
+  @SuppressWarnings("unused")
   private TelemetryChart makeSampleChart() throws Exception {
     TelemetryChart chart = new TelemetryChart();
     // Set the attributes
     chart.setURI(this.telemetryServer.getHostName() + "chart/" + this.chart);
-    chart.setGranularity(this.granularity);
-    chart.setStart(Tstamp.makeTimestamp("2007-08-01"));
-    chart.setEnd(Tstamp.makeTimestamp("2007-08-03"));
     // Set the parameter
     Parameter parameter = new Parameter();
     parameter.setName("FilePattern");
@@ -253,7 +305,7 @@ public class ChartResource extends TelemetryResource {
    * @return The XML String representation.
    * @throws Exception If problems occur during translation.
    */
-  private String makeChart(TelemetryChart data) throws Exception {
+  private String makeChartXml(TelemetryChart data) throws Exception {
     JAXBContext chartJAXB = (JAXBContext) this.telemetryServer.getContext().getAttributes().get(
         "ChartJAXB");
     Marshaller marshaller = chartJAXB.createMarshaller();

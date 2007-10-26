@@ -2,9 +2,6 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- Primitive elements and attributes -->
   <xs:attribute name="URI" type="xs:string"/>
-  <xs:attribute name="Granularity" type="xs:string"/>
-  <xs:attribute name="Start" type="xs:date"/>
-  <xs:attribute name="End" type="xs:date"/>
   <xs:attribute name="Time" type="xs:date"/>
   <xs:attribute name="Name" type="xs:string"/>
   <xs:attribute name="Value" type="xs:string"/>
@@ -17,9 +14,6 @@
         <xs:element ref="TelemetryStream" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute ref="URI" use="required"/>
-      <xs:attribute ref="Granularity" use="required"/>
-      <xs:attribute ref="Start" use="required"/>
-      <xs:attribute ref="End" use="required"/>
     </xs:complexType>
   </xs:element>
 

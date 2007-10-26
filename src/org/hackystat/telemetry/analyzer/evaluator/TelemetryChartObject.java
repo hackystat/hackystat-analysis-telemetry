@@ -87,7 +87,7 @@ public class TelemetryChartObject {
      * 
      * @return The telemetry stream object.
      */
-    public TelemetryStreamsObject getTelemetryStreamObject() {
+    public TelemetryStreamsObject getTelemetryStreamsObject() {
       return this.streamsObject;
     }
   }
