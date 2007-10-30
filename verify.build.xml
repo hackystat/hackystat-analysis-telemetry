@@ -49,7 +49,7 @@
       
   <target name="verify" 
     depends="clean, compile, checkstyle.tool,  junit.tool, javadoc, findbugs.tool,
-    validateXml, emma.tool,   pmd.tool, emma.echo" 
+    validateXml, pmd.tool" 
     description="Invoke analyzers, fail if any errors found.">
       <fail message="FindBugs reported warnings." if="findbugs.warningsfound"/>
   </target>
