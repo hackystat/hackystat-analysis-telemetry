@@ -157,7 +157,7 @@ public class Server extends Application {
     Router authRouter = new Router(getContext());
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}",
         ChartResource.class);
-    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}/params={params}" 
+    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params}"
         , ChartResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 

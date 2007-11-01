@@ -180,8 +180,30 @@ public class TelemetryClient {
   public synchronized TelemetryChart getChart(String name, String user, String project, 
       String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end) 
   throws TelemetryClientException {
+    return getChart(name, user, project, granularity, start, end, null);
+  } 
+  
+  /**
+   * Returns a TelemetryChart instance from this server, or throws a
+   * TelemetryClientException if problems occur.  
+   * @param name The chart name.
+   * @param user The user email.
+   * @param project The project.
+   * @param granularity Either Day, Week, or Month.
+   * @param start The start day.
+   * @param end The end day.
+   * @param params The parameter string, or null if no params are present.
+   * @return The TelemetryChart instance. 
+   * @throws TelemetryClientException If the credentials associated with this instance
+   * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
+   * of the supplied user, password, or timestamp is not valid.
+   */
+  public synchronized TelemetryChart getChart(String name, String user, String project, 
+      String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end, String params) 
+  throws TelemetryClientException {
     String uri = 
-      "chart/" + name + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end;
+      "chart/" + name + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end +
+      ((params == null) ? "" : "?params=" + params);
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChart chart;
     if (!response.getStatus().isSuccess()) {

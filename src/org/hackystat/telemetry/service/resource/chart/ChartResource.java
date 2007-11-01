@@ -53,7 +53,8 @@ import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 
 /**
- * Processes GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end} requests.
+ * Processes GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end} and
+ * GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}/params={params} requests.
  * Requires the authenticated user to be {email} or else the Admin user for the sensorbase connected
  * to this service.
  * 
@@ -179,22 +180,20 @@ public class ChartResource extends TelemetryResource {
           return null;
         }
         
-        // [7] Get the parameters. Initially, parameters are not supported.
-        // StringConstant[] constants = TemplateParameterSelector.getTemplateValues(request);
-        StringConstant[] constants = new StringConstant[0];
-        
+        // [7] Get the parameters.
+        StringConstant[] varValues = parseParams(this.params);
 
         // [8] Check that supplied parameters match required parameters.
         Variable[] variables = chartDef.getVariables();
-        if (constants.length != variables.length) {
-          String msg = "Chart needs " + variables.length + " variables; got: " + constants.length;
+        if (varValues.length != variables.length) {
+          String msg = "Chart needs " + variables.length + " variables; got: " + varValues.length;
           getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
           return null;
         }
-        
+        // Bind variables to values. 
         VariableResolver variableResolver = new VariableResolver();
         for (int i = 0; i < variables.length; i++) {
-          variableResolver.add(variables[i], constants[i]);
+          variableResolver.add(variables[i], varValues[i]);
         }
 
         // [9] Make a telemetry definition resolver and generate the TelemetryChartObject.
@@ -205,8 +204,16 @@ public class ChartResource extends TelemetryResource {
         
         // [10] Convert the TelemetryChartObject into it's "resource" representation.
         TelemetryChart chart = convertChartObjectToResource(chartObject);
+        
+        // [11] Add information about the variables and parameters to the resource.
+        for (int i = 0; i < variables.length; i++) {
+          Parameter parameter = new Parameter();
+          parameter.setName(variables[i].getName());
+          parameter.setValue(varValues[i].getValue());
+          chart.getParameter().add(parameter);
+        }
 
-        // [11] package the resulting data up in XML and return it.
+        // [12] package the resulting data up in XML and return it.
         return this.getStringRepresentation(makeChartXml(chart));
       }
       catch (Exception e) {
@@ -321,6 +328,42 @@ public class ChartResource extends TelemetryResource {
     Transformer transformer = tf.newTransformer();
     transformer.transform(domSource, result);
     return writer.toString();
+  }
+  
+  /**
+   * Parses the params parameter and returns the comma-separated values as an array of 
+   * StringConstant. 
+   * White spaces at the beginning and end of those substrings will be trimmed. 
+   * If a substring has single quotes or double quotes surrounding it, they are removed 
+   * before returning.
+   * <p>
+   * If you really want to preserve white spaces at the beginning or end of the substring, 
+   * use ' sub ' or " sub ".
+   * 
+   * @param input A comma-separated strings.
+   * @return An array of StringConstant.
+   */
+  private StringConstant[] parseParams(String input) {
+    String singleQuote = "'";
+    String doubleQuote = "\"";
+    if (input == null || input.length() == 0) {
+      return new StringConstant[0];
+    }
+    else {
+      String[] subs = input.split(",");
+      StringConstant[] constants = new StringConstant[subs.length];
+      for (int i = 0; i < subs.length; i++) {
+        String str = subs[i].trim();
+        if ((str.startsWith(singleQuote) && str.endsWith(singleQuote))
+            || (str.startsWith(doubleQuote) && str.endsWith(doubleQuote))) {
+          constants[i] = new StringConstant(str.substring(1, str.length() - 1));
+        }
+        else {
+          constants[i] = new StringConstant(str);
+        }
+      }
+      return constants;
+    }
   }
 
 }
