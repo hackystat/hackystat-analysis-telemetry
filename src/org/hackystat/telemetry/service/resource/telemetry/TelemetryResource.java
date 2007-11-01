@@ -56,6 +56,9 @@ public abstract class TelemetryResource extends Resource {
   /** To be retrieved from the URL as the 'end' template parameter, or null. */
   protected String end = null; 
 
+  /** To be retrieved from the URL as the 'params' template parameter, or null. */
+  protected String params = null; 
+  
   /** The authenticated user, retrieved from the ChallengeResponse, or null */
   protected String authUser = null;
   
@@ -92,6 +95,7 @@ public abstract class TelemetryResource extends Resource {
     this.granularity = (String) request.getAttributes().get("granularity");
     this.start = (String) request.getAttributes().get("start");
     this.end = (String) request.getAttributes().get("end");
+    this.params = (String) request.getAttributes().get("params");
     getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
     getVariants().add(new Variant(MediaType.TEXT_XML));
   }

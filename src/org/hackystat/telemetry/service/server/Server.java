@@ -146,7 +146,7 @@ public class Server extends Application {
   }
 
   /**
-   * Dispatch to the specific DailyProjectData resource based upon the URI.
+   * Dispatch to the specific Telemetry resource based upon the URI.
    * We will authenticate all requests.
    * @return The router Restlet.
    */
@@ -155,8 +155,10 @@ public class Server extends Application {
     // First, create a Router that will have a Guard placed in front of it so that this Router's
     // requests will require authentication.
     Router authRouter = new Router(getContext());
-    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}", 
+    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}",
         ChartResource.class);
+    authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}/params={params}" 
+        , ChartResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
         this.getServerProperties().get(SENSORBASE_FULLHOST_KEY),
