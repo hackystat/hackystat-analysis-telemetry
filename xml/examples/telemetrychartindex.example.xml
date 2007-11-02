@@ -1,0 +1,4 @@
+<TelemetryChartIndex>
+ <TelemetryChartRef Name="DevTime-Chart" Href="http://hackystat.ics.hawaii.edu/telemetry/chart/DevTime-Chart"/>
+ <TelemetryChartRef Name="Commit-Chart" Href="http://hackystat.ics.hawaii.edu/telemetry/chart/Commit-Chart"/>
+</TelemetryChartIndex>

@@ -6,6 +6,8 @@
   <xs:attribute name="Name" type="xs:string"/>
   <xs:attribute name="Value" type="xs:string"/>
   <xs:attribute name="Units" type="xs:string"/>
+  <xs:attribute name="Href" type="xs:anyURI"/>
+  
   
   <xs:element name="TelemetryChart">
     <xs:complexType>
@@ -47,6 +49,22 @@
       <xs:attribute ref="Value" use="required"/>
     </xs:complexType>
   </xs:element>
+  
+  
+  <xs:element name="TelemetryChartRef">
+    <xs:complexType>
+      <xs:attribute ref="Name" use="required"/>
+      <xs:attribute ref="Href" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryChartIndex">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TelemetryChartRef" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element> 
 
 </xs:schema>
 

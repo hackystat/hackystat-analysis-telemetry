@@ -1,6 +1,6 @@
 <TelemetryDefinitions>
 
-<TelemetryDefinition DefinitionType="Streams" ShareScope="Global">
+<TelemetryDefinition Name="ActiveTime" DefinitionType="Streams" ShareScope="Global">
 <![CDATA[
 streams ActiveTime(filePattern, cumulative) = {
   "Active Time for this Project", 
@@ -9,7 +9,7 @@ streams ActiveTime(filePattern, cumulative) = {
 ]]>
 </TelemetryDefinition>   
 
-<TelemetryDefinition DefinitionType="Chart" ShareScope="Global">
+<TelemetryDefinition Name="ActiveTime-DevTime-Chart" DefinitionType="Chart" ShareScope="Global">
 <![CDATA[
 chart ActiveTime-DevTime-Chart(filePattern, cumulative) = {
   "Active Time v.s. Dev Time", 
@@ -19,7 +19,7 @@ chart ActiveTime-DevTime-Chart(filePattern, cumulative) = {
 ]]>
 </TelemetryDefinition>   
 
-<TelemetryDefinition DefinitionType="Report" ShareScope="Global">
+<TelemetryDefinition Name="DevelopmentProgressReport" DefinitionType="Report" ShareScope="Global">
 <![CDATA[
 report DevelopmentProgressReport() = {
   "Active Time, Builds, FileMetrics, and Java Coverage", 
@@ -31,7 +31,7 @@ report DevelopmentProgressReport() = {
 ]]>
 </TelemetryDefinition>   
 
-<TelemetryDefinition DefinitionType="YAxis" ShareScope="Global">
+<TelemetryDefinition Name="percentageYAxis" DefinitionType="YAxis" ShareScope="Global">
 <![CDATA[
 y-axis percentageYAxis(label) = {
   label, "integer", 0, 100

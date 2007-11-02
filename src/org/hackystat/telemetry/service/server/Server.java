@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.service.resource.chart.ChartResource;
+import org.hackystat.telemetry.service.resource.chart.ChartsResource;
 import org.hackystat.telemetry.service.resource.ping.PingResource;
 import org.hackystat.utilities.logger.HackystatLogger;
 import org.restlet.Application;
@@ -155,6 +156,7 @@ public class Server extends Application {
     // First, create a Router that will have a Guard placed in front of it so that this Router's
     // requests will require authentication.
     Router authRouter = new Router(getContext());
+    authRouter.attach("/charts", ChartsResource.class);
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}",
         ChartResource.class);
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params}"

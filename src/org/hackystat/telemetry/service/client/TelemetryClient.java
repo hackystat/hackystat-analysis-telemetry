@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
@@ -135,6 +136,17 @@ public class TelemetryClient {
   }
   
   /**
+   * Takes a String encoding of a TelemetryChartIndex in XML format and converts it. 
+   * @param xmlString The XML string representing a TelemetryChartIndex.
+   * @return The corresponding TelemetryChartIndex instance. 
+   * @throws Exception If problems occur during unmarshalling.
+   */
+  private TelemetryChartIndex makeChartIndex(String xmlString) throws Exception {
+    Unmarshaller unmarshaller = this.chartJAXB.createUnmarshaller();
+    return (TelemetryChartIndex)unmarshaller.unmarshal(new StringReader(xmlString));
+  }
+  
+  /**
    * Authenticates this user and password with this Telemetry service, throwing a
    * TelemetryClientException if the user and password associated with this instance
    * are not valid credentials. 
@@ -217,6 +229,31 @@ public class TelemetryClient {
       throw new TelemetryClientException(response.getStatus(), e);
     }
     return chart;
+  } 
+  
+  /**
+   * Returns a TelemetryChartIndex instance from this server, or throws a
+   * TelemetryClientException if problems occur.  
+   * @return The TelemetryChartIndex instance. 
+   * @throws TelemetryClientException If the credentials associated with this instance
+   * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
+   * of the supplied user, password, or timestamp is not valid.
+   */
+  public synchronized TelemetryChartIndex getChartIndex() throws TelemetryClientException {
+    String uri = "charts";
+    Response response = makeRequest(Method.GET,  uri, null);
+    TelemetryChartIndex index;
+    if (!response.getStatus().isSuccess()) {
+      throw new TelemetryClientException(response.getStatus());
+    }
+    try {
+      String xmlData = response.getEntity().getText();
+      index = makeChartIndex(xmlData);
+    }
+    catch (Exception e) {
+      throw new TelemetryClientException(response.getStatus(), e);
+    }
+    return index;
   } 
   
   /**

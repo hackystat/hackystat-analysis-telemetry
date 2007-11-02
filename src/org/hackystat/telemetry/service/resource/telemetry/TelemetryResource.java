@@ -1,11 +1,20 @@
 package org.hackystat.telemetry.service.resource.telemetry;
 
+import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
+import org.hackystat.telemetry.analyzer.configuration.jaxb.TelemetryDefinition;
+import org.hackystat.telemetry.analyzer.configuration.jaxb.TelemetryDefinitions;
 import org.hackystat.telemetry.service.server.Server;
 import org.hackystat.telemetry.service.server.ServerProperties;
+import org.hackystat.utilities.logger.HackystatLogger;
+import org.hackystat.utilities.stacktrace.StackTrace;
 import org.restlet.Context;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Language;
@@ -74,6 +83,9 @@ public abstract class TelemetryResource extends Resource {
   /** The standard error message returned from invalid authentication. */
   protected String badAuth = "User is not admin and authenticated user does not not match URI user";
   
+  /** An instance of the statically defined definitions read in from telemetry.definitions.xml. */
+  private static TelemetryDefinitions definitions;
+  
   /**
    * Provides the following representational variants: TEXT_XML.
    * @param context The context.
@@ -140,6 +152,30 @@ public abstract class TelemetryResource extends Resource {
       (Map<String, SensorBaseClient>)this.telemetryServer.getContext().getAttributes()
       .get(AUTHENTICATOR_SENSORBASE_CLIENTS_KEY);
     return userClientMap.get(this.authUser);
+  }
+  
+  /**
+   * Returns a list of TelemetryDefinition instances corresponding to all definitions in 
+   * telemetry.definitions.xml. 
+   * @return A List of TelemetryDefinition instances. 
+   */
+  public List<TelemetryDefinition> getTelemetryDefinitions() {
+    // Load definitions the first time this is accessed.
+    if (TelemetryResource.definitions == null) {
+      try {
+        InputStream defStream = 
+          org.hackystat.telemetry.analyzer.configuration.TelemetryDefinitionManager.class
+          .getResourceAsStream("telemetry.definitions.xml");
+        JAXBContext jaxbContext = JAXBContext
+            .newInstance(org.hackystat.telemetry.analyzer.configuration.jaxb.ObjectFactory.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        TelemetryResource.definitions = (TelemetryDefinitions) unmarshaller.unmarshal(defStream);
+      }
+      catch (Exception e) {
+        HackystatLogger.getLogger("org.hackystat.telemetry").warning(StackTrace.toString(e));
+      }
+    }
+    return TelemetryResource.definitions.getTelemetryDefinition();
   }
 
 }

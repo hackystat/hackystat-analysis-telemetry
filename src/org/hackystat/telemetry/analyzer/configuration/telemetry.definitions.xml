@@ -1,6 +1,6 @@
 <TelemetryDefinitions>
 
-<TelemetryDefinition DefinitionType="Streams" ShareScope="Global">
+<TelemetryDefinition Name="DevTimeStream" DefinitionType="Streams" ShareScope="Global">
 <![CDATA[
 streams DevTimeStream(filePattern, cumulative) = {
   "Dev time for this Project", 
@@ -9,7 +9,7 @@ streams DevTimeStream(filePattern, cumulative) = {
 ]]>
 </TelemetryDefinition>   
 
-<TelemetryDefinition DefinitionType="Chart" ShareScope="Global">
+<TelemetryDefinition Name="DevTime" DefinitionType="Chart" ShareScope="Global">
 <![CDATA[
 chart DevTime(filePattern, cumulative) = {
   "Dev Time in hours", 
@@ -18,7 +18,7 @@ chart DevTime(filePattern, cumulative) = {
 ]]>
 </TelemetryDefinition>    
 
-<TelemetryDefinition DefinitionType="Chart" ShareScope="Global">
+<TelemetryDefinition Name="TotalCumulativeDevTime" DefinitionType="Chart" ShareScope="Global">
 <![CDATA[
 chart TotalCumulativeDevTime() = {
   "Total Dev Time in hours", 
@@ -27,7 +27,7 @@ chart TotalCumulativeDevTime() = {
 ]]>
 </TelemetryDefinition>    
 
-<TelemetryDefinition DefinitionType="YAxis" ShareScope="Global">
+<TelemetryDefinition Name="yAxis" DefinitionType="YAxis" ShareScope="Global">
 <![CDATA[
 y-axis yAxis(label) = {
   label, "integer"

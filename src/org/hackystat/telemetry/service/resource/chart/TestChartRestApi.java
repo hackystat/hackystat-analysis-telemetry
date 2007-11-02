@@ -1,6 +1,8 @@
 package org.hackystat.telemetry.service.resource.chart;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.sensorbase.client.SensorBaseClient;
@@ -8,6 +10,7 @@ import org.hackystat.sensorbase.resource.sensordata.jaxb.Properties;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.Property;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorData;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorDatas;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Parameter;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
@@ -106,6 +109,14 @@ public class TestChartRestApi extends TelemetryTestHelper {
     assertEquals("Checking second param val", "false", parameters.get(1).getValue());
   }
   
+  /**
+   * Tests the ChartIndex interface. 
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testChartIndex() throws Exception {
+    TelemetryChartIndex index = telemetryClient.getChartIndex();
+    assertTrue("Got at least one defined chart", index.getTelemetryChartRef().size() > 1);
+  }
   
   /**
    * Creates a sample SensorData DevEvent instance given a timestamp and a user. 

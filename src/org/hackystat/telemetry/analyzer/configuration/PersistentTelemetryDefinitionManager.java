@@ -33,7 +33,7 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   
   private Logger logger;
   
-  TelemetryDefinitions definitions;
+  private TelemetryDefinitions definitions;
 
   /**
    * Creates a new Persistent Telemetry Definition Manager, reading in the pre-defined definitions
