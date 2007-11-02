@@ -70,7 +70,7 @@ public class FilterFunction extends TelemetryFunction {
       }
       catch (NumberFormatException ex) {
         throw new TelemetryFunctionException("The 4th parameter of telemetry function " 
-            + this.getName() + " is not a valid number.");     
+            + this.getName() + " is not a valid number.", ex);     
       }
     }
       
