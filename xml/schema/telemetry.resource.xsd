@@ -9,7 +9,7 @@
   <xs:attribute name="Href" type="xs:anyURI"/>
   
   
-  <xs:element name="TelemetryChart">
+  <xs:element name="TelemetryChartData">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded"/>

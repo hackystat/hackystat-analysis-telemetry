@@ -32,7 +32,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition;
 import org.hackystat.telemetry.analyzer.language.ast.Variable;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Parameter;
-import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
 import org.hackystat.telemetry.service.resource.chart.jaxb.YAxis;
@@ -203,7 +203,7 @@ public class ChartResource extends TelemetryResource {
             telemetryDefinitionResolver, variableResolver, project, dpdClient, interval);
         
         // [10] Convert the TelemetryChartObject into it's "resource" representation.
-        TelemetryChart chart = convertChartObjectToResource(chartObject);
+        TelemetryChartData chart = convertChartObjectToResource(chartObject);
         
         // [11] Add information about the variables and parameters to the resource.
         for (int i = 0; i < variables.length; i++) {
@@ -231,10 +231,10 @@ public class ChartResource extends TelemetryResource {
    * @param chartObject The TelemetryChartObject
    * @return A TelemetryChart resource representation. 
    */
-  private TelemetryChart convertChartObjectToResource(TelemetryChartObject chartObject) {
+  private TelemetryChartData convertChartObjectToResource(TelemetryChartObject chartObject) {
     // All of the JAXB instances will have variable names ending with "Resource" in order to
     // distinguish them from their Telemetry Analyzer counterparts.  
-    TelemetryChart chartResource = new TelemetryChart();
+    TelemetryChartData chartResource = new TelemetryChartData();
     chartResource.setURI(this.telemetryServer.getHostName() + "chart/" + this.chart +
         "/" + this.uriUser + "/" + this.project + "/" + this.granularity + "/" +
         this.start + "/" + this.end + "/");
@@ -279,8 +279,8 @@ public class ChartResource extends TelemetryResource {
    * @throws Exception If problems occur in Tstamp.
    */
   @SuppressWarnings("unused")
-  private TelemetryChart makeSampleChart() throws Exception {
-    TelemetryChart chart = new TelemetryChart();
+  private TelemetryChartData makeSampleChart() throws Exception {
+    TelemetryChartData chart = new TelemetryChartData();
     // Set the attributes
     chart.setURI(this.telemetryServer.getHostName() + "chart/" + this.chart);
     // Set the parameter
@@ -312,7 +312,7 @@ public class ChartResource extends TelemetryResource {
    * @return The XML String representation.
    * @throws Exception If problems occur during translation.
    */
-  private String makeChartXml(TelemetryChart data) throws Exception {
+  private String makeChartXml(TelemetryChartData data) throws Exception {
     JAXBContext chartJAXB = (JAXBContext) this.telemetryServer.getContext().getAttributes().get(
         "ChartJAXB");
     Marshaller marshaller = chartJAXB.createMarshaller();

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TelemetryChart URI="http://hackystat.ics.hawaii.edu/telemetry/chart/DevTime-Chart/johnson@hawaii.edu/Default/Day/2007-10-01/2007-10-05/"> 
+<TelemetryChartData URI="http://hackystat.ics.hawaii.edu/telemetry/chart/DevTime-Chart/johnson@hawaii.edu/Default/Day/2007-10-01/2007-10-05/"> 
   <Parameter Name="filePattern" Value="**"/>
   <Parameter Name="cumulative" Value="false"/>
   <TelemetryStream Name="DevTime">
@@ -7,4 +7,4 @@
     <TelemetryPoint Time="2007-07-01" Value="4.3"/>
     <TelemetryPoint Time="2007-07-02" Value="7.5"/>
   </TelemetryStream>
-</TelemetryChart>
+</TelemetryChartData>

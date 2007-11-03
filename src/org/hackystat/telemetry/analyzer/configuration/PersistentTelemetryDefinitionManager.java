@@ -66,12 +66,12 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
     // Now update the repository maps.
     for (TelemetryDefinition definition : definitions.getTelemetryDefinition()) {
       String defType = definition.getDefinitionType(); 
-      String definitionString = definition.getValue();
+      String definitionString = definition.getSourceCode();
       ShareScope globalScope = ShareScope.getGlobalShareScope();
       User user = new User();
       user.setEmail("TelemetryDefinitions@hackystat.org");
       // A bit of stuff to make the logging message pretty.
-      String oneLineDef = definition.getValue().replace("\n", "");
+      String oneLineDef = definition.getSourceCode().replace("\n", "");
       int equalsPos = oneLineDef.indexOf('=');
       this.logger.info("  " + oneLineDef.substring(0, equalsPos));
 

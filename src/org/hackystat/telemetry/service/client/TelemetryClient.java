@@ -7,7 +7,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
-import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
@@ -130,9 +130,9 @@ public class TelemetryClient {
    * @return The corresponding TelemetryChart instance. 
    * @throws Exception If problems occur during unmarshalling.
    */
-  private TelemetryChart makeChart(String xmlString) throws Exception {
+  private TelemetryChartData makeChart(String xmlString) throws Exception {
     Unmarshaller unmarshaller = this.chartJAXB.createUnmarshaller();
-    return (TelemetryChart)unmarshaller.unmarshal(new StringReader(xmlString));
+    return (TelemetryChartData)unmarshaller.unmarshal(new StringReader(xmlString));
   }
   
   /**
@@ -189,7 +189,7 @@ public class TelemetryClient {
    * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
    * of the supplied user, password, or timestamp is not valid.
    */
-  public synchronized TelemetryChart getChart(String name, String user, String project, 
+  public synchronized TelemetryChartData getChart(String name, String user, String project, 
       String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end) 
   throws TelemetryClientException {
     return getChart(name, user, project, granularity, start, end, null);
@@ -210,14 +210,14 @@ public class TelemetryClient {
    * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
    * of the supplied user, password, or timestamp is not valid.
    */
-  public synchronized TelemetryChart getChart(String name, String user, String project, 
+  public synchronized TelemetryChartData getChart(String name, String user, String project, 
       String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end, String params) 
   throws TelemetryClientException {
     String uri = 
       "chart/" + name + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end +
       ((params == null) ? "" : "?params=" + params);
     Response response = makeRequest(Method.GET,  uri, null);
-    TelemetryChart chart;
+    TelemetryChartData chart;
     if (!response.getStatus().isSuccess()) {
       throw new TelemetryClientException(response.getStatus());
     }

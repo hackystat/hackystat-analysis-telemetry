@@ -13,7 +13,7 @@ import org.hackystat.sensorbase.resource.sensordata.jaxb.SensorDatas;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Parameter;
-import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChart;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
 import org.hackystat.telemetry.service.test.TelemetryTestHelper;
@@ -68,7 +68,7 @@ public class TestChartRestApi extends TelemetryTestHelper {
    */
   @Test public void testSimpleChartCreation() throws Exception {
     String chartName = "TotalCumulativeDevTime";
-    TelemetryChart chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
     // See if this chart contains 1 stream with 3 data points of 10, 15, and 20.
     List<TelemetryStream> streams = chart.getTelemetryStream();
@@ -90,7 +90,7 @@ public class TestChartRestApi extends TelemetryTestHelper {
   @Test public void testChartParams() throws Exception {
     String chartName = "DevTime";
     String params = "**,false"; // make sure no embedded spaces, or else escape them.
-    TelemetryChart chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"), params);
     // See if this chart contains 1 stream with 3 data points of 10, 15, and 20.
     List<TelemetryStream> streams = chart.getTelemetryStream();

@@ -1,42 +1,113 @@
 <TelemetryDefinitions>
 
-<TelemetryDefinition Name="ActiveTime" DefinitionType="Streams" ShareScope="Global">
+<TelemetryDefinition Name="DevTimeStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream provides a single stream indicating the DevTime associated with all
+developers for the specified filePattern parameter.  If the cumulative parameter
+is true, then the trend line represents the cumulative DevTime. If false, then
+the trend line represents the total DevTime for each period individually.
+  </Description>
+  <Parameter Name="filePattern">
+    <Default>**</Default>
+    <Description>
+      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
+      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
+      FilePatterns cannot include spaces. 
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Default>false</Default>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+    <Value>true</Value>
+    <Value>false</Value>
+  </Parameter>
+<SourceCode>
 <![CDATA[
-streams ActiveTime(filePattern, cumulative) = {
-  "Active Time for this Project", 
-  ActiveTime(filePattern, cumulative)
+streams DevTimeStream(filePattern, cumulative) = {
+  "Dev time for this Project", 
+  DevTime("*", "*", filePattern, cumulative)
 };
 ]]>
+</SourceCode>
 </TelemetryDefinition>   
 
-<TelemetryDefinition Name="ActiveTime-DevTime-Chart" DefinitionType="Chart" ShareScope="Global">
+<TelemetryDefinition Name="DevTime" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the DevTime associated with all
+developers for the specified filePattern parameter.  If the cumulative parameter
+is true, then the trend line represents the cumulative DevTime. If false, then
+the trend line represents the total DevTime for each period individually.
+
+DevTime measures the time during which developers are actively interacting with their
+development tools at the grain size of five minutes.  
+  </Description>
+
+  <Parameter Name="filePattern">
+    <Default>**</Default>
+    <Description>
+      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
+      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
+      FilePatterns cannot include spaces. 
+    </Description>
+  </Parameter>
+
+  <Parameter Name="cumulative">
+    <Default>false</Default>
+    <Description>
+      If true, then the chart displays cumulative values over time. 
+    </Description>
+    <Value>true</Value>
+    <Value>false</Value>
+  </Parameter>
+
+  <SourceCode>
 <![CDATA[
-chart ActiveTime-DevTime-Chart(filePattern, cumulative) = {
-  "Active Time v.s. Dev Time", 
-  (ActiveTime(filePattern, cumulative), yAxis("hours")),
+chart DevTime(filePattern, cumulative) = {
+  "Dev Time in hours", 
   (DevTime(filePattern, cumulative), yAxis("hours"))
 };
 ]]>
-</TelemetryDefinition>   
+  </SourceCode>
+</TelemetryDefinition>    
 
-<TelemetryDefinition Name="DevelopmentProgressReport" DefinitionType="Report" ShareScope="Global">
+<TelemetryDefinition Name="TotalCumulativeDevTime" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the total, cumulative DevTime associated with all
+developers for all the resources associated with this project. 
+
+DevTime measures the time during which developers are actively interacting with their
+development tools at the grain size of five minutes.  
+  </Description>
+
+  <SourceCode>
 <![CDATA[
-report DevelopmentProgressReport() = {
-  "Active Time, Builds, FileMetrics, and Java Coverage", 
-  ActiveTime-Chart("**", "true"), 
-  Build-Chart("true"), 
-  FileMetric-Chart("totalLines", "**"), 
-  Coverage-Percentage-Chart("**", "line")
+chart TotalCumulativeDevTime() = {
+  "Total Dev Time in hours", 
+  (DevTimeStream("**", "true"), yAxis("hours"))
 };
 ]]>
-</TelemetryDefinition>   
+  </SourceCode>
+</TelemetryDefinition>    
 
-<TelemetryDefinition Name="percentageYAxis" DefinitionType="YAxis" ShareScope="Global">
+<TelemetryDefinition Name="yAxis" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, and displays the specified label.
+  </Description>
+
+  <Parameter Name="label">
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+  <SourceCode>
 <![CDATA[
-y-axis percentageYAxis(label) = {
-  label, "integer", 0, 100
+y-axis yAxis(label) = {
+  label, "integer"
 };
 ]]>
+  </SourceCode>
 </TelemetryDefinition>         
 
 </TelemetryDefinitions>
