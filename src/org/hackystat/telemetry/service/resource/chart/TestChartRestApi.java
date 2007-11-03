@@ -14,6 +14,7 @@ import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Parameter;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartDefinition;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
 import org.hackystat.telemetry.service.test.TelemetryTestHelper;
@@ -116,6 +117,16 @@ public class TestChartRestApi extends TelemetryTestHelper {
   @Test public void testChartIndex() throws Exception {
     TelemetryChartIndex index = telemetryClient.getChartIndex();
     assertTrue("Got at least one defined chart", index.getTelemetryChartRef().size() > 1);
+  }
+  
+  /**
+   * Tests the Chart Definition interface. 
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testChartDefinition() throws Exception {
+    String chartName = "DevTime";
+    TelemetryChartDefinition chartDef = telemetryClient.getChartDefinition(chartName);
+    assertTrue("Got the DevTime chart", chartDef.getName().equals(chartName));
   }
   
   /**

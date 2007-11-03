@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartDefinition;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.restlet.Client;
@@ -147,6 +148,17 @@ public class TelemetryClient {
   }
   
   /**
+   * Takes a String encoding of a TelemetryChartDefinition in XML format and converts it. 
+   * @param xmlString The XML string representing a TelemetryChartDefinition.
+   * @return The corresponding TelemetryChartDefinition instance. 
+   * @throws Exception If problems occur during unmarshalling.
+   */
+  private TelemetryChartDefinition makeChartDefinition(String xmlString) throws Exception {
+    Unmarshaller unmarshaller = this.chartJAXB.createUnmarshaller();
+    return (TelemetryChartDefinition)unmarshaller.unmarshal(new StringReader(xmlString));
+  }
+  
+  /**
    * Authenticates this user and password with this Telemetry service, throwing a
    * TelemetryClientException if the user and password associated with this instance
    * are not valid credentials. 
@@ -254,6 +266,34 @@ public class TelemetryClient {
       throw new TelemetryClientException(response.getStatus(), e);
     }
     return index;
+  } 
+  
+  /**
+   * Returns a TelemetryChartDefinition instance from this server, or throws a
+   * TelemetryClientException if problems occur.  
+   * 
+   * @param chartName The name of the chart whose definition is to be retrieved.
+   * @return The TelemetryChartDefinition instance. 
+   * @throws TelemetryClientException If the credentials associated with this instance
+   * are not valid, or if the underlying SensorBase service cannot be reached, or if one or more
+   * of the supplied user, password, or timestamp is not valid.
+   */
+  public synchronized TelemetryChartDefinition getChartDefinition(String chartName) 
+  throws TelemetryClientException {
+    String uri = "chart/" + chartName;
+    Response response = makeRequest(Method.GET,  uri, null);
+    TelemetryChartDefinition chartDef;
+    if (!response.getStatus().isSuccess()) {
+      throw new TelemetryClientException(response.getStatus());
+    }
+    try {
+      String xmlData = response.getEntity().getText();
+      chartDef = makeChartDefinition(xmlData);
+    }
+    catch (Exception e) {
+      throw new TelemetryClientException(response.getStatus(), e);
+    }
+    return chartDef;
   } 
   
   /**
