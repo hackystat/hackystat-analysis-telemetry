@@ -5,7 +5,8 @@ import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
-import org.hackystat.telemetry.service.resource.chart.ChartResource;
+import org.hackystat.telemetry.service.resource.chart.ChartDataResource;
+import org.hackystat.telemetry.service.resource.chart.ChartDefinitionResource;
 import org.hackystat.telemetry.service.resource.chart.ChartsResource;
 import org.hackystat.telemetry.service.resource.ping.PingResource;
 import org.hackystat.utilities.logger.HackystatLogger;
@@ -157,10 +158,11 @@ public class Server extends Application {
     // requests will require authentication.
     Router authRouter = new Router(getContext());
     authRouter.attach("/charts", ChartsResource.class);
+    authRouter.attach("/chart/{chart}", ChartDefinitionResource.class);
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}",
-        ChartResource.class);
+        ChartDataResource.class);
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params}"
-        , ChartResource.class);
+        , ChartDataResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
         this.getServerProperties().get(SENSORBASE_FULLHOST_KEY),

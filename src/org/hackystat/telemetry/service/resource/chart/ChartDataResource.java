@@ -60,7 +60,7 @@ import org.w3c.dom.Document;
  * 
  * @author Philip Johnson
  */
-public class ChartResource extends TelemetryResource {
+public class ChartDataResource extends TelemetryResource {
   
   private XMLGregorianCalendar startDay; 
   private XMLGregorianCalendar endDay;
@@ -72,7 +72,7 @@ public class ChartResource extends TelemetryResource {
    * @param request The request object.
    * @param response The response object.
    */
-  public ChartResource(Context context, Request request, Response response) {
+  public ChartDataResource(Context context, Request request, Response response) {
     super(context, request, response);
   }
 
