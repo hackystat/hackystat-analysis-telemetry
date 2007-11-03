@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}Y-Axis"/>
- *         &lt;element ref="{}TelemetryPoint" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}Parameter" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}TelemetryStream" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute ref="{}Name use="required""/>
+ *       &lt;attribute ref="{}URI use="required""/>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -41,94 +41,99 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "yAxis",
-    "telemetryPoint"
+    "parameter",
+    "telemetryStream"
 })
-@XmlRootElement(name = "TelemetryStream")
-public class TelemetryStream {
+@XmlRootElement(name = "TelemetryChartData")
+public class TelemetryChartData {
 
-    @XmlElement(name = "Y-Axis", required = true)
-    protected YAxis yAxis;
-    @XmlElement(name = "TelemetryPoint")
-    protected List<TelemetryPoint> telemetryPoint;
-    @XmlAttribute(name = "Name", required = true)
-    protected String name;
-
-    /**
-     * Gets the value of the yAxis property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link YAxis }
-     *     
-     */
-    public YAxis getYAxis() {
-        return yAxis;
-    }
+    @XmlElement(name = "Parameter")
+    protected List<Parameter> parameter;
+    @XmlElement(name = "TelemetryStream")
+    protected List<TelemetryStream> telemetryStream;
+    @XmlAttribute(name = "URI", required = true)
+    protected String uri;
 
     /**
-     * Sets the value of the yAxis property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link YAxis }
-     *     
-     */
-    public void setYAxis(YAxis value) {
-        this.yAxis = value;
-    }
-
-    /**
-     * Gets the value of the telemetryPoint property.
+     * Gets the value of the parameter property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the telemetryPoint property.
+     * This is why there is not a <CODE>set</CODE> method for the parameter property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getTelemetryPoint().add(newItem);
+     *    getParameter().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TelemetryPoint }
+     * {@link Parameter }
      * 
      * 
      */
-    public List<TelemetryPoint> getTelemetryPoint() {
-        if (telemetryPoint == null) {
-            telemetryPoint = new ArrayList<TelemetryPoint>();
+    public List<Parameter> getParameter() {
+        if (parameter == null) {
+            parameter = new ArrayList<Parameter>();
         }
-        return this.telemetryPoint;
+        return this.parameter;
     }
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the telemetryStream property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the telemetryStream property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getTelemetryStream().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link TelemetryStream }
+     * 
+     * 
+     */
+    public List<TelemetryStream> getTelemetryStream() {
+        if (telemetryStream == null) {
+            telemetryStream = new ArrayList<TelemetryStream>();
+        }
+        return this.telemetryStream;
+    }
+
+    /**
+     * Gets the value of the uri property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getURI() {
+        return uri;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the uri property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setURI(String value) {
+        this.uri = value;
     }
 
 }

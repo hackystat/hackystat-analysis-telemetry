@@ -28,8 +28,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}Y-Axis"/>
- *         &lt;element ref="{}TelemetryPoint" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}Description" minOccurs="0"/>
+ *         &lt;element ref="{}ParameterDefinition" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}SourceCode"/>
  *       &lt;/sequence>
  *       &lt;attribute ref="{}Name use="required""/>
  *     &lt;/restriction>
@@ -41,70 +42,97 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "yAxis",
-    "telemetryPoint"
+    "description",
+    "parameterDefinition",
+    "sourceCode"
 })
-@XmlRootElement(name = "TelemetryStream")
-public class TelemetryStream {
+@XmlRootElement(name = "TelemetryChartDefinition")
+public class TelemetryChartDefinition {
 
-    @XmlElement(name = "Y-Axis", required = true)
-    protected YAxis yAxis;
-    @XmlElement(name = "TelemetryPoint")
-    protected List<TelemetryPoint> telemetryPoint;
+    @XmlElement(name = "Description")
+    protected String description;
+    @XmlElement(name = "ParameterDefinition")
+    protected List<ParameterDefinition> parameterDefinition;
+    @XmlElement(name = "SourceCode", required = true)
+    protected String sourceCode;
     @XmlAttribute(name = "Name", required = true)
     protected String name;
 
     /**
-     * Gets the value of the yAxis property.
+     * Gets the value of the description property.
      * 
      * @return
      *     possible object is
-     *     {@link YAxis }
+     *     {@link String }
      *     
      */
-    public YAxis getYAxis() {
-        return yAxis;
+    public String getDescription() {
+        return description;
     }
 
     /**
-     * Sets the value of the yAxis property.
+     * Sets the value of the description property.
      * 
      * @param value
      *     allowed object is
-     *     {@link YAxis }
+     *     {@link String }
      *     
      */
-    public void setYAxis(YAxis value) {
-        this.yAxis = value;
+    public void setDescription(String value) {
+        this.description = value;
     }
 
     /**
-     * Gets the value of the telemetryPoint property.
+     * Gets the value of the parameterDefinition property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the telemetryPoint property.
+     * This is why there is not a <CODE>set</CODE> method for the parameterDefinition property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getTelemetryPoint().add(newItem);
+     *    getParameterDefinition().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TelemetryPoint }
+     * {@link ParameterDefinition }
      * 
      * 
      */
-    public List<TelemetryPoint> getTelemetryPoint() {
-        if (telemetryPoint == null) {
-            telemetryPoint = new ArrayList<TelemetryPoint>();
+    public List<ParameterDefinition> getParameterDefinition() {
+        if (parameterDefinition == null) {
+            parameterDefinition = new ArrayList<ParameterDefinition>();
         }
-        return this.telemetryPoint;
+        return this.parameterDefinition;
+    }
+
+    /**
+     * Gets the value of the sourceCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSourceCode() {
+        return sourceCode;
+    }
+
+    /**
+     * Sets the value of the sourceCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSourceCode(String value) {
+        this.sourceCode = value;
     }
 
     /**

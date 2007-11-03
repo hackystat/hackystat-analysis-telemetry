@@ -28,8 +28,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}Y-Axis"/>
- *         &lt;element ref="{}TelemetryPoint" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{}Default" minOccurs="0"/>
+ *         &lt;element ref="{}Description" minOccurs="0"/>
+ *         &lt;element ref="{}Value" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute ref="{}Name use="required""/>
  *     &lt;/restriction>
@@ -41,70 +42,97 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "yAxis",
-    "telemetryPoint"
+    "_default",
+    "description",
+    "value"
 })
-@XmlRootElement(name = "TelemetryStream")
-public class TelemetryStream {
+@XmlRootElement(name = "ParameterDefinition")
+public class ParameterDefinition {
 
-    @XmlElement(name = "Y-Axis", required = true)
-    protected YAxis yAxis;
-    @XmlElement(name = "TelemetryPoint")
-    protected List<TelemetryPoint> telemetryPoint;
+    @XmlElement(name = "Default")
+    protected String _default;
+    @XmlElement(name = "Description")
+    protected String description;
+    @XmlElement(name = "Value")
+    protected List<String> value;
     @XmlAttribute(name = "Name", required = true)
     protected String name;
 
     /**
-     * Gets the value of the yAxis property.
+     * Gets the value of the default property.
      * 
      * @return
      *     possible object is
-     *     {@link YAxis }
+     *     {@link String }
      *     
      */
-    public YAxis getYAxis() {
-        return yAxis;
+    public String getDefault() {
+        return _default;
     }
 
     /**
-     * Sets the value of the yAxis property.
+     * Sets the value of the default property.
      * 
      * @param value
      *     allowed object is
-     *     {@link YAxis }
+     *     {@link String }
      *     
      */
-    public void setYAxis(YAxis value) {
-        this.yAxis = value;
+    public void setDefault(String value) {
+        this._default = value;
     }
 
     /**
-     * Gets the value of the telemetryPoint property.
+     * Gets the value of the description property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    /**
+     * Gets the value of the value property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the telemetryPoint property.
+     * This is why there is not a <CODE>set</CODE> method for the value property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getTelemetryPoint().add(newItem);
+     *    getValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link TelemetryPoint }
+     * {@link String }
      * 
      * 
      */
-    public List<TelemetryPoint> getTelemetryPoint() {
-        if (telemetryPoint == null) {
-            telemetryPoint = new ArrayList<TelemetryPoint>();
+    public List<String> getValue() {
+        if (value == null) {
+            value = new ArrayList<String>();
         }
-        return this.telemetryPoint;
+        return this.value;
     }
 
     /**
