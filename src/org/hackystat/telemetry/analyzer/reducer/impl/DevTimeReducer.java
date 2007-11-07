@@ -36,7 +36,7 @@ import org.hackystat.utilities.tstamp.Tstamp;
  *  <li> isCumulative: True or false. Default is false.
  * </ol>
  * 
- * @author Hongbing Kou
+ * @author Hongbing Kou, Philip Johnson
  */
 public class DevTimeReducer implements TelemetryReducer {
  
@@ -144,6 +144,9 @@ public class DevTimeReducer implements TelemetryReducer {
   
   /**
    * Returns a DevTime value for the specified time interval, or null if no SensorData. 
+   * 
+   * NOTE: This function currently ignores the filePattern and eventType constraints and simply
+   * returns the total DevTime for each member in the specified day. 
    *
    * @param dpdClient The DailyProjectData client we will use to get this data. 
    * @param project The project.

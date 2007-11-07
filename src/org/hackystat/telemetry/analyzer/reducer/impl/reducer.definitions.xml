@@ -1,5 +1,28 @@
 <ReducerDefinitions>
   <ReducerDefinition>
+    <Name>UnitTest</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.UnitTestReducer</ClassName>
+    <Description>Computes a single telemetry stream representing unit test invocations, successes, and failures.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>mode</Name>
+        <Description>Either 'TotalCount', 'SuccessCount' or 'FailureCount'</Description>
+        <Default>'TotalCount'</Default>
+      </Parameter>
+      <Parameter>
+        <Name>uriPattern</Name>
+        <Description>Ant-like file pattern specifying the files whose unit test data is to be included in computation.</Description>
+        <Default>**</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
     <Name>DevTime</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.DevTimeReducer</ClassName>
     <Description>Computes a single telemetry stream representing the DevTime of the project in hours.</Description>

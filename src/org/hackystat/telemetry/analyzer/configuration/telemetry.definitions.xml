@@ -1,37 +1,6 @@
 <TelemetryDefinitions>
 
-<TelemetryDefinition Name="DevTimeStream" DefinitionType="Streams" ShareScope="Global">
-  <Description>
-This stream provides a single stream indicating the DevTime associated with all
-developers for the specified filePattern parameter.  If the cumulative parameter
-is true, then the trend line represents the cumulative DevTime. If false, then
-the trend line represents the total DevTime for each period individually.
-  </Description>
-  <Parameter Name="filePattern">
-    <Default>**</Default>
-    <Description>
-      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
-      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
-      FilePatterns cannot include spaces. 
-    </Description>
-  </Parameter>
-  <Parameter Name="cumulative">
-    <Default>false</Default>
-    <Description>
-      If true, then the stream displays cumulative values over time. 
-    </Description>
-    <Value>true</Value>
-    <Value>false</Value>
-  </Parameter>
-<SourceCode>
-<![CDATA[
-streams DevTimeStream(filePattern, cumulative) = {
-  "Dev time for this Project", 
-  DevTime("*", "*", filePattern, cumulative)
-};
-]]>
-</SourceCode>
-</TelemetryDefinition>   
+<!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="DevTime" DefinitionType="Chart" ShareScope="Global">
   <Description>
@@ -70,7 +39,54 @@ chart DevTime(filePattern, cumulative) = {
 };
 ]]>
   </SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+
+<TelemetryDefinition Name="UnitTest" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the UnitTest invocation counts associated with all
+developers for the specified mode and filePattern parameter.  If the cumulative parameter
+is true, then the trend line represents the cumulative DevTime. If false, then
+the trend line represents the total DevTime for each period individually.
+  </Description>
+  <Parameter Name="mode">
+    <Default>TotalCount</Default>
+    <Description>
+      Specifies the type of count to return.
+    </Description>
+    <Value>TotalCount</Value>
+    <Value>SuccessCount</Value>
+    <Value>FailureCount</Value>
+  </Parameter>
+  <Parameter Name="filePattern">
+    <Default>**</Default>
+    <Description>
+      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
+      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
+      FilePatterns cannot include spaces. 
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Default>false</Default>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+    <Value>true</Value>
+    <Value>false</Value>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart UnitTest(mode, filePattern, cumulative) = {
+  "Unit test invocations", 
+  (UnitTestStream(mode, filePattern, cumulative), yAxis("hours"))
+};
+]]>
+  </SourceCode>
 </TelemetryDefinition>    
+
+<!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="TotalCumulativeDevTime" DefinitionType="Chart" ShareScope="Global">
   <Description>
@@ -90,6 +106,88 @@ chart TotalCumulativeDevTime() = {
 ]]>
   </SourceCode>
 </TelemetryDefinition>    
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="DevTimeStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream provides a single stream indicating the DevTime associated with all
+developers for the specified filePattern parameter.  If the cumulative parameter
+is true, then the trend line represents the cumulative DevTime. If false, then
+the trend line represents the total DevTime for each period individually.
+  </Description>
+  <Parameter Name="filePattern">
+    <Default>**</Default>
+    <Description>
+      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
+      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
+      FilePatterns cannot include spaces. 
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Default>false</Default>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+    <Value>true</Value>
+    <Value>false</Value>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams DevTimeStream(filePattern, cumulative) = {
+  "Dev time for this Project", 
+  DevTime("*", "*", filePattern, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="UnitTestStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream return a single stream indicating the UnitTests associated with all
+developers for the specified filePattern parameter.  The Mode parameter indicates what 
+kinds of counts to return. If the cumulative parameter
+is true, then the trend line represents the cumulative UnitTest counts. If false, then
+the trend line represents the total DevTime for each period individually. 
+  </Description>
+  <Parameter Name="mode">
+    <Default>TotalCount</Default>
+    <Description>
+      Specifies the type of count to return.
+    </Description>
+    <Value>TotalCount</Value>
+    <Value>SuccessCount</Value>
+    <Value>FailureCount</Value>
+  </Parameter>
+  <Parameter Name="filePattern">
+    <Default>**</Default>
+    <Description>
+      An Ant-like FilePattern used to filter the resources used to compute this DevTime.
+      Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
+      FilePatterns cannot include spaces. 
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Default>false</Default>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+    <Value>true</Value>
+    <Value>false</Value>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams UnitTestStream(mode, filePattern, cumulative) = {
+  "UnitTests for this Project", 
+  UnitTest(mode, filePattern, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition>    
+
+<!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="yAxis" DefinitionType="YAxis" ShareScope="Global">
   <Description>
