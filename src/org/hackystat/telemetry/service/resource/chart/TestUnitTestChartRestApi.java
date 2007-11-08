@@ -89,24 +89,25 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
     String chartName = "UnitTest";
     String params = "FailureCount,**,false"; // make sure no embedded spaces, or else escape them.
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
-          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"), params);
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     // See if this chart contains 1 stream.
     List<TelemetryStream> streams = chart.getTelemetryStream();
     assertEquals("Checking only 1 stream returned", 1, streams.size());
     // Get the data points in the single returned stream.
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
-    assertEquals("Checking for 3 points", 3, points.size());
-    // Check that these three points are 0, 0, 0
+    assertEquals("Checking for 4 points", 4, points.size());
+    // Check that these four points are 0, 0, 0, and null (last day has no data.)
     assertEquals("Checking point 1 is 0", "0", points.get(0).getValue());
     assertEquals("Checking point 2 is 0", "0", points.get(1).getValue());
     assertEquals("Checking point 3 is 0", "0", points.get(2).getValue());
+    assertEquals("Checking point 4 is null", null, points.get(3).getValue());
     List<Parameter> parameters = chart.getParameter();
     assertEquals("Checking first param id", "mode", parameters.get(0).getName());
     assertEquals("Checking first param val", "FailureCount", parameters.get(0).getValue());
     assertEquals("Checking second param id", "filePattern", parameters.get(1).getName());
     assertEquals("Checking second param val", "**", parameters.get(1).getValue());
-    assertEquals("Checking third param id", "isCumulative", parameters.get(1).getName());
-    assertEquals("Checking third param val", "false", parameters.get(1).getValue());
+    assertEquals("Checking third param id", "cumulative", parameters.get(2).getName());
+    assertEquals("Checking third param val", "false", parameters.get(2).getValue());
   }
   
   /**

@@ -264,7 +264,8 @@ public class ChartDataResource extends TelemetryResource {
           // Create a resource DataPoint.
           TelemetryPoint pointResource = new TelemetryPoint();
           pointResource.setTime(Tstamp.makeTimestamp(dataPoint.getPeriod().getFirstDay()));
-          pointResource.setValue(dataPoint.getValue().toString());
+          String val = (dataPoint.getValue() == null) ? null : dataPoint.getValue().toString();
+          pointResource.setValue(val);
           telemetryStreamResource.getTelemetryPoint().add(pointResource);
         }
       }

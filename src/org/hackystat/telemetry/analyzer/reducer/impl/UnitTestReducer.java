@@ -155,12 +155,14 @@ public class UnitTestReducer implements TelemetryReducer {
   Long getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
       Mode mode, UriPattern filePattern) throws TelemetryReducerException {
     long unitTests = 0;
+    boolean hasData = false;
     try {
       // For each day in the interval... 
       for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
         // Get the DPD...
         UnitTestDailyProjectData data = 
           dpdClient.getUnitTest(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day));
+        hasData = !data.getMemberData().isEmpty();
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
           switch (mode) {
@@ -184,7 +186,7 @@ public class UnitTestReducer implements TelemetryReducer {
     }
 
     //Return null if no data, the UnitTest data otherwise. 
-    return (unitTests > 0) ? new Long(unitTests) : null; 
+    return (hasData) ? Long.valueOf(unitTests) : null; 
   }
 
 }
