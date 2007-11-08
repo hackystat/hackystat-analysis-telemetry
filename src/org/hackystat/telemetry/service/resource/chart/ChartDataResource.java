@@ -54,7 +54,7 @@ import org.w3c.dom.Document;
 
 /**
  * Processes GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end} and
- * GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}/params={params} requests.
+ * GET {host}/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params} requests.
  * Requires the authenticated user to be {email} or else the Admin user for the sensorbase connected
  * to this service.
  * 

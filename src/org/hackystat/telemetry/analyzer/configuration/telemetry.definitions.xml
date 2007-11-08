@@ -43,7 +43,6 @@ chart DevTime(filePattern, cumulative) = {
 
 <!-- ************************************************************************************** -->
 
-
 <TelemetryDefinition Name="UnitTest" DefinitionType="Chart" ShareScope="Global">
   <Description>
 This chart provides a single stream indicating the UnitTest invocation counts associated with all
@@ -81,6 +80,23 @@ the trend line represents the total DevTime for each period individually.
 chart UnitTest(mode, filePattern, cumulative) = {
   "Unit test invocations", 
   (UnitTestStream(mode, filePattern, cumulative), yAxis("hours"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="TotalCumulativeUnitTest" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the total UnitTest invocation counts associated with all
+developers in a cumulative fashion.
+  </Description>
+  <SourceCode>
+<![CDATA[
+chart TotalCumulativeUnitTest() = {
+  "Unit test invocations", 
+  (UnitTestStream("TotalCount", "**", "true"), yAxis("hours"))
 };
 ]]>
   </SourceCode>

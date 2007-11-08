@@ -65,7 +65,7 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
    * @throws Exception If problems occur.
    */
   @Test public void testSimpleChartCreation() throws Exception {
-    String chartName = "UnitTest";
+    String chartName = "TotalCumulativeUnitTest";
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
     // See if this chart contains 1 stream with 3 data points.
@@ -75,9 +75,9 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
     assertEquals("Checking for 3 points", 3, points.size());
     // Check that these three points are 2, 1, and 1.
-    assertEquals("Checking point 1 is 2", "2", points.get(0).getValue());
-    assertEquals("Checking point 2 is 1", "1", points.get(1).getValue());
-    assertEquals("Checking point 3 is 1", "1", points.get(2).getValue());
+    assertEquals("Checking point 1 is 2", "2.0", points.get(0).getValue());
+    assertEquals("Checking point 2 is 3", "3.0", points.get(1).getValue());
+    assertEquals("Checking point 3 is 4", "4.0", points.get(2).getValue());
   }
   
   
@@ -134,12 +134,7 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
 
     prop.getProperty().add(makeProperty("Name", "testName"));
     prop.getProperty().add(makeProperty("Result", "pass"));
-    prop.getProperty().add(makeProperty("elapsedTime", "15"));
-    prop.getProperty().add(makeProperty("testName", "org.hackystat.TestProxyProperty"));
-    prop.getProperty().add(makeProperty("testCaseName", "testNormalFunctionality"));
-    prop.getProperty().add(makeProperty("failureString", "Expected X, was Y"));
-    prop.getProperty().add(makeProperty("errorString", "the error string"));
-
+    prop.getProperty().add(makeProperty("ElapsedTime", "15"));
     data.setProperties(prop);
 
     return data;
