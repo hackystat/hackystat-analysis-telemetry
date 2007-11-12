@@ -1,6 +1,5 @@
 package org.hackystat.telemetry.service.server;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
@@ -10,6 +9,7 @@ import org.hackystat.telemetry.service.resource.chart.ChartDefinitionResource;
 import org.hackystat.telemetry.service.resource.chart.ChartsResource;
 import org.hackystat.telemetry.service.resource.ping.PingResource;
 import org.hackystat.utilities.logger.HackystatLogger;
+import org.hackystat.utilities.logger.RestletLoggerUtil;
 import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Guard;
@@ -24,8 +24,6 @@ import static org.hackystat.telemetry.service.server.ServerProperties.LOGGING_LE
 import static org.hackystat.telemetry.service.server.ServerProperties.PORT_KEY;
 import static org.hackystat.telemetry.service.server.ServerProperties.SENSORBASE_FULLHOST_KEY;
 
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -104,6 +102,9 @@ public class Server extends Application {
     // Provide a pointer to this server in the Context so that Resources can get at this server.
     attributes.put("TelemetryServer", server);
     
+    // Move Restlet Logging into a file. 
+    RestletLoggerUtil.useFileHandler("telemetry");
+    
     // Now let's open for business. 
     server.logger.warning("Host: " + server.hostName);
     HackystatLogger.setLoggingLevel(server.logger, server.properties.get(LOGGING_LEVEL_KEY));
@@ -120,22 +121,7 @@ public class Server extends Application {
           " NOT AVAILABLE. Therefore, the Telemetry service will not run correctly."));
     server.logger.warning("Telemetry (Version " + getVersion() + ") now running.");
     server.component.start();
-    disableRestletLogging();
     return server;
-  }
-
-  /**
-   * Disable all loggers from com.noelios and org.restlet. 
-   */
-  private static void disableRestletLogging() {
-    LogManager logManager = LogManager.getLogManager();
-    for (Enumeration<String> e = logManager.getLoggerNames(); e.hasMoreElements() ;) {
-      String logName = e.nextElement();
-      if (logName.startsWith("com.noelios") ||
-          logName.startsWith("org.restlet")) {
-        logManager.getLogger(logName).setLevel(Level.OFF);
-      }
-    }
   }
   
   /**
