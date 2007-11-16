@@ -1,8 +1,13 @@
 package org.hackystat.telemetry.service.resource.chart;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.hackystat.telemetry.service.resource.chart.jaxb.ParameterDefinition;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
+import org.hackystat.telemetry.service.resource.chart.jaxb.Type;
 import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartDefinition;
 import org.hackystat.telemetry.service.test.TelemetryTestHelper;
@@ -49,5 +54,13 @@ public class TestChartRestApi extends TelemetryTestHelper {
     String chartName = "DevTime";
     TelemetryChartDefinition chartDef = telemetryClient.getChartDefinition(chartName);
     assertTrue("Got the DevTime chart", chartDef.getName().equals(chartName));
+    List<ParameterDefinition> parameters = chartDef.getParameterDefinition();
+    assertEquals("Got two parameter definitions", 2, parameters.size());
+    ParameterDefinition param = parameters.get(0);
+    assertEquals("Getting the filePattern param", "filePattern", param.getName());
+    Type type = param.getType();
+    assertEquals("Checking the filePattern type", "Text", type.getName());
+    assertEquals("Checking the filePattern type default", "**", type.getDefault());
+    assertEquals("Checking the filePattern type value list", 0, type.getValue().size());
   }
 }

@@ -6,7 +6,7 @@
 //
 
 
-package org.hackystat.telemetry.service.resource.chart.jaxb;
+package org.hackystat.telemetry.analyzer.configuration.jaxb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}Description" minOccurs="0"/>
- *         &lt;element ref="{}ParameterDefinition" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{}SourceCode"/>
+ *         &lt;element ref="{}Value" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
+ *       &lt;attribute ref="{}Default use="required""/>
+ *       &lt;attribute ref="{}MaxValue"/>
+ *       &lt;attribute ref="{}MinValue"/>
  *       &lt;attribute ref="{}Name use="required""/>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -42,97 +43,121 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "description",
-    "parameterDefinition",
-    "sourceCode"
+    "value"
 })
-@XmlRootElement(name = "TelemetryChartDefinition")
-public class TelemetryChartDefinition {
+@XmlRootElement(name = "Type")
+public class Type {
 
-    @XmlElement(name = "Description")
-    protected String description;
-    @XmlElement(name = "ParameterDefinition")
-    protected List<ParameterDefinition> parameterDefinition;
-    @XmlElement(name = "SourceCode", required = true)
-    protected String sourceCode;
+    @XmlElement(name = "Value")
+    protected List<String> value;
+    @XmlAttribute(name = "Default", required = true)
+    protected String _default;
+    @XmlAttribute(name = "MaxValue")
+    protected String maxValue;
+    @XmlAttribute(name = "MinValue")
+    protected String minValue;
     @XmlAttribute(name = "Name", required = true)
     protected String name;
 
     /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
-
-    /**
-     * Gets the value of the parameterDefinition property.
+     * Gets the value of the value property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the parameterDefinition property.
+     * This is why there is not a <CODE>set</CODE> method for the value property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getParameterDefinition().add(newItem);
+     *    getValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link ParameterDefinition }
+     * {@link String }
      * 
      * 
      */
-    public List<ParameterDefinition> getParameterDefinition() {
-        if (parameterDefinition == null) {
-            parameterDefinition = new ArrayList<ParameterDefinition>();
+    public List<String> getValue() {
+        if (value == null) {
+            value = new ArrayList<String>();
         }
-        return this.parameterDefinition;
+        return this.value;
     }
 
     /**
-     * Gets the value of the sourceCode property.
+     * Gets the value of the default property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getSourceCode() {
-        return sourceCode;
+    public String getDefault() {
+        return _default;
     }
 
     /**
-     * Sets the value of the sourceCode property.
+     * Sets the value of the default property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setSourceCode(String value) {
-        this.sourceCode = value;
+    public void setDefault(String value) {
+        this._default = value;
+    }
+
+    /**
+     * Gets the value of the maxValue property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMaxValue() {
+        return maxValue;
+    }
+
+    /**
+     * Sets the value of the maxValue property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMaxValue(String value) {
+        this.maxValue = value;
+    }
+
+    /**
+     * Gets the value of the minValue property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMinValue() {
+        return minValue;
+    }
+
+    /**
+     * Sets the value of the minValue property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMinValue(String value) {
+        this.minValue = value;
     }
 
     /**

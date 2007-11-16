@@ -7,6 +7,9 @@
   <xs:attribute name="Value" type="xs:string"/>
   <xs:attribute name="Units" type="xs:string"/>
   <xs:attribute name="Href" type="xs:anyURI"/>
+  <xs:attribute name="Default" type="xs:string"/>
+  <xs:attribute name="MinValue" type="xs:string"/>
+  <xs:attribute name="MaxValue" type="xs:string"/>
 
   <xs:element name="Description" type="xs:string"/>
   <xs:element name="SourceCode" type="xs:string"/>
@@ -75,11 +78,22 @@
   <xs:element name="ParameterDefinition">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="Default" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="Type" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="Description" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute ref="Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+   <xs:element name="Type">
+    <xs:complexType>
+      <xs:sequence>
         <xs:element ref="Value" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute ref="Name" use="required"/>
+      <xs:attribute ref="Default" use="required"/>
+      <xs:attribute ref="MinValue" use="optional"/>
+      <xs:attribute ref="MaxValue" use="optional"/>
     </xs:complexType>
   </xs:element>
   

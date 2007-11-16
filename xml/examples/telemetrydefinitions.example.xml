@@ -8,7 +8,7 @@ is true, then the trend line represents the cumulative DevTime. If false, then
 the trend line represents the total DevTime for each period individually.
   </Description>
   <Parameter Name="filePattern">
-    <Default>**</Default>
+    <Type Name="Text" Default="**"/>
     <Description>
       An Ant-like FilePattern used to filter the resources used to compute this DevTime.
       Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
@@ -16,12 +16,10 @@ the trend line represents the total DevTime for each period individually.
     </Description>
   </Parameter>
   <Parameter Name="cumulative">
-    <Default>false</Default>
+    <Type Name="Boolean" Default="false"/>
     <Description>
       If true, then the stream displays cumulative values over time. 
     </Description>
-    <Value>true</Value>
-    <Value>false</Value>
   </Parameter>
 <SourceCode>
 <![CDATA[
@@ -45,7 +43,7 @@ development tools at the grain size of five minutes.
   </Description>
 
   <Parameter Name="filePattern">
-    <Default>**</Default>
+    <Type Name="Text" Default="**"/>
     <Description>
       An Ant-like FilePattern used to filter the resources used to compute this DevTime.
       Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
@@ -54,12 +52,10 @@ development tools at the grain size of five minutes.
   </Parameter>
 
   <Parameter Name="cumulative">
-    <Default>false</Default>
+    <Type Name="Boolean" Default="false"/>
     <Description>
       If true, then the chart displays cumulative values over time. 
     </Description>
-    <Value>true</Value>
-    <Value>false</Value>
   </Parameter>
 
   <SourceCode>
@@ -97,6 +93,7 @@ This axis uses integer as units, and displays the specified label.
   </Description>
 
   <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
     <Description>
       The label associated with this yAxis.
     </Description>

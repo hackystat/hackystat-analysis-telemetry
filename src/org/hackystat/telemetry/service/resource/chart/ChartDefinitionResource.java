@@ -12,12 +12,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartDefinition;
+import org.hackystat.telemetry.service.resource.chart.jaxb.ParameterDefinition;
+import org.hackystat.telemetry.service.resource.chart.jaxb.Type;
 import org.hackystat.telemetry.analyzer.configuration.jaxb.TelemetryDefinition;
+import org.hackystat.telemetry.analyzer.configuration.jaxb.Parameter;
 import org.hackystat.telemetry.service.resource.telemetry.TelemetryResource;
 import org.restlet.Context;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.data.Status;
 import org.restlet.resource.Representation;
 import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
@@ -42,7 +46,8 @@ public class ChartDefinitionResource extends TelemetryResource {
   }
 
   /**
-   * Returns a TelemetryChartIndex instance providing pointers to all defined Charts.
+   * Returns a TelemetryChartDefinition for the requested Chart, or returns an error code
+   * if the definition of the chart could not be found. 
    * 
    * @param variant The representational variant requested.
    * @return The representation.
@@ -57,11 +62,33 @@ public class ChartDefinitionResource extends TelemetryResource {
           chartDef.setDescription(definition.getDescription());
           chartDef.setName(definition.getName());
           chartDef.setSourceCode(definition.getSourceCode());
+          for (Parameter param : definition.getParameter()) {
+            ParameterDefinition chartParam = new ParameterDefinition();
+            chartParam.setName(param.getName());
+            chartParam.setDescription(param.getDescription());
+            Type type = new Type();
+            type.setDefault(param.getType().getDefault());
+            type.setName(param.getType().getName());
+            if (param.getType().getMinValue() != null) { //NOPMD
+              type.setMinValue(param.getType().getMinValue());
+            }
+            if (param.getType().getMaxValue() != null) { //NOPMD
+              type.setMaxValue(param.getType().getMaxValue());
+            }
+            for (String value : param.getType().getValue()) {
+              type.getValue().add(value);
+            }
+            chartParam.setType(type);
+            chartDef.getParameterDefinition().add(chartParam);
+          }
+          // Made the definition, so return now. 
+          return super.getStringRepresentation(makeChartDefinitionXml(chartDef));
         }
       }
-      return super.getStringRepresentation(makeChartDefinitionXml(chartDef));
     }
-    // Shouldn't ever get here. 
+    // Couldn't find a definition, so return an error. 
+    String msg = "No chart found with name = " + this.chart;
+    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
     return null;
   }
 

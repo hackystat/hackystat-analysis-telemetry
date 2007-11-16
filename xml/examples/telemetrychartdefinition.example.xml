@@ -11,7 +11,7 @@ development tools at the grain size of five minutes.
   </Description>
 
   <ParameterDefinition Name="filePattern">
-    <Default>**</Default>
+    <Type Name="Text" Default="**"/>
     <Description>
       An Ant-like FilePattern used to filter the resources used to compute this DevTime.
       Example: **/Foo/**/*.java would find all java files in any subdirectory of Foo. 
@@ -20,12 +20,23 @@ development tools at the grain size of five minutes.
   </ParameterDefinition>
 
   <ParameterDefinition Name="cumulative">
-    <Default>false</Default>
+    <Type Name="Boolean" Default="false"/>
     <Description>
       If true, then the chart displays cumulative values over time. 
     </Description>
-    <Value>true</Value>
-    <Value>false</Value>
+  </ParameterDefinition>
+
+  <ParameterDefinition Name="illustrateEnum">
+    <Type Name="Enumerated" Default="Foo">
+      <Value>Foo</Value>
+      <Value>Bar</Value>
+    </Type>
+    <Description>Illustrates the enumerated value parameter type specification.</Description>
+  </ParameterDefinition>
+
+  <ParameterDefinition Name="illustrateInteger">
+    <Type Name="Integer" Default="1" MinValue="0" MaxValue="100"/>
+    <Description>Illustrates the integer parameter type specification.</Description>
   </ParameterDefinition>
 
   <SourceCode>
