@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.ParameterDefinition;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.resource.chart.jaxb.Type;
@@ -31,10 +32,11 @@ public class TestChartRestApi extends TelemetryTestHelper {
    * @throws Exception If problems occur. 
    */
   @Before
-  public void setupClient() throws Exception { 
-  // Now connect to the Telemetry server. 
-  this.telemetryClient = new TelemetryClient(getTelemetryHostName(), user, user);
-  telemetryClient.authenticate();
+  public void setupClient() throws Exception {
+    // Ensure that user is registered.
+    SensorBaseClient.registerUser(this.getSensorBaseHostName(), user);
+    this.telemetryClient = new TelemetryClient(getTelemetryHostName(), user, user);
+    telemetryClient.authenticate();
   }
   
   /**
