@@ -5,6 +5,8 @@
 
   <import file="build.xml"/>
   <property environment="env"/>
+  <!-- If the JAXB_TARGET env var is not defined, provide a default definition. -->
+  <property name="env.JAXB_TARGET" value="2.0"/>
     
   <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
     <classpath>
@@ -13,19 +15,20 @@
   </taskdef>   
 
   <target name="jaxb" description="Runs the XJC compiler.">
-    <xjc schema="${basedir}/xml/schema/telemetry.resource.xsd" destdir="src" 
+    <echo message="Compiling using ${env.JAXB_HOME} for target version ${env.JAXB_TARGET}."/>
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/telemetry.resource.xsd" destdir="src" 
          package="org.hackystat.telemetry.service.resource.chart.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/service/resource/chart/jaxb" includes="*" />
     </xjc>
-    <xjc schema="${basedir}/xml/schema/reducer.definition.xsd" destdir="src" 
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/reducer.definition.xsd" destdir="src" 
          package="org.hackystat.telemetry.analyzer.reducer.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/reducer/jaxb" includes="*" />
     </xjc>
-    <xjc schema="${basedir}/xml/schema/function.definition.xsd" destdir="src" 
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/function.definition.xsd" destdir="src" 
          package="org.hackystat.telemetry.analyzer.function.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/function/jaxb" includes="*" />
     </xjc>
-    <xjc schema="${basedir}/xml/schema/telemetry.definition.xsd" destdir="src" 
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/telemetry.definition.xsd" destdir="src" 
          package="org.hackystat.telemetry.analyzer.configuration.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/configuration/jaxb" includes="*" />
     </xjc>    
