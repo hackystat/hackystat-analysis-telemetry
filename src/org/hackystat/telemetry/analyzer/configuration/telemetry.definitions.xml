@@ -92,6 +92,56 @@ chart UnitTest(mode, member, cumulative) = {
 
 <!-- ************************************************************************************** -->
 
+<TelemetryDefinition Name="Build" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the Build invocation counts for the specified
+developer, result, type, and cumulative values.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose Build counts are to be returned.  If "*", then the aggregrate 
+      Build counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="result">
+   <Type Name="Enumerated" Default="*">
+      <Value>Success</Value>
+      <Value>Failure</Value>
+      <Value>*</Value>
+   </Type>
+    <Description>
+      Specifies whether to return only successful builds, failing builds, or both successful and
+failing builds.
+    </Description>
+  </Parameter>
+<Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the Type property to match in order for the Build data to be counted. This is
+      useful, for example, for generating Build telemetry for only Integration Builds. 
+      The default returns Build data for any type.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Build(member, result, type, cumulative) = {
+  "Build invocations", 
+  (BuildStream(member, result, type, cumulative), yAxis("Build Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+ 
+
+<!-- ************************************************************************************** -->
+
 <TelemetryDefinition Name="DevTimeStream" DefinitionType="Streams" ShareScope="Global">
   <Description>
 This stream provides a single stream indicating the DevTime associated with the given 
@@ -159,6 +209,58 @@ the trend line represents the total UnitTest counts for each period individually
 streams UnitTestStream(mode, member, cumulative) = {
   "UnitTests for the given mode for this Project", 
   UnitTest(mode, member, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition>    
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="BuildStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the number of Builds associated with the specified
+developer with the specified result and type.  The member parameter should be either the 
+member email or "*" to indicate that the build count aggregates all member counts. 
+The result parameter should be either Success, Failure, or * to indicate all builds. 
+The type parameter should be the value of the Type property to match in the build data, or "*"
+to match all build data.
+If the cumulative parameter
+is true, then the trend line represents the cumulative Build counts. If false, then
+the trend line represents the total Build counts for each period individually. 
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose Build counts to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="result">
+    <Type Name="Enumerated" Default="*">
+      <Value>Success</Value>
+      <Value>Failure</Value>
+      <Value>*</Value>
+    </Type>
+    <Description>
+      Specifies whether to return only successful builds, failing builds, or all builds.
+    </Description>
+  </Parameter>
+<Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the Type property that must match for the Build data to be counted.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams BuildStream(member, result, type, cumulative) = {
+  "Builds for the given parameters for this Project", 
+  Build(member, result, type, cumulative)
 };
 ]]>
 </SourceCode>

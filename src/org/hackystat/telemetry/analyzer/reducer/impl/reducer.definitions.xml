@@ -1,4 +1,32 @@
 <ReducerDefinitions>
+ <ReducerDefinition>
+    <Name>Build</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.BuildReducer</ClassName>
+    <Description>Computes a single telemetry stream representing build invocations, successes, and failures.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>member</Name>
+        <Description>Either the member email or '*' to indicate all members.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>result</Name>
+        <Description>'Success', 'Failure', or '*' to indicate all.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>type</Name>
+        <Description>A string specifying the value of the Type property, or '*' to indicate all.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>
+ 
   <ReducerDefinition>
     <Name>UnitTest</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.UnitTestReducer</ClassName>
