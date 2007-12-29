@@ -29,7 +29,7 @@
     <Parameters>
       <Parameter>
         <Name>eventType</Name>
-        <Description>If '*' is supplied, then the dev time will be summed up over all dev event types.</Description>
+        <Description>If '*' is supplied, then the dev time will be summed up over all dev event types. (ignored)</Description>
         <Default>*</Default>
       </Parameter>
       <Parameter>
@@ -39,7 +39,7 @@
       </Parameter>
       <Parameter>
         <Name>uriPattern</Name>
-        <Description>Ant-like file pattern specifying the files to be included in computation.</Description>
+        <Description>Ant-like file pattern specifying the files to be included in computation. (ignored)</Description>
         <Default>**</Default>
       </Parameter>
       <Parameter>

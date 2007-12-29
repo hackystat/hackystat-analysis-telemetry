@@ -1,6 +1,7 @@
 package org.hackystat.telemetry.service.resource.chart;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -57,37 +58,14 @@ public class TestDevEventChartRestApi extends TelemetryTestHelper {
   }
   
   
-  /**
-   * Test GET {host}/chart/CumulativeTotalDevTime/{user}/Default/Day/2007-08-01/2007-08-03
-   * First, it creates a test user and sends some sample DevEvent data to the SensorBase. 
-   * Then, it invokes the GET request and checks to see that the returned Chart representation
-   * contains the correct number of data points and values. 
-   * @throws Exception If problems occur.
-   */
-  @Test public void testSimpleChartCreation() throws Exception {
-    String chartName = "TotalCumulativeDevTime";
-    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
-          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
-    // See if this chart contains 1 stream with 3 data points of 10, 15, and 20.
-    List<TelemetryStream> streams = chart.getTelemetryStream();
-    assertEquals("Checking only 1 stream returned", 1, streams.size());
-    // Get the data points in the single returned stream.
-    List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
-    assertEquals("Checking for 3 points", 3, points.size());
-    // Check that these three points are 10, 15, and 20.
-    assertEquals("Checking point 1 is 10", "10.0", points.get(0).getValue());
-    assertEquals("Checking point 2 is 15", "15.0", points.get(1).getValue());
-    assertEquals("Checking point 3 is 20", "20.0", points.get(2).getValue());
-  }
-  
   
   /**
-   * Tests the parameter processing works. 
+   * Tests the DevTime chart.
    * @throws Exception If problems occur. 
    */
   @Test public void testChartParams() throws Exception {
     String chartName = "DevTime";
-    String params = "**,false"; // make sure no embedded spaces, or else escape them.
+    String params = user + ",false"; // make sure no embedded spaces, or else escape them.
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"), params);
     // See if this chart contains 1 stream with 3 data points of 10, 15, and 20.
@@ -97,12 +75,12 @@ public class TestDevEventChartRestApi extends TelemetryTestHelper {
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
     assertEquals("Checking for 3 points", 3, points.size());
     // Check that these three points are 10, 15, and 20.
-    assertEquals("Checking point 1 is 10", "10.0", points.get(0).getValue());
-    assertEquals("Checking point 2 is 5", "5.0", points.get(1).getValue());
-    assertEquals("Checking point 3 is 5", "5.0", points.get(2).getValue());
+    assertTrue("Checking point 1 is 0.16", points.get(0).getValue().startsWith("0.16"));
+    assertTrue("Checking point 2 is 0.08", points.get(1).getValue().startsWith("0.08"));
+    assertTrue("Checking point 3 is 0.08", points.get(2).getValue().startsWith("0.08"));
     List<Parameter> parameters = chart.getParameter();
-    assertEquals("Checking first param id", "filePattern", parameters.get(0).getName());
-    assertEquals("Checking first param val", "**", parameters.get(0).getValue());
+    assertEquals("Checking first param id", "member", parameters.get(0).getName());
+    assertEquals("Checking first param val", user, parameters.get(0).getValue());
     assertEquals("Checking second param id", "cumulative", parameters.get(1).getName());
     assertEquals("Checking second param val", "false", parameters.get(1).getValue());
   }

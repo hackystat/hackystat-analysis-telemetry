@@ -59,10 +59,10 @@ public class TestChartRestApi extends TelemetryTestHelper {
     List<ParameterDefinition> parameters = chartDef.getParameterDefinition();
     assertEquals("Got two parameter definitions", 2, parameters.size());
     ParameterDefinition param = parameters.get(0);
-    assertEquals("Getting the filePattern param", "filePattern", param.getName());
+    assertEquals("Getting the member param", "member", param.getName());
     Type type = param.getType();
-    assertEquals("Checking the filePattern type", "Text", type.getName());
-    assertEquals("Checking the filePattern type default", "**", type.getDefault());
-    assertEquals("Checking the filePattern type value list", 0, type.getValue().size());
+    assertEquals("Checking the type", "Text", type.getName());
+    assertEquals("Checking the default", "*", type.getDefault());
+    assertEquals("Checking the value list", 0, type.getValue().size());
   }
 }

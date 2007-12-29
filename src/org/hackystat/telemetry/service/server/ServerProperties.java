@@ -23,8 +23,8 @@ public class ServerProperties {
   public static final String LOGGING_LEVEL_KEY =   "telemetry.logging.level";
   /** The dailyprojectdata port key. */
   public static final String PORT_KEY =            "telemetry.port";
-  /** The XML directory key. */
-  public static final String XML_DIR_KEY =         "telemetry.xml.dir";
+  /** The definitions directory key. */
+  public static final String DEF_DIR_KEY =         "telemetry.def.dir";
   /** The dpd port key during testing. */
   public static final String TEST_PORT_KEY =       "telemetry.test.port";
   /** The test installation key. */
@@ -70,7 +70,7 @@ public class ServerProperties {
     properties.setProperty(PORT_KEY, "9878");
     properties.setProperty(CONTEXT_ROOT_KEY, "telemetry");
     properties.setProperty(LOGGING_LEVEL_KEY, "INFO");
-    properties.setProperty(XML_DIR_KEY, userDir + "/xml");
+    properties.setProperty(DEF_DIR_KEY, userDir + "/definitions");
     properties.setProperty(TEST_PORT_KEY, "9978");
     properties.setProperty(TEST_HOSTNAME_KEY, "localhost");
     properties.setProperty(TEST_SENSORBASE_HOST_KEY, "http://localhost:9976/sensorbase");
@@ -141,6 +141,7 @@ public class ServerProperties {
       pad + HOSTNAME_KEY      + eq + get(HOSTNAME_KEY) + cr +
       pad + CONTEXT_ROOT_KEY  + eq + get(CONTEXT_ROOT_KEY) + cr +
       pad + LOGGING_LEVEL_KEY + eq + get(LOGGING_LEVEL_KEY) + cr +
+      pad + DEF_DIR_KEY       + eq + get(DEF_DIR_KEY) + cr +
       pad + PORT_KEY          + eq + get(PORT_KEY) + cr +
       pad + TEST_INSTALL_KEY  + eq + get(TEST_INSTALL_KEY);
   }

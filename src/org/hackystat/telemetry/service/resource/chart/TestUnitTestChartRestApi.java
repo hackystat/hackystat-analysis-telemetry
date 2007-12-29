@@ -32,7 +32,7 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
   private TelemetryClient telemetryClient;
   
   /**
-   * Creates DevEvents on server for use in Telemetry processing. 
+   * Creates UnitTests on server for use in Telemetry processing. 
    * @throws Exception If problems occur. 
    */
   @Before
@@ -58,36 +58,13 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
   
   
   /**
-   * Test GET {host}/chart/UnitTest/{user}/Default/Day/2007-08-01/2007-08-03
-   * First, it creates a test user and sends some sample DevEvent data to the SensorBase. 
-   * Then, it invokes the GET request and checks to see that the returned Chart representation
-   * contains the correct number of data points and values. 
-   * @throws Exception If problems occur.
-   */
-  @Test public void testSimpleChartCreation() throws Exception {
-    String chartName = "TotalCumulativeUnitTest";
-    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
-          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"));
-    // See if this chart contains 1 stream with 3 data points.
-    List<TelemetryStream> streams = chart.getTelemetryStream();
-    assertEquals("Checking only 1 stream returned", 1, streams.size());
-    // Get the data points in the single returned stream.
-    List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
-    assertEquals("Checking for 3 points", 3, points.size());
-    // Check that these three points are 2, 1, and 1.
-    assertEquals("Checking point 1 is 2", "2.0", points.get(0).getValue());
-    assertEquals("Checking point 2 is 3", "3.0", points.get(1).getValue());
-    assertEquals("Checking point 3 is 4", "4.0", points.get(2).getValue());
-  }
-  
-  
-  /**
-   * Tests the parameter processing works. 
+   * Tests the UnitTest chart.
    * @throws Exception If problems occur. 
    */
-  @Test public void testChartParams() throws Exception {
+  @Test public void testUnitTestChartFailureCount() throws Exception {
     String chartName = "UnitTest";
-    String params = "FailureCount,**,false"; // make sure no embedded spaces, or else escape them.
+    //String params = "FailureCount,*,false"; // make sure no embedded spaces, or else escape them.
+    String params = "FailureCount," + user + ",false"; 
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     // See if this chart contains 1 stream.
@@ -104,10 +81,36 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
     List<Parameter> parameters = chart.getParameter();
     assertEquals("Checking first param id", "mode", parameters.get(0).getName());
     assertEquals("Checking first param val", "FailureCount", parameters.get(0).getValue());
-    assertEquals("Checking second param id", "filePattern", parameters.get(1).getName());
-    assertEquals("Checking second param val", "**", parameters.get(1).getValue());
-    assertEquals("Checking third param id", "cumulative", parameters.get(2).getName());
-    assertEquals("Checking third param val", "false", parameters.get(2).getValue());
+    assertEquals("Checking second param id", "member", parameters.get(1).getName());
+    assertEquals("Checking second param val", user, parameters.get(1).getValue());
+  }
+  
+  /**
+   * Tests the UnitTest chart.
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testUnitTestChartTotalCount() throws Exception {
+    String chartName = "UnitTest";
+    //String params = "FailureCount,*,false"; // make sure no embedded spaces, or else escape them.
+    String params = "TotalCount," + user + ",false"; 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
+    // See if this chart contains 1 stream.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
+    // Get the data points in the single returned stream.
+    List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
+    assertEquals("Checking for 4 points", 4, points.size());
+    // Check that these four points are 0, 0, 0, and null (last day has no data.)
+    assertEquals("Checking point 1 is 2", "2", points.get(0).getValue());
+    assertEquals("Checking point 2 is 1", "1", points.get(1).getValue());
+    assertEquals("Checking point 3 is 1", "1", points.get(2).getValue());
+    assertEquals("Checking point 4 is null", null, points.get(3).getValue());
+    List<Parameter> parameters = chart.getParameter();
+    assertEquals("Checking first param id", "mode", parameters.get(0).getName());
+    assertEquals("Checking first param val", "TotalCount", parameters.get(0).getValue());
+    assertEquals("Checking second param id", "member", parameters.get(1).getName());
+    assertEquals("Checking second param val", user, parameters.get(1).getValue());
   }
   
   /**

@@ -1,8 +1,11 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -34,12 +37,14 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
   private Logger logger;
   
   private TelemetryDefinitions definitions;
-
+  
   /**
    * Creates a new Persistent Telemetry Definition Manager, reading in the pre-defined definitions
    * from the telemetrydefinitions.xml file. 
+   * @param defDirString A string defining the directory where additional telemetry definitions
+   * can be found, or null if not available.
    */
-  PersistentTelemetryDefinitionManager() {
+  PersistentTelemetryDefinitionManager(String defDirString) {
     this.defInfoRepositoryMap.put(TelemetryDefinitionType.STREAMS, 
         new TelemetryDefinitionInfoRepository());
     this.defInfoRepositoryMap.put(TelemetryDefinitionType.CHART, 
@@ -48,21 +53,55 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
         new TelemetryDefinitionInfoRepository());
     this.defInfoRepositoryMap.put(TelemetryDefinitionType.REPORT, 
         new TelemetryDefinitionInfoRepository());
+    
+    this.definitions = new TelemetryDefinitions();
 
     this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
-    // Read in the definitions file.
-    try {
-      this.logger.info("Loading built-in telemetry chart/report/stream/y-axis definitions.");
-      InputStream defStream = getClass().getResourceAsStream("telemetry.definitions.xml");
-      JAXBContext jaxbContext = JAXBContext
-      .newInstance(org.hackystat.telemetry.analyzer.configuration.jaxb.ObjectFactory.class);
-      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-      this.definitions = (TelemetryDefinitions) unmarshaller.unmarshal(defStream);
-    } 
-    catch (Exception e) {
-      this.logger.severe("Could not find telemetry.definitions.xml! " + StackTrace.toString(e));
+    // Read in the telemetry.definitions.xml file from the jar.
+    this.logger.info("Loading built-in telemetry chart/report/stream/y-axis definitions.");
+    InputStream defStream = getClass().getResourceAsStream("telemetry.definitions.xml");
+    TelemetryDefinitions builtin = getDefinitions(defStream);
+    if (builtin != null) {
+      updateRepository(builtin);
     }
     
+    if (defDirString == null || !((new File(defDirString)).exists())) {
+      this.logger.info("Telemetry directory not available: " + defDirString);
+    }
+    else {
+      // Read in the any telemetry definitions from the definitions/ directory.
+      File defDir = new File(defDirString);
+      File[] xmlFiles = defDir.listFiles(new ExtensionFileFilter(".xml"));
+      FileInputStream fileStream = null;
+      for (int i = 0; i < xmlFiles.length; i++) {
+        try {
+          // Get the TelemetryDefinitions instance from the file.
+          this.logger.info("Reading telemetry definitions from: " + xmlFiles[i].getName());
+          fileStream = new FileInputStream(xmlFiles[i]);
+          TelemetryDefinitions defs = getDefinitions(fileStream);
+          if (defs != null) {
+            updateRepository(defs);
+          }
+          fileStream.close();
+        }
+        catch (Exception e) {
+          this.logger.info("Error reading definitions from: " + xmlFiles[i] + " " + e);
+          try {
+            fileStream.close();
+          }
+          catch (Exception f) { 
+            this.logger.info("Failed to close: " + fileStream.toString() + " " + e);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Given a TelemetryDefinitions instance, updates the internal data structures with this info.
+   * @param definitions The TelemetryDefinitions instance. 
+   */
+  private void updateRepository(TelemetryDefinitions definitions) {
     // Now update the repository maps.
     for (TelemetryDefinition definition : definitions.getTelemetryDefinition()) {
       String defType = definition.getDefinitionType(); 
@@ -78,24 +117,47 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
       try {
         if (TelemetryDefinitionType.STREAMS.toString().equalsIgnoreCase(defType)) {
           this.add(new TelemetryStreamsDefinitionInfo(definitionString, user, globalScope));
+          this.definitions.getTelemetryDefinition().add(definition);
         }
         else if (TelemetryDefinitionType.CHART.toString().equalsIgnoreCase(defType)) {
           this.add(new TelemetryChartDefinitionInfo(definitionString, user, globalScope));
+          this.definitions.getTelemetryDefinition().add(definition);
         }
         else if (TelemetryDefinitionType.YAXIS.toString().equalsIgnoreCase(defType)) {
           this.add(new TelemetryChartYAxisDefinitionInfo(definitionString, user, globalScope));
+          this.definitions.getTelemetryDefinition().add(definition);
         }
         else if (TelemetryDefinitionType.REPORT.toString().equalsIgnoreCase(defType)) {
           this.add(new TelemetryReportDefinitionInfo(definitionString, user, globalScope));
+          this.definitions.getTelemetryDefinition().add(definition);
         }
         else {
-          this.logger.warning("Unknown definition type in telemetry.definitions.xml" + defType); 
+          this.logger.warning("Unknown definition type: " + defType); 
         }
       }
       catch (Exception e) {
         this.logger.warning("Error defining a telemetry construct: " + StackTrace.toString(e));
       } 
     }
+  }
+  
+  /**
+   * Returns a TelemetryDefinitions object constructed from defStream, or null if unsuccessful.
+   * @param defStream The input stream containing a TelemetryDefinitions object in XML format.
+   * @return The TelemetryDefinitions object.
+   */
+  private TelemetryDefinitions getDefinitions (InputStream defStream) {
+    // Read in the definitions file.
+    try {
+      JAXBContext jaxbContext = JAXBContext
+      .newInstance(org.hackystat.telemetry.analyzer.configuration.jaxb.ObjectFactory.class);
+      Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+      return (TelemetryDefinitions) unmarshaller.unmarshal(defStream);
+    } 
+    catch (Exception e) {
+      this.logger.severe("Failed to get TelemetryDefinitions from stream" + StackTrace.toString(e));
+    }
+    return null;
   }
   
   /**
@@ -206,5 +268,14 @@ class PersistentTelemetryDefinitionManager extends TelemetryDefinitionManager {
       repository.remove(owner, name);  
       //this.write(owner);
     } 
+  }
+
+  /**
+   * Returns the list of telemetry definitions.
+   * @return The list of definitions.
+   */
+  @Override
+  public List<TelemetryDefinition> getDefinitions() {
+    return this.definitions.getTelemetryDefinition();
   }
 }

@@ -3,9 +3,11 @@ package org.hackystat.telemetry.analyzer.configuration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hackystat.sensorbase.resource.users.jaxb.User;
+import org.hackystat.telemetry.analyzer.configuration.jaxb.TelemetryDefinition;
 
 /**
  * Implements the non-persistent TelemetryDefinitionManager.
@@ -165,5 +167,14 @@ class NonPersistentTelemetryDefinitionManager extends TelemetryDefinitionManager
     else {
       repository.remove(owner, name);  
     } 
+  }
+
+  /**
+   * Not yet implemented.
+   * @return Returns null.
+   */
+  @Override
+  public List<TelemetryDefinition> getDefinitions() {
+    return null;
   }
 }

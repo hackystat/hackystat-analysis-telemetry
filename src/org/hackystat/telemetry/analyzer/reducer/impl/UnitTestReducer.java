@@ -6,7 +6,6 @@ import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.dailyprojectdata.resource.unittest.jaxb.MemberData;
 import org.hackystat.dailyprojectdata.resource.unittest.jaxb.UnitTestDailyProjectData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.sensorbase.uripattern.UriPattern;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
@@ -25,8 +24,7 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * Options:
  * <ol>
  * <li> mode: One of 'TotalCount', 'SuccessCount', or 'FailureCount'. Default is 'TotalCount'. 
- * <li> ResourceFilterPattern: Restricts the files over which the UnitTest data
- *      is computed. Default is "**".
+ * <li> member: The project member whose unit test data is to be returned, or "*" for all members.
  * <li> isCumulative: True or false. Default is false.
  * </ol>
  * 
@@ -51,7 +49,7 @@ public class UnitTestReducer implements TelemetryReducer {
   public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] options) throws TelemetryReducerException {
     Mode mode = Mode.TOTALCOUNT;
-    UriPattern resourcePattern = null;
+    String member = null;
     boolean isCumulative = false;
     //process options
     if (options.length > 3) {
@@ -67,7 +65,7 @@ public class UnitTestReducer implements TelemetryReducer {
     }
 
     if (options.length >= 2) {
-      resourcePattern = new UriPattern(options[1]);
+      member = options[1];
     }
     
     if (options.length >= 3) {
@@ -88,7 +86,7 @@ public class UnitTestReducer implements TelemetryReducer {
     // now get the telemetry stream. 
     try {
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,  
-          mode, resourcePattern, isCumulative, null);
+          mode, member, isCumulative, null);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       streams.add(telemetryStream);
       return streams;
@@ -105,7 +103,7 @@ public class UnitTestReducer implements TelemetryReducer {
    * @param project The project.
    * @param interval The interval.
    * @param mode The mode (TOTALCOUNT, SUCCESSCOUNT, or FAILURECOUNT).
-   * @param filePattern File filter pattern, or null to match all files.
+   * @param member The member, or "*" for all members.
    * @param isCumulative True for cumulative measure.
    * @param streamTagValue The tag for the generated telemetry stream.
    * 
@@ -115,14 +113,15 @@ public class UnitTestReducer implements TelemetryReducer {
    */
   TelemetryStream getStream(DailyProjectDataClient dpdClient, 
       Project project, Interval interval, Mode mode, 
-      UriPattern filePattern, boolean isCumulative, Object streamTagValue) 
+      String member, boolean isCumulative, Object streamTagValue) 
         throws Exception {
     TelemetryStream telemetryStream = new TelemetryStream(streamTagValue);
     List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     double cumulativeTestCount = 0;
+    
     for (IntervalUtility.Period period : periods) {
       Long value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
-          mode, filePattern);
+          mode, member);
       
       if (value != null) {
         cumulativeTestCount += value;
@@ -147,14 +146,14 @@ public class UnitTestReducer implements TelemetryReducer {
    * @param startDay The start day (inclusive).
    * @param endDay The end day (inclusive).
    * @param mode The mode.
-   * @param filePattern File filter pattern, or null to match all files.
+   * @param member The member email, or "*" for all members.
    * @throws TelemetryReducerException If anything goes wrong.
    *
    * @return The UnitTest count, or null if there is no UnitTest SensorData for that time period. 
    */
   Long getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
-      Mode mode, UriPattern filePattern) throws TelemetryReducerException {
-    long unitTests = 0;
+      Mode mode, String member) throws TelemetryReducerException {
+    long count = 0;
     boolean hasData = false;
     try {
       // For each day in the interval... 
@@ -165,18 +164,20 @@ public class UnitTestReducer implements TelemetryReducer {
         hasData = !data.getMemberData().isEmpty();
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
-          switch (mode) {
-          case TOTALCOUNT:
-            unitTests += memberData.getFailure().longValue() + memberData.getSuccess().longValue();
-            break;
-          case SUCCESSCOUNT: 
-            unitTests += memberData.getSuccess().longValue();
-            break;
-          case FAILURECOUNT: 
-            unitTests += memberData.getFailure().longValue();
-            break;
-          default: 
-            throw new TelemetryReducerException("Unknown mode: " + mode);
+          if ((member == null) || (memberData.getMemberUri().endsWith(member))) {
+            switch (mode) {
+            case TOTALCOUNT:
+              count += memberData.getFailure().longValue() + memberData.getSuccess().longValue();
+              break;
+            case SUCCESSCOUNT: 
+              count += memberData.getSuccess().longValue();
+              break;
+            case FAILURECOUNT: 
+              count += memberData.getFailure().longValue();
+              break;
+            default: 
+              throw new TelemetryReducerException("Unknown mode: " + mode);
+            }
           }
         }
       }
@@ -186,7 +187,7 @@ public class UnitTestReducer implements TelemetryReducer {
     }
 
     //Return null if no data, the UnitTest data otherwise. 
-    return (hasData) ? Long.valueOf(unitTests) : null; 
+    return (hasData) ? Long.valueOf(count) : null; 
   }
 
 }

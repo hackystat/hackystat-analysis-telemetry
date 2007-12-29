@@ -8,8 +8,7 @@ package org.hackystat.telemetry.analyzer.configuration;
  */
 public class TelemetryDefinitionManagerFactory {
 
-  private static TelemetryDefinitionManager theGlobalInstance 
-      = new PersistentTelemetryDefinitionManager();
+  private static TelemetryDefinitionManager theGlobalInstance; 
 
   /**
    * Gets the singleton global instance of <code>TelemetryDefinitionManger</code>. 
@@ -17,8 +16,23 @@ public class TelemetryDefinitionManagerFactory {
    * @return The global instance of <code>TelemetryDefinitionManager</code>.
    */
   public static TelemetryDefinitionManager getGlobalPersistentInstance() {
+    // The null situation should only occur during testing. 
+    if (theGlobalInstance == null) { //NOPMD because this only happens during testing. 
+      theGlobalInstance = new PersistentTelemetryDefinitionManager(null);
+    }
     return theGlobalInstance;
   }
+  
+  /**
+   * Creates the singleton persistent instance, using the passed defDir to find telemetry 
+   * definitions.  Note that this must be called when the Restlet server is being created and
+   * thus in advance of any calls to getGlobalPersistentInstance.
+   * @param defDir A string indicating the directory where telemetry definitions (in addition to 
+   * the "builtin" definitions) will be found.
+   */
+  public static void buildGlobalPersistentInstance(String defDir) {
+    theGlobalInstance = new PersistentTelemetryDefinitionManager(defDir);
+   }
 
   /**
    * Creates a new non-persistent version of

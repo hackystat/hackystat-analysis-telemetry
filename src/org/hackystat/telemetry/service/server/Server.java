@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
+import org.hackystat.telemetry.analyzer.configuration.TelemetryDefinitionManagerFactory;
 import org.hackystat.telemetry.service.resource.chart.ChartDataResource;
 import org.hackystat.telemetry.service.resource.chart.ChartDefinitionResource;
 import org.hackystat.telemetry.service.resource.chart.ChartsResource;
@@ -110,6 +111,11 @@ public class Server extends Application {
     HackystatLogger.setLoggingLevel(server.logger, server.properties.get(LOGGING_LEVEL_KEY));
     server.logger.info(server.properties.echoProperties());
     String sensorBaseHost = server.properties.get(SENSORBASE_FULLHOST_KEY);
+
+    // Read in all telemetry definitions and create the singleton.
+    String defDir = server.properties.get(ServerProperties.DEF_DIR_KEY);
+    TelemetryDefinitionManagerFactory.buildGlobalPersistentInstance(defDir);
+    
     String dailyProjectDataHost = server.properties.get(DAILYPROJECTDATA_FULLHOST_KEY);
     boolean sensorBaseOK = SensorBaseClient.isHost(sensorBaseHost);
     boolean dailyProjectDataOK = DailyProjectDataClient.isHost(dailyProjectDataHost);

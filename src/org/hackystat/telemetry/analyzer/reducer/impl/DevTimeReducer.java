@@ -21,14 +21,15 @@ import org.hackystat.utilities.tstamp.Tstamp;
 
 
 /**
- * Returns a single stream providing DevTime data. 
+ * Returns a single stream providing DevTime data in hours.
  * <p>
- * Options:
+ * Accepts the following options in the following order, although only User and isCumulative
+ * are supported at the current time.
  * <ol>
  * <li> EventType: Supply an Event Type to restrict the DevTime to just the time 
  *      associated with that Event Type. 
- *       Default is "*" which indicates all file types are used in computing the 
- *       DevTime.  
+ *      Default is "*" which indicates all file types are used in computing the 
+ *      DevTime.  
  *  <li> User: Supply a user email to get DevTime for just that user. 
  *       Default is "*" indicating the aggregate DevTime of all project members.
  *  <li> ResourceFilterPattern: Restricts the files over which the DevTime 
@@ -61,7 +62,7 @@ public class DevTimeReducer implements TelemetryReducer {
     boolean isCumulative = false;
     //process options
     if (options.length > 4) {
-      throw new TelemetryReducerException("DevTime reducer takes 4 optional parameters.");
+      throw new TelemetryReducerException("DevTime reducer takes only 4 optional parameters.");
     }
 
     if (options.length >= 1 && ! "*".equals(options[0])) {
@@ -87,10 +88,10 @@ public class DevTimeReducer implements TelemetryReducer {
       throw new TelemetryReducerException("Null DPD host in DevTimeReducer");
     }
 
-    // now get the telemetry stream. 
+    // now compute the single telemetry stream. Remember, we only process member and Cumulative.
     try {
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,  
-          eventType, member, resourcePattern, isCumulative, null);
+          eventType, member, resourcePattern, isCumulative, member);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       streams.add(telemetryStream);
       return streams;
@@ -106,14 +107,13 @@ public class DevTimeReducer implements TelemetryReducer {
    * @param dpdClient The DailyProjectData client we will contact for the data. 
    * @param project The project.
    * @param interval The interval.
-   * @param eventType The event type, or null to match all event types.
+   * @param eventType The event type, or null to match all event types. (ignored)
    * @param member Project member, or null to match all members. 
-   * @param filePattern File filter pattern, or null to match all files.
+   * @param filePattern File filter pattern, or null to match all files. (ignored)
    * @param isCumulative True for cumulative measure.
    * @param streamTagValue The tag for the generated telemetry stream.
    * 
    * @return The telemetry stream as required.
-   * 
    * @throws Exception If there is any error.
    */
   TelemetryStream getStream(DailyProjectDataClient dpdClient, 
@@ -123,6 +123,7 @@ public class DevTimeReducer implements TelemetryReducer {
     TelemetryStream telemetryStream = new TelemetryStream(streamTagValue);
     List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
     double cumulativeDevTime = 0;
+
     for (IntervalUtility.Period period : periods) {
       Double value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
           eventType, member, filePattern);
@@ -144,17 +145,20 @@ public class DevTimeReducer implements TelemetryReducer {
   
   /**
    * Returns a DevTime value for the specified time interval, or null if no SensorData. 
+   * Note that the DPD returns DevTime in minutes, but we are going to convert it to hours
+   * since that makes more sense for telemetry.
    * 
    * NOTE: This function currently ignores the filePattern and eventType constraints and simply
-   * returns the total DevTime for each member in the specified day. 
+   * returns either total aggregate devTime (if member is null), or the devTime for a single
+   * member (if the memberEmail is supplied).
    *
    * @param dpdClient The DailyProjectData client we will use to get this data. 
    * @param project The project.
    * @param startDay The start day (inclusive).
    * @param endDay The end day (inclusive).
-   * @param eventType The event type, or null to match all file types.
-   * @param member The project member, or null to match all members. 
-   * @param filePattern File filter pattern, or null to match all files.
+   * @param eventType The event type, or null to match all file types. (ignored)
+   * @param member The project member email, or null to match all members. 
+   * @param filePattern File filter pattern, or null to match all files. (ignored)
    * @throws TelemetryReducerException If anything goes wrong.
    *
    * @return The DevTime, or null if there is no DevEvent SensorData for that time period. 
@@ -171,7 +175,7 @@ public class DevTimeReducer implements TelemetryReducer {
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
           // If this DPD memberdata's owner matches who we want
-          if ((member == null) || (memberData.getMemberUri().equals(member))) {
+          if ((member == null) || (memberData.getMemberUri().endsWith(member))) {
             devTime += memberData.getDevTime().doubleValue();
           }
         }
@@ -182,7 +186,7 @@ public class DevTimeReducer implements TelemetryReducer {
     }
 
     //Return null if no data, the DevTime data otherwise. 
-    return (devTime > 0) ? new Double(devTime) : null; 
+    return (devTime > 0) ? new Double((devTime / 60)) : null; 
   }
 
 }

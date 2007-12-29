@@ -1,8 +1,10 @@
 package org.hackystat.telemetry.analyzer.configuration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.hackystat.sensorbase.resource.users.jaxb.User;
+import org.hackystat.telemetry.analyzer.configuration.jaxb.TelemetryDefinition;
 
 /**
  * Provides the base class associated with the persistent and non-persistent
@@ -48,6 +50,12 @@ public abstract class TelemetryDefinitionManager {
    */
   public abstract void add(TelemetryDefinitionInfo defInfo) 
       throws TelemetryConfigurationException;
+  
+  /**
+   * Returns the list of TelemetryDefinitions associated with this manager.
+   * @return The list of telemetry definitions.
+   */
+  public abstract List<TelemetryDefinition> getDefinitions();
 
   /**
    * Deletes a telemetry object definition. Does nothing if the definition does not exist.
