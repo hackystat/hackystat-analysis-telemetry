@@ -185,7 +185,7 @@ public class BuildReducer implements TelemetryReducer {
     }
 
     //Return null if no data, the Build count data otherwise. 
-    return (buildCount > 0) ? new Long(buildCount) : null; 
+    return (buildCount > 0) ? Long.valueOf(buildCount) : null; 
   }
 
 }

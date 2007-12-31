@@ -1,5 +1,23 @@
 <ReducerDefinitions>
  <ReducerDefinition>
+    <Name>Coverage</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CoverageReducer</ClassName>
+    <Description>Computes a single telemetry stream representing coverage level.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>mode</Name>
+        <Description>One of 'Percentage', 'NumCovered', or 'NumUncovered'.</Description>
+        <Default>Percentage</Default>
+      </Parameter>
+      <Parameter>
+        <Name>granularity</Name>
+        <Description>The type of coverage, such as 'line', 'method', 'class', etc.</Description>
+        <Default>method</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>
+
+ <ReducerDefinition>
     <Name>Build</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.BuildReducer</ClassName>
     <Description>Computes a single telemetry stream representing build invocations, successes, and failures.</Description>

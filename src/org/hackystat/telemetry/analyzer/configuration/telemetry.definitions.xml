@@ -88,8 +88,40 @@ chart UnitTest(mode, member, cumulative) = {
 ]]>
   </SourceCode>
 </TelemetryDefinition>   
- 
 
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="Coverage" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the Coverage level for the given mode and granularity.
+  </Description>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="Percentage">
+      <Value>Percentage</Value>
+      <Value>NumCovered</Value>
+      <Value>NumUncovered</Value>
+   </Type>
+    <Description>
+      Specifies the type of count to return, either the percentage covered or the absolute numbers
+      of covered or uncovered constructs. 
+    </Description>
+  </Parameter>
+ <Parameter Name="granularity">
+    <Type Name="Text" Default="method"/>
+    <Description>
+      The type of coverage to look for in the sensor data, such as 'line', 'method', 'class', etc.
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Coverage(mode, granularity) = {
+  "Coverage associated with this project, mode, and granularity", 
+  (CoverageStream(mode, granularity), yAxis("Coverage"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+ 
 <!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="Build" DefinitionType="Chart" ShareScope="Global">
@@ -209,6 +241,42 @@ the trend line represents the total UnitTest counts for each period individually
 streams UnitTestStream(mode, member, cumulative) = {
   "UnitTests for the given mode for this Project", 
   UnitTest(mode, member, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CoverageStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the Coverage level for the given mode and 
+granularity.  The Mode parameter indicates whether to return an integer indicating the 
+percentage (between 0 and 100), the number of covered constructs, or the number of uncovered
+constructs.  The granularity indicates the type of coverage, such as line, method, class, etc.
+  </Description>
+  <Parameter Name="mode">
+    <Type Name="Enumerated" Default="Percentage">
+      <Value>Percentage</Value>
+      <Value>NumCovered</Value>
+      <Value>NumUncovered</Value>
+    </Type>
+    <Description>
+      Specifies whether to return the percentage coverage, or the number of covered or uncovered
+      constructs. 
+    </Description>
+  </Parameter>
+  <Parameter Name="granularity">
+    <Type Name="Text" Default="method"/>
+    <Description>
+      The type of coverage value, such as line, method, class, etc.
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams CoverageStream(mode, granularity) = {
+  "Coverage for the given mode and granularity for this Project", 
+  Coverage(mode, granularity)
 };
 ]]>
 </SourceCode>
