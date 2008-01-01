@@ -143,9 +143,9 @@ public class CoverageReducer implements TelemetryReducer {
         CoverageDailyProjectData dpdData = 
           dpdClient.getCoverage(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day),
               granularity);
-        // Return null right away if DPD is empty.
+        // Go to the next day in the interval if we don't have anything for this day.
         if ((dpdData.getConstructData() == null) || dpdData.getConstructData().isEmpty()) {
-          return null;
+          continue;
         }
         
         // Otherwise we have coverage data, so get the total covered and uncovered values.

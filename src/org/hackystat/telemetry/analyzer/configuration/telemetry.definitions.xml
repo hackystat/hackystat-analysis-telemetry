@@ -121,6 +121,28 @@ chart Coverage(mode, granularity) = {
 ]]>
   </SourceCode>
 </TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="FileMetric" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating FileMetrics of the given size metric.
+  </Description>
+ <Parameter Name="sizemetric">
+    <Type Name="Text" Default="TotalLines"/>
+    <Description>
+      The type of size metric to search for in the FileMetric entries. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart FileMetric(sizemetric) = {
+  "FileMetrics associated with this size metric.", 
+  (FileMetricStream(sizemetric), yAxis(sizemetric))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
  
 <!-- ************************************************************************************** -->
 
@@ -280,7 +302,29 @@ streams CoverageStream(mode, granularity) = {
 };
 ]]>
 </SourceCode>
-</TelemetryDefinition>    
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="FileMetricStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating a FileMetric of a given SizeMetric.
+  </Description>
+  <Parameter Name="sizemetric">
+    <Type Name="Text" Default="TotalLines"/>
+    <Description>
+      The type of FileMetric value to return, such as 'TotalLines'.
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams FileMetricStream(sizemetric) = {
+  "FileMetrics of the given size metric.", 
+  FileMetric(sizemetric)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition>   
 
 <!-- ************************************************************************************** -->
 

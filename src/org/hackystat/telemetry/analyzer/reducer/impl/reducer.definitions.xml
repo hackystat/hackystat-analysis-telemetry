@@ -1,5 +1,18 @@
 <ReducerDefinitions>
  <ReducerDefinition>
+    <Name>FileMetric</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.FileMetricReducer</ClassName>
+    <Description>Computes a single telemetry stream representing a FileMetric.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>sizemetric</Name>
+        <Description>The size metric to find and return.</Description>
+        <Default>TotalLines</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>
+
+ <ReducerDefinition>
     <Name>Coverage</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CoverageReducer</ClassName>
     <Description>Computes a single telemetry stream representing coverage level.</Description>
