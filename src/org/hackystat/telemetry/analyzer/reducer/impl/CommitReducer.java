@@ -3,8 +3,8 @@ package org.hackystat.telemetry.analyzer.reducer.impl;
 import java.util.List;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
-import org.hackystat.dailyprojectdata.resource.build.jaxb.BuildDailyProjectData;
-import org.hackystat.dailyprojectdata.resource.build.jaxb.MemberData;
+import org.hackystat.dailyprojectdata.resource.commit.jaxb.CommitDailyProjectData;
+import org.hackystat.dailyprojectdata.resource.commit.jaxb.MemberData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
@@ -12,7 +12,6 @@ import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducer;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
 import org.hackystat.telemetry.analyzer.reducer.util.IntervalUtility;
-import org.hackystat.telemetry.analyzer.reducer.util.ReducerOptionUtility;
 import org.hackystat.telemetry.service.server.ServerProperties;
 import org.hackystat.utilities.time.interval.Interval;
 import org.hackystat.utilities.time.period.Day;
@@ -20,23 +19,17 @@ import org.hackystat.utilities.tstamp.Tstamp;
 
 
 /**
- * Returns a single stream providing Build data.
+ * Returns a single stream providing Commit counts.
  * <p>
- * Accepts the following options in the following order.
+ * Options:
  * <ol>
- *  <li> User: Supply a user email to get Build counts for just that user. 
- *       Default is "*" indicating the aggregate Build Data for all project members.
- *  <li> Result: One of Success, Failure, or *, indicating whether the count is
- *       just of successful builds, failed builds, or all builds. Default is "*". 
- *  <li> Type: A string to restrict the counts to those builds with a "Type" property
- *       matching this string, or "*" to indicate all builds regardless of Type. 
- *       Default is "*".
- *  <li> isCumulative: True or false. Default is false.
+ * <li> member: The project member whose commit counts are to be returned, or "*" for all members.
+ * <li> isCumulative: True or false. Default is false.
  * </ol>
  * 
  * @author Philip Johnson
  */
-public class BuildReducer implements TelemetryReducer {
+public class CommitReducer implements TelemetryReducer { 
  
   /**
    * Computes and returns the required telemetry streams object.
@@ -51,42 +44,35 @@ public class BuildReducer implements TelemetryReducer {
    */
   public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] options) throws TelemetryReducerException {
-    // weird. for some reason we want 'null' as default rather than '*' etc.
     String member = null;
-    String result = null;
-    String type = null;
     boolean isCumulative = false;
     //process options
-    if (options.length > 4) {
-      throw new TelemetryReducerException("Build reducer takes 4 optional parameters.");
+    if (options.length > 2) {
+      throw new TelemetryReducerException("Commit reducer takes 2 optional parameters.");
     }
-
-    if (options.length >= 1 && !"*".equals(options[0])) {
+    if (options.length >= 1) {
       member = options[0];
     }
-
-    if (options.length >= 2 && !"*".equals(options[1])) {
-      result = options[1];
-    }
     
-    if (options.length >= 3 && !"*".equals(options[2])) {
-      type = options[2];
-    }
-    
-    if (options.length >= 4) {
-      isCumulative = ReducerOptionUtility.parseBooleanOption(4, options[3]);
+    if (options.length >= 2) {
+      try {
+        isCumulative = Boolean.valueOf(options[1]);
+      }
+      catch (Exception e) {
+        throw new TelemetryReducerException("Illegal cumulative value.", e);
+      }
     }
     
     // Find out the DailyProjectData host, throw error if not found.
     String dpdHost = System.getProperty(ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY);
     if (dpdHost == null) {
-      throw new TelemetryReducerException("Null DPD host in BuildReducer");
+      throw new TelemetryReducerException("Null DPD host in CommitReducer");
     }
 
-    // now compute the single telemetry stream. 
+    // now get the telemetry stream. 
     try {
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,  
-          member, result, type, isCumulative, null);
+          member, isCumulative, null);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       streams.add(telemetryStream);
       return streams;
@@ -102,34 +88,33 @@ public class BuildReducer implements TelemetryReducer {
    * @param dpdClient The DailyProjectData client we will contact for the data. 
    * @param project The project.
    * @param interval The interval.
-   * @param member Project member, or null to match all members. 
-   * @param result The build result, either FAILURE, SUCCESS, or null to match both.
-   * @param type The value of the build 'Type' property, a string or null to match anything.
+   * @param member The member, or "*" for all members.
    * @param isCumulative True for cumulative measure.
    * @param streamTagValue The tag for the generated telemetry stream.
    * 
    * @return The telemetry stream as required.
+   * 
    * @throws Exception If there is any error.
    */
   TelemetryStream getStream(DailyProjectDataClient dpdClient, 
-      Project project, Interval interval, String member, String result, 
-      String type, boolean isCumulative, Object streamTagValue) 
+      Project project, Interval interval,
+      String member, boolean isCumulative, Object streamTagValue) 
         throws Exception {
     TelemetryStream telemetryStream = new TelemetryStream(streamTagValue);
     List<IntervalUtility.Period> periods = IntervalUtility.getPeriods(interval);
-    long cumulativeBuilds = 0;
-
+    long cumulativeCommits = 0;
+    
     for (IntervalUtility.Period period : periods) {
       Long value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
-          member, result, type);
+          member);
       
       if (value != null) {
-        cumulativeBuilds += value;
+        cumulativeCommits += value;
       }
       
       if (isCumulative) {
         telemetryStream.addDataPoint(new TelemetryDataPoint(period.getTimePeriod(), 
-            cumulativeBuilds));        
+            cumulativeCommits));        
       }
       else {
         telemetryStream.addDataPoint(new TelemetryDataPoint(period.getTimePeriod(), value));
@@ -139,44 +124,33 @@ public class BuildReducer implements TelemetryReducer {
   }
   
   /**
-   * Returns a Build count for the specified time interval, or null if no SensorData. 
-   *
+   * Returns a Commit value for the specified time interval, or null if no SensorData. 
+   * 
    * @param dpdClient The DailyProjectData client we will use to get this data. 
    * @param project The project.
    * @param startDay The start day (inclusive).
    * @param endDay The end day (inclusive).
-   * @param member The project member email, or null to match all members. 
-   * @param result The result, either SUCCESS, FAILURE, or null for both.
-   * @param type The 'Type' property, or null to match anything.
+   * @param member The member email, or "*" for all members.
    * @throws TelemetryReducerException If anything goes wrong.
    *
-   * @return The Build count, or null if there is no Build SensorData for that time period. 
+   * @return The UnitTest count, or null if there is no UnitTest SensorData for that time period. 
    */
   Long getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
-      String member, String result, String type) throws TelemetryReducerException {
-    long buildCount = 0;
-    String typeString = (type == null) ? "*" : type;
+      String member) throws TelemetryReducerException {
+    long count = 0;
+    boolean hasData = false;
     try {
       // For each day in the interval... 
       for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
-        // Get the DPD for the required 'Type' property.
-        BuildDailyProjectData data = 
-          dpdClient.getBuild(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day), 
-              typeString);
+        // Get the DPD...
+        CommitDailyProjectData data = 
+          dpdClient.getCommit(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day));
+        hasData = !data.getMemberData().isEmpty();
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
-          // Check to see if this data is for the given member and of the appropriate type.
           if ((member == null) || "*".equals(member) || 
               (memberData.getMemberUri().endsWith(member))) {
-            if ((result == null) || "*".equals(result)) {
-              buildCount += memberData.getFailure() + memberData.getSuccess();
-            }
-            else if ("Success".equals(result)) {
-              buildCount += memberData.getSuccess();
-            }
-            else if ("Failure".equals(result)) {
-              buildCount += memberData.getFailure();
-            }
+            count += memberData.getCommits();
           }
         }
       }
@@ -185,8 +159,8 @@ public class BuildReducer implements TelemetryReducer {
       throw new TelemetryReducerException(ex);
     }
 
-    //Return null if no data, the Build count data otherwise. 
-    return (buildCount > 0) ? Long.valueOf(buildCount) : null; 
+    //Return null if no data, the Commit counts otherwise. 
+    return (hasData) ? Long.valueOf(count) : null; 
   }
 
 }

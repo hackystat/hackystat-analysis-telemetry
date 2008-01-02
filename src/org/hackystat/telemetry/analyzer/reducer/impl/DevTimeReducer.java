@@ -175,7 +175,8 @@ public class DevTimeReducer implements TelemetryReducer {
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
           // If this DPD memberdata's owner matches who we want
-          if ((member == null) || (memberData.getMemberUri().endsWith(member))) {
+          if ((member == null) || "*".equals(member) || 
+              (memberData.getMemberUri().endsWith(member))) {
             devTime += memberData.getDevTime().doubleValue();
           }
         }

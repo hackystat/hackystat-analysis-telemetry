@@ -13,11 +13,6 @@
 <TelemetryDefinition Name="DevTime" DefinitionType="Chart" ShareScope="Global">
   <Description>
 This chart provides a single stream indicating the DevTime associated with given project member.
-If the member parameter is "*", then the aggregate DevTime for all project members is 
-returned.  If the cumulative parameter
-is true, then the trend line represents the cumulative DevTime. If false, then
-the trend line represents the total DevTime for each period individually.
-
 DevTime measures the time during which developers are actively interacting with their
 development tools at the grain size of five minutes.  
   </Description>
@@ -52,9 +47,7 @@ chart DevTime(member, cumulative) = {
 <TelemetryDefinition Name="UnitTest" DefinitionType="Chart" ShareScope="Global">
   <Description>
 This chart provides a single stream indicating the UnitTest invocation counts associated with all
-developers for the specified mode.  If the cumulative parameter
-is true, then the trend line represents the cumulative DevTime. If false, then
-the trend line represents the total counts for each period individually.
+developers for the specified mode.  
   </Description>
   <Parameter Name="mode">
    <Type Name="Enumerated" Default="TotalCount">
@@ -63,7 +56,8 @@ the trend line represents the total counts for each period individually.
       <Value>FailureCount</Value>
    </Type>
     <Description>
-      Specifies the type of count to return.
+      Specifies whether to return the total number of unit test invocations, or just the 
+number of succeeding (or failing) unit test invocations.
     </Description>
   </Parameter>
  <Parameter Name="member">
@@ -88,6 +82,68 @@ chart UnitTest(mode, member, cumulative) = {
 ]]>
   </SourceCode>
 </TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="Commit" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the Commit counts associated with the
+specified developers.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose Commit counts are to be returned.  If "*", then the aggregrate 
+      Unit Test counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Commit(member, cumulative) = {
+  "Commit invocations", 
+  (CommitStream(member, cumulative), yAxis("Commit Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="Churn" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the Churn counts associated with the
+specified developers.
+Churn is defined as the lines added plus the lines deleted, as reported by Commit sensor data.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose churn counts are to be returned.  If "*", then the aggregrate 
+      churn counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Churn(member, cumulative) = {
+  "Churn counts", 
+  (ChurnStream(member, cumulative), yAxis("Churn Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+
 
 <!-- ************************************************************************************** -->
 
@@ -263,6 +319,64 @@ the trend line represents the total UnitTest counts for each period individually
 streams UnitTestStream(mode, member, cumulative) = {
   "UnitTests for the given mode for this Project", 
   UnitTest(mode, member, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CommitStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the number of Commits associated with 
+developers.
+  </Description>
+  <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose Commit counts to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative commit counts over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams CommitStream(member, cumulative) = {
+  "Commit counts for the given mode for this Project", 
+  Commit(member, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="ChurnStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the churn (lines added + lines deleted) associated with 
+developers.
+  </Description>
+  <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose Churn counts to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative churn counts over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams ChurnStream(member, cumulative) = {
+  "Churn counts for the given member for this Project", 
+  Churn(member, cumulative)
 };
 ]]>
 </SourceCode>

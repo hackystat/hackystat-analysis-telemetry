@@ -164,7 +164,8 @@ public class UnitTestReducer implements TelemetryReducer {
         hasData = !data.getMemberData().isEmpty();
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
-          if ((member == null) || (memberData.getMemberUri().endsWith(member))) {
+          if ((member == null) || "*".equals(member) || 
+              (memberData.getMemberUri().endsWith(member))) {
             switch (mode) {
             case TOTALCOUNT:
               count += memberData.getFailure().longValue() + memberData.getSuccess().longValue();

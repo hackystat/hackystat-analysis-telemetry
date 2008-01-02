@@ -57,6 +57,42 @@
       </Parameter>
    </Parameters>
   </ReducerDefinition>
+
+  <ReducerDefinition>
+    <Name>Commit</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CommitReducer</ClassName>
+    <Description>Computes a single telemetry stream representing commit counts.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>member</Name>
+        <Description>The email of the member whose commit counts should be returned, or * for all members.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
+    <Name>Churn</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.ChurnReducer</ClassName>
+    <Description>Computes a single telemetry stream representing churn counts.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>member</Name>
+        <Description>The email of the member whose churn counts should be returned, or * for all members.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
  
   <ReducerDefinition>
     <Name>UnitTest</Name>
