@@ -91,7 +91,7 @@ public class DevTimeReducer implements TelemetryReducer {
     // now compute the single telemetry stream. Remember, we only process member and Cumulative.
     try {
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,  
-          eventType, member, resourcePattern, isCumulative, member);
+          eventType, member, resourcePattern, isCumulative, null);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       streams.add(telemetryStream);
       return streams;

@@ -73,10 +73,10 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
     // Get the data points in the single returned stream.
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
     assertEquals("Checking for 4 points", 4, points.size());
-    // Check that these four points are 0, 0, 0, and null (last day has no data.)
-    assertEquals("Checking point 1 is 0", "0", points.get(0).getValue());
-    assertEquals("Checking point 2 is 0", "0", points.get(1).getValue());
-    assertEquals("Checking point 3 is 0", "0", points.get(2).getValue());
+    // Check that these four points are null.
+    assertEquals("Checking point 1 is null", null, points.get(0).getValue());
+    assertEquals("Checking point 2 is null", null, points.get(1).getValue());
+    assertEquals("Checking point 3 is null", null, points.get(2).getValue());
     assertEquals("Checking point 4 is null", null, points.get(3).getValue());
     List<Parameter> parameters = chart.getParameter();
     assertEquals("Checking first param id", "mode", parameters.get(0).getName());

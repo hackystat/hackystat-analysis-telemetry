@@ -1,6 +1,8 @@
 package org.hackystat.telemetry.service.client;
 
 import java.io.StringReader;
+import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -9,6 +11,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartDefinition;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartIndex;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
+import org.hackystat.utilities.logger.HackystatLogger;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
@@ -44,6 +49,8 @@ public class TelemetryClient {
   private Preference<MediaType> xmlMedia = new Preference<MediaType>(MediaType.TEXT_XML);
   /** To facilitate debugging of problems using this system. */
   private boolean isTraceEnabled = false;
+  /** The logger for telemetry client information. */
+  private Logger logger;
   
   /**
    * Initializes a new TelemetryClient, given the host, userEmail, and password. 
@@ -57,6 +64,9 @@ public class TelemetryClient {
    * @param password The password used for authentication.
    */
   public TelemetryClient(String host, String email, String password) {
+    this.logger = HackystatLogger.getLogger(
+        "org.hackystat.telemetry.service.client.TelemetryClient", "telemetry", false);
+    this.logger.info("Instantiating client for: " + host + " " + email);
     validateArg(host);
     validateArg(email);
     validateArg(password);
@@ -225,6 +235,7 @@ public class TelemetryClient {
   public synchronized TelemetryChartData getChart(String name, String user, String project, 
       String granularity, XMLGregorianCalendar start, XMLGregorianCalendar end, String params) 
   throws TelemetryClientException {
+    long startTime = (new Date()).getTime();
     String uri = 
       "chart/" + name + "/" + user + "/" + project + "/" + granularity + "/" + start + "/" + end +
       ((params == null) ? "" : "?params=" + params);
@@ -238,10 +249,15 @@ public class TelemetryClient {
       chart = makeChart(xmlData);
     }
     catch (Exception e) {
+      logElapsedTime(uri, startTime, e);
       throw new TelemetryClientException(response.getStatus(), e);
     }
+    logElapsedTime(uri, startTime);
     return chart;
-  } 
+  }
+  
+ 
+  
   
   /**
    * Returns a TelemetryChartIndex instance from this server, or throws a
@@ -252,6 +268,7 @@ public class TelemetryClient {
    * of the supplied user, password, or timestamp is not valid.
    */
   public synchronized TelemetryChartIndex getChartIndex() throws TelemetryClientException {
+    long startTime = (new Date()).getTime();
     String uri = "charts";
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChartIndex index;
@@ -263,8 +280,10 @@ public class TelemetryClient {
       index = makeChartIndex(xmlData);
     }
     catch (Exception e) {
+      logElapsedTime(uri, startTime, e);
       throw new TelemetryClientException(response.getStatus(), e);
     }
+    logElapsedTime(uri, startTime);
     return index;
   } 
   
@@ -280,6 +299,7 @@ public class TelemetryClient {
    */
   public synchronized TelemetryChartDefinition getChartDefinition(String chartName) 
   throws TelemetryClientException {
+    long startTime = (new Date()).getTime();
     String uri = "chart/" + chartName;
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChartDefinition chartDef;
@@ -291,8 +311,10 @@ public class TelemetryClient {
       chartDef = makeChartDefinition(xmlData);
     }
     catch (Exception e) {
+      logElapsedTime(uri, startTime, e);
       throw new TelemetryClientException(response.getStatus(), e);
     }
+    logElapsedTime(uri, startTime);
     return chartDef;
   } 
   
@@ -328,6 +350,48 @@ public class TelemetryClient {
    */
   public String getHostName() {
     return this.telemetryHost;
+  }
+  
+  /**
+   * Returns the passed telemetry chart data in a human-readable string.
+   * For debugging purposes, this method is expensive. 
+   * @param chart The chart data.
+   * @return The chart data, as a string.
+   */
+  public static String toString(TelemetryChartData chart) {
+    StringBuilder toString = new StringBuilder();
+    toString.append("Telemetry Chart Data : ");
+    toString.append(chart.getURI()); 
+    for (TelemetryStream stream : chart.getTelemetryStream()) {
+      toString.append("\n ");
+      toString.append(stream.getName());
+      for (TelemetryPoint point : stream.getTelemetryPoint()) {
+        toString.append("   ");
+        toString.append(point.getValue());
+      }
+    }
+    return toString.toString();
+  }
+  
+  /**
+   * Logs info to the logger about the elapsed time for this request. 
+   * @param uri The URI requested.
+   * @param startTime The startTime of the call.
+   * @param e The exception thrown, or null if no exception. 
+   */
+  private void logElapsedTime (String uri, long startTime, Exception e) {
+    long millis = (new Date()).getTime() - startTime;
+    String msg = millis + " millis: " + uri + ((e == null) ? "" : " " + e);
+    this.logger.info(msg);
+  }
+  
+  /**
+   * Logs info to the logger about the elapsed time for this request. 
+   * @param uri The URI requested.
+   * @param startTime The startTime of the call.
+   */
+  private void logElapsedTime (String uri, long startTime) {
+    logElapsedTime(uri, startTime, null);
   }
 
 }

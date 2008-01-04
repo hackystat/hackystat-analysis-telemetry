@@ -77,7 +77,7 @@ public class Server extends Application {
    */
   public static Server newInstance(ServerProperties properties) throws Exception {
     Server server = new Server();
-    server.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
+    server.logger = HackystatLogger.getLogger("org.hackystat.telemetry.server", "telemetry");
     server.properties = properties;
     server.hostName = "http://" +
                       server.properties.get(HOSTNAME_KEY) + 

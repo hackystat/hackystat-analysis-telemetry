@@ -146,11 +146,11 @@ public class ChurnReducer implements TelemetryReducer {
         // Get the DPD...
         CommitDailyProjectData data = 
           dpdClient.getCommit(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day));
-        hasData = !data.getMemberData().isEmpty();
         // Go through the DPD per-member data...
         for (MemberData memberData : data.getMemberData()) {
           if ((member == null) || "*".equals(member) || 
               (memberData.getMemberUri().endsWith(member))) {
+            hasData = true;
             count += memberData.getLinesAdded() + memberData.getLinesDeleted();
           }
         }
