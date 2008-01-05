@@ -138,7 +138,7 @@ public class FileMetricReducer implements TelemetryReducer {
     catch (Exception ex) {
       throw new TelemetryReducerException(ex);
     }
-    // Never found appropriate coverage data in this interval, so return null.
+    // Never found appropriate FileMetric data in this interval, so return null.
     return null;
   }
 

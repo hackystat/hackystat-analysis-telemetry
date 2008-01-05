@@ -1,4 +1,23 @@
 <ReducerDefinitions>
+
+ <ReducerDefinition>
+    <Name>CodeIssue</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CodeIssueReducer</ClassName>
+    <Description>Computes a single telemetry stream representing a CodeIssue count.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>tool</Name>
+        <Description>The name of the tool whose CodeIssues are to be counted, or '*' for all tools.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>type</Name>
+        <Description>The type of CodeIssue to count, or '*' for all types.</Description>
+        <Default>*</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>
+
  <ReducerDefinition>
     <Name>FileMetric</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.FileMetricReducer</ClassName>

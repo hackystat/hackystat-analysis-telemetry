@@ -19,10 +19,10 @@ import org.junit.Test;
 import org.junit.Before;
 
 /**
- * Tests the Commit Chart processing. 
+ * Tests CodeIssue Chart processing. 
  * @author Philip Johnson
  */
-public class TestCommitChartRestApi extends TelemetryTestHelper {
+public class TestCodeIssueChartRestApi extends TelemetryTestHelper {
   
   /** The user for this test case. */
   private String user = "TestChart@hackystat.org";
@@ -39,7 +39,6 @@ public class TestCommitChartRestApi extends TelemetryTestHelper {
   // [1] First, create a batch of sensor data.
   SensorDatas batchData = new SensorDatas();
   batchData.getSensorData().add(makeData("2007-08-01T02:00:00", user));
-  batchData.getSensorData().add(makeData("2007-08-01T02:10:00", user));
   batchData.getSensorData().add(makeData("2007-08-02T23:55:00", user));
   batchData.getSensorData().add(makeData("2007-08-03T00:01:00", user));
   
@@ -60,9 +59,9 @@ public class TestCommitChartRestApi extends TelemetryTestHelper {
    * Tests the chart.
    * @throws Exception If problems occur. 
    */
-  @Test public void testCommitChartFailureCount() throws Exception {
-    String chartName = "Commit";
-    String params = user + ",false"; 
+  @Test public void testTotalCodeIssue() throws Exception {
+    String chartName = "CodeIssue";
+    String params = "*,*"; 
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     // See if this chart contains 1 stream.
@@ -72,26 +71,48 @@ public class TestCommitChartRestApi extends TelemetryTestHelper {
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
     assertEquals("Checking for 4 points", 4, points.size());
     // Check that these four points are 0, 0, 0, and null (last day has no data.)
-    assertEquals("Checking point 1 is 2", "2", points.get(0).getValue());
-    assertEquals("Checking point 2 is 1", "1", points.get(1).getValue());
-    assertEquals("Checking point 3 is 1", "1", points.get(2).getValue());
+    assertEquals("Checking point 1 is 30", "30", points.get(0).getValue());
+    assertEquals("Checking point 2 is 30", "30", points.get(1).getValue());
+    assertEquals("Checking point 3 is 30", "30", points.get(2).getValue());
+    assertEquals("Checking point 4 is null", null, points.get(3).getValue());
+  }
+  
+  /**
+   * Tests the chart.
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testCodeIssueType() throws Exception {
+    String chartName = "CodeIssue";
+    String params = "*,NPE"; 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
+    // See if this chart contains 1 stream.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
+    // Get the data points in the single returned stream.
+    List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
+    assertEquals("Checking for 4 points", 4, points.size());
+    // Check that these four points are 0, 0, 0, and null (last day has no data.)
+    assertEquals("Checking point 1 is 10", "10", points.get(0).getValue());
+    assertEquals("Checking point 2 is 10", "10", points.get(1).getValue());
+    assertEquals("Checking point 3 is 10", "10", points.get(2).getValue());
     assertEquals("Checking point 4 is null", null, points.get(3).getValue());
   }
   
 
   /**
-   * Creates a sample SensorData UnitTest instance given a timestamp and a user.
+   * Creates a sample SensorData CodeIssue instance given a timestamp and a user.
    *
    * @param tstampString The timestamp as a string
    * @param user The user.
-   * @return The new SensorData DevEvent instance.
+   * @return The new SensorData CodeIssue instance.
    * @throws Exception If problems occur.
    */
   private SensorData makeData(String tstampString, String user) throws Exception {
     XMLGregorianCalendar tstamp = Tstamp.makeTimestamp(tstampString);
-    String sdt = "Commit";
+    String sdt = "CodeIssue";
     SensorData data = new SensorData();
-    String tool = "Subversion";
+    String tool = "FindBugs";
     data.setTool(tool);
     data.setOwner(user);
     data.setSensorDataType(sdt);
@@ -100,8 +121,8 @@ public class TestCommitChartRestApi extends TelemetryTestHelper {
     data.setRuntime(tstamp);
 
     Properties prop = new Properties();
-    prop.getProperty().add(makeProperty("linesAdded", "10"));
-    prop.getProperty().add(makeProperty("linesDeleted", "20"));
+    prop.getProperty().add(makeProperty("Type_NPE", "10"));
+    prop.getProperty().add(makeProperty("Type_DereferenceNull", "20"));
     data.setProperties(prop);
 
     return data;

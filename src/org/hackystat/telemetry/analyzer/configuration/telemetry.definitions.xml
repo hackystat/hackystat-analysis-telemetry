@@ -36,7 +36,7 @@ development tools at the grain size of five minutes.
 <![CDATA[
 chart DevTime(member, cumulative) = {
   "Dev Time in hours", 
-  (DevTimeStream(member, cumulative), yAxis("hours"))
+  (DevTimeStream(member, cumulative), yAxis("Hours"))
 };
 ]]>
   </SourceCode>
@@ -200,6 +200,35 @@ chart FileMetric(sizemetric) = {
   </SourceCode>
 </TelemetryDefinition> 
  
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CodeIssue" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the count of CodeIssues for the given tool and type.
+  </Description>
+ <Parameter Name="tool">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The tool whose CodeIssue counts are to be returned, or '*' for all tools.
+    </Description>
+  </Parameter>
+<Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The type of CodeIssue whose counts are to be returned, or '*' for all types.
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart CodeIssue(tool, type) = {
+  "CodeIssues for the given tool and type.", 
+  (CodeIssueStream(tool, type), yAxis("CodeIssue Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
 <!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="Build" DefinitionType="Chart" ShareScope="Global">
@@ -435,6 +464,34 @@ This stream returns a single stream indicating a FileMetric of a given SizeMetri
 streams FileMetricStream(sizemetric) = {
   "FileMetrics of the given size metric.", 
   FileMetric(sizemetric)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CodeIssueStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the CodeIssue count associated with the specified tool and type.
+  </Description>
+  <Parameter Name="tool">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The name of the tool whose CodeIssues are to be counted, or '*' for all tools.
+    </Description>
+  </Parameter>
+ <Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The type of CodeIssue to count, or '*' for all types.
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams CodeIssueStream(tool, type) = {
+  "Code Issues of the given tool and type.", 
+  CodeIssue(tool, type)
 };
 ]]>
 </SourceCode>
