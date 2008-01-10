@@ -8,6 +8,14 @@ This chart provides a set of streams indicating a single project member's DevTim
 counts, Unit Test invocations, Commits, and Churn. Data is non-cumulative over time.
   </Description>
 
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose trend data is to be returned.  If "*", then the aggregrate 
+      trend data for all project members is returned.
+    </Description>
+  </Parameter>
+
   <SourceCode>
 <![CDATA[
 chart MemberTrends(member) = {
