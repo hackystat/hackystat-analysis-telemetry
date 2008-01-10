@@ -52,6 +52,7 @@ public class TelemetryClient {
   /** The logger for telemetry client information. */
   private Logger logger;
   
+  private String space = " : ";  
   /**
    * Initializes a new TelemetryClient, given the host, userEmail, and password. 
    * Note that the userEmail and password refer to the underlying SensorBase client
@@ -242,6 +243,8 @@ public class TelemetryClient {
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChartData chart;
     if (!response.getStatus().isSuccess()) {
+      String msg = response.getStatus().getDescription() + space + uri;
+      logElapsedTime(msg, startTime);
       throw new TelemetryClientException(response.getStatus());
     }
     try {
@@ -273,6 +276,8 @@ public class TelemetryClient {
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChartIndex index;
     if (!response.getStatus().isSuccess()) {
+      String msg = response.getStatus().getDescription() + space + uri;
+      logElapsedTime(msg, startTime);
       throw new TelemetryClientException(response.getStatus());
     }
     try {
@@ -304,6 +309,8 @@ public class TelemetryClient {
     Response response = makeRequest(Method.GET,  uri, null);
     TelemetryChartDefinition chartDef;
     if (!response.getStatus().isSuccess()) {
+      String msg = response.getStatus().getDescription() + space + uri;
+      logElapsedTime(msg, startTime);
       throw new TelemetryClientException(response.getStatus());
     }
     try {
