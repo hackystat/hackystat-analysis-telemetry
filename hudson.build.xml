@@ -30,7 +30,9 @@
   </target>
   
   <target name="hudson.daily" 
-     depends="clean, compile, checkstyle.tool, junit.tool, findbugs.tool, pmd.tool, emma.tool, jar" 
+     depends="clean, compile, checkstyle.tool, junit.tool, findbugs.tool, pmd.tool, emma.tool" 
      description="Builds and runs all QA stuff in preparation for sending sensor data.">
+    <!-- Do the antcall to  get compile to be run again. --> 
+    <antcall target="jar"/>
   </target>
 </project>
