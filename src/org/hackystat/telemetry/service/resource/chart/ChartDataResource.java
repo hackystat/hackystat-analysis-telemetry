@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
+import org.hackystat.sensorbase.resource.projects.ProjectUtils;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
 import org.hackystat.telemetry.analyzer.configuration.TelemetryChartDefinitionInfo;
@@ -152,6 +153,23 @@ public class ChartDataResource extends TelemetryResource {
         }
         catch (Exception e) {
           String msg = "End day " + this.end + " cannot be parsed.";
+          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          return null;
+        }
+        
+        // [5.5] Make sure start and end days are OK w.r.t. project times.
+        if (!ProjectUtils.isValidStartTime(project, this.startDay)) {
+          String msg = this.startDay + " is before Project start day: " + project.getStartTime();
+          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          return null;
+        }
+        if (!ProjectUtils.isValidEndTime(project, this.endDay)) {
+          String msg = this.endDay + " is after Project end day: " + project.getEndTime();
+          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          return null;
+        }
+        if (Tstamp.lessThan(this.endDay, this.startDay)) {
+          String msg = this.startDay + " must be greater than: " + this.endDay;
           getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
           return null;
         }
