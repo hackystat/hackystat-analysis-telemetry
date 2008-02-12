@@ -41,6 +41,13 @@ public class ServerProperties {
   /** Where we store the properties. */
   private Properties properties;
 
+  /** Indicates whether DPDClient caching is enabled. */
+  public static final String CACHE_ENABLED = "telemetry.cache.enabled";
+  /** The maxLife in seconds for each instance in each DPDClient cache. */
+  public static final String CACHE_MAX_LIFE = "telemetry.cache.max.life";
+  /** The in-memory capacity of each DPDClient cache. */
+  public static final String CACHE_CAPACITY = "telemetry.cache.capacity";
+  
   /**
    * Creates a new ServerProperties instance. Prints an error to the console if problems occur on
    * loading.
@@ -80,6 +87,9 @@ public class ServerProperties {
     properties.setProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY,
         "http://localhost:9977/dailyprojectdata");
     properties.setProperty(TEST_INSTALL_KEY, "false");
+    properties.setProperty(CACHE_ENABLED, "true");
+    properties.setProperty(CACHE_MAX_LIFE, "86400");
+    properties.setProperty(CACHE_CAPACITY, "50000");
     FileInputStream stream = null;
     try {
       stream = new FileInputStream(propFile);
@@ -130,6 +140,7 @@ public class ServerProperties {
     properties.setProperty(DAILYPROJECTDATA_FULLHOST_KEY, properties
         .getProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY));
     properties.setProperty(TEST_INSTALL_KEY, "true");
+    properties.setProperty(CACHE_ENABLED, "false");
     trimProperties(properties);
   }
 
@@ -142,12 +153,18 @@ public class ServerProperties {
     String cr = System.getProperty("line.separator");
     String eq = " = ";
     String pad = "                ";
-    return "Telemetry Properties:" + cr + pad + SENSORBASE_FULLHOST_KEY + eq
-        + get(SENSORBASE_FULLHOST_KEY) + cr + pad + DAILYPROJECTDATA_FULLHOST_KEY + eq
-        + get(DAILYPROJECTDATA_FULLHOST_KEY) + cr + pad + HOSTNAME_KEY + eq + get(HOSTNAME_KEY)
-        + cr + pad + CONTEXT_ROOT_KEY + eq + get(CONTEXT_ROOT_KEY) + cr + pad + LOGGING_LEVEL_KEY
-        + eq + get(LOGGING_LEVEL_KEY) + cr + pad + DEF_DIR_KEY + eq + get(DEF_DIR_KEY) + cr + pad
-        + PORT_KEY + eq + get(PORT_KEY) + cr + pad + TEST_INSTALL_KEY + eq + get(TEST_INSTALL_KEY);
+    return "Telemetry Properties:" + cr + 
+    pad + SENSORBASE_FULLHOST_KEY + eq + get(SENSORBASE_FULLHOST_KEY) + cr + 
+    pad + DAILYPROJECTDATA_FULLHOST_KEY + eq + get(DAILYPROJECTDATA_FULLHOST_KEY) + cr +
+    pad + HOSTNAME_KEY + eq + get(HOSTNAME_KEY) + cr + 
+    pad + CONTEXT_ROOT_KEY + eq + get(CONTEXT_ROOT_KEY) + cr + 
+    pad + LOGGING_LEVEL_KEY + eq + get(LOGGING_LEVEL_KEY) + cr + 
+    pad + DEF_DIR_KEY + eq + get(DEF_DIR_KEY) + cr + 
+    pad + PORT_KEY + eq + get(PORT_KEY) + cr + 
+    pad + TEST_INSTALL_KEY + eq + get(TEST_INSTALL_KEY) + cr + 
+    pad + CACHE_ENABLED + eq + get(CACHE_ENABLED) + cr +
+    pad + CACHE_MAX_LIFE + eq + get(CACHE_MAX_LIFE) + cr +
+    pad + CACHE_CAPACITY + eq + get(CACHE_CAPACITY);
   }
 
   /**
@@ -181,5 +198,49 @@ public class ServerProperties {
    */
   public String getFullHost() {
     return "http://" + get(HOSTNAME_KEY) + ":" + get(PORT_KEY) + "/" + get(CONTEXT_ROOT_KEY) + "/";
+  }
+  
+  /**
+   * Returns true if caching is enabled in this service. 
+   * @return True if caching enabled.
+   */
+  public boolean isCacheEnabled() {
+    return Boolean.valueOf(this.properties.getProperty(CACHE_ENABLED));
+  }
+  
+  /**
+   * Returns the caching max life as a long.
+   * If the property has an illegal value, then return the default. 
+   * @return The max life of each instance in the cache.
+   */
+  public long getCacheMaxLife() {
+    String maxLifeString = this.properties.getProperty(CACHE_MAX_LIFE);
+    long maxLife = 0;
+    try {
+      maxLife = Long.valueOf(maxLifeString);
+    }
+    catch (Exception e) {
+      System.out.println("Illegal cache max life: " + maxLifeString + ". Using default.");
+      maxLife = 86400L;
+    }
+    return maxLife;
+  }
+  
+  /**
+   * Returns the in-memory capacity for each cache.
+   * If the property has an illegal value, then return the default. 
+   * @return The in-memory capacity.
+   */
+  public long getCacheCapacity() {
+    String capacityString = this.properties.getProperty(CACHE_CAPACITY);
+    long capacity = 0;
+    try {
+      capacity = Long.valueOf(capacityString);
+    }
+    catch (Exception e) {
+      System.out.println("Illegal cache capacity: " + capacityString + ". Using default.");
+      capacity = 50000L;
+    }
+    return capacity;
   }
 }

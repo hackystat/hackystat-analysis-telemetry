@@ -87,7 +87,14 @@ public class Authenticator extends Guard {
       // but has the problem that there's no way to get rid of bogus entries besides restarting
       // this service.  Something to worry about. 
       if (!dpdMap.containsKey(identifier)) {
-        dpdMap.put(identifier, new DailyProjectDataClient(dpdHost, identifier, secret));
+        Server server = (Server)getContext().getAttributes().get("TelemetryServer");
+        ServerProperties props = server.getServerProperties();
+        DailyProjectDataClient client = new DailyProjectDataClient(dpdHost, identifier, secret); 
+        if (props.isCacheEnabled()) { //NOPMD
+          client.enableCaching(identifier, "telemetry", 
+              props.getCacheMaxLife(), props.getCacheCapacity());
+        }
+        dpdMap.put(identifier, client);
       }
       if (!sensorbaseMap.containsKey(identifier)) {
         sensorbaseMap.put(identifier, new SensorBaseClient(sensorBaseHost, identifier, secret));

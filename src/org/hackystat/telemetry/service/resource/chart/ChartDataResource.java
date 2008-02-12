@@ -232,9 +232,11 @@ public class ChartDataResource extends TelemetryResource {
         }
 
         // [12] package the resulting data up in XML and return it.
+        logRequest();
         return this.getStringRepresentation(makeChartXml(chart));
       }
       catch (Exception e) {
+        logRequest();
         this.telemetryServer.getLogger().warning("Chart process error: " + StackTrace.toString(e));
         return null;
       }

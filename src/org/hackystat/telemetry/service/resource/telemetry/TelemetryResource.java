@@ -1,5 +1,6 @@
 package org.hackystat.telemetry.service.resource.telemetry;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,9 @@ public abstract class TelemetryResource extends Resource {
   /** The standard error message returned from invalid authentication. */
   protected String badAuth = "User is not admin and authenticated user does not not match URI user";
   
+  /** Records the time at which each HTTP request was initiated. */
+  protected long requestStartTime = new Date().getTime();
+ 
   /**
    * Provides the following representational variants: TEXT_XML.
    * @param context The context.
@@ -155,6 +159,16 @@ public abstract class TelemetryResource extends Resource {
     TelemetryDefinitionManager manager =  
       TelemetryDefinitionManagerFactory.getGlobalPersistentInstance();
     return manager.getDefinitions();
+  }
+  
+  /**
+   * Generates a log message indicating the type of request, the elapsed time required, 
+   * the user who requested the data, and the day.
+   */
+  protected void logRequest() {
+    long elapsed = new Date().getTime() - requestStartTime;
+    String msg = elapsed + " ms: " + this.chart + " " + uriUser + " " + this.project;
+    telemetryServer.getLogger().info(msg);
   }
 
 }
