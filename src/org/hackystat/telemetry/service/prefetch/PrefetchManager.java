@@ -18,7 +18,8 @@ import org.hackystat.utilities.stacktrace.StackTrace;
 
 /**
  * Reads in the XML files (if any) containing prefetch information, and sets up a timer task to 
- * run these chart analyses once a day.  
+ * prefetch (i.e. run) these chart analyses once a day.  If RunOnStartup is true, then the prefetch
+ * tasks are run immediately.  
  * @author Philip Johnson 
  */
 public class PrefetchManager {
@@ -86,11 +87,12 @@ public class PrefetchManager {
    */
   private void setupTimers() {
     for (TelemetryPrefetch prefetch : telemetryPrefetchList) {
-      this.timers.add(new DailyTimer(prefetch.getMinutesAfterMidnight(), 
-          new PrefetchTask(prefetch, this.logger)));
+      PrefetchTask task = new PrefetchTask(prefetch, this.logger, this.server.getHostName());
+      if ("True".equalsIgnoreCase(prefetch.getRunOnStartup())) {
+        task.run();
+      }
+      this.timers.add(new DailyTimer(prefetch.getMinutesAfterMidnight(), task)); 
     }
-    
-    
   }
   
   /**

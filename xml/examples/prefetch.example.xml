@@ -1,18 +1,15 @@
-<TelemetryPrefetch>
+<TelemetryPrefetch Name="ExamplePrefetch">
   <MinutesAfterMidnight>60</MinutesAfterMidnight>
-  <TelemetryHost>http://dasha.ics.hawaii.edu:9878/telemetry</TelemetryHost>
+  <RunOnStartup>True</RunOnStartup>
 
-  <Chart>
-    <ChartName>MemberTrends</ChartName>
-    <ChartParameter>
-      <Name>member</Name>
-      <Value>*</Value>
-    </ChartParameter>
+  <PrefetchChart>
+    <ChartName>CodeIssue</ChartName>
+    <ChartParameters>*,*</ChartParameters>
     <ProjectName>Default</ProjectName>
     <ProjectOwner>johnson@hawaii.edu</ProjectOwner>
     <StartTime>2008-01-01T00:00:00-10:00</StartTime>
     <AuthorizedUserName>johnson@hawaii.edu</AuthorizedUserName>
     <AuthorizedUserPassword>myPassword</AuthorizedUserPassword>
-  </Chart>
+  </PrefetchChart>
 
 </TelemetryPrefetch>

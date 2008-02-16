@@ -5,6 +5,7 @@ import java.util.Map;
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.analyzer.configuration.TelemetryDefinitionManagerFactory;
+import org.hackystat.telemetry.service.prefetch.PrefetchManager;
 import org.hackystat.telemetry.service.resource.chart.ChartDataResource;
 import org.hackystat.telemetry.service.resource.chart.ChartDefinitionResource;
 import org.hackystat.telemetry.service.resource.chart.ChartsResource;
@@ -127,6 +128,8 @@ public class Server extends Application {
           " NOT AVAILABLE. Therefore, the Telemetry service will not run correctly."));
     server.logger.warning("Telemetry (Version " + getVersion() + ") now running.");
     server.component.start();
+    // Now start up the Prefetch service.
+    new PrefetchManager(server);
     return server;
   }
   

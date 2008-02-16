@@ -2,31 +2,32 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <!-- Primitive elements and attributes -->
   <xs:element name="MinutesAfterMidnight" type="xs:int"/>
-  <xs:element name="TelemetryHost" type="xs:string"/>
   <xs:element name="ChartName" type="xs:string"/>
-  <xs:element name="Name" type="xs:string"/>
-  <xs:element name="Value" type="xs:string"/>
+  <xs:element name="ChartParameters" type="xs:string"/>
   <xs:element name="ProjectName" type="xs:string"/>
   <xs:element name="ProjectOwner" type="xs:string"/>
   <xs:element name="StartTime" type="xs:string"/>
   <xs:element name="AuthorizedUserName" type="xs:string"/>
   <xs:element name="AuthorizedUserPassword" type="xs:string"/>
+  <xs:element name="RunOnStartup" type="xs:string"/>
+  <xs:attribute name="Name" type="xs:string"/>
   
   <xs:element name="TelemetryPrefetch">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="MinutesAfterMidnight" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="TelemetryHost" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="Chart" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="RunOnStartup" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="PrefetchChart" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
+      <xs:attribute ref="Name" use="required"/>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="Chart">
+  <xs:element name="PrefetchChart">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="ChartName" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="ChartParameter" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="ChartParameters" minOccurs="0" maxOccurs="1"/>
         <xs:element ref="ProjectName" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="ProjectOwner" minOccurs="1" maxOccurs="1"/>
         <xs:element ref="StartTime" minOccurs="1" maxOccurs="1"/>
@@ -36,15 +37,6 @@
     </xs:complexType>
   </xs:element>
   
-  <xs:element name="ChartParameter">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="Name" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="Value" minOccurs="1" maxOccurs="1"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-
 </xs:schema>
 
 
