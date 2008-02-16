@@ -35,6 +35,11 @@
     <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/telemetry.definition.xsd" destdir="src" 
          package="org.hackystat.telemetry.analyzer.configuration.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/analyzer/configuration/jaxb" includes="*" />
+    </xjc> 
+    
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/prefetch.definition.xsd" destdir="src" 
+         package="org.hackystat.telemetry.service.prefetch.jaxb">
+      <produces dir="${src.dir}/org/hackystat/telemetry/service/prefetch/jaxb" includes="*" />
     </xjc>    
   </target>
 </project>

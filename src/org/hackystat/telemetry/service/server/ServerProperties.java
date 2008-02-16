@@ -27,6 +27,8 @@ public class ServerProperties {
   public static final String PORT_KEY = "telemetry.port";
   /** The definitions directory key. */
   public static final String DEF_DIR_KEY = "telemetry.def.dir";
+  /** The prefetch directory key. */
+  public static final String PREFETCH_DIR_KEY = "telemetry.prefetch.dir";
   /** The dpd port key during testing. */
   public static final String TEST_PORT_KEY = "telemetry.test.port";
   /** The test installation key. */
@@ -81,6 +83,7 @@ public class ServerProperties {
     properties.setProperty(CONTEXT_ROOT_KEY, "telemetry");
     properties.setProperty(LOGGING_LEVEL_KEY, "INFO");
     properties.setProperty(DEF_DIR_KEY, userDir + "/definitions");
+    properties.setProperty(PREFETCH_DIR_KEY, userDir + "/prefetch");
     properties.setProperty(TEST_PORT_KEY, "9978");
     properties.setProperty(TEST_HOSTNAME_KEY, "localhost");
     properties.setProperty(TEST_SENSORBASE_HOST_KEY, "http://localhost:9976/sensorbase");

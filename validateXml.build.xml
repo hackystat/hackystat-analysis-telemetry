@@ -17,6 +17,7 @@
     <schemavalidate noNamespaceFile="${schema.dir}/function.definition.xsd"  file="${examples.dir}/functiondefinition.example.xml"/>
     <schemavalidate noNamespaceFile="${schema.dir}/telemetry.definition.xsd" file="${examples.dir}/telemetrydefinitions.example.xml"/>
     <schemavalidate noNamespaceFile="${schema.dir}/telemetry.definition.xsd" file="${src.dir}/org/hackystat/telemetry/analyzer/configuration/telemetry.definitions.xml"/>
+    <schemavalidate noNamespaceFile="${schema.dir}/prefetch.definition.xsd" file="${examples.dir}/prefetch.example.xml"/>
   </target>
 </project>
 
