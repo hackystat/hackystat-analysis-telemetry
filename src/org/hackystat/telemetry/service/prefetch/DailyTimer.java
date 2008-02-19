@@ -19,6 +19,7 @@ public class DailyTimer {
   private long millisecondsInADay = (1000 * 60 * 60 * 24);
   /** Task manager. */
   private PrefetchTask prefetchTask;
+  private Date triggerTime;
 
   /**
    * Creates a new DailyTimer, which runs each day at minutesPastMidnight.
@@ -28,8 +29,8 @@ public class DailyTimer {
   public DailyTimer (int minutesPastMidnight, PrefetchTask prefetchTask) {
     this.prefetchTask = prefetchTask;
     this.timer = new Timer(true);
-    Date trigger = this.getTomorrowTriggerTime(minutesPastMidnight); 
-    this.timer.schedule(this.prefetchTask, trigger, this.millisecondsInADay);
+    this.triggerTime = this.getTomorrowTriggerTime(minutesPastMidnight); 
+    this.timer.schedule(this.prefetchTask, this.triggerTime, this.millisecondsInADay);
   }
 
   /**
@@ -44,8 +45,16 @@ public class DailyTimer {
     tstamp.setMinute(0);
     tstamp.setSecond(0);
     long tstampLong = tstamp.toGregorianCalendar().getTimeInMillis();
-    tstampLong += minutesPastMidnight;
+    tstampLong += minutesPastMidnight * 60 * 1000;
     return new Date(tstampLong);
+  }
+
+  /**
+   * Returns the Date indicating the time this task is next scheduled to run.
+   * @return The trigger time. 
+   */
+  public Date getTriggerTime() {
+    return this.triggerTime;
   }
 }
 

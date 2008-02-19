@@ -7,7 +7,7 @@
     <ChartParameters>*,*</ChartParameters>
     <ProjectName>Default</ProjectName>
     <ProjectOwner>TestUser@hackystat.org</ProjectOwner>
-    <StartTime>2008-01-01T00:00:00-10:00</StartTime>
+    <StartTime>2008-02-01T00:00:00-10:00</StartTime>
     <AuthorizedUserName>TestUser@hackystat.org</AuthorizedUserName>
     <AuthorizedUserPassword>TestUser@hackystat.org</AuthorizedUserPassword>
   </PrefetchChart>

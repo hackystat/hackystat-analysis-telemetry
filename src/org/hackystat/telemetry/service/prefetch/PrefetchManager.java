@@ -88,10 +88,14 @@ public class PrefetchManager {
   private void setupTimers() {
     for (TelemetryPrefetch prefetch : telemetryPrefetchList) {
       PrefetchTask task = new PrefetchTask(prefetch, this.logger, this.server.getHostName());
+      DailyTimer timer = new DailyTimer(prefetch.getMinutesAfterMidnight(), task); 
+      this.logger.info("Prefetch '" + prefetch.getName() + "' scheduled for: " + 
+          timer.getTriggerTime());
+      this.timers.add(timer);
       if ("True".equalsIgnoreCase(prefetch.getRunOnStartup())) {
+        this.logger.info("Run on startup is true, so invoking: " + prefetch.getName());
         task.run();
       }
-      this.timers.add(new DailyTimer(prefetch.getMinutesAfterMidnight(), task)); 
     }
   }
   
