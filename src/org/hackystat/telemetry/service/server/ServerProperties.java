@@ -45,7 +45,7 @@ public class ServerProperties {
 
   /** Indicates whether DPDClient caching is enabled. */
   public static final String CACHE_ENABLED = "telemetry.cache.enabled";
-  /** The maxLife in seconds for each instance in each DPDClient cache. */
+  /** The maxLife in days for each instance in each DPDClient cache. */
   public static final String CACHE_MAX_LIFE = "telemetry.cache.max.life";
   /** The in-memory capacity of each DPDClient cache. */
   public static final String CACHE_CAPACITY = "telemetry.cache.capacity";
@@ -91,7 +91,7 @@ public class ServerProperties {
         "http://localhost:9977/dailyprojectdata");
     properties.setProperty(TEST_INSTALL_KEY, "false");
     properties.setProperty(CACHE_ENABLED, "true");
-    properties.setProperty(CACHE_MAX_LIFE, "86400");
+    properties.setProperty(CACHE_MAX_LIFE, "365");
     properties.setProperty(CACHE_CAPACITY, "50000");
     FileInputStream stream = null;
     try {
@@ -212,19 +212,19 @@ public class ServerProperties {
   }
   
   /**
-   * Returns the caching max life as a long.
+   * Returns the caching max life in days as a double
    * If the property has an illegal value, then return the default. 
    * @return The max life of each instance in the cache.
    */
-  public long getCacheMaxLife() {
+  public double getCacheMaxLife() {
     String maxLifeString = this.properties.getProperty(CACHE_MAX_LIFE);
-    long maxLife = 0;
+    double maxLife = 0;
     try {
       maxLife = Long.valueOf(maxLifeString);
     }
     catch (Exception e) {
       System.out.println("Illegal cache max life: " + maxLifeString + ". Using default.");
-      maxLife = 86400L;
+      maxLife = 365D;
     }
     return maxLife;
   }
