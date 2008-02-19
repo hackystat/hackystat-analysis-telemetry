@@ -45,7 +45,7 @@ public class DailyTimer {
     tstamp.setMinute(0);
     tstamp.setSecond(0);
     long tstampLong = tstamp.toGregorianCalendar().getTimeInMillis();
-    tstampLong += minutesPastMidnight * 60 * 1000;
+    tstampLong += minutesPastMidnight * 60L * 1000L;
     return new Date(tstampLong);
   }
 
@@ -54,7 +54,7 @@ public class DailyTimer {
    * @return The trigger time. 
    */
   public Date getTriggerTime() {
-    return this.triggerTime;
+    return new Date(this.triggerTime.getTime());
   }
 }
 
