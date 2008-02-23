@@ -1,0 +1,179 @@
+<TelemetryDefinitions> 
+
+
+<TelemetryDefinition Name="UnitTestSuccessPercentageStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the percentage of successful UnitTests associated with the
+specified developers. If the cumulative parameter
+is true, then the trend line represents the cumulative UnitTest success percentage. If false, then
+the trend line represents the percentage successful UnitTest for each period individually. 
+  </Description>
+  <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose UnitTest percentage to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams UnitTestSuccessPercentageStream(member, cumulative) = {
+  "UnitTests for the given mode for this Project", 
+  UnitTest("SuccessCount", member, cumulative) / UnitTest("TotalCount", member, cumulative) * 100
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="BuildSuccessPercentageStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the percentage of successful Builds associated with the
+specified developers. If the cumulative parameter
+is true, then the trend line represents the cumulative Build success percentage. If false, then
+the trend line represents the percentage successful Builds for each period individually. 
+  </Description>
+  <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose Build percentage to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+ <Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the 'type' property to match against. If you tag builds with a type property, 
+      such as 'continuous.integration' or 'daily.build', then you can supply this tag to restrict
+      the stream data to just those types of builds. A '*' indicates all builds. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams BuildSuccessPercentageStream(member, cumulative, type) = {
+  "Builds for the given mode for this Project", 
+  Build(member, "Success", type, cumulative) / Build(member, "*", type, cumulative) * 100
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="UnitTestSuccessPercentage" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the percentage of successful UnitTest invocations 
+associated with the specified developers.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose Unit Test counts are to be returned.  If "*", then the aggregrate 
+      Unit Test counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart UnitTestSuccessPercentage(member, cumulative) = {
+  "Unit test success percentage", 
+  (UnitTestSuccessPercentageStream(member, cumulative), yAxis("UnitTest Success Percentage"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>  
+
+
+<TelemetryDefinition Name="BuildSuccessPercentage" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the percentage of successful Builds 
+associated with the specified developers.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose Build percentages are to be returned.  If "*", then the aggregrate 
+      Unit Test counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the 'type' property to match against. If you tag builds with a type property, 
+      such as 'continuous.integration' or 'daily.build', then you can supply this tag to restrict
+      the chart data to just those types of builds. A '*' indicates all builds. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart BuildSuccessPercentage(member, cumulative, type) = {
+  "Build success percentage", 
+  (BuildSuccessPercentageStream(member, cumulative, type), yAxis("Build Success Percentage"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
+<TelemetryDefinition Name="Test-Coverage-CodeIssues-Builds" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides four streams: unit test success percentage, coverage percentage, the number
+of code issues, and the percentage of successful builds. 
+  </Description>
+  <Parameter Name="buildType">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the 'type' property to match against. If you tag builds with a type property, 
+      such as 'continuous.integration' or 'daily.build', then you can supply this tag to restrict
+      the chart data to just those types of builds. A '*' indicates all builds. 
+    </Description>
+  </Parameter>
+  <Parameter Name="coverageType">
+    <Type Name="Text" Default="line"/>
+    <Description>
+      The "granularity" of the coverage, which is typically 'line', 'method', or 'class'. 
+      The actual set of possible values will depend upon the coverage tool used. 
+    </Description>
+  </Parameter>
+ <Parameter Name="codeIssueType">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The kind of CodeIssue to report.  Default is '*', which reports all CodeIssues.  The
+      valid types depend upon the specific tool reporting CodeIssues. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Test-Coverage-CodeIssues-Builds(buildType, coverageType, codeIssueType) = {
+  "Tests, Coverage, CodeIssues, Builds", 
+  (BuildSuccessPercentageStream("*", "false", buildType), yAxis("Build Success Percentage")),
+  (UnitTestSuccessPercentageStream("*", "false"), yAxis("UnitTest Success Percentage")),
+  (CoverageStream("Percentage", coverageType), yAxis("Coverage Percentage")),
+  (CodeIssueStream("*", codeIssueType), yAxis("CodeIssue Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
+</TelemetryDefinitions>
