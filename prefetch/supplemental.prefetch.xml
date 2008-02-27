@@ -1,0 +1,15 @@
+<TelemetryPrefetch Name="SupplementalPrefetch">
+  <MinutesAfterMidnight>61</MinutesAfterMidnight>
+  <RunOnStartup>True</RunOnStartup>
+
+  <PrefetchChart>
+    <ChartName>Test-Coverage-CodeIssues-Builds</ChartName>
+    <ChartParameters>*,*,*</ChartParameters>
+    <ProjectName>Default</ProjectName>
+    <ProjectOwner>TestUser@hackystat.org</ProjectOwner>
+    <StartTime>2008-02-25T00:00:00-10:00</StartTime>
+    <AuthorizedUserName>TestUser@hackystat.org</AuthorizedUserName>
+    <AuthorizedUserPassword>TestUser@hackystat.org</AuthorizedUserPassword>
+  </PrefetchChart>
+
+</TelemetryPrefetch>
