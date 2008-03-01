@@ -48,7 +48,7 @@ public class FileMetricReducer implements TelemetryReducer {
     String sizeMetric = null;
     // process options
     if (options.length > 1) {
-      throw new TelemetryReducerException("Coverage reducer takes 1 optional parameter.");
+      throw new TelemetryReducerException("FileMetricReducer takes 1 optional parameter.");
     }
     if (options.length >= 1) {
       sizeMetric = options[0];
