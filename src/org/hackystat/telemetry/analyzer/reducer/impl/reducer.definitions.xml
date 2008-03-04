@@ -95,6 +95,29 @@
    </Parameters>
   </ReducerDefinition> 
 
+ <ReducerDefinition>
+    <Name>CyclomaticComplexity</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CyclomaticComplexityReducer</ClassName>
+    <Description>Computes a single telemetry stream representing cyclomatic complexity data.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>mode</Name>
+        <Description>One of 'TotalMethods', 'TotalLines', 'TotalComplexity', 'AverageComplexityPerMethod', or 'TotalMethodsAboveComplexityThreshold'</Description>
+        <Default>AverageComplexityPerMethod</Default>
+      </Parameter>
+      <Parameter>
+        <Name>threshold</Name>
+        <Description>The threshold value, if the mode is TotalMethodsAboveComplexityThreshold.</Description>
+        <Default>10</Default>
+      </Parameter>
+      <Parameter>
+        <Name>tool</Name>
+        <Description>The tool whose sensor data will be used to generate the complexity data.</Description>
+        <Default>JavaNCSS</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
   <ReducerDefinition>
     <Name>Churn</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.ChurnReducer</ClassName>

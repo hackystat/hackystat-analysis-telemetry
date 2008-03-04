@@ -180,6 +180,48 @@ chart Coverage(mode, granularity) = {
 
 <!-- ************************************************************************************** -->
 
+<TelemetryDefinition Name="CyclomaticComplexity" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream providing information about cyclomatic complexity. 
+  </Description>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="AverageComplexityPerMethod">
+      <Value>TotalMethods</Value>
+      <Value>TotalLines</Value>
+      <Value>AverageComplexityPerMethod</Value>
+      <Value>TotalMethodsAboveComplexityThreshold</Value>
+   </Type>
+    <Description>
+      Specifies the type of complexity data to return, either the total number of methods used
+to generate the complexity values, the total lines of code used to generate the complexity values,
+the average complexity per method, or the total number of methods found with a complexity value
+at or above the specified threshold.
+    </Description>
+  </Parameter>
+ <Parameter Name="threshold">
+   <Type Name="Integer" Default="10" MinValue="0" MaxValue="1000"/>
+    <Description>
+      The threshold complexity value used when the mode is TotalMethodsAboveComplexityThreshold.
+    </Description>
+  </Parameter>
+<Parameter Name="tool">
+   <Type Name="Text" Default="JavaNCSS"/>
+    <Description>
+      The tool whose sensor data is used to generate this complexity data. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart CyclomaticComplexity(mode, threshold, tool) = {
+  "Complexity associated with this project, mode, threshold, and tool.", 
+  (CyclomaticComplexityStream(mode, threshold, tool), yAxis("Cyclomatic Complexity"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
 <TelemetryDefinition Name="FileMetric" DefinitionType="Chart" ShareScope="Global">
   <Description>
 This chart provides a single stream indicating FileMetrics of the given size metric.
@@ -311,6 +353,47 @@ streams DevTimeStream(member, cumulative) = {
 </SourceCode>
 </TelemetryDefinition> 
 
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CyclomaticComplexityStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream provides a single stream providing information about cyclomatic complexity. 
+  </Description>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="AverageComplexityPerMethod">
+      <Value>TotalMethods</Value>
+      <Value>TotalLines</Value>
+      <Value>AverageComplexityPerMethod</Value>
+      <Value>TotalMethodsAboveComplexityThreshold</Value>
+   </Type>
+    <Description>
+      Specifies the type of complexity data to return, either the total number of methods used
+to generate the complexity values, the total lines of code used to generate the complexity values,
+the average complexity per method, or the total number of methods found with a complexity value
+at or above the specified threshold.
+    </Description>
+  </Parameter>
+ <Parameter Name="threshold">
+   <Type Name="Integer" Default="10" MinValue="0" MaxValue="1000"/>
+    <Description>
+      The threshold complexity value used when the mode is TotalMethodsAboveComplexityThreshold.
+    </Description>
+  </Parameter>
+<Parameter Name="tool">
+   <Type Name="Text" Default="JavaNCSS"/>
+    <Description>
+      The tool whose sensor data is used to generate this complexity data. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+streams CyclomaticComplexityStream(mode, threshold, tool) = {
+  "Complexity associated with this project, mode, threshold, and tool.", 
+  CyclomaticComplexity(mode, threshold, tool)
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>
 <!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="UnitTestStream" DefinitionType="Streams" ShareScope="Global">
