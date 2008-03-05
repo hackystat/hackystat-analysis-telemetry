@@ -232,11 +232,17 @@ This chart provides a single stream indicating FileMetrics of the given size met
       The type of size metric to search for in the FileMetric entries. 
     </Description>
   </Parameter>
+ <Parameter Name="tool">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The tool whose FileMetric data is to be retrieved, or '*' for any tool.
+    </Description>
+  </Parameter>
   <SourceCode>
 <![CDATA[
-chart FileMetric(sizemetric) = {
+chart FileMetric(sizemetric, tool) = {
   "FileMetrics associated with this size metric.", 
-  (FileMetricStream(sizemetric), yAxis(sizemetric))
+  (FileMetricStream(sizemetric, tool), yAxis(sizemetric))
 };
 ]]>
   </SourceCode>
@@ -542,11 +548,17 @@ This stream returns a single stream indicating a FileMetric of a given SizeMetri
       The type of FileMetric value to return, such as 'TotalLines'.
     </Description>
   </Parameter>
+  <Parameter Name="tool">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The tool whose FileMetric data is to be retrieved, or '*' for any tool.
+    </Description>
+  </Parameter>
 <SourceCode>
 <![CDATA[
-streams FileMetricStream(sizemetric) = {
+streams FileMetricStream(sizemetric, tool) = {
   "FileMetrics of the given size metric.", 
-  FileMetric(sizemetric)
+  FileMetric(sizemetric, tool)
 };
 ]]>
 </SourceCode>

@@ -67,7 +67,7 @@ public class TestFileMetricChartRestApi extends TelemetryTestHelper {
    */
   @Test public void testFileMetricChart() throws Exception {
     String chartName = "FileMetric";
-    String params = "TotalLines"; 
+    String params = "TotalLines,*"; 
     TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     // See if this chart contains 1 stream.

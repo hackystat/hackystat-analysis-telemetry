@@ -24,6 +24,8 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * <ol>
  * <li> sizemetric: A string indicating the size metric to return, such as "TotalLines".
  * Default is 'TotalLines'.
+ * <li> tool: A string indicating the tool whose size data will be retrieved, such as "SCLC".
+ * Default is '*', indicating that any tool will do.
  * </ol>
  * As a temporary hack, if the metric is TotalLines, we will divide the result by 1000 to get
  * KLOC.  
@@ -46,12 +48,16 @@ public class FileMetricReducer implements TelemetryReducer {
   public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] options) throws TelemetryReducerException {
     String sizeMetric = null;
+    String tool = "*";
     // process options
-    if (options.length > 1) {
+    if (options.length > 2) {
       throw new TelemetryReducerException("FileMetricReducer takes 1 optional parameter.");
     }
     if (options.length >= 1) {
       sizeMetric = options[0];
+    }
+    if (options.length > 1) {
+      tool = options[1];
     }
 
     // Find out the DailyProjectData host, throw error if not found.
@@ -63,7 +69,7 @@ public class FileMetricReducer implements TelemetryReducer {
     // now get the telemetry stream.
     try {
       TelemetryStream telemetryStream = this.getStream(dpdClient, project, interval,   
-          sizeMetric, null);
+          sizeMetric, tool, null);
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       streams.add(telemetryStream);
       return streams;
@@ -80,6 +86,7 @@ public class FileMetricReducer implements TelemetryReducer {
    * @param project The project.
    * @param interval The interval.
    * @param sizeMetric The SizeMetric.
+   * @param tool The tool to get the size data from. 
    * @param streamTagValue The tag for the generated telemetry stream.
    * 
    * @return The telemetry stream as required.
@@ -87,7 +94,7 @@ public class FileMetricReducer implements TelemetryReducer {
    * @throws Exception If there is any error.
    */
   TelemetryStream getStream(DailyProjectDataClient dpdClient, 
-      Project project, Interval interval, String sizeMetric,
+      Project project, Interval interval, String sizeMetric, String tool, 
       Object streamTagValue) 
         throws Exception {
     TelemetryStream telemetryStream = new TelemetryStream(streamTagValue);
@@ -95,7 +102,7 @@ public class FileMetricReducer implements TelemetryReducer {
 
     for (IntervalUtility.Period period : periods) {
       Double value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
-          sizeMetric);
+          sizeMetric, tool);
       // Hack for TotalLines to support large number rendering in Chronoscope. Convert to KLOC.
       if ((value != null) && ("TotalLines".equals(sizeMetric))) {
         value = (value / 1000.0);
@@ -117,12 +124,13 @@ public class FileMetricReducer implements TelemetryReducer {
    * @param startDay The start day (inclusive).
    * @param endDay The end day (inclusive).
    * @param sizeMetric The size metric.
+   * @param tool The tool name, or "*" if any tool will do. 
    * @throws TelemetryReducerException If anything goes wrong.
    * 
    * @return The FileMetric value, or null if there is no SensorData for that time period.
    */
   Double getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
-      String sizeMetric) throws TelemetryReducerException {
+      String sizeMetric, String tool) throws TelemetryReducerException {
     try {
       // Work backward through the interval, and return as soon as we get matching FileMetric info.
       // We might want to make this smarter, and keep searching if we find FileMetric data but
@@ -131,7 +139,7 @@ public class FileMetricReducer implements TelemetryReducer {
         // Get the DPD...
         FileMetricDailyProjectData dpdData = 
           dpdClient.getFileMetric(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day),
-              sizeMetric);
+              sizeMetric, ("*".equals(tool) ? null : tool));
         // Return null right away if DPD is empty.
         if ((dpdData.getFileData() == null) || dpdData.getFileData().isEmpty()) {
           continue;
