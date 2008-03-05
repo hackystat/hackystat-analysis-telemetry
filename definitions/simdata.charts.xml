@@ -65,6 +65,7 @@ Code Issues. All data is non-cumulative.
 chart ProductQATrends() = {
   "Coverage, Size, Churn, Commit, UnitTest, Build, CodeIssue, and DevTime", 
   (CoverageStream("Percentage", "line"), yAxis("Coverage percentage")),
+  (CyclomaticComplexityStream("AverageComplexityPerMethod", "10", "JavaNCSS"), yAxis("Average Complexity per Method")),
   (UnitTestStream("TotalCount", "*", "false"), yAxis("UnitTest invocations")),
   (CodeIssueStream("*", "*"), yAxis("CodeIssue counts"))
 };
