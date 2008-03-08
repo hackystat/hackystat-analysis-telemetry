@@ -42,7 +42,7 @@ DevTime. All data is non-cumulative.
 <![CDATA[
 chart ProductDevTrends() = {
   "Coverage, Size, Churn, Commit, UnitTest, Build, CodeIssue, and DevTime", 
-  (FileMetricStream("TotalLines"), yAxis("Total LOC")),
+  (FileMetricStream("TotalLines", "SCLC"), yAxis("Total LOC")),
   (ChurnStream("*", "false"), yAxis("Churn count")),
   (CommitStream("*", "false"), yAxis("Commit count")),
   (BuildStream("*", "*", "*", "false"), yAxis("Build invocations")),
