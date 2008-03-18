@@ -1,6 +1,6 @@
 <TelemetryPrefetch Name="ExamplePrefetch">
   <MinutesAfterMidnight>60</MinutesAfterMidnight>
-  <RunOnStartup>True</RunOnStartup>
+  <RunOnStartup>False</RunOnStartup>
 
   <PrefetchChart>
     <ChartName>CodeIssue</ChartName>

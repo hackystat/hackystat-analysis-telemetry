@@ -1,6 +1,6 @@
 <TelemetryPrefetch Name="SupplementalPrefetch">
   <MinutesAfterMidnight>61</MinutesAfterMidnight>
-  <RunOnStartup>True</RunOnStartup>
+  <RunOnStartup>False</RunOnStartup>
 
   <PrefetchChart>
     <ChartName>Test-Coverage-CodeIssues-Builds</ChartName>
