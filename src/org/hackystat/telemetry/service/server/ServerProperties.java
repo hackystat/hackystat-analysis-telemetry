@@ -147,6 +147,7 @@ public class ServerProperties {
     properties.setProperty(CACHE_ENABLED, "false");
     
     String telemetryHome = System.getProperty("HACKYSTAT_TELEMETRY_HOME");
+    System.out.println("Hackystat telemetry home: " + telemetryHome);
     if (telemetryHome != null) {
       File defFile = new File(telemetryHome, "def");
       if (defFile.exists()) {
