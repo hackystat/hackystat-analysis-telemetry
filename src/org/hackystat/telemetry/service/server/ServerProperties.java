@@ -133,6 +133,8 @@ public class ServerProperties {
    * <li> PORT_KEY
    * <li> SENSORBASE_HOST_KEY
    * <li> DAILYPROJECTDATA_FULLHOST_KEY
+   * <li> DEFINITIONS_DIR
+   * <li> PREFETCH_DIR
    * </ul>
    * Also sets TEST_INSTALL_KEY's value to "true".
    */
@@ -145,11 +147,14 @@ public class ServerProperties {
         .getProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY));
     properties.setProperty(TEST_INSTALL_KEY, "true");
     properties.setProperty(CACHE_ENABLED, "false");
+    String userDir = System.getProperty("user.dir");
+    properties.setProperty(DEF_DIR_KEY, userDir + "/definitions");
+    properties.setProperty(PREFETCH_DIR_KEY, userDir + "/prefetch");
     
     String telemetryHome = System.getProperty("HACKYSTAT_TELEMETRY_HOME");
     System.out.println("Hackystat telemetry home: " + telemetryHome);
     if (telemetryHome != null) {
-      File defFile = new File(telemetryHome, "def");
+      File defFile = new File(telemetryHome, "definitions");
       if (defFile.exists()) {
         properties.setProperty(DEF_DIR_KEY, defFile.getAbsolutePath());
       }
