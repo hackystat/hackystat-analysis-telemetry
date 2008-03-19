@@ -1,5 +1,6 @@
 package org.hackystat.telemetry.service.server;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -144,6 +145,18 @@ public class ServerProperties {
         .getProperty(TEST_DAILYPROJECTDATA_FULLHOST_KEY));
     properties.setProperty(TEST_INSTALL_KEY, "true");
     properties.setProperty(CACHE_ENABLED, "false");
+    
+    String telemetryHome = System.getProperty("HACKYSTAT_TELEMETRY_HOME");
+    if (telemetryHome != null) {
+      File defFile = new File(telemetryHome, "def");
+      if (defFile.exists()) {
+        properties.setProperty(DEF_DIR_KEY, defFile.getAbsolutePath());
+      }
+      File prefetchDir = new File(telemetryHome, "prefetch"); 
+      if (prefetchDir.exists()) {
+        properties.setProperty(PREFETCH_DIR_KEY, prefetchDir.getAbsolutePath());
+      }
+    }
     trimProperties(properties);
   }
 
