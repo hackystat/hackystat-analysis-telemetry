@@ -222,6 +222,69 @@ chart CyclomaticComplexity(mode, threshold, tool) = {
 
 <!-- ************************************************************************************** -->
 
+<TelemetryDefinition Name="Coupling" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream providing information about coupling.
+  </Description>
+ <Parameter Name="coupling">
+   <Type Name="Enumerated" Default="All">
+      <Value>Afferent</Value>
+      <Value>Efferent</Value>
+      <Value>All</Value>
+   </Type>
+    <Description>
+  Specifies the kind of coupling data to process. Afferent indicates incoming dependencies, or the 
+objects that depend upon a given program unit (such as a class or package).  Efferent indicates
+outgoing dependencies, or the objects that a given program unit depends upon.  All indicates
+both afferent and efferent couplings. 
+    </Description>
+  </Parameter>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="Average">
+      <Value>Total</Value>
+      <Value>Average</Value>
+      <Value>TotalInstancesAboveThreshold</Value>
+   </Type>
+    <Description>
+      Specifies whether to return the total number of couplings per the specified coupling type,
+or the average number of couplings per the specified coupling type, or the total number of 
+program units (such as classes or packages) whose coupling type is above the given threshold 
+(specified below).
+    </Description>
+  </Parameter>
+ <Parameter Name="type">
+   <Type Name="Text" Default="class"/>
+    <Description>
+      Specifies the type of program unit whose coupling data will be processed.  This value 
+depends upon the tool's capabilities. For example, the DependencyFinder sensor sends data for 
+the 'class' level of program unit, while JDepend sends sensor data for the 'package' level of 
+program unit. 
+    </Description>
+  </Parameter>
+ <Parameter Name="threshold">
+   <Type Name="Integer" Default="10" MinValue="0" MaxValue="1000"/>
+    <Description>
+      The threshold coupling value used when the mode is TotalAboveThreshold.
+    </Description>
+  </Parameter>
+<Parameter Name="tool">
+   <Type Name="Text" Default="DependencyFinder"/>
+    <Description>
+      The tool whose sensor data is used to generate this coupling data. 
+    </Description>
+  </Parameter> 
+  <SourceCode>
+<![CDATA[
+chart Coupling(coupling, mode, type, threshold, tool) = {
+  "Coupling associated with this project, coupling, mode, type, threshold, and tool.", 
+  (CouplingStream(coupling, mode, type, threshold, tool), yAxis("Coupling"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
 <TelemetryDefinition Name="FileMetric" DefinitionType="Chart" ShareScope="Global">
   <Description>
 This chart provides a single stream indicating FileMetrics of the given size metric.
@@ -396,6 +459,69 @@ at or above the specified threshold.
 streams CyclomaticComplexityStream(mode, threshold, tool) = {
   "Complexity associated with this project, mode, threshold, and tool.", 
   CyclomaticComplexity(mode, threshold, tool)
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="CouplingStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream provides a single stream providing information about coupling.
+  </Description>
+ <Parameter Name="coupling">
+   <Type Name="Enumerated" Default="All">
+      <Value>Afferent</Value>
+      <Value>Efferent</Value>
+      <Value>All</Value>
+   </Type>
+    <Description>
+  Specifies the kind of coupling data to process. Afferent indicates incoming dependencies, or the 
+objects that depend upon a given program unit (such as a class or package).  Efferent indicates
+outgoing dependencies, or the objects that a given program unit depends upon.  All indicates
+both afferent and efferent couplings. 
+    </Description>
+  </Parameter>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="Average">
+      <Value>Total</Value>
+      <Value>Average</Value>
+      <Value>TotalInstancesAboveThreshold</Value>
+   </Type>
+    <Description>
+      Specifies whether to return the total number of couplings per the specified coupling type,
+or the average number of couplings per the specified coupling type, or the total number of 
+program units (such as classes or packages) whose coupling type is above the given threshold 
+(specified below).
+    </Description>
+  </Parameter>
+ <Parameter Name="type">
+   <Type Name="Text" Default="class"/>
+    <Description>
+      Specifies the type of program unit whose coupling data will be processed.  This value 
+depends upon the tool's capabilities. For example, the DependencyFinder sensor sends data for 
+the 'class' level of program unit, while JDepend sends sensor data for the 'package' level of 
+program unit. 
+    </Description>
+  </Parameter>
+ <Parameter Name="threshold">
+   <Type Name="Integer" Default="10" MinValue="0" MaxValue="1000"/>
+    <Description>
+      The threshold coupling value used when the mode is TotalAboveThreshold.
+    </Description>
+  </Parameter>
+<Parameter Name="tool">
+   <Type Name="Text" Default="DependencyFinder"/>
+    <Description>
+      The tool whose sensor data is used to generate this coupling data. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+streams CouplingStream(coupling, mode, type, threshold, tool) = {
+  "Coupling associated with this project, coupling, mode, type, threshold, and tool.", 
+  Coupling(coupling, mode, type, threshold, tool)
 };
 ]]>
   </SourceCode>

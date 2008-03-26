@@ -95,6 +95,39 @@
    </Parameters>
   </ReducerDefinition> 
 
+<ReducerDefinition>
+    <Name>Coupling</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CouplingReducer</ClassName>
+    <Description>Computes a single telemetry stream representing coupling data.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>coupling</Name>
+        <Description>One of 'Afferent', 'Efferent', or 'All'.</Description>
+        <Default>All</Default>
+      </Parameter>
+      <Parameter>
+        <Name>mode</Name>
+        <Description>One of 'Total', 'Average', or 'TotalAboveThreshold'.</Description>
+        <Default>Average</Default>
+      </Parameter>
+      <Parameter>
+        <Name>type</Name>
+        <Description>A string indicating the type of coupling.</Description>
+        <Default>class</Default>
+      </Parameter>
+      <Parameter>
+        <Name>threshold</Name>
+        <Description>The threshold value, if the mode is TotalAboveThreshold.</Description>
+        <Default>10</Default>
+      </Parameter>
+      <Parameter>
+        <Name>tool</Name>
+        <Description>The tool whose sensor data will be used to generate the coupling data.</Description>
+        <Default>DependencyFinder</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
  <ReducerDefinition>
     <Name>CyclomaticComplexity</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CyclomaticComplexityReducer</ClassName>

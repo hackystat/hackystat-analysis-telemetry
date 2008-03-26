@@ -1,11 +1,10 @@
 package org.hackystat.telemetry.analyzer.reducer.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
-import org.hackystat.dailyprojectdata.resource.complexity.jaxb.ComplexityDailyProjectData;
-import org.hackystat.dailyprojectdata.resource.complexity.jaxb.FileData;
+import org.hackystat.dailyprojectdata.resource.coupling.jaxb.CouplingDailyProjectData;
+import org.hackystat.dailyprojectdata.resource.coupling.jaxb.CouplingData;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.telemetry.analyzer.model.TelemetryDataPoint;
 import org.hackystat.telemetry.analyzer.model.TelemetryStream;
@@ -25,13 +24,15 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * Options:
  * <ol>
  * <li> coupling: One of 'Afferent', 'Efferent', or 'All'.  Defaults to 'All'.
- * <li> mode: One of 'Total', 'Average', or 'TotalAboveThreshold'. Defaults to 'Average'.
- * <li> type: A string indicating the type of coupling. Defaults to 'package'.
+ * <li> mode: One of 'Total', 'Average', or 'TotalInstancesAboveThreshold'. Defaults to 'Average'.
+ * Note that the value returned depends upon the value selected for coupling.  
+ * <li> type: A string indicating the type of coupling. Defaults to 'class'. Could also be 
+ * 'package'.
  * <li> threshold: A string indicating the threshold value.  Defaults to '10'.
  * This parameter is ignored unless the mode is 
  * 'TotalAboveThreshold', in which case it must be parsed to an integer.
  * <li> tool: The tool whose sensor data is to be used to calculate the coupling information.
- * Defaults to 'JDepend'. 
+ * Defaults to 'DependencyFinder'. 
  * </ol>
  * 
  * @author Philip Johnson
@@ -71,9 +72,9 @@ public class CouplingReducer implements TelemetryReducer {
       Interval interval, String[] options) throws TelemetryReducerException {
     Coupling coupling = Coupling.ALL;
     Mode mode = Mode.AVERAGE;
-    String type = "package";
+    String type = "class";
     String thresholdString = null;
-    String tool = "JDepend";
+    String tool = "DependencyFinder";
     // process options
     if (options.length > 5) {
       throw new TelemetryReducerException("Coupling reducer needs only 5 parameters.");
@@ -145,7 +146,9 @@ public class CouplingReducer implements TelemetryReducer {
    * @param dpdClient The DailyProjectData client we will contact for the data.
    * @param project The project.
    * @param interval The interval.
+   * @param coupling The coupling.
    * @param mode The mode.
+   * @param type The type.
    * @param threshold The threshold (if mode is TOTALABOVETHRESHOLD).
    * @param tool The tool whose sensor data will be used. 
    * @param streamTagValue The tag for the generated telemetry stream.
@@ -199,33 +202,60 @@ public class CouplingReducer implements TelemetryReducer {
           dpdClient.getCoupling(project.getOwner(), project.getName(), Tstamp.makeTimestamp(day),
               type, tool);
         // Go to the next day in the interval if we don't have anything for this day.
-        if ((dpdData.getFileData() == null) || dpdData.getFileData().isEmpty()) {
+        if ((dpdData.getCouplingData() == null) || dpdData.getCouplingData().isEmpty()) {
           continue;
         }
         
         // Otherwise we have complexity data, so calculate the desired values.
-        int numMethods = 0;
-        double totalComplexity = 0;
-        long totalLines = 0;
-        int totalAboveThreshold = 0;
-        for (FileData data : dpdData.getFileData()) {
-          totalLines += parseTotalLines(data.getTotalLines());
-          List<Integer> complexities = parseList(data.getComplexityValues());
-          for (Integer complexity : complexities) {
-            numMethods++;
-            totalComplexity += complexity;
-            if (complexity >= threshold) {
-              totalAboveThreshold++;
-            }
+        double totalAfferent = 0;
+        double totalEfferent = 0;
+        double totalUnits = 0;
+        double totalAboveThreshold = 0;
+        for (CouplingData data : dpdData.getCouplingData()) {
+          totalUnits++;
+          totalAfferent += data.getAfferent().intValue();
+          totalEfferent += data.getEfferent().intValue();
+          if ((mode.equals(Mode.TOTALINSTANCESABOVETHRESHOLD)) &&
+              (coupling.equals(Coupling.AFFERENT)) &&
+              (data.getAfferent().intValue() > threshold)) {
+            totalAboveThreshold++;
+          }
+          if ((mode.equals(Mode.TOTALINSTANCESABOVETHRESHOLD)) &&
+              (coupling.equals(Coupling.EFFERENT)) &&
+              (data.getEfferent().intValue() > threshold)) {
+            totalAboveThreshold++;
+          }
+          if ((mode.equals(Mode.TOTALINSTANCESABOVETHRESHOLD)) &&
+              (coupling.equals(Coupling.ALL)) &&
+              (data.getAfferent().intValue() + data.getEfferent().intValue() > threshold)) {
+            totalAboveThreshold++;
           }
         }
-        
-        // Now return the value based upon mode.
-        switch (mode) {
+
+        // Now return the value based upon mode and coupling.
+        switch (mode) { //NOPMD
         case TOTAL:
-          return Double.valueOf(numMethods);
+          switch (coupling) {
+          case AFFERENT: 
+            return Double.valueOf(totalAfferent);
+          case EFFERENT:
+            return Double.valueOf(totalEfferent);
+          case ALL:
+            return Double.valueOf((totalEfferent + totalAfferent));
+          default: 
+            throw new TelemetryReducerException("Unknown coupling: " + coupling);
+          }
         case AVERAGE:
-          return Double.valueOf(totalComplexity);
+          switch (coupling) {
+          case AFFERENT: 
+            return Double.valueOf(totalAfferent / totalUnits);
+          case EFFERENT:
+            return Double.valueOf(totalEfferent / totalUnits);
+          case ALL:
+            return Double.valueOf((totalEfferent + totalAfferent) / totalUnits);
+          default: 
+            throw new TelemetryReducerException("Unknown coupling: " + coupling);
+          }
         case TOTALINSTANCESABOVETHRESHOLD:
           return Double.valueOf(totalAboveThreshold);
         default: 
@@ -236,45 +266,7 @@ public class CouplingReducer implements TelemetryReducer {
     catch (Exception ex) {
       throw new TelemetryReducerException(ex);
     }
-    // Never found appropriate complexity data in this interval, so return null.
+    // Never found appropriate coupling data in this interval, so return null.
     return null;
-  }
-
-  /**
-   * Returns the comma-delimited list of complexity values as a list of integers. 
-   * @param complexityList The comma-delimited list of complexity values. 
-   * @return A list of integers. 
-   * @throws TelemetryReducerException If errors occur parsing the list. 
-   */
-  private List<Integer> parseList(String complexityList) throws TelemetryReducerException {
-    List<Integer> complexities = new ArrayList<Integer>();
-    String[] tokens = complexityList.split("\\s*,\\s*");
-    for (String token : tokens) {
-      try {
-        int complexity = Integer.valueOf(token);
-        complexities.add(complexity);
-      }
-      catch (Exception e) {
-        throw new TelemetryReducerException("Error parsing complexity: '" + token + "'", e);
-      }
-    }
-    return complexities;
-  }
-  
-  /**
-   * Takes a string representing totalLines, and returns it as a long.
-   * @param totalLinesString The total lines as a string.
-   * @return The value as a long.
-   * @throws TelemetryReducerException If errors during parsing. 
-   */
-  private long parseTotalLines(String totalLinesString) throws TelemetryReducerException {
-    long totalLines;
-    try {
-      totalLines = Long.valueOf(totalLinesString);
-    }
-    catch (Exception e) {
-      throw new TelemetryReducerException("Error parsing totalLines '" + totalLinesString + "'", e);
-    }
-    return totalLines;
   }
 }
