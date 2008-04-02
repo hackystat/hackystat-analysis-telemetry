@@ -1,0 +1,32 @@
+<TelemetryDefinitions> 
+
+<TelemetryDefinition Name="UberChart" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart definition supports prefetching of commonly used streams. Do not display this chart,
+as it defines over a dozen trend lines and is virtually unusable for visualization.
+  </Description>
+  <SourceCode>
+<![CDATA[
+chart UberChart() = {
+  "Retrieves commmonly used streams to facilitate prefetching.", 
+  (BuildStream("*", "*", "*", "false"), yAxis("Build invocations")), 
+  (BuildStream("*", "*", "daily.build", "false"), yAxis("Build invocations (daily.build)")), 
+  (CommitStream("*", "false"), yAxis("Commit Count")),
+  (CodeIssueStream("*", "*"), yAxis("CodeIssue Count (All)")),
+  (CodeIssueStream("PMD", "*"), yAxis("CodeIssue Count (PMD)")),
+  (CodeIssueStream("Checkstyle", "*"), yAxis("CodeIssue Count (Checkstyle)")),
+  (CodeIssueStream("FindBugs", "*"), yAxis("CodeIssue Count (FindBugs)")),
+  (CouplingStream("All", "Average", "class" , "10", "DependencyFinder"), yAxis("Coupling")),
+  (CoverageStream("Percentage", "line"), yAxis("Coverage (line)")),
+  (CoverageStream("Percentage", "method"), yAxis("Coverage (method)")),
+  (CoverageStream("Percentage", "statement"), yAxis("Coverage (statement)")),  
+  (CyclomaticComplexityStream("AverageComplexityPerMethod", "10", "JavaNCSS"), yAxis("Average Complexity per Method")),
+  (DevTimeStream("*", "false"), yAxis("DevTime Hours")),
+  (FileMetricStream("TotalLines", "*"), yAxis("TotalLines")),
+  (UnitTestStream("TotalCount", "*", "false"), yAxis("UnitTest invocations"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>  
+
+</TelemetryDefinitions>
