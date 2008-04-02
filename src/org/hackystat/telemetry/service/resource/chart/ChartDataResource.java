@@ -174,6 +174,14 @@ public class ChartDataResource extends TelemetryResource {
           return null;
         }
         
+        // [5.6] Telemetry end date cannot be after tomorrow. 
+        XMLGregorianCalendar tomorrow = Tstamp.incrementDays(Tstamp.makeTimestamp(), 1);
+        if (Tstamp.greaterThan(this.endDay, tomorrow)) {
+          String msg = this.endDay + " cannot be in the future. Change to today at the latest.";
+          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          return null;
+        }
+        
         // [6] Create the appropriate interval based upon granularity, or return error.
         Interval interval;
         try {
