@@ -20,7 +20,7 @@
 
   <target name="jaxb" description="Runs the XJC compiler.">
     <echo message="Compiling using ${env.JAXB_HOME} for target version ${env.JAXB_TARGET}."/>
-    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/telemetry.resource.xsd" destdir="src" 
+    <xjc target="${env.JAXB_TARGET}" extension="true" schema="${basedir}/xml/schema/telemetry.resource.xsd" destdir="src" 
          package="org.hackystat.telemetry.service.resource.chart.jaxb">
       <produces dir="${src.dir}/org/hackystat/telemetry/service/resource/chart/jaxb" includes="*" />
     </xjc>
