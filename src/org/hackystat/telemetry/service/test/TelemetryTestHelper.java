@@ -57,7 +57,7 @@ public class TelemetryTestHelper {
   }
   
   /**
-   * Returns the sensorbase hostname that this Telemetry server communicates with.
+   * Returns the DPD hostname that this Telemetry server communicates with.
    * @return The host name, including the context root. 
    */
   protected String getDailyProjectDataHostName() {
