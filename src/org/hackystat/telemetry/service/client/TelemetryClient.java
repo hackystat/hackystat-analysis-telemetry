@@ -52,6 +52,10 @@ public class TelemetryClient {
   /** The logger for telemetry client information. */
   private Logger logger;
   
+  /** The System property key used to retrieve the default timeout value in milliseconds. */
+  public static final String TELEMETRYCLIENT_TIMEOUT_KEY = "telemetryclient.timeout";
+
+  
   private String space = " : ";  
   /**
    * Initializes a new TelemetryClient, given the host, userEmail, and password. 
@@ -82,6 +86,7 @@ public class TelemetryClient {
           "host='" + host + "', email='" + email + "', password='" + password + "'");
     }
     this.client = new Client(Protocol.HTTP);
+    setTimeout(getDefaultTimeout());
     try {
       this.chartJAXB = 
         JAXBContext.newInstance(
@@ -101,6 +106,49 @@ public class TelemetryClient {
       throw new IllegalArgumentException(arg + " cannot be null or the empty string.");
     }
   }
+  
+  /**
+   * Attempts to provide a timeout value for this client.  
+   * @param milliseconds The number of milliseconds to wait before timing out. 
+   */
+  public final synchronized void setTimeout(int milliseconds) {
+    setClientTimeout(this.client, milliseconds);
+  }
+  
+  /**
+   * Returns the default timeout in milliseconds. 
+   * The default timeout is set to 10 minutes (1000 * 60 * 10 ms), but clients can change this 
+   * by creating a 
+   * System property called telemetryclient.timeout and set it to a String indicating
+   * the number of milliseconds.  
+   * @return The default timeout.
+   */
+  private static int getDefaultTimeout() {
+    String systemTimeout = System.getProperty(TELEMETRYCLIENT_TIMEOUT_KEY, "600000");
+    int timeout = 600000;
+    try {
+      timeout = Integer.parseInt(systemTimeout);
+    }
+    catch (Exception e) {
+      timeout = 600000;
+    }
+    return timeout;
+  }
+  
+  /**
+   * Attempts to set timeout values for the passed client. 
+   * @param client The client .
+   * @param milliseconds The timeout value. 
+   */
+  private static void setClientTimeout(Client client, int milliseconds) {
+    client.getContext().getParameters().add("connectTimeout", String.valueOf(milliseconds));
+    // For the Apache Commons client.
+    client.getContext().getParameters().add("readTimeout", String.valueOf(milliseconds));
+    client.getContext().getParameters().add("connectionManagerTimeout", 
+        String.valueOf(milliseconds));
+  }
+
+
   
   /**
    * Does the housekeeping for making HTTP requests to the SensorBase by a test or admin user. 
