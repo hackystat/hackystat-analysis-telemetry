@@ -23,6 +23,7 @@
       </classpath>
       <sysproperty key="user.dir" value="${basedir}" />
       <sysproperty key="HACKYSTAT_SENSORBASE_HOME" value="${env.HACKYSTAT_SENSORBASE_HOME}" />
+      <sysproperty key="HACKYSTAT_TELEMETRY_HOME" value="${env.HACKYSTAT_TELEMETRY_HOME}" />
       <formatter type="xml" />
       <batchtest todir="${junit.dir}">
         <fileset dir="${src.dir}" includes="**/Test*.java" />
