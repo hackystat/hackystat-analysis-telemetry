@@ -27,8 +27,6 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * <li> tool: A string indicating the tool whose size data will be retrieved, such as "SCLC".
  * Default is '*', indicating that any tool will do.
  * </ol>
- * As a temporary hack, if the metric is TotalLines, we will divide the result by 1000 to get
- * KLOC.  
  * 
  * @author Philip Johnson, Cedric Zhang
  */
@@ -103,10 +101,6 @@ public class FileMetricReducer implements TelemetryReducer {
     for (IntervalUtility.Period period : periods) {
       Double value = this.getData(dpdClient, project, period.getStartDay(), period.getEndDay(),
           sizeMetric, tool);
-      // Hack for TotalLines to support large number rendering in Chronoscope. Convert to KLOC.
-      if ((value != null) && ("TotalLines".equals(sizeMetric))) {
-        value = (value / 1000.0);
-      }
       telemetryStream.addDataPoint(new TelemetryDataPoint(period.getTimePeriod(), value));
     }
     return telemetryStream;
