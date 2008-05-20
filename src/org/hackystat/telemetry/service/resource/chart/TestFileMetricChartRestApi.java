@@ -77,7 +77,7 @@ public class TestFileMetricChartRestApi extends TelemetryTestHelper {
     List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
     assertEquals("Checking for 4 points", 4, points.size());
     // Check that these four points are 0 and null (only first day has value).
-    assertEquals("Checking point 1 is 0.3", "0.3", points.get(0).getValue());
+    assertEquals("Checking point 1 is 300.0", "300.0", points.get(0).getValue());
     assertNull("Checking point 2 is null", points.get(1).getValue());
   }
   
