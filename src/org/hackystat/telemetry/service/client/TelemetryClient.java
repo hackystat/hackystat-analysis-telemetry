@@ -88,7 +88,7 @@ public class TelemetryClient {
           "host='" + host + "', email='" + email + "', password='" + password + "'");
     }
     this.client = new Client(Protocol.HTTP);
-    setTimeout(getDefaultTimeout());
+    setTimeoutFromSystemProperty();
     try {
       this.chartJAXB = 
         JAXBContext.newInstance(
@@ -109,47 +109,43 @@ public class TelemetryClient {
     }
   }
   
-  /**
-   * Attempts to provide a timeout value for this client.  
-   * @param milliseconds The number of milliseconds to wait before timing out. 
-   */
-  public final synchronized void setTimeout(int milliseconds) {
-    setClientTimeout(this.client, milliseconds);
-  }
   
   /**
-   * Returns the default timeout in milliseconds. 
-   * The default timeout is set to 10 minutes (1000 * 60 * 10 ms), but clients can change this 
-   * by creating a 
-   * System property called telemetryclient.timeout and set it to a String indicating
-   * the number of milliseconds.  
-   * @return The default timeout.
+   * Sets the timeout for this client if the system property telemetryclient.timeout is set
+   * and if it can be parsed to an integer.
    */
-  private static int getDefaultTimeout() {
-    String systemTimeout = System.getProperty(TELEMETRYCLIENT_TIMEOUT_KEY, "600000");
-    int timeout = 600000;
+  private void setTimeoutFromSystemProperty() {
+    String systemTimeout = System.getProperty(TELEMETRYCLIENT_TIMEOUT_KEY);
+    // if not set, then return immediately.
+    if (systemTimeout == null) {
+      return;
+    }
+    // systemTimeout has a value, so set it if we can.
     try {
-      timeout = Integer.parseInt(systemTimeout);
+      int timeout = Integer.parseInt(systemTimeout);
+      setTimeout(timeout);
+      this.logger.info("TelemetryClient timeout set to: " + timeout + " milliseconds");
     }
     catch (Exception e) {
-      timeout = 600000;
+      this.logger.warning("telemetryclient.timeout has non integer value: " + systemTimeout);
     }
-    return timeout;
   }
   
   /**
-   * Attempts to set timeout values for the passed client. 
-   * @param client The client .
-   * @param milliseconds The timeout value. 
+   * Sets the timeout value for this client.
+   * 
+   * @param milliseconds The number of milliseconds to wait before timing out.
    */
-  private static void setClientTimeout(Client client, int milliseconds) {
+  public final synchronized void setTimeout(int milliseconds) {
+    client.getContext().getParameters().removeAll("connectTimeout");
     client.getContext().getParameters().add("connectTimeout", String.valueOf(milliseconds));
     // For the Apache Commons client.
+    client.getContext().getParameters().removeAll("readTimeout");
     client.getContext().getParameters().add("readTimeout", String.valueOf(milliseconds));
-    client.getContext().getParameters().add("connectionManagerTimeout", 
+    client.getContext().getParameters().removeAll("connectionManagerTimeout");
+    client.getContext().getParameters().add("connectionManagerTimeout",
         String.valueOf(milliseconds));
   }
-
 
   
   /**
