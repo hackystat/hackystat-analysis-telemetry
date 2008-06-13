@@ -6,6 +6,7 @@ import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.telemetry.analyzer.configuration.TelemetryDefinitionManagerFactory;
 import org.hackystat.telemetry.service.prefetch.PrefetchManager;
+import org.hackystat.telemetry.service.resource.cache.CacheResource;
 import org.hackystat.telemetry.service.resource.chart.ChartDataResource;
 import org.hackystat.telemetry.service.resource.chart.ChartDefinitionResource;
 import org.hackystat.telemetry.service.resource.chart.ChartsResource;
@@ -158,6 +159,9 @@ public class Server extends Application {
         ChartDataResource.class);
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params}"
         , ChartDataResource.class);
+    authRouter.attach("/cache/{email}", CacheResource.class);
+    authRouter.attach("/cache/{email}/{dpdType}", CacheResource.class);
+    authRouter.attach("/cache/{email}/{dpdType}/{tstamp}", CacheResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
         this.getServerProperties().get(SENSORBASE_FULLHOST_KEY),
