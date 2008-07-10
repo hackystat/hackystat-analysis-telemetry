@@ -154,6 +154,7 @@ public class UnitTestReducer implements TelemetryReducer {
   Long getData(DailyProjectDataClient dpdClient, Project project, Day startDay, Day endDay, 
       Mode mode, String member) throws TelemetryReducerException {
     long count = 0;
+    boolean hasData = false;
     try {
       // For each day in the interval... 
       for (Day day = startDay; day.compareTo(endDay) <= 0; day = day.inc(1) ) {
@@ -164,6 +165,7 @@ public class UnitTestReducer implements TelemetryReducer {
         for (MemberData memberData : data.getMemberData()) {
           if ((member == null) || "*".equals(member) || 
               (memberData.getMemberUri().endsWith(member))) {
+            hasData = true;
             switch (mode) {
             case TOTALCOUNT:
               count += memberData.getFailure().longValue() + memberData.getSuccess().longValue();
@@ -186,7 +188,7 @@ public class UnitTestReducer implements TelemetryReducer {
     }
 
     //Return null if no data, the UnitTest data otherwise. 
-    return (count > 0) ? Long.valueOf(count) : null; 
+    return (hasData) ? Long.valueOf(count) : null; 
   }
 
 }
