@@ -1,6 +1,7 @@
 package org.hackystat.telemetry.service.resource.chart;
 
 import java.io.StringWriter;
+import java.math.BigInteger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -275,6 +276,15 @@ public class ChartDataResource extends TelemetryResource {
       YAxis yAxisResource = new YAxis();
       yAxisResource.setName("Unknown");
       yAxisResource.setUnits(yaxis.getLabel());
+      if (yaxis.getLowerBound() != null) {
+        yAxisResource.setLowerBound(BigInteger.valueOf(yaxis.getLowerBound().longValue()));
+      }
+      if (yaxis.getUpperBound() != null) {
+        yAxisResource.setUpperBound(BigInteger.valueOf(yaxis.getUpperBound().longValue()));
+      }
+      
+      yAxisResource.setNumberType((yaxis.isIntegerAxis() ? "integer" : "double"));
+
       // Get the StreamsObject inside the SubChart.
       TelemetryStreamsObject streams = subChart.getTelemetryStreamsObject();
       // Get each Stream inside the StreamsObject...

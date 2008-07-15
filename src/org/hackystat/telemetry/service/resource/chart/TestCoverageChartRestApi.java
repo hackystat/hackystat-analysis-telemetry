@@ -14,6 +14,7 @@ import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
+import org.hackystat.telemetry.service.resource.chart.jaxb.YAxis;
 import org.hackystat.telemetry.service.test.TelemetryTestHelper;
 import org.hackystat.utilities.tstamp.Tstamp;
 import org.junit.Test;
@@ -81,6 +82,12 @@ public class TestCoverageChartRestApi extends TelemetryTestHelper {
     // Check that these four points are 0 and null (only first day has value).
     assertEquals("Checking point 1 is 66", "66", points.get(0).getValue());
     assertNull("Checking point 2 is null", points.get(1).getValue());
+    
+    // See if the chart Y-Axis provides the type, lower, and upper bound information. 
+    YAxis yAxis = streams.get(0).getYAxis();
+    assertEquals("Checking number type", "integer", yAxis.getNumberType());
+    assertEquals("Checking lower bound", 0, yAxis.getLowerBound().intValue());
+    assertEquals("Checking upper bound", 100, yAxis.getUpperBound().intValue());
   }
   
  

@@ -29,6 +29,10 @@
   <xs:element name="Default" type="xs:string"/>
   <xs:element name="Value" type="xs:string"/>
   
+  <xs:attribute name="NumberType" type="xs:string"/>
+  <xs:attribute name="LowerBound" type="xs:integer"/>
+  <xs:attribute name="UpperBound" type="xs:integer"/>
+    
   
   <xs:element name="TelemetryChartData">
     <xs:complexType>
@@ -61,6 +65,9 @@
     <xs:complexType>
       <xs:attribute ref="Name" use="required"/>
       <xs:attribute ref="Units" use="required"/>
+      <xs:attribute ref="NumberType" use="optional"/>
+      <xs:attribute ref="LowerBound" use="optional"/>
+      <xs:attribute ref="UpperBound" use="optional"/>
     </xs:complexType>
   </xs:element>
 

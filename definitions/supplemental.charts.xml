@@ -93,7 +93,7 @@ associated with the specified developers.
 <![CDATA[
 chart UnitTestSuccessPercentage(member, cumulative) = {
   "Unit test success percentage", 
-  (UnitTestSuccessPercentageStream(member, cumulative), yAxis("UnitTest Success Percentage"))
+  (UnitTestSuccessPercentageStream(member, cumulative), yAxisPercentage("UnitTest Success Percentage"))
 };
 ]]>
   </SourceCode>
@@ -130,7 +130,7 @@ associated with the specified developers.
 <![CDATA[
 chart BuildSuccessPercentage(member, cumulative, type) = {
   "Build success percentage", 
-  (BuildSuccessPercentageStream(member, cumulative, type), yAxis("Build Success Percentage"))
+  (BuildSuccessPercentageStream(member, cumulative, type), yAxisPercentage("Build Success Percentage"))
 };
 ]]>
   </SourceCode>
@@ -167,10 +167,10 @@ of code issues, and the percentage of successful builds.
 <![CDATA[
 chart Test-Coverage-CodeIssues-Builds(buildType, coverageType, codeIssueType) = {
   "Tests, Coverage, CodeIssues, Builds", 
-  (BuildSuccessPercentageStream("*", "false", buildType), yAxis("Build Success Percentage")),
-  (UnitTestSuccessPercentageStream("*", "false"), yAxis("UnitTest Success Percentage")),
-  (CoverageStream("Percentage", coverageType), yAxis("Coverage Percentage")),
-  (CodeIssueStream("*", codeIssueType), yAxis("CodeIssue Count"))
+  (BuildSuccessPercentageStream("*", "false", buildType), yAxisPercentage("Build Success Percentage")),
+  (UnitTestSuccessPercentageStream("*", "false"), yAxisPercentage("UnitTest Success Percentage")),
+  (CoverageStream("Percentage", coverageType), yAxisPercentage("Coverage Percentage")),
+  (CodeIssueStream("*", codeIssueType), yAxisZeroBased("CodeIssue Count"))
 };
 ]]>
   </SourceCode>

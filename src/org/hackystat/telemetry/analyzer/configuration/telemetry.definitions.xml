@@ -36,7 +36,7 @@ development tools at the grain size of five minutes.
 <![CDATA[
 chart DevTime(member, cumulative) = {
   "Dev Time in hours", 
-  (DevTimeStream(member, cumulative), yAxis("Hours"))
+  (DevTimeStream(member, cumulative), yAxisZeroBased("Hours"))
 };
 ]]>
   </SourceCode>
@@ -77,7 +77,7 @@ number of succeeding (or failing) unit test invocations.
 <![CDATA[
 chart UnitTest(mode, member, cumulative) = {
   "Unit test invocations", 
-  (UnitTestStream(mode, member, cumulative), yAxis("UnitTest Count"))
+  (UnitTestStream(mode, member, cumulative), yAxisZeroBased("UnitTest Count"))
 };
 ]]>
   </SourceCode>
@@ -107,7 +107,7 @@ specified developers.
 <![CDATA[
 chart Commit(member, cumulative) = {
   "Commit invocations", 
-  (CommitStream(member, cumulative), yAxis("Commit Count"))
+  (CommitStream(member, cumulative), yAxisZeroBased("Commit Count"))
 };
 ]]>
   </SourceCode>
@@ -138,7 +138,7 @@ Churn is defined as the lines added plus the lines deleted, as reported by Commi
 <![CDATA[
 chart Churn(member, cumulative) = {
   "Churn counts", 
-  (ChurnStream(member, cumulative), yAxis("Churn Count"))
+  (ChurnStream(member, cumulative), yAxisZeroBased("Churn Count"))
 };
 ]]>
   </SourceCode>
@@ -172,7 +172,7 @@ This chart provides a single stream indicating the Coverage level for the given 
 <![CDATA[
 chart Coverage(mode, granularity) = {
   "Coverage associated with this project, mode, and granularity", 
-  (CoverageStream(mode, granularity), yAxis("Coverage"))
+  (CoverageStream(mode, granularity), yAxisPercentage("Coverage"))
 };
 ]]>
   </SourceCode>
@@ -214,7 +214,7 @@ at or above the specified threshold.
 <![CDATA[
 chart CyclomaticComplexity(mode, threshold, tool) = {
   "Complexity associated with this project, mode, threshold, and tool.", 
-  (CyclomaticComplexityStream(mode, threshold, tool), yAxis("Cyclomatic Complexity"))
+  (CyclomaticComplexityStream(mode, threshold, tool), yAxisZeroBased("Cyclomatic Complexity"))
 };
 ]]>
   </SourceCode>
@@ -277,7 +277,7 @@ program unit.
 <![CDATA[
 chart Coupling(coupling, mode, type, threshold, tool) = {
   "Coupling associated with this project, coupling, mode, type, threshold, and tool.", 
-  (CouplingStream(coupling, mode, type, threshold, tool), yAxis("Coupling"))
+  (CouplingStream(coupling, mode, type, threshold, tool), yAxisZeroBased("Coupling"))
 };
 ]]>
   </SourceCode>
@@ -334,7 +334,7 @@ This chart provides a single stream indicating the count of CodeIssues for the g
 <![CDATA[
 chart CodeIssue(tool, type) = {
   "CodeIssues for the given tool and type.", 
-  (CodeIssueStream(tool, type), yAxis("CodeIssue Count"))
+  (CodeIssueStream(tool, type), yAxisZeroBased("CodeIssue Count"))
 };
 ]]>
   </SourceCode>
@@ -383,7 +383,7 @@ failing builds.
 <![CDATA[
 chart Build(member, result, type, cumulative) = {
   "Build invocations", 
-  (BuildStream(member, result, type, cumulative), yAxis("Build Count"))
+  (BuildStream(member, result, type, cumulative), yAxisZeroBased("Build Count"))
 };
 ]]>
   </SourceCode>
@@ -791,6 +791,53 @@ y-axis yAxis(label) = {
 };
 ]]>
   </SourceCode>
-</TelemetryDefinition>         
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="yAxisZeroBased" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, sets the LowerBound to zero, and displays the specified label.
+UpperBound is set to 1, but normally the actual chart data will result in a higher UpperBound.
+  </Description>
+
+  <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+y-axis yAxisZeroBased(label) = {
+  label, "integer", 0, 1
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="yAxisPercentage" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, sets the bounds to 0-100, and displays the specified label.
+  </Description>
+
+  <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+y-axis yAxisPercentage(label) = {
+  label, "integer", 0, 100
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>            
 
 </TelemetryDefinitions>
