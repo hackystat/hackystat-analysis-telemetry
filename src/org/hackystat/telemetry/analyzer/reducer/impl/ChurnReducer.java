@@ -151,7 +151,8 @@ public class ChurnReducer implements TelemetryReducer {
           if ((member == null) || "*".equals(member) || 
               (memberData.getMemberUri().endsWith(member))) {
             hasData = true;
-            count += memberData.getLinesAdded() + memberData.getLinesDeleted();
+            count += memberData.getLinesAdded() + memberData.getLinesDeleted() +
+            memberData.getLinesModified();
           }
         }
       }
