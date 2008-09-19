@@ -20,11 +20,11 @@ counts, Unit Test invocations, Commits, and Churn. Data is non-cumulative over t
 <![CDATA[
 chart MemberTrends(member) = {
   "DevTime, Build, UnitTest, Commit, and Churn for a single developer", 
-  (UnitTestStream("TotalCount", member, "false"), yAxis("UnitTest invocations")), 
-  (DevTimeStream(member, "false"), yAxis("DevTime hours")), 
-  (BuildStream(member, "*", "*", "false"), yAxis("Build invocations")), 
-  (CommitStream(member, "false"), yAxis("Commit counts")), 
-  (ChurnStream(member, "false"), yAxis("Churn counts")) 
+  (UnitTestStream("TotalCount", member, "false"), yAxisBounded20("UnitTest invocations")), 
+  (DevTimeStream(member, "false"), yAxisBounded20("DevTime hours")), 
+  (BuildStream(member, "*", "*", "false"), yAxisBounded20("Build invocations")), 
+  (CommitStream(member, "false"), yAxisBounded10("Commit counts")), 
+  (ChurnStream(member, "false"), yAxisBounded50("Churn counts")) 
 };
 ]]>
   </SourceCode>
@@ -42,11 +42,11 @@ DevTime. All data is non-cumulative.
 <![CDATA[
 chart ProductDevTrends() = {
   "Coverage, Size, Churn, Commit, UnitTest, Build, CodeIssue, and DevTime", 
-  (FileMetricStream("TotalLines", "SCLC"), yAxis("Total LOC")),
-  (ChurnStream("*", "false"), yAxis("Churn count")),
-  (CommitStream("*", "false"), yAxis("Commit count")),
-  (BuildStream("*", "*", "*", "false"), yAxis("Build invocations")),
-  (DevTimeStream("*", "false"), yAxis("DevTime hours"))
+  (FileMetricStream("TotalLines", "SCLC"), yAxisBounded50("Total LOC")),
+  (ChurnStream("*", "false"), yAxisBounded50("Churn count")),
+  (CommitStream("*", "false"), yAxisBounded50("Commit count")),
+  (BuildStream("*", "*", "*", "false"), yAxisBounded50("Build invocations")),
+  (DevTimeStream("*", "false"), yAxisBounded50("DevTime hours"))
 };
 ]]>
   </SourceCode>
@@ -64,13 +64,82 @@ Code Issues. All data is non-cumulative.
 <![CDATA[
 chart ProductQATrends() = {
   "Coverage, Size, Churn, Commit, UnitTest, Build, CodeIssue, and DevTime", 
-  (CoverageStream("Percentage", "line"), yAxis("Coverage percentage")),
-  (CyclomaticComplexityStream("AverageComplexityPerMethod", "10", "JavaNCSS"), yAxis("Average Complexity per Method")),
-  (UnitTestStream("TotalCount", "*", "false"), yAxis("UnitTest invocations")),
-  (CodeIssueStream("*", "*"), yAxis("CodeIssue counts"))
+  (CoverageStream("Percentage", "line"), yAxisPercentage("Coverage percentage")),
+  (CyclomaticComplexityStream("AverageComplexityPerMethod", "10", "JavaNCSS"), yAxisBounded50("Average Complexity per Method")),
+  (UnitTestStream("TotalCount", "*", "false"), yAxisBounded50("UnitTest invocations")),
+  (CodeIssueStream("*", "*"), yAxisBounded50("CodeIssue counts"))
 };
 ]]>
   </SourceCode>
 </TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="yAxisBounded50" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, sets the bounds to 0-50, and displays the specified label.
+  </Description>
+
+  <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+y-axis yAxisBounded50(label) = {
+  label, "integer", 0, 50
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="yAxisBounded10" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, sets the bounds to 0-10, and displays the specified label.
+  </Description>
+
+  <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+y-axis yAxisBounded10(label) = {
+  label, "integer", 0, 10
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="yAxisBounded20" DefinitionType="YAxis" ShareScope="Global">
+  <Description>
+This axis uses integer as units, sets the bounds to 0-20, and displays the specified label.
+  </Description>
+
+  <Parameter Name="label">
+    <Type Name="Text" Default="yAxis Label"/>
+    <Description>
+      The label associated with this yAxis.
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+y-axis yAxisBounded20(label) = {
+  label, "integer", 0, 20
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
 
 </TelemetryDefinitions>
