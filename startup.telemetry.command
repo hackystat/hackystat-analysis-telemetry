@@ -1,1 +1,2 @@
-echo -n -e "\033]0;$HACKYSTAT_VERSION Telemetry\007"; cd $HACKYSTAT_SERVICE_DIST/hackystat-analysis-telemetry; java -Xmx512M -jar telemetry.jar
+echo -n -e "\033]0;Telemetry $HACKYSTAT_VERSION\007"
+java -Xmx512M -jar $HACKYSTAT_SERVICE_DIST/hackystat-analysis-telemetry/telemetry.jar
