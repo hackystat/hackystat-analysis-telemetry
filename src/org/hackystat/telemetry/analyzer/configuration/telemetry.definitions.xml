@@ -10,9 +10,35 @@
      them in the definitions/ directory. 
   -->
 
+<TelemetryDefinition Name="MemberDevTime" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a set of streams indicating the DevTime associated with given project member.
+DevTime measures the time during which developers are actively interacting with their
+development tools at the grain size of five minutes.  
+  </Description>
+
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the chart displays cumulative values over time. 
+    </Description>
+  </Parameter>
+
+  <SourceCode>
+<![CDATA[
+chart MemberDevTime(cumulative) = {
+  "Dev Time in hours for each member", 
+  (MemberDevTimeStream(cumulative), yAxisZeroBased("Hours"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
 <TelemetryDefinition Name="DevTime" DefinitionType="Chart" ShareScope="Global">
   <Description>
-This chart provides a single stream indicating the DevTime associated with given project member.
+This chart provides a single stream indicating the DevTime associated with a given project member or
+the aggregate DevTime for all project members. 
 DevTime measures the time during which developers are actively interacting with their
 development tools at the grain size of five minutes.  
   </Description>
@@ -389,6 +415,31 @@ chart Build(member, result, type, cumulative) = {
   </SourceCode>
 </TelemetryDefinition>   
  
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberDevTimeStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+Provides a set of streams indicating the DevTime associated with each
+project member. If the cumulative parameter
+is true, then the trend line represents the cumulative DevTime. If false, then
+the trend line represents the total DevTime for each period individually.
+  </Description>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams MemberDevTimeStream(cumulative) = {
+  "Dev time for this Project", 
+  MemberDevTime("*", "**", cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
 
 <!-- ************************************************************************************** -->
 

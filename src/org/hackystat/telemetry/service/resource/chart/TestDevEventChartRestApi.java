@@ -85,6 +85,30 @@ public class TestDevEventChartRestApi extends TelemetryTestHelper {
     assertEquals("Checking second param val", "false", parameters.get(1).getValue());
   }
   
+  /**
+   * Tests the MemberDevTime chart.
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testMemberChartParams() throws Exception {
+    String chartName = "MemberDevTime";
+    String params = "false"; // make sure no embedded spaces, or else escape them.
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-03"), params);
+    // See if this chart contains 1 stream with 3 data points of 10, 15, and 20.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
+    // Get the data points in the single returned stream.
+    List<TelemetryPoint> points = streams.get(0).getTelemetryPoint();
+    assertEquals("Checking for 3 points", 3, points.size());
+    // Check that these three points are 10, 15, and 20.
+    assertTrue("Checking point 1 is 0.16", points.get(0).getValue().startsWith("0.16"));
+    assertTrue("Checking point 2 is 0.08", points.get(1).getValue().startsWith("0.08"));
+    assertTrue("Checking point 3 is 0.08", points.get(2).getValue().startsWith("0.08"));
+    List<Parameter> parameters = chart.getParameter();
+    assertEquals("Checking first param id", "cumulative", parameters.get(0).getName());
+    assertEquals("Checking first param val", "false", parameters.get(0).getValue());
+  }
+  
   
   /**
    * Creates a sample SensorData instance given a timestamp and a user. 

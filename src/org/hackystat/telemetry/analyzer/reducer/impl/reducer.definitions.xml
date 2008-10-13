@@ -221,6 +221,29 @@
   </ReducerDefinition> 
 
   <ReducerDefinition>
+    <Name>MemberDevTime</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.MemberDevTimeReducer</ClassName>
+    <Description>Computes a set of telemetry streams representing the DevTime for each member of the project in hours.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>eventType</Name>
+        <Description>If '*' is supplied, then the dev time will be summed up over all dev event types. (ignored)</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>uriPattern</Name>
+        <Description>Ant-like file pattern specifying the files to be included in computation. (ignored)</Description>
+        <Default>**</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
     <Name>StraightLine</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.StraightLine</ClassName>
     <Description>Draws a straight line on the plot. The line can have a slope that can be adjusted by using the delta parameter.</Description>
