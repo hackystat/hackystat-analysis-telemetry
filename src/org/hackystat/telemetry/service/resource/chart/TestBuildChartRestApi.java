@@ -57,7 +57,7 @@ public class TestBuildChartRestApi extends TelemetryTestHelper {
   
   
   /**
-   * Tests the UnitTest chart.
+   * Tests the Build chart.
    * @throws Exception If problems occur. 
    */
   @Test public void testBuildChartDefault() throws Exception {
@@ -77,6 +77,20 @@ public class TestBuildChartRestApi extends TelemetryTestHelper {
     assertEquals("Checking point 2 is 1", "1", points.get(1).getValue());
     assertEquals("Checking point 3 is 1", "1", points.get(2).getValue());
     assertEquals("Checking point 4 is null", null, points.get(3).getValue());
+  }
+  
+  /**
+   * Tests the MemberBuild chart.
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testMemberBuildChartDefault() throws Exception {
+    String chartName = "MemberBuild";
+    String params = "*,Integration,false";
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
+    // See if this chart contains 1 stream.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
   }
   
   

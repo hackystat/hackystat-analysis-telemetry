@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.sensorbase.uripattern.UriPattern;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducer;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
@@ -14,26 +13,22 @@ import org.hackystat.telemetry.service.server.ServerProperties;
 import org.hackystat.utilities.time.interval.Interval;
 
 /**
- * Returns a set of streams providing DevTime data in hours for each member of the project. 
+ * Returns a set of streams providing Build data for each user. 
  * <p>
- * Accepts the following options in the following order, although only isCumulative
- * is supported at the current time.
+ * Accepts the following options in the following order.
  * <ol>
- * <li> EventType: Supply an Event Type to restrict the DevTime to just the time 
- *      associated with that Event Type. 
- *      Default is "*" which indicates all file types are used in computing the 
- *      DevTime.  
- *  <li> ResourceFilterPattern: Restricts the files over which the DevTime 
- *       is computed. Default is "**".
+ *  <li> Result: One of Success, Failure, or *, indicating whether the count is
+ *       just of successful builds, failed builds, or all builds. Default is "*". 
+ *  <li> Type: A string to restrict the counts to those builds with a "Type" property
+ *       matching this string, or "*" to indicate all builds regardless of Type. 
+ *       Default is "*".
  *  <li> isCumulative: True or false. Default is false.
  * </ol>
  * 
- * @author Hongbing Kou, Philip Johnson
+ * @author Philip Johnson
  */
-public class MemberDevTimeReducer implements TelemetryReducer {
-  
-  private static DevTimeReducer genericDevTimeReducer = new DevTimeReducer();
- 
+public class MemberBuildReducer implements TelemetryReducer {
+  private static BuildReducer genericBuildReducer = new BuildReducer();
 
   /**
    * Computes and returns the required telemetry streams object.
@@ -49,23 +44,22 @@ public class MemberDevTimeReducer implements TelemetryReducer {
   public TelemetryStreamCollection compute(Project project, DailyProjectDataClient dpdClient, 
       Interval interval, String[] options) throws TelemetryReducerException {
     // weird. for some reason we want 'null' as default rather than '*' etc.
-    String eventType = null;
-    UriPattern resourcePattern = null;
+    String result = null;
+    String type = null;
     boolean isCumulative = false;
     //process options
     if (options.length > 3) {
-      throw new TelemetryReducerException("MemberDevTime reducer takes 3 optional parameters.");
+      throw new TelemetryReducerException("Member Build reducer takes 3 optional parameters.");
     }
 
-    if (options.length >= 1 && ! "*".equals(options[0])) {
-      eventType = options[0];
-      eventType = eventType.toLowerCase();
+    if (options.length >= 1 && !"*".equals(options[0])) {
+      result = options[0];
     }
 
-    if (options.length >= 2 && ! "*".equals(options[1])) {
-      resourcePattern = new UriPattern(options[1]);
+    if (options.length >= 2 && !"*".equals(options[1])) {
+      type = options[1];
     }
-    
+
     if (options.length >= 3) {
       isCumulative = ReducerOptionUtility.parseBooleanOption(4, options[2]);
     }
@@ -73,11 +67,10 @@ public class MemberDevTimeReducer implements TelemetryReducer {
     // Find out the DailyProjectData host, throw error if not found.
     String dpdHost = System.getProperty(ServerProperties.DAILYPROJECTDATA_FULLHOST_KEY);
     if (dpdHost == null) {
-      throw new TelemetryReducerException("Null DPD host in MemberDevTimeReducer");
+      throw new TelemetryReducerException("Null DPD host in MemberBuildReducer");
     }
 
-    // now compute the set of telemetry streams. Remember, we only process the Cumulative
-    // optional parameter.
+    // now compute the single telemetry stream. 
     try {
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       // Make a list of emails containing all members plus the owner. 
@@ -85,8 +78,8 @@ public class MemberDevTimeReducer implements TelemetryReducer {
       emails.addAll(project.getMembers().getMember());
       emails.add(project.getOwner());
       for (String email : emails) {
-        streams.add(genericDevTimeReducer.getStream(dpdClient, project, interval, eventType, 
-            email, resourcePattern, isCumulative, email));
+        streams.add(genericBuildReducer.getStream(dpdClient, project, interval, email, result, 
+            type, isCumulative, email));
       }
       return streams;
     } 
@@ -94,4 +87,5 @@ public class MemberDevTimeReducer implements TelemetryReducer {
       throw new TelemetryReducerException(e);
     }
   }
+
 }

@@ -78,6 +78,21 @@ public class TestChurnChartRestApi extends TelemetryTestHelper {
     assertEquals("Checking point 4 is 90", "120", points.get(3).getValue());
   }
   
+  /**
+   * Tests the chart.
+   * @throws Exception If problems occur. 
+   */
+  @Test public void testMemberChart() throws Exception {
+    String chartName = "MemberChurn";
+    String params = "true"; 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
+    // See if this chart contains 1 stream.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
+  }
+  
+  
 
   /**
    * Creates a sample SensorData UnitTest instance given a timestamp and a user.

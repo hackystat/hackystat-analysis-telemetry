@@ -107,7 +107,41 @@ chart UnitTest(mode, member, cumulative) = {
 };
 ]]>
   </SourceCode>
-</TelemetryDefinition>   
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberUnitTest" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a set of streams indicating the UnitTest invocation counts associated with each
+member of the project for the specified mode.  
+  </Description>
+  <Parameter Name="mode">
+   <Type Name="Enumerated" Default="TotalCount">
+      <Value>TotalCount</Value>
+      <Value>SuccessCount</Value>
+      <Value>FailureCount</Value>
+   </Type>
+    <Description>
+      Specifies whether to return the total number of unit test invocations, or just the 
+number of succeeding (or failing) unit test invocations.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart MemberUnitTest(mode, cumulative) = {
+  "Unit test invocations", 
+  (MemberUnitTestStream(mode, cumulative), yAxisZeroBased("UnitTest Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>    
 
 <!-- ************************************************************************************** -->
 
@@ -137,7 +171,31 @@ chart Commit(member, cumulative) = {
 };
 ]]>
   </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberCommit" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a set of streams indicating the Commit counts associated with each 
+developer in this project. 
+  </Description>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart MemberCommit(cumulative) = {
+  "Commit counts for each project member", 
+  (MemberCommitStream(cumulative), yAxisZeroBased("Commit Count"))
+};
+]]>
+  </SourceCode>
 </TelemetryDefinition>   
+   
 
 <!-- ************************************************************************************** -->
 
@@ -165,6 +223,30 @@ Churn is defined as the lines added plus the lines deleted, as reported by Commi
 chart Churn(member, cumulative) = {
   "Churn counts", 
   (ChurnStream(member, cumulative), yAxisZeroBased("Churn Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>   
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberChurn" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a set of streams indicating the Churn counts associated with
+each project member.
+Churn is defined as the lines added plus the lines deleted, as reported by Commit sensor data.
+  </Description>
+   <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart MemberChurn(cumulative) = {
+  "Member Churn counts", 
+  (MemberChurnStream(cumulative), yAxisZeroBased("Churn Count"))
 };
 ]]>
   </SourceCode>
@@ -415,6 +497,46 @@ chart Build(member, result, type, cumulative) = {
   </SourceCode>
 </TelemetryDefinition>   
  
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberBuild" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a set of streams indicating the Build invocation counts for each
+developer in the project, parameterized by result, type, and cumulative values.
+  </Description>
+  <Parameter Name="result">
+   <Type Name="Enumerated" Default="*">
+      <Value>Success</Value>
+      <Value>Failure</Value>
+      <Value>*</Value>
+   </Type>
+    <Description>
+      Specifies whether to return only successful builds, failing builds, or both successful and failing builds.
+    </Description>
+  </Parameter>
+<Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the Type property to match in order for the Build data to be counted. This is
+      useful, for example, for generating Build telemetry for only Integration Builds. 
+      The default returns Build data for any type.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart MemberBuild(result, type, cumulative) = {
+  "Build invocations", 
+  (MemberBuildStream(result, type, cumulative), yAxisZeroBased("Build Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>  
 
 <!-- ************************************************************************************** -->
 
@@ -619,6 +741,43 @@ streams UnitTestStream(mode, member, cumulative) = {
 </SourceCode>
 </TelemetryDefinition> 
 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberUnitTestStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a set of streams indicating the number of UnitTests associated with each
+project member for the given mode.  The Mode parameter indicates what 
+kinds of counts to return. If the cumulative parameter
+is true, then the trend line represents the cumulative UnitTest counts. If false, then
+the trend line represents the total UnitTest counts for each period individually. 
+  </Description>
+  <Parameter Name="mode">
+    <Type Name="Enumerated" Default="TotalCount">
+      <Value>TotalCount</Value>
+      <Value>SuccessCount</Value>
+      <Value>FailureCount</Value>
+    </Type>
+    <Description>
+      Specifies the type of count to return.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams MemberUnitTestStream(mode, cumulative) = {
+  "Member UnitTests for the given mode for this Project", 
+  MemberUnitTest(mode, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
 <!-- ************************************************************************************** -->
 
 <TelemetryDefinition Name="CommitStream" DefinitionType="Streams" ShareScope="Global">
@@ -643,6 +802,29 @@ developers.
 streams CommitStream(member, cumulative) = {
   "Commit counts for the given mode for this Project", 
   Commit(member, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberCommitStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a set of streams indicating the number of Commits associated with 
+each project member. 
+  </Description>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative commit counts over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams MemberCommitStream(cumulative) = {
+  "Commit counts for the given mode for each member of this Project", 
+  MemberCommit(cumulative)
 };
 ]]>
 </SourceCode>
@@ -675,7 +857,31 @@ streams ChurnStream(member, cumulative) = {
 };
 ]]>
 </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberChurnStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a set of streams indicating the churn (lines added + lines deleted) associated with 
+each project member.
+  </Description>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative churn counts over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams MemberChurnStream(cumulative) = {
+  "Churn counts for each member of this Project", 
+  MemberChurn(cumulative)
+};
+]]>
+</SourceCode>
 </TelemetryDefinition> 
+ 
 
 <!-- ************************************************************************************** -->
 
@@ -819,7 +1025,51 @@ streams BuildStream(member, result, type, cumulative) = {
 };
 ]]>
 </SourceCode>
-</TelemetryDefinition>    
+</TelemetryDefinition> 
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="MemberBuildStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a set of streams indicating the number of Builds associated with each project
+member with the specified result and type.  
+The result parameter should be either Success, Failure, or * to indicate all builds. 
+The type parameter should be the value of the Type property to match in the build data, or "*"
+to match all build data. If the cumulative parameter
+is true, then the trend line represents the cumulative Build counts. If false, then
+the trend line represents the total Build counts for each period individually. 
+  </Description>
+   <Parameter Name="result">
+    <Type Name="Enumerated" Default="*">
+      <Value>Success</Value>
+      <Value>Failure</Value>
+      <Value>*</Value>
+    </Type>
+    <Description>
+      Specifies whether to return only successful builds, failing builds, or all builds.
+    </Description>
+  </Parameter>
+<Parameter Name="type">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The value of the Type property that must match for the Build data to be counted.
+    </Description>
+  </Parameter>
+  <Parameter Name="cumulative">
+    <Type Name="Boolean" Default="false"/>
+    <Description>
+      If true, then the stream displays cumulative values over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams MemberBuildStream(result, type, cumulative) = {
+  "Member Builds for the given parameters for this Project", 
+  MemberBuild(result, type, cumulative)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition>      
 
 <!-- ************************************************************************************** -->
 

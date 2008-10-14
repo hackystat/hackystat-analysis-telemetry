@@ -125,7 +125,7 @@ public class ChurnReducer implements TelemetryReducer {
   }
   
   /**
-   * Returns a Churn value for the specified time interval, or null if no Commit SensorData. 
+   * Returns a Churn value for the specified time interval, or null if no Churn SensorData. 
    * 
    * @param dpdClient The DailyProjectData client we will use to get this data. 
    * @param project The project.
@@ -161,7 +161,7 @@ public class ChurnReducer implements TelemetryReducer {
       throw new TelemetryReducerException(ex);
     }
 
-    //Return null if no data, the Commit counts otherwise. 
+    //Return null if no data, the Churn counts otherwise. 
     return (hasData) ? Long.valueOf(count) : null; 
   }
 

@@ -77,6 +77,29 @@
    </Parameters>
   </ReducerDefinition>
 
+ <ReducerDefinition>
+    <Name>MemberBuild</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.MemberBuildReducer</ClassName>
+    <Description>Computes a set of telemetry streams representing build invocations, successes, and failures for each user in the project.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>result</Name>
+        <Description>'Success', 'Failure', or '*' to indicate all.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>type</Name>
+        <Description>A string specifying the value of the Type property, or '*' to indicate all.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>
+
   <ReducerDefinition>
     <Name>Commit</Name>
     <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.CommitReducer</ClassName>
@@ -87,6 +110,19 @@
         <Description>The email of the member whose commit counts should be returned, or * for all members.</Description>
         <Default>*</Default>
       </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
+    <Name>MemberCommit</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.MemberCommitReducer</ClassName>
+    <Description>Computes a set of telemetry streams representing commit counts for each project member.</Description>
+    <Parameters>
       <Parameter>
         <Name>isCumulative</Name>
         <Description>If true, a cumulative version of telemetry stream is returned.</Description>
@@ -167,7 +203,20 @@
         <Default>false</Default>
       </Parameter>
    </Parameters>
-  </ReducerDefinition> 
+  </ReducerDefinition>
+
+ <ReducerDefinition>
+    <Name>MemberChurn</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.MemberChurnReducer</ClassName>
+    <Description>Computes a set of telemetry stream representing churn counts for each project member.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition>  
  
   <ReducerDefinition>
     <Name>UnitTest</Name>
@@ -180,9 +229,27 @@
         <Default>'TotalCount'</Default>
       </Parameter>
       <Parameter>
-        <Name>uriPattern</Name>
-        <Description>Ant-like file pattern specifying the files whose unit test data is to be included in computation.</Description>
-        <Default>**</Default>
+        <Name>member</Name>
+        <Description>The email of the member whose unit test counts should be returned, or * for all members.</Description>
+        <Default>*</Default>
+      </Parameter>
+      <Parameter>
+        <Name>isCumulative</Name>
+        <Description>If true, a cumulative version of telemetry stream is returned.</Description>
+        <Default>false</Default>
+      </Parameter>
+   </Parameters>
+  </ReducerDefinition> 
+
+  <ReducerDefinition>
+    <Name>MemberUnitTest</Name>
+    <ClassName>org.hackystat.telemetry.analyzer.reducer.impl.MemberUnitTestReducer</ClassName>
+    <Description>Computes a set of telemetry streams representing unit test invocations, successes, and failures for each member of the project.</Description>
+    <Parameters>
+      <Parameter>
+        <Name>mode</Name>
+        <Description>Either 'TotalCount', 'SuccessCount' or 'FailureCount'</Description>
+        <Default>'TotalCount'</Default>
       </Parameter>
       <Parameter>
         <Name>isCumulative</Name>

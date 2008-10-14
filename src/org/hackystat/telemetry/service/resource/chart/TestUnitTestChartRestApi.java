@@ -89,6 +89,21 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
    * Tests the UnitTest chart.
    * @throws Exception If problems occur. 
    */
+  @Test public void testMemberUnitTestChartFailureCount() throws Exception {
+    String chartName = "MemberUnitTest";
+    //String params = "FailureCount,*,false"; // make sure no embedded spaces, or else escape them.
+    String params = "FailureCount,false"; 
+    TelemetryChartData chart = telemetryClient.getChart(chartName, user, "Default", "Day", 
+          Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
+    // See if this chart contains 1 stream.
+    List<TelemetryStream> streams = chart.getTelemetryStream();
+    assertEquals("Checking only 1 stream returned", 1, streams.size());
+  }
+  
+  /**
+   * Tests the UnitTest chart.
+   * @throws Exception If problems occur. 
+   */
   @Test public void testUnitTestChartTotalCount() throws Exception {
     String chartName = "UnitTest";
     //String params = "FailureCount,*,false"; // make sure no embedded spaces, or else escape them.
