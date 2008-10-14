@@ -64,7 +64,7 @@ public abstract class TelemetryResource extends Resource {
   /** To be retrieved from the URL as the 'params' template parameter, or null. */
   protected String params = null; 
   
-  /** The authenticated user, retrieved from the ChallengeResponse, or null */
+  /** The authenticated user, retrieved from the ChallengeResponse, or null. */
   protected String authUser = null;
   
   /** This server (telemetry). */

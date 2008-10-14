@@ -25,15 +25,12 @@ import org.hackystat.utilities.time.interval.Interval;
  */
 public class TelemetryReducerManager {
 
-  /** The singleton */
+  /** The singleton. */
   private static TelemetryReducerManager theInstance = new TelemetryReducerManager();
   /** Maps reducer names to a data structure with information about them. */ 
   private Map<String, TelemetryReducerInfo> reducerMap = 
     new TreeMap<String, TelemetryReducerInfo>();
-  private Logger logger;
   
-  private ReducerDefinitions definitions;
-
   /**
    * Gets the singleton instance of this class.
    * 
@@ -50,34 +47,35 @@ public class TelemetryReducerManager {
    * errors will be thrown.
    */
   private TelemetryReducerManager() {
-    this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
-    
+    Logger logger = HackystatLogger.getLogger("org.hackystat.telemetry");
+    ReducerDefinitions definitions = null;    
     try {
-      this.logger.info("Loading built-in telemetry reduction function definitions.");
+      logger.info("Loading built-in telemetry reduction function definitions.");
       //InputStream defStream = getClass().getResourceAsStream("impl/reducer.definitions.xml");
       InputStream defStream = 
         TelemetryReducerManager.class.getResourceAsStream("impl/reducer.definitions.xml");
       JAXBContext jaxbContext = JAXBContext
       .newInstance(org.hackystat.telemetry.analyzer.reducer.jaxb.ObjectFactory.class);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-      this.definitions = (ReducerDefinitions) unmarshaller.unmarshal(defStream);
+      definitions = (ReducerDefinitions) unmarshaller.unmarshal(defStream);
     } 
     catch (Exception e) {
-      this.logger.severe("Could not find built-in telemetry reduction function definitions! " 
+      logger.severe("Could not find built-in telemetry reduction function definitions! " 
           + StackTrace.toString(e));
+      return;
     }
 
-    for (ReducerDefinition definition : this.definitions.getReducerDefinition()) {
+    for (ReducerDefinition definition : definitions.getReducerDefinition()) {
       String name = definition.getName();
       try {
-        this.logger.info("Defining built-in telemetry reduction function " + name);
+        logger.info("Defining built-in telemetry reduction function " + name);
         Class<?> clazz = Class.forName(definition.getClassName());
         TelemetryReducer reducer = (TelemetryReducer) clazz.newInstance();
         TelemetryReducerInfo reducerInfo =  new TelemetryReducerInfo(reducer, definition);
         this.reducerMap.put(name, reducerInfo);
       }
       catch (Exception classEx) {
-        this.logger.severe("Unable to define " 
+        logger.severe("Unable to define " 
             + definition.getClassName() + ". Entry ignored. " + classEx.getMessage());
         continue;
       }

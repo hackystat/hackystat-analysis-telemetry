@@ -23,7 +23,7 @@ public class TestCacheRestApi extends TelemetryTestHelper {
   /** The user for this test case. */
   private String user = "TestCache@hackystat.org";
   
-  /** The telemetry client */
+  /** The telemetry client. */
   private TelemetryClient telemetryClient;
   
   /**

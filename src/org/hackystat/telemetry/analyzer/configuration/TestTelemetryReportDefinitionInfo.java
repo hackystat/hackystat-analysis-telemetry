@@ -7,7 +7,7 @@ import org.hackystat.telemetry.analyzer.language.parser.TelemetryLanguageParser;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
- * Test suite for <code>TelemetryReportDefInfo</code>
+ * Test suite for <code>TelemetryReportDefInfo</code>.
  * 
  * @author (Cedric) Qin Zhang
  * @version $Id$

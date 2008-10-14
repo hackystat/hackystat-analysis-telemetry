@@ -5,7 +5,6 @@ package org.hackystat.telemetry.analyzer.language.ast;
  * <code>TelemetryReportDefinition</code>.
  * 
  * @author (Cedric) Qin Zhang
- * @version $Id$
  */
 public class ChartReference {
   
@@ -24,7 +23,7 @@ public class ChartReference {
    * 
    * @param name The name of telemetry chart being referenced.
    * @param parameters The parameters that need to be passed. 
-   *        Note that not all <code>Expression</cod> objects are valid. 
+   *        Note that not all <code>Expression</code> objects are valid. 
    *        Only <code>Variable</code> and <code>Constant</code> objects are legal.
    *        Null is valid if no parameter needs to be passed.
    */

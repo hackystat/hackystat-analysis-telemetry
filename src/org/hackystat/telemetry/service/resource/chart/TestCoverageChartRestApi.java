@@ -29,7 +29,7 @@ public class TestCoverageChartRestApi extends TelemetryTestHelper {
   /** The user for this test case. */
   private String user = "TestChart@hackystat.org";
   
-  /** The telemetry client */
+  /** The telemetry client. */
   private TelemetryClient telemetryClient;
   
   /** A counter so that each resource (file name) is unique in the sample data. */

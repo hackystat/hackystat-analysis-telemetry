@@ -9,7 +9,7 @@ import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.period.Day;
 
 /**
- * Test suite for <code>IdempotentFunction</code<>
+ * Test suite for <code>IdempotentFunction</code>.
  * 
  * @author (Cedric) Qin ZHANG
  */
@@ -18,7 +18,6 @@ public class TestIdempotentFunction extends TestCase {
   private TelemetryFunctionManager manager = TelemetryFunctionManager.getInstance();
   private String projectName = "TestIdempotentFunction";
   private Project project;
-  private Day startDay;
   private DayInterval interval;
 
   /**
@@ -31,8 +30,8 @@ public class TestIdempotentFunction extends TestCase {
     //this.project = ProjectManager.getInstance().createTestProjectClientSide(projectName);
     this.project = new Project();
     this.project.setName(projectName);   
-    this.startDay = Day.getInstance("01-Jan-2004"); 
-    this.interval = new DayInterval(this.startDay, this.startDay.inc(1));
+    Day startDay = Day.getInstance("01-Jan-2004"); 
+    this.interval = new DayInterval(startDay, startDay.inc(1));
   }
   
   /**

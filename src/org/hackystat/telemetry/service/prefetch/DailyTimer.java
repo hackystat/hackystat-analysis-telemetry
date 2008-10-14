@@ -13,12 +13,9 @@ import org.hackystat.utilities.tstamp.Tstamp;
  * @author    Philip M. Johnson
  */
 public class DailyTimer {
-  /** Timer object. */
-  private Timer timer = null;
   /** Milliseconds in a day. */
   private long millisecondsInADay = (1000 * 60 * 60 * 24);
   /** Task manager. */
-  private PrefetchTask prefetchTask;
   private Date triggerTime;
 
   /**
@@ -27,10 +24,9 @@ public class DailyTimer {
    * @param prefetchTask The PrefetchTask associated with this timer. 
    */
   public DailyTimer (int minutesPastMidnight, PrefetchTask prefetchTask) {
-    this.prefetchTask = prefetchTask;
-    this.timer = new Timer(true);
+    Timer timer = new Timer(true);
     this.triggerTime = this.getTomorrowTriggerTime(minutesPastMidnight); 
-    this.timer.schedule(this.prefetchTask, this.triggerTime, this.millisecondsInADay);
+    timer.schedule(prefetchTask, this.triggerTime, this.millisecondsInADay);
   }
 
   /**

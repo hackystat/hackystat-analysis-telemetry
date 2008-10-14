@@ -42,7 +42,7 @@ public class TelemetryClient {
   private String telemetryHost;
   /** The Restlet Client instance used to communicate with the server. */
   private Client client;
-  /** Chart JAXBContext */
+  /** Chart JAXBContext. */
   private JAXBContext chartJAXB;
   /** The http authentication approach. */
   private ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;

@@ -28,7 +28,7 @@ public class TestUnitTestChartRestApi extends TelemetryTestHelper {
   /** The user for this test case. */
   private String user = "TestChart@hackystat.org";
   
-  /** The telemetry client */
+  /** The telemetry client. */
   private TelemetryClient telemetryClient;
   
   /**

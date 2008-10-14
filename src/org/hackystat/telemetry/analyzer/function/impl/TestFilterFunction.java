@@ -10,7 +10,7 @@ import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.period.Day;
 
 /**
- * Test suite for <code>FilterFunction</code<>
+ * Test suite for <code>FilterFunction</code>.
  * 
  * @author (Cedric) Qin ZHANG
  */

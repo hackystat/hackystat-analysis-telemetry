@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.hackystat.sensorbase.resource.users.jaxb.User;
 
 /**
- * Test suite for <code>TelemetryDefInfoRepository</codee>.
+ * Test suite for <code>TelemetryDefInfoRepository</code>.
  * 
  * TODO: find and findAll method with "true" not tested!!!!
  * 

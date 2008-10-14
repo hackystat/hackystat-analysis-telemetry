@@ -12,7 +12,7 @@ import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.period.Day;
 
 /**
- * Test suite for <code>AddFunction</code<>
+ * Test suite for <code>AddFunction</code>.
  * 
  * @author (Cedric) Qin ZHANG
  */

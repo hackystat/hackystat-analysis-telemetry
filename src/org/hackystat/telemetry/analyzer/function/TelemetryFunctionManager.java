@@ -36,12 +36,6 @@ public class TelemetryFunctionManager {
   /** The global instance of this manager. */
   private static TelemetryFunctionManager theInstance = new TelemetryFunctionManager();
   
-  /** The logger. */
-  private Logger logger;
-  
-  /** The predefined function definitions. */
-  private FunctionDefinitions definitions;
-  
   /**
    * Gets the global instance.
    * 
@@ -55,34 +49,36 @@ public class TelemetryFunctionManager {
    * Defines "built-in" telemetry functions. 
    */
   private TelemetryFunctionManager() {
-    this.logger = HackystatLogger.getLogger("org.hackystat.telemetry");
+    Logger logger = HackystatLogger.getLogger("org.hackystat.telemetry");
+    FunctionDefinitions definitions = null;
     
     try {
-      this.logger.info("Loading built-in telemetry function definitions.");
+      logger.info("Loading built-in telemetry function definitions.");
       //InputStream defStream = getClass().getResourceAsStream("impl/function.definitions.xml");
       InputStream defStream = 
         TelemetryFunctionManager.class.getResourceAsStream("impl/function.definitions.xml");
       JAXBContext jaxbContext = JAXBContext
       .newInstance(org.hackystat.telemetry.analyzer.function.jaxb.ObjectFactory.class);
       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-      this.definitions = (FunctionDefinitions) unmarshaller.unmarshal(defStream);
+      definitions = (FunctionDefinitions) unmarshaller.unmarshal(defStream);
     } 
     catch (Exception e) {
-      this.logger.severe("Could not find built-in telemetry function definitions! " 
+      logger.severe("Could not find built-in telemetry function definitions! " 
           + StackTrace.toString(e));
+      return;
     }
 
-    for (FunctionDefinition definition : this.definitions.getFunctionDefinition()) {
+    for (FunctionDefinition definition : definitions.getFunctionDefinition()) {
       String name = definition.getName();
       try {
-        this.logger.info("Defining built-in telemetry function " + name);
+        logger.info("Defining built-in telemetry function " + name);
         Class<?> clazz = Class.forName(definition.getClassName());
         TelemetryFunction telemetryFunc = (TelemetryFunction) clazz.newInstance();
         TelemetryFunctionInfo funcInfo =  new TelemetryFunctionInfo(telemetryFunc, definition);
         this.functionMap.put(name.toLowerCase(), funcInfo);
       }
       catch (Exception classEx) {
-        this.logger.severe("Unable to define " 
+        logger.severe("Unable to define " 
             + definition.getClassName() + ". Entry ignored. " + classEx.getMessage());
         continue;
       }

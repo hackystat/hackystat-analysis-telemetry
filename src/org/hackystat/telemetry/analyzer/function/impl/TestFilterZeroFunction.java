@@ -11,7 +11,7 @@ import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.period.Day;
 
 /**
- * Test suite for <code>FilterZeroFunction</code<>
+ * Test suite for <code>FilterZeroFunction</code>.
  * 
  * @author (Cedric) Qin ZHANG
  */
