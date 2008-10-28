@@ -46,7 +46,7 @@ public class CouplingReducer implements TelemetryReducer {
     /** Efferent coupling (measure of independence). */
     EFFERENT, 
     /** Both Afferent and Efferent coupling.*/
-    ALL  };
+    ALL  }
  
   /** Possible mode values. */
   public enum Mode {
@@ -55,7 +55,7 @@ public class CouplingReducer implements TelemetryReducer {
     /** Average number of couplings.. */
     AVERAGE,
     /** Total number of instances with a coupling value above the threshold. */
-    TOTALINSTANCESABOVETHRESHOLD };
+    TOTALINSTANCESABOVETHRESHOLD }
   
   /**
    * Computes and returns the required telemetry streams object.

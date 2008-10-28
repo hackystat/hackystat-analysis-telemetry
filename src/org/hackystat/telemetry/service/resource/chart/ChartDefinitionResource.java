@@ -21,7 +21,6 @@ import org.restlet.Context;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
-import org.restlet.data.Status;
 import org.restlet.resource.Representation;
 import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
@@ -54,41 +53,47 @@ public class ChartDefinitionResource extends TelemetryResource {
    */
   @Override
   public Representation getRepresentation(Variant variant) {
-    if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-      TelemetryChartDefinition chartDef = new TelemetryChartDefinition();
-      for (TelemetryDefinition definition : this.getTelemetryDefinitions()) {
-        if ((definition.getDefinitionType().equalsIgnoreCase("Chart")) &&
-            (definition.getName().equals(this.chart))) {
-          chartDef.setDescription(definition.getDescription());
-          chartDef.setName(definition.getName());
-          chartDef.setSourceCode(definition.getSourceCode());
-          for (Parameter param : definition.getParameter()) {
-            ParameterDefinition chartParam = new ParameterDefinition();
-            chartParam.setName(param.getName());
-            chartParam.setDescription(param.getDescription());
-            Type type = new Type();
-            type.setDefault(param.getType().getDefault());
-            type.setName(param.getType().getName());
-            if (param.getType().getMinValue() != null) { //NOPMD
-              type.setMinValue(param.getType().getMinValue());
+    try {
+      if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+        TelemetryChartDefinition chartDef = new TelemetryChartDefinition();
+        for (TelemetryDefinition definition : this.getTelemetryDefinitions()) {
+          if ((definition.getDefinitionType().equalsIgnoreCase("Chart"))
+              && (definition.getName().equals(this.chart))) {
+            chartDef.setDescription(definition.getDescription());
+            chartDef.setName(definition.getName());
+            chartDef.setSourceCode(definition.getSourceCode());
+            for (Parameter param : definition.getParameter()) {
+              ParameterDefinition chartParam = new ParameterDefinition();
+              chartParam.setName(param.getName());
+              chartParam.setDescription(param.getDescription());
+              Type type = new Type();
+              type.setDefault(param.getType().getDefault());
+              type.setName(param.getType().getName());
+              if (param.getType().getMinValue() != null) { // NOPMD
+                type.setMinValue(param.getType().getMinValue());
+              }
+              if (param.getType().getMaxValue() != null) { // NOPMD
+                type.setMaxValue(param.getType().getMaxValue());
+              }
+              for (String value : param.getType().getValue()) {
+                type.getValue().add(value);
+              }
+              chartParam.setType(type);
+              chartDef.getParameterDefinition().add(chartParam);
             }
-            if (param.getType().getMaxValue() != null) { //NOPMD
-              type.setMaxValue(param.getType().getMaxValue());
-            }
-            for (String value : param.getType().getValue()) {
-              type.getValue().add(value);
-            }
-            chartParam.setType(type);
-            chartDef.getParameterDefinition().add(chartParam);
+            // Made the definition, so return now.
+            return super.getStringRepresentation(makeChartDefinitionXml(chartDef));
           }
-          // Made the definition, so return now. 
-          return super.getStringRepresentation(makeChartDefinitionXml(chartDef));
         }
+        // got past the for loop without finding the chart and returning
+        setStatusError("Could not find chart definition " + this.chart);
+        return null;
       }
     }
-    // Couldn't find a definition, so return an error. 
-    String msg = "No chart found with name = " + this.chart;
-    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+    catch (Exception e) {
+      setStatusError("Error getting chart definition.", e);
+      return null;
+    }
     return null;
   }
 

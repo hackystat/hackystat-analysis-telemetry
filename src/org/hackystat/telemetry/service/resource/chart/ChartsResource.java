@@ -51,19 +51,25 @@ public class ChartsResource extends TelemetryResource {
    */
   @Override
   public Representation getRepresentation(Variant variant) {
-    if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
-      TelemetryChartIndex index = new TelemetryChartIndex();
-      for (TelemetryDefinition definition : this.getTelemetryDefinitions()) {
-        if (definition.getDefinitionType().equalsIgnoreCase("Chart")) {
-          TelemetryChartRef ref = new TelemetryChartRef();
-          ref.setName(definition.getName());
-          ref.setHref(this.telemetryServer.getHostName() + "chart/" + definition.getName());
-          index.getTelemetryChartRef().add(ref);
+    try {
+      if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
+        TelemetryChartIndex index = new TelemetryChartIndex();
+        for (TelemetryDefinition definition : this.getTelemetryDefinitions()) {
+          if (definition.getDefinitionType().equalsIgnoreCase("Chart")) {
+            TelemetryChartRef ref = new TelemetryChartRef();
+            ref.setName(definition.getName());
+            ref.setHref(this.telemetryServer.getHostName() + "chart/" + definition.getName());
+            index.getTelemetryChartRef().add(ref);
+          }
         }
+        return super.getStringRepresentation(makeChartIndexXml(index));
       }
-      return super.getStringRepresentation(makeChartIndexXml(index));
     }
-    // Shouldn't ever get here. 
+    catch (Exception e) {
+      setStatusError("Error getting chart definitions", e);
+      return null;
+    }
+    // Shouldn't ever get here.
     return null;
   }
 

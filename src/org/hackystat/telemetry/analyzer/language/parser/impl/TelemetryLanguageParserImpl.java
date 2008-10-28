@@ -65,7 +65,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       break;
     default:
       jj_la1[1] = jj_gen;
-      ;
+      
     }
     number = non_negative_number_constant();
      if (negative) {
@@ -157,7 +157,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       case REPORT:
       case DRAW:
       case YAXIS:
-        ;
+        
         break;
       default:
         jj_la1[4] = jj_gen;
@@ -294,12 +294,12 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
         break;
       default:
         jj_la1[6] = jj_gen;
-        ;
+        
       }
       break;
     default:
       jj_la1[7] = jj_gen;
-      ;
+      
     }
     jj_consume_token(27);
     endToken = jj_consume_token(SEMICOLON);
@@ -364,7 +364,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
+        
         break;
       default:
         jj_la1[8] = jj_gen;
@@ -459,7 +459,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
+        
         break;
       default:
         jj_la1[9] = jj_gen;
@@ -522,7 +522,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case ADD:
       case SUB:
-        ;
+        
         break;
       default:
         jj_la1[10] = jj_gen;
@@ -557,7 +557,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MUL:
       case DIV:
-        ;
+        
         break;
       default:
         jj_la1[12] = jj_gen;
@@ -655,7 +655,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
+          
           break;
         default:
           jj_la1[15] = jj_gen;
@@ -668,7 +668,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       break;
     default:
       jj_la1[16] = jj_gen;
-      ;
+      
     }
     int size = list.size();
     Expression[] exps = new Expression[size];
@@ -726,7 +726,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
+          
           break;
         default:
           jj_la1[18] = jj_gen;
@@ -739,7 +739,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       break;
     default:
       jj_la1[19] = jj_gen;
-      ;
+      
     }
     int size = list.size();
     Variable[] exps = new Variable[size];
@@ -780,7 +780,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
+          
           break;
         default:
           jj_la1[21] = jj_gen;
@@ -808,7 +808,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       break;
     default:
       jj_la1[23] = jj_gen;
-      ;
+      
     }
     int size = list.size();
     Constant[] exps = new Constant[size];
@@ -854,7 +854,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case COMMA:
-          ;
+          
           break;
         default:
           jj_la1[25] = jj_gen;
@@ -886,7 +886,7 @@ import org.hackystat.telemetry.analyzer.language.ast.TelemetryChartDefinition.Su
       break;
     default:
       jj_la1[27] = jj_gen;
-      ;
+      
     }
     int size = list.size();
     Expression[] exps = new Expression[size];

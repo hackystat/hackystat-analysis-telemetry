@@ -39,7 +39,6 @@ import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
 import org.hackystat.telemetry.service.resource.chart.jaxb.YAxis;
 import org.hackystat.telemetry.service.resource.telemetry.TelemetryResource;
-import org.hackystat.utilities.stacktrace.StackTrace;
 import org.hackystat.utilities.time.interval.DayInterval;
 import org.hackystat.utilities.time.interval.Interval;
 import org.hackystat.utilities.time.interval.MonthInterval;
@@ -49,7 +48,6 @@ import org.restlet.Context;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
-import org.restlet.data.Status;
 import org.restlet.resource.Representation;
 import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
@@ -98,8 +96,7 @@ public class ChartDataResource extends TelemetryResource {
           sensorBaseClient.authenticate();
         }
         catch (Exception e) {
-          String msg = "Cannot authenticate this user with the DPD or SensorBase server: ";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg + e.getMessage());
+          setStatusError("Cannot authenticate this user", e);
           return null;
         }
         
@@ -109,19 +106,18 @@ public class ChartDataResource extends TelemetryResource {
           user = sensorBaseClient.getUser(this.uriUser);
         }
         catch (Exception e) {
-          String msg = "Cannot retrieve user: " + this.uriUser + ": ";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg + e.getMessage());
+          setStatusError("Undefined user: " + this.uriUser, e);
           return null;
         }
         
         // [3] get the Project representation; return with error if not defined.
         Project project;
         try {
-          project = sensorBaseClient.getProject(this.uriUser, this.project);
+          project = sensorBaseClient.getProject(this.uriUser, this.projectName);
         }
         catch (Exception e) {
-          String msg = "Cannot retrieve user/project: " + this.uriUser + "/" + this.project + ": ";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg + e.getMessage());
+          setStatusError(String.format("Undefined project %s for owner %s", 
+              this.projectName, uriUser), e);
           return null;
         }
         
@@ -135,8 +131,7 @@ public class ChartDataResource extends TelemetryResource {
           chartDef = chartDefInfo.getChartDefinitionObject();
         }
         catch (Exception e) {
-          String msg = "Chart " + this.chart + " is not defined: ";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg + e.getMessage());
+          setStatusError("Undefined chart " + this.chart, e);
           return null;
         }
         
@@ -145,33 +140,31 @@ public class ChartDataResource extends TelemetryResource {
           this.startDay = Tstamp.makeTimestamp(this.start);
         }
         catch (Exception e) {
-          String msg = "Start day " + this.start + " cannot be parsed.";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError("Bad start day: " + this.start, e);
           return null;
         }
         try {
           this.endDay = Tstamp.makeTimestamp(this.end);
         }
         catch (Exception e) {
-          String msg = "End day " + this.end + " cannot be parsed.";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError("Bad end day: " + this.end, e);
           return null;
         }
         
         // [5.5] Make sure start and end days are OK w.r.t. project times.
         if (!ProjectUtils.isValidStartTime(project, this.startDay)) {
           String msg = this.startDay + " is before Project start day: " + project.getStartTime();
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError(msg);
           return null;
         }
         if (!ProjectUtils.isValidEndTime(project, this.endDay)) {
           String msg = this.endDay + " is after Project end day: " + project.getEndTime();
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError(msg);
           return null;
         }
         if (Tstamp.lessThan(this.endDay, this.startDay)) {
           String msg = this.startDay + " must be greater than: " + this.endDay;
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError(msg);
           return null;
         }
         
@@ -179,7 +172,7 @@ public class ChartDataResource extends TelemetryResource {
         XMLGregorianCalendar tomorrow = Tstamp.incrementDays(Tstamp.makeTimestamp(), 1);
         if (Tstamp.greaterThan(this.endDay, tomorrow)) {
           String msg = this.endDay + " cannot be in the future. Change to today at the latest.";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError(msg);
           return null;
         }
         
@@ -197,13 +190,13 @@ public class ChartDataResource extends TelemetryResource {
           }
           else {
             String msg = this.granularity + " must be either 'day', 'week', or 'month'";
-            getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+            setStatusError(msg);
             return null;
           }
         }
         catch (Exception e) {
-          String msg = this.start + " and " + this.end + " are illegal. Maybe out of order? : ";
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg + StackTrace.toString(e));
+          String msg = this.start + " and " + this.end + " are illegal. Maybe out of order?";
+          setStatusError(msg, e);
           return null;
         }
         
@@ -214,7 +207,7 @@ public class ChartDataResource extends TelemetryResource {
         Variable[] variables = chartDef.getVariables();
         if (varValues.length != variables.length) {
           String msg = "Chart needs " + variables.length + " variables; got: " + varValues.length;
-          getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, msg);
+          setStatusError(msg);
           return null;
         }
         // Bind variables to values. 
@@ -245,8 +238,7 @@ public class ChartDataResource extends TelemetryResource {
         return this.getStringRepresentation(makeChartXml(chart));
       }
       catch (Exception e) {
-        logRequest();
-        this.telemetryServer.getLogger().warning("Chart process error: " + StackTrace.toString(e));
+        setStatusError("Error processing chart", e);
         return null;
       }
     }
@@ -265,7 +257,7 @@ public class ChartDataResource extends TelemetryResource {
     // distinguish them from their Telemetry Analyzer counterparts.  
     TelemetryChartData chartResource = new TelemetryChartData();
     chartResource.setURI(this.telemetryServer.getHostName() + "chart/" + this.chart +
-        "/" + this.uriUser + "/" + this.project + "/" + this.granularity + "/" +
+        "/" + this.uriUser + "/" + this.projectName + "/" + this.granularity + "/" +
         this.start + "/" + this.end + "/");
     //Not dealing with <Parameter> yet.
     // for each Analyzer subchart...

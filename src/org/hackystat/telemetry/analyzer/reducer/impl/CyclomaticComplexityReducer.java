@@ -48,7 +48,7 @@ public class CyclomaticComplexityReducer implements TelemetryReducer {
     /** Average complexity per method. */
     AVERAGECOMPLEXITYPERMETHOD,
     /** Total methods above complexity threshold. */
-    TOTALMETHODSABOVECOMPLEXITYTHRESHOLD };
+    TOTALMETHODSABOVECOMPLEXITYTHRESHOLD }
   
   /**
    * Computes and returns the required telemetry streams object.

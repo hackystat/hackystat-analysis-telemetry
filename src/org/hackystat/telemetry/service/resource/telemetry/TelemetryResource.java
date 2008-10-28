@@ -17,6 +17,7 @@ import org.restlet.data.Language;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.data.Status;
 import org.restlet.resource.Representation;
 import org.restlet.resource.Resource;
 import org.restlet.resource.StringRepresentation;
@@ -47,7 +48,7 @@ public abstract class TelemetryResource extends Resource {
   protected String uriUser = null; 
 
   /** To be retrieved from the URL as the 'project' template parameter, or null. */
-  protected String project = null; 
+  protected String projectName = null; 
 
   /** To be retrieved from the URL as the 'chart' template parameter, or null. */
   protected String chart = null; 
@@ -99,7 +100,7 @@ public abstract class TelemetryResource extends Resource {
     this.sensorBaseHost = properties.get(SENSORBASE_FULLHOST_KEY);
     this.chart = (String) request.getAttributes().get("chart");
     this.uriUser = (String) request.getAttributes().get("email");
-    this.project = (String) request.getAttributes().get("project");
+    this.projectName = (String) request.getAttributes().get("project");
     this.granularity = (String) request.getAttributes().get("granularity");
     this.start = (String) request.getAttributes().get("start");
     this.end = (String) request.getAttributes().get("end");
@@ -167,8 +168,36 @@ public abstract class TelemetryResource extends Resource {
    */
   protected void logRequest() {
     long elapsed = new Date().getTime() - requestStartTime;
-    String msg = elapsed + " ms: " + this.chart + " " + uriUser + " " + this.project;
+    String msg = elapsed + " ms: " + this.chart + " " + uriUser + " " + this.projectName;
     telemetryServer.getLogger().info(msg);
+  }
+  
+  /**
+   * Called when an error resulting from an exception is caught during processing. 
+   * @param msg A description of the error.
+   * @param e A chained exception.
+   */
+  protected void setStatusError (String msg, Exception e) {
+    String responseMsg = String.format("%s:%n  Request: %s %s%n  Caused by: %s", 
+        msg,  
+        this.getRequest().getMethod().getName(),
+        this.getRequest().getResourceRef().toString(),
+        e.getMessage());
+    this.getLogger().info(responseMsg);
+    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, responseMsg);
+  }
+  
+  /**
+   * Called when an error occurs during processing. 
+   * @param msg A description of the error.
+   */
+  protected void setStatusError (String msg) {
+    String responseMsg = String.format("%s:%n  Request: %s %s", 
+        msg,  
+        this.getRequest().getMethod().getName(),
+        this.getRequest().getResourceRef().toString());
+    this.getLogger().info(responseMsg);
+    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, responseMsg);
   }
 
 }

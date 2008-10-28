@@ -33,7 +33,7 @@ import org.hackystat.utilities.tstamp.Tstamp;
 public class UnitTestReducer implements TelemetryReducer { 
  
   /** Possible mode values. */
-  public enum Mode { TOTALCOUNT, SUCCESSCOUNT, FAILURECOUNT };
+  public enum Mode { TOTALCOUNT, SUCCESSCOUNT, FAILURECOUNT }
   
   /**
    * Computes and returns the required telemetry streams object.

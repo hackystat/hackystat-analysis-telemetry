@@ -131,7 +131,6 @@ public class TelemetryStream {
      *         has later time stamp than data point 2, negative value indicates
      *         data point 1 has earlier time stamp than data point 2.
      */
-    @SuppressWarnings("unchecked")
     public int compare(TelemetryDataPoint o1, TelemetryDataPoint o2) {
       TimePeriod t1 = o1.getPeriod();
       TimePeriod t2 = o2.getPeriod();

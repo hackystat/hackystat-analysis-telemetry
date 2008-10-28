@@ -45,15 +45,21 @@ public class PingResource extends TelemetryResource {
    */
   @Override
   public Representation getRepresentation(Variant variant) {
-    String unauthenticated = "Telemetry";
-    String authenticated = "Telemetry authenticated";
-    // Don't try to authenticate unless the user has passed both a user and password. 
-    if ((user == null) || (password == null)) {
-      return new StringRepresentation(unauthenticated);
+    try {
+      String unauthenticated = "Telemetry";
+      String authenticated = "Telemetry authenticated";
+      // Don't try to authenticate unless the user has passed both a user and password. 
+      if ((user == null) || (password == null)) {
+        return new StringRepresentation(unauthenticated);
+      }
+      // There is a user and password. So, check the SensorBase to see if they're OK. 
+      String sensorBaseHost = telemetryServer.getServerProperties().get(SENSORBASE_FULLHOST_KEY);
+      boolean OK = SensorBaseClient.isRegistered(sensorBaseHost, user, password);
+      return new StringRepresentation((OK ? authenticated : unauthenticated));
     }
-    // There is a user and password. So, check the SensorBase to see if they're OK. 
-    String sensorBaseHost = telemetryServer.getServerProperties().get(SENSORBASE_FULLHOST_KEY);
-    boolean OK = SensorBaseClient.isRegistered(sensorBaseHost, user, password);
-    return new StringRepresentation((OK ? authenticated : unauthenticated));
+    catch (Exception e) {
+      setStatusError("Error during ping", e);
+      return null;
+    }
   }
 }

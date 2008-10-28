@@ -33,7 +33,7 @@ import org.hackystat.utilities.tstamp.Tstamp;
 public class CoverageReducer implements TelemetryReducer { 
  
   /** Possible mode values. */
-  public enum Mode { PERCENTAGE, NUMCOVERED, NUMUNCOVERED };
+  public enum Mode { PERCENTAGE, NUMCOVERED, NUMUNCOVERED }
   
   /**
    * Computes and returns the required telemetry streams object.
