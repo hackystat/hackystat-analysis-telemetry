@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 
 /**
  * Provides access to the values stored in the telemetry.properties file, and provides default
@@ -167,26 +168,26 @@ public class ServerProperties {
   }
 
   /**
-   * Returns all of the Telemetry settings to the logger.
-   * 
-   * @return The string indicating the properties.
+   * Returns a string containing all current properties in alphabetical order.
+   * @return A string with the properties.  
    */
   public String echoProperties() {
-    String cr = System.getProperty("line.separator");
+    String cr = System.getProperty("line.separator"); 
     String eq = " = ";
     String pad = "                ";
-    return "Telemetry Properties:" + cr + 
-    pad + SENSORBASE_FULLHOST_KEY + eq + get(SENSORBASE_FULLHOST_KEY) + cr + 
-    pad + DAILYPROJECTDATA_FULLHOST_KEY + eq + get(DAILYPROJECTDATA_FULLHOST_KEY) + cr +
-    pad + HOSTNAME_KEY + eq + get(HOSTNAME_KEY) + cr + 
-    pad + CONTEXT_ROOT_KEY + eq + get(CONTEXT_ROOT_KEY) + cr + 
-    pad + LOGGING_LEVEL_KEY + eq + get(LOGGING_LEVEL_KEY) + cr + 
-    pad + DEF_DIR_KEY + eq + get(DEF_DIR_KEY) + cr + 
-    pad + PORT_KEY + eq + get(PORT_KEY) + cr + 
-    pad + TEST_INSTALL_KEY + eq + get(TEST_INSTALL_KEY) + cr + 
-    pad + CACHE_ENABLED + eq + get(CACHE_ENABLED) + cr +
-    pad + CACHE_MAX_LIFE + eq + get(CACHE_MAX_LIFE) + cr +
-    pad + CACHE_CAPACITY + eq + get(CACHE_CAPACITY);
+    // Adding them to a treemap has the effect of alphabetizing them. 
+    TreeMap<String, String> alphaProps = new TreeMap<String, String>();
+    for (Map.Entry<Object, Object> entry : this.properties.entrySet()) {
+      String propName = (String)entry.getKey();
+      String propValue = (String)entry.getValue();
+      alphaProps.put(propName, propValue);
+    }
+    StringBuffer buff = new StringBuffer(25);
+    buff.append("Telemetry Properties:").append(cr);
+    for (String key : alphaProps.keySet()) {
+      buff.append(pad).append(key).append(eq).append(get(key)).append(cr);
+    }
+    return buff.toString();
   }
 
   /**
@@ -227,7 +228,7 @@ public class ServerProperties {
    * @return True if caching enabled.
    */
   public boolean isCacheEnabled() {
-    return Boolean.valueOf(this.properties.getProperty(CACHE_ENABLED));
+    return "True".equalsIgnoreCase(this.properties.getProperty(CACHE_ENABLED));
   }
   
   /**
