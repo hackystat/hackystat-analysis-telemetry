@@ -173,6 +173,16 @@ public abstract class TelemetryResource extends Resource {
   }
   
   /**
+   * Generates a log message indicating the command. 
+   * @param command The command (typically cache).
+   */
+  protected void logRequest(String command) {
+    long elapsed = new Date().getTime() - requestStartTime;
+    String msg = elapsed + " ms: " + command;
+    telemetryServer.getLogger().info(msg);
+  }
+  
+  /**
    * Called when an error resulting from an exception is caught during processing. 
    * @param msg A description of the error.
    * @param e A chained exception.
@@ -199,5 +209,20 @@ public abstract class TelemetryResource extends Resource {
     this.getLogger().info(responseMsg);
     getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, responseMsg);
   }
+  
+  /**
+   * Called when an internal error occurs during processing. 
+   * @param msg A description of the error.
+   */
+  protected void setStatusInternalError (String msg) {
+    String responseMsg = String.format("%s:%n  Request: %s %s", 
+        msg,  
+        this.getRequest().getMethod().getName(),
+        this.getRequest().getResourceRef().toString());
+    this.getLogger().info(responseMsg);
+    getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, responseMsg);
+  }
+  
+  
 
 }

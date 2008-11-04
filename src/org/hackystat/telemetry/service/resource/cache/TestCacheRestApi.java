@@ -1,7 +1,5 @@
 package org.hackystat.telemetry.service.resource.cache;
 
-import static org.junit.Assert.assertNotNull;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.sensorbase.resource.sensordata.jaxb.Properties;
@@ -56,19 +54,18 @@ public class TestCacheRestApi extends TelemetryTestHelper {
    * Tests the cache api.
    * @throws Exception If problems occur. 
    */
-  @Test public void testBuildChartDefault() throws Exception {
+  @Test public void testBuildChartDefault() throws Exception {  //NOPMD no assertions here.
     // Make a chart.
     String chartName = "Build";
+    String project = "Default";
     //String params = "FailureCount,*,false"; // make sure no embedded spaces, or else escape them.
     String params = "*,*,Integration,false";
-    telemetryClient.getChart(chartName, user, "Default", "Day", 
+    telemetryClient.getChart(chartName, user, project, "Day", 
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     
     // Note that caching is not enabled, so these tests are simply making sure the protocol is OK.
-    assertNotNull("testing keys", telemetryClient.getCacheKeys("build"));
     telemetryClient.clearCache();
-    telemetryClient.clearCache("build");
-    telemetryClient.clearCache("build", "2007-08-04");
+    telemetryClient.clearCache(project);
   }
   
   

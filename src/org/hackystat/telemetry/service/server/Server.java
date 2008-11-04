@@ -160,8 +160,7 @@ public class Server extends Application {
     authRouter.attach("/chart/{chart}/{email}/{project}/{granularity}/{start}/{end}?params={params}"
         , ChartDataResource.class);
     authRouter.attach("/cache/{email}", CacheResource.class);
-    authRouter.attach("/cache/{email}/{dpdType}", CacheResource.class);
-    authRouter.attach("/cache/{email}/{dpdType}/{tstamp}", CacheResource.class);
+    authRouter.attach("/cache/{email}/{project}", CacheResource.class);
     // Here's the Guard that we will place in front of authRouter.
     Guard guard = new Authenticator(getContext(), 
         this.getServerProperties().get(SENSORBASE_FULLHOST_KEY),

@@ -14,7 +14,6 @@ import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryPoint;
 import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream;
 import org.hackystat.utilities.logger.HackystatLogger;
-import org.hackystat.utilities.stacktrace.StackTrace;
 import org.restlet.Client;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
@@ -322,14 +321,14 @@ public class TelemetryClient {
   }
   
   /**
-   * Clears the DailyProjectData cache associated with this user in the Telemetry service 
-   * associated with this TelemetryClient.
-   * @param dpdType The DPD type ("build", "commit", etc.) 
+   * Clears the DailyProjectData cache associated with this user and project in the Telemetry 
+   * service associated with this TelemetryClient.
+   * @param project The project to be cleared. 
    * @throws TelemetryClientException If problems occur. 
    */
-  public synchronized void clearCache(String dpdType) throws TelemetryClientException {
+  public synchronized void clearCache(String project) throws TelemetryClientException {
     long startTime = (new Date()).getTime();
-    String uri = cache + this.userEmail + "/" + dpdType;
+    String uri = cache + this.userEmail + "/" + project;
     Response response = makeRequest(Method.DELETE,  uri, null);
     if (!response.getStatus().isSuccess()) {
       String msg = response.getStatus().getDescription() + space + uri;
@@ -337,52 +336,6 @@ public class TelemetryClient {
       throw new TelemetryClientException(response.getStatus());
     }
   }
-  
-  /**
-   * Clears the DailyProjectData cache associated with this user in the Telemetry service 
-   * associated with this TelemetryClient.
-   * @param dpdType The DPD type ("build", "commit", etc.) 
-   * @param tstamp The timestamp for the individual dpd instance to be deleted. 
-   * @throws TelemetryClientException If problems occur. 
-   */
-  public synchronized void clearCache(String dpdType, String tstamp) 
-  throws TelemetryClientException {
-    long startTime = (new Date()).getTime();
-    String uri = cache + this.userEmail + "/" + dpdType + "/" + tstamp;
-    Response response = makeRequest(Method.DELETE,  uri, null);
-    if (!response.getStatus().isSuccess()) {
-      String msg = response.getStatus().getDescription() + space + uri;
-      logElapsedTime(msg, startTime);
-      throw new TelemetryClientException(response.getStatus());
-    }
-  }
-  
-  /**
-   * Clears the DailyProjectData cache associated with this user in the Telemetry service 
-   * associated with this TelemetryClient.
-   * @param dpdType The DPD type ("build", "commit", etc.)
-   * @return A string containing the cache keys for this DPD type. 
-   * @throws TelemetryClientException If problems occur. 
-   */
-  public synchronized String getCacheKeys(String dpdType) throws TelemetryClientException {
-    long startTime = (new Date()).getTime();
-    String uri = cache + this.userEmail + "/" + dpdType;
-    Response response = makeRequest(Method.GET,  uri, null);
-    if (!response.getStatus().isSuccess()) {
-      String msg = response.getStatus().getDescription() + space + uri;
-      logElapsedTime(msg, startTime);
-      throw new TelemetryClientException(response.getStatus());
-    }
-    try {
-      return response.getEntity().getText();
-    }
-    catch (Exception e) {
-      throw new TelemetryClientException("Bad return value. " + StackTrace.toString(e));
-    }
-  }
-  
- 
-  
   
   /**
    * Returns a TelemetryChartIndex instance from this server, or throws a
