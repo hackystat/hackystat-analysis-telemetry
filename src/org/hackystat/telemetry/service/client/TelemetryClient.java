@@ -309,9 +309,9 @@ public class TelemetryClient {
    * associated with this TelemetryClient.
    * @throws TelemetryClientException If problems occur. 
    */
-  public synchronized void clearCache() throws TelemetryClientException {
+  public synchronized void clearServerCache() throws TelemetryClientException {
     long startTime = (new Date()).getTime();
-    String uri = cache + this.userEmail;
+    String uri = cache;
     Response response = makeRequest(Method.DELETE,  uri, null);
     if (!response.getStatus().isSuccess()) {
       String msg = response.getStatus().getDescription() + space + uri;
@@ -321,14 +321,16 @@ public class TelemetryClient {
   }
   
   /**
-   * Clears the DailyProjectData cache associated with this user and project in the Telemetry 
-   * service associated with this TelemetryClient.
+   * Clears the DailyProjectData cache entries for this user that are associated with the passed 
+   * project and its owner in the Telemetry service associated with this TelemetryClient.
    * @param project The project to be cleared. 
+   * @param owner The owner of the project. 
    * @throws TelemetryClientException If problems occur. 
    */
-  public synchronized void clearCache(String project) throws TelemetryClientException {
+  public synchronized void clearServerCache(String owner, String project) 
+  throws TelemetryClientException {
     long startTime = (new Date()).getTime();
-    String uri = cache + this.userEmail + "/" + project;
+    String uri = cache + owner + "/" + project;
     Response response = makeRequest(Method.DELETE,  uri, null);
     if (!response.getStatus().isSuccess()) {
       String msg = response.getStatus().getDescription() + space + uri;

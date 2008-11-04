@@ -64,8 +64,8 @@ public class TestCacheRestApi extends TelemetryTestHelper {
           Tstamp.makeTimestamp("2007-08-01"), Tstamp.makeTimestamp("2007-08-04"), params);
     
     // Note that caching is not enabled, so these tests are simply making sure the protocol is OK.
-    telemetryClient.clearCache();
-    telemetryClient.clearCache(project);
+    telemetryClient.clearServerCache();
+    telemetryClient.clearServerCache(user, project);
   }
   
   

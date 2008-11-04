@@ -71,7 +71,7 @@ public class CacheResource extends TelemetryResource {
   /**
    * Responds to DELETE requests for clearing the cache. Includes:
    * <ul>
-   * <li> DELETE {host}/cache/{user}
+   * <li> DELETE {host}/cache/
    * <li> DELETE {host}/cache/{user}/{project}
    * </ul>
    * Returns 200 if cache delete command succeeded. 
@@ -81,30 +81,25 @@ public class CacheResource extends TelemetryResource {
   @Override
   public void delete() {
     try {
-      // [1] Make sure the authorized user is the same as the uriUser
-      if (!this.authUser.equals(this.uriUser)) {
-        String msg = String.format("Authenticated user (%s) isn't UriUser (%s)", authUser, uriUser);
-        setStatusError(msg);
-        return;
-      }
-      // [2] Now get the associated dpdClient. Return immediately if we can't find one.
+      // [1] Get the associated dpdClient. Return immediately if we can't find one.
       Map<String, DailyProjectDataClient> dpdMap =
         (Map<String, DailyProjectDataClient>)this.telemetryServer.getContext().getAttributes()
         .get(AUTHENTICATOR_DPD_CLIENTS_KEY);
-      DailyProjectDataClient client = dpdMap.get(this.uriUser);
+      DailyProjectDataClient client = dpdMap.get(this.authUser);
       if (client == null) {
-        setStatusError("No instantiated DPD client for " + this.uriUser);
+        setStatusError("Error: DPD client not available for " + this.authUser);
         return;
       }
-      
-      // Otherwise we have the DPDClient for this user, so clear the cache.
+      // Now clear the local DPD cache. 
       if (projectName == null) {
-        client.clearCache();
+        client.clearLocalCache();
+        logRequest(String.format("Deleted all DPD cache entries for user %s", authUser));
       }
       else {
-        client.clearCache(this.projectName);
+        client.clearLocalCache(this.uriUser, this.projectName);
+        logRequest(String.format("Deleted some cache DPDs (project %s owned by %s) for %s", 
+            projectName, this.uriUser, this.authUser));
       }
-      logRequest(String.format("Cache delete of user %s and project %s", uriUser, projectName));
     }
     catch (Exception e) {
       setStatusError("Error during cache delete", e);
