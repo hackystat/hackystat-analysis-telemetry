@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hackystat.dailyprojectdata.client.DailyProjectDataClient;
 import org.hackystat.sensorbase.resource.projects.jaxb.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.Property;
 import org.hackystat.telemetry.analyzer.model.TelemetryStreamCollection;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducer;
 import org.hackystat.telemetry.analyzer.reducer.TelemetryReducerException;
@@ -77,6 +78,12 @@ public class MemberBuildReducer implements TelemetryReducer {
       List<String> emails = new ArrayList<String>(); 
       emails.addAll(project.getMembers().getMember());
       emails.add(project.getOwner());
+      // Now remove any email that has been specified as an agent.
+      for (Property property : project.getProperties().getProperty()) {
+        if (property.getKey().equals("agent")) {
+          emails.remove(property.getValue());
+        }
+      }
       for (String email : emails) {
         streams.add(genericBuildReducer.getStream(dpdClient, project, interval, email, result, 
             type, isCumulative, email));
