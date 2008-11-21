@@ -71,7 +71,7 @@ public class MemberBuildReducer implements TelemetryReducer {
       throw new TelemetryReducerException("Null DPD host in MemberBuildReducer");
     }
 
-    // now compute the single telemetry stream. 
+    // now compute the set of telemetry streams. 
     try {
       TelemetryStreamCollection streams = new TelemetryStreamCollection(null, project, interval);
       // Make a list of emails containing all members plus the owner. 
@@ -84,6 +84,7 @@ public class MemberBuildReducer implements TelemetryReducer {
           emails.remove(property.getValue());
         }
       }
+      // Now build streams for the remaining emails. 
       for (String email : emails) {
         streams.add(genericBuildReducer.getStream(dpdClient, project, interval, email, result, 
             type, isCumulative, email));
