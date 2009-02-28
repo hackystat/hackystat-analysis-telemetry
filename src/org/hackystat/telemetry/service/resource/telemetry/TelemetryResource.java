@@ -183,6 +183,16 @@ public abstract class TelemetryResource extends Resource {
   }
   
   /**
+   * Helper function that removes any newline characters from the supplied string and 
+   * replaces them with a blank line. 
+   * @param msg The msg whose newlines are to be removed. 
+   * @return The string without newlines. 
+   */
+  private String removeNewLines(String msg) {
+    return msg.replace(System.getProperty("line.separator"), " ");
+  }
+  
+  /**
    * Called when an error resulting from an exception is caught during processing. 
    * @param msg A description of the error.
    * @param e A chained exception.
@@ -194,7 +204,7 @@ public abstract class TelemetryResource extends Resource {
         this.getRequest().getResourceRef().toString(),
         e.getMessage());
     this.getLogger().info(responseMsg);
-    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, responseMsg);
+    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(responseMsg));
   }
   
   /**
@@ -207,7 +217,7 @@ public abstract class TelemetryResource extends Resource {
         this.getRequest().getMethod().getName(),
         this.getRequest().getResourceRef().toString());
     this.getLogger().info(responseMsg);
-    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, responseMsg);
+    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(responseMsg));
   }
   
   /**
@@ -220,7 +230,7 @@ public abstract class TelemetryResource extends Resource {
         this.getRequest().getMethod().getName(),
         this.getRequest().getResourceRef().toString());
     this.getLogger().info(responseMsg);
-    getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, responseMsg);
+    getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(responseMsg));
   }
   
   
