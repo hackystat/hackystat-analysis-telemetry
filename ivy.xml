@@ -1,0 +1,12 @@
+<ivy-module version="2.0">
+  <info organisation="org.hackystat" module="hackystat-analysis-telemetry"/>
+  <publications>
+    <artifact name="telemetry" />
+    <artifact name="telemetry.lib" />
+  </publications>
+  <dependencies>
+    <dependency org="org.junit" name="junit" rev="${junit.version}" />
+    <dependency org="org.hackystat" name="hackystat-sensorbase-uh" rev="latest.integration" />
+    <dependency org="org.hackystat" name="hackystat-analysis-dailyprojectdata" rev="latest.integration" />
+  </dependencies>
+</ivy-module>

@@ -44,7 +44,7 @@ public class PingResource extends TelemetryResource {
    * @return The representation as a string.  
    */
   @Override
-  public Representation getRepresentation(Variant variant) {
+  public Representation represent(Variant variant) {
     try {
       String unauthenticated = "Telemetry";
       String authenticated = "Telemetry authenticated";

@@ -84,7 +84,7 @@ public class ChartDataResource extends TelemetryResource {
    * @return The representation.
    */
   @Override
-  public Representation getRepresentation(Variant variant) {
+  public Representation represent(Variant variant) {
     if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
       try {
         

@@ -53,7 +53,7 @@ public class CacheResource extends TelemetryResource {
    * @return Null.
    */
   @Override
-  public Representation getRepresentation(Variant variant) {
+  public Representation represent(Variant variant) {
     getResponse().setStatus(Status.CLIENT_ERROR_METHOD_NOT_ALLOWED);
     return null;
   }
@@ -79,7 +79,7 @@ public class CacheResource extends TelemetryResource {
    */
   @SuppressWarnings("unchecked")
   @Override
-  public void delete() {
+  public void removeRepresentations() {
     try {
       // [1] Get the associated dpdClient. Return immediately if we can't find one.
       Map<String, DailyProjectDataClient> dpdMap =

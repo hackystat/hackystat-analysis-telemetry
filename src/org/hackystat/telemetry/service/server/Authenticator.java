@@ -9,6 +9,7 @@ import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.restlet.Context;
 import org.restlet.Guard;
 import org.restlet.data.ChallengeScheme;
+import org.restlet.data.Request;
 
 /**
  * Performs authentication of each HTTP request using HTTP Basic authentication. Checks
@@ -68,13 +69,13 @@ public class Authenticator extends Guard {
 
   /**
    * Returns true if the passed credentials are OK.
-   * 
+   * @param request Ignored.
    * @param identifier The account name.
    * @param secretCharArray The password.
    * @return If the credentials are valid.
    */
   @Override
-  protected boolean checkSecret(String identifier, char[] secretCharArray) {
+  public boolean checkSecret(Request request, String identifier, char[] secretCharArray) {
     /*
      * I am synchronizing here on a static (class-wide) variable for two reasons: (1) JCS
      * write-through caching fails when multiple threads access the same back-end file:

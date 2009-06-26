@@ -90,7 +90,7 @@ public class ParsingException extends TelemetryLanguageException {
 
   /**
    * Parses the message in <code>TokenMgrError</code> object, and try to
-   * extract line number and col number;
+   * extract line number and col number.
    * 
    * @param tokenMgrError An instance of <code>TokenMgrError</code>.
    * 

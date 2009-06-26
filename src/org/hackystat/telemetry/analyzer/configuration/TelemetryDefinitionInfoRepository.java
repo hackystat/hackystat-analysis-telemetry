@@ -10,7 +10,7 @@ import org.hackystat.sensorbase.resource.users.jaxb.User;
 /**
  * The manager for <code>TelemetryDefinitionInfo</code> objects. 
  * <p> 
- * <bold>Warning:</bold> This class is NOT thread-safe.
+ * Warning: This class is NOT thread-safe.
  * <p>
  * V8 Notes: If/when we decide to provide project-level sharing, we need to enforce the
  * condition that only one instance of a name can exist for a given project. Right now it

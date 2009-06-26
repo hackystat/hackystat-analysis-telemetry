@@ -50,7 +50,7 @@ public class ChartsResource extends TelemetryResource {
    * @return The representation.
    */
   @Override
-  public Representation getRepresentation(Variant variant) {
+  public Representation represent(Variant variant) {
     try {
       if (variant.getMediaType().equals(MediaType.TEXT_XML)) {
         TelemetryChartIndex index = new TelemetryChartIndex();
