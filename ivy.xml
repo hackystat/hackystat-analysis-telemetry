@@ -3,6 +3,8 @@
   <publications>
     <artifact name="telemetry" />
     <artifact name="telemetry.lib" />
+    <artifact name="hackystat-analysis-telemetry-javadoc" ext="zip" type="javadoc"/>
+    <artifact name="hackystat-analysis-telemetry-source" ext="zip" type="source"/>
   </publications>
   <dependencies>
     <dependency org="org.junit" name="junit" rev="${junit.version}" />
