@@ -60,7 +60,7 @@ public class Authenticator extends Guard {
    * @param dpdHost The DPD service, such as 'http://localhost:9877/dailyprojectdata/'.
    */
   public Authenticator(Context context, String sensorBaseHost, String dpdHost) {
-    super(context, ChallengeScheme.HTTP_BASIC, "DailyProjectData");
+    super(context, ChallengeScheme.HTTP_BASIC, "Telemetry");
     this.sensorBaseHost = sensorBaseHost;
     this.dpdHost = dpdHost;
     context.getAttributes().put(AUTHENTICATOR_DPD_CLIENTS_KEY, dpdClientMap);
