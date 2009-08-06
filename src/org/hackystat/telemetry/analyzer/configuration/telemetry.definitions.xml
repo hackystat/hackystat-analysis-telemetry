@@ -540,6 +540,37 @@ chart MemberBuild(result, type, cumulative) = {
 
 <!-- ************************************************************************************** -->
 
+<TelemetryDefinition Name="Issue" DefinitionType="Chart" ShareScope="Global">
+  <Description>
+This chart provides a single stream indicating the Issue counts associated with the
+specified developers.
+  </Description>
+ <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email of the member whose Issues counts are to be returned.  If "*", then the aggregrate 
+      Issue counts for all project members are returned.
+    </Description>
+  </Parameter>
+  <Parameter Name="status">
+    <Type Name="Test" Default="all"/>
+    <Description>
+      The status of the issues that counts. Can be "all", "open", "closed" 
+      or any other specified issue status such as "Accepted" or "Fixed". 
+    </Description>
+  </Parameter>
+  <SourceCode>
+<![CDATA[
+chart Issue(member, status) = {
+  "Issue invocations", 
+  (IssueStream(member, status), yAxisZeroBased("Issue Count"))
+};
+]]>
+  </SourceCode>
+</TelemetryDefinition>
+
+<!-- ************************************************************************************** -->
+
 <TelemetryDefinition Name="MemberDevTimeStream" DefinitionType="Streams" ShareScope="Global">
   <Description>
 Provides a set of streams indicating the DevTime associated with each
@@ -1070,6 +1101,35 @@ streams MemberBuildStream(result, type, cumulative) = {
 ]]>
 </SourceCode>
 </TelemetryDefinition>      
+
+<!-- ************************************************************************************** -->
+
+<TelemetryDefinition Name="IssueStream" DefinitionType="Streams" ShareScope="Global">
+  <Description>
+This stream returns a single stream indicating the number of Commits associated with 
+developers.
+  </Description>
+  <Parameter Name="member">
+    <Type Name="Text" Default="*"/>
+    <Description>
+      The email address of the member whose Issue counts to return, or "*" for all members.
+    </Description>
+  </Parameter>
+  <Parameter Name="status">
+    <Type Name="Text" Default="all"/>
+    <Description>
+      If true, then the stream displays cumulative commit counts over time. 
+    </Description>
+  </Parameter>
+<SourceCode>
+<![CDATA[
+streams IssueStream(member, status) = {
+  "Issue counts for the given mode for this Project", 
+  Issue(member, status)
+};
+]]>
+</SourceCode>
+</TelemetryDefinition> 
 
 <!-- ************************************************************************************** -->
 
